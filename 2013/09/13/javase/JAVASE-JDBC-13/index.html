@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>JDBC 研磨 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="JDBC基础 是一种用于执行SQL语句的Java API 它由一组用Java语言编写的类和接口组成 JDBC提供了一种操作数据的标准 JDBC的目标是使Java程序员使用JDBC可以连接任何提供了JDBC驱动程序的数据库系统"><meta property="og:type" content="blog"><meta property="og:title" content="JDBC 研磨"><meta property="og:url" content="http://example.com/2013/09/13/javase/JAVASE-JDBC-13/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="JDBC基础 是一种用于执行SQL语句的Java API 它由一组用Java语言编写的类和接口组成 JDBC提供了一种操作数据的标准 JDBC的目标是使Java程序员使用JDBC可以连接任何提供了JDBC驱动程序的数据库系统"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/javase/jdbc/%E6%B3%A8%E5%86%8C%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%97%AE%E9%A2%98.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/ResultSet%E5%B8%B8%E7%94%A8%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E6%B3%95.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/statement_diff.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/%E5%A4%84%E7%90%86%E5%A4%A7%E5%AF%B9%E8%B1%A1%E6%95%B0%E6%8D%AE.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/batch.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/jdbc_batch.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/dao.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/orm.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/er.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/er2.png"><meta property="og:image" content="http://example.com/images/javase/jdbc/sql_table_one_to_many.png"><meta property="article:published_time" content="2013-09-12T21:24:34.000Z"><meta property="article:modified_time" content="2020-07-12T10:55:58.201Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="’Developer,Programmer,Coder,Book,History,culture,science and technology‘"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/javase/jdbc/%E6%B3%A8%E5%86%8C%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%97%AE%E9%A2%98.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2013/09/13/javase/JAVASE-JDBC-13/"},"headline":"JDBC 研磨","image":["http://example.com/images/javase/jdbc/%E6%B3%A8%E5%86%8C%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%97%AE%E9%A2%98.png","http://example.com/images/javase/jdbc/ResultSet%E5%B8%B8%E7%94%A8%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E6%B3%95.png","http://example.com/images/javase/jdbc/statement_diff.png","http://example.com/images/javase/jdbc/%E5%A4%84%E7%90%86%E5%A4%A7%E5%AF%B9%E8%B1%A1%E6%95%B0%E6%8D%AE.png","http://example.com/images/javase/jdbc/batch.png","http://example.com/images/javase/jdbc/jdbc_batch.png","http://example.com/images/javase/jdbc/dao.png","http://example.com/images/javase/jdbc/orm.png","http://example.com/images/javase/jdbc/er.png","http://example.com/images/javase/jdbc/er2.png","http://example.com/images/javase/jdbc/sql_table_one_to_many.png"],"datePublished":"2013-09-12T21:24:34.000Z","dateModified":"2020-07-12T10:55:58.201Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"JDBC基础 是一种用于执行SQL语句的Java API 它由一组用Java语言编写的类和接口组成 JDBC提供了一种操作数据的标准 JDBC的目标是使Java程序员使用JDBC可以连接任何提供了JDBC驱动程序的数据库系统"}</script><link rel="canonical" href="http://example.com/2013/09/13/javase/JAVASE-JDBC-13/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2013-09-12T21:24:34.000Z" title="2013/9/13 上午5:24:34">2013-09-13</time>发表</span><span class="level-item"><time dateTime="2020-07-12T10:55:58.201Z" title="2020/7/12 下午6:55:58">2020-07-12</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JAVASE/">JAVASE</a><span> / </span><a class="link-muted" href="/categories/JAVASE/JDBC/">JDBC</a></span><span class="level-item">1 小时读完 (大约6748个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">JDBC 研磨</h1><div class="content"><h2 id="JDBC基础"><a href="#JDBC基础" class="headerlink" title="JDBC基础"></a>JDBC基础</h2><ul>
+<li>是一种用于执行SQL语句的Java API</li>
+<li>它由一组用Java语言编写的类和接口组成</li>
+<li>JDBC提供了一种操作数据的标准</li>
+<li>JDBC的目标是使Java程序员使用JDBC可以连接任何提供了JDBC驱动程序的数据库系统<span id="more"></span>
+<h3 id="JDBC操控数据库步骤"><a href="#JDBC操控数据库步骤" class="headerlink" title="JDBC操控数据库步骤"></a>JDBC操控数据库步骤</h3></li>
+<li>1.注册驱动(只做一次)</li>
+<li>方法一注册驱动(不推荐)<pre><code class="line-numbers language-java">DriverManager.registerDriver(new Driver())
+//  不推荐理由有二：
+//  一、查看Driver的源代码可以看到，如果采用此种方式，会导致驱动程序注册两次，也就是在内存中会有两个Driver对象。
+//  二、程序依赖mysql的api，脱离mysql的jar包，程序将无法编译，将来程序切换底层数据库将会非常麻烦。
+</code></pre>
+ <img src="/images/javase/jdbc/%E6%B3%A8%E5%86%8C%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%97%AE%E9%A2%98.png"></li>
+<li>方法二注册驱动(推荐)<pre><code class="line-numbers language-java">Class.forName(“com.mysql.jdbc.Driver”);
+//采用此种方式不会导致驱动对象在内存中重复出现，并且采用此种方式，程序仅仅只需要一个字符串，不需要依赖具体的驱动，使程序的灵活性更高。
+</code></pre>
+</li>
+<li>2.建立连接(Connection)</li>
+<li><em>Connection对象的常用方法：</em><br>  createStatement()：创建向数据库发送sql的statement对象<br>  prepareStatement(sql) ：创建向数据库发送预编译sql的PrepareSatement对象<br>  prepareCall(sql)：创建执行存储过程的callableStatement对象。<br>  setAutoCommit(boolean autoCommit)：设置事务是否自动提交。<br>  commit() ：在此连接上提交事务。<br>  rollback() ：在此连接上回滚事务。</li>
+<li>3.创建执行SQL的语句(Statement)</li>
+<li><em>Statement对象常用方法：</em><br>  executeQuery(String sql) ：用于向数据发送查询语句。<br>  executeUpdate(String sql)：用于向数据库发送insert、update或delete语句<br>  execute(String sql)：用于向数据库发送任意sql语句<br>  addBatch(String sql) ：把多条sql语句放到一个批处理中。<br>  executeBatch()：向数据库发送一批sql语句执行。 </li>
+<li>4.执行语句</li>
+<li>5.处理执行结果(ResultSet)</li>
+<li>Resultset封装执行结果时，采用的类似于表格的方式。ResultSet对象维护了一个指向表格数据行的<strong>游标cursor</strong>，初始的时候，游标在第一行之前，<strong>调用ResultSet.next() 方法，可以使游标指向具体的数据行</strong>，进而调用方法获取该行的数据。</li>
+<li>ResultSet既然用于封装执行结果的，所以该对象提供的大部分方法都是用于获取数据的get方法：<br>  获取任意类型的数据<br>getObject(int index)<br>getObject(string columnName)<br>  获取指定类型的数据，例如：<br>getString(int index)<br>getString(String columnName)<br><img src="/images/javase/jdbc/ResultSet%E5%B8%B8%E7%94%A8%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E6%B3%95.png"></li>
+<li>ResultSet新特性 滚动结果集的一些方法<br>  Statement stmt &#x3D; conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);<br>next()：移动到下一行<br>previous()：移动到前一行<br>absolute(int row)：移动到指定行<br>beforeFirst()：移动resultSet的最前面<br>afterLast() ：移动到resultSet的最后面<br>updateRow() ：更新行数据   </li>
+<li>6.释放资源</li>
+<li>Jdbc程序运行完后，切记要释放程序在运行过程中，创建的那些与数据库进行交互的对象，这些对象通常是ResultSet, Statement和Connection对象。</li>
+<li>特别是Connection对象，它是非常稀有的资源，用完后必须马上释放，如果Connection不能及时、正确的关闭，极易导致系统宕机。Connection的使用原则是尽量晚创建，尽量早的释放。</li>
+<li>为确保资源释放代码能运行，资源释放代码也一定要放在finally语句中</li>
+</ul>
+<h3 id="ConnectionFactory了解"><a href="#ConnectionFactory了解" class="headerlink" title="ConnectionFactory了解"></a>ConnectionFactory了解</h3><ul>
+<li><strong>利用工厂模式（简单工厂）提升代码的重用性</strong></li>
+<li><strong>封装注册数据库的驱动和获得数据库的连接</strong></li>
+<li><strong>利用配置文件 减少硬编码 便于维护</strong><pre><code class="line-numbers language-java">package com.ecit.utils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
+import java.util.Properties;
+public final class JdbcUtils &#123;
+  private static String URL ;
+  private static String USERNAME ;
+  private static String PASSWORD ;
+  private static String DRIVER ;
+  private JdbcUtils() &#123;
+  &#125;
+static &#123;
+      //db.properties放在项目的resources目录下
+ try(InputStream is = JdbcUtils.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;))&#123;
+          Properties props = new Properties();
+          props.load(is);
+          DRIVER=props.getProperty(&quot;jdbc.driver&quot;);
+          URL=props.getProperty(&quot;jdbc.url&quot;);
+          USERNAME=props.getProperty(&quot;jdbc.username&quot;);
+          PASSWORD=props.getProperty(&quot;jdbc.password&quot;);
+          Class.forName(DRIVER);
+      &#125; catch (ClassNotFoundException  | IOException e) &#123;
+          throw new ExceptionInInitializerError(e);
+      &#125;
+  &#125;
+  public static Connection getConnection()&#123;
+      try &#123;
+          return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+      &#125; catch (SQLException e) &#123;
+         throw new RuntimeException(&quot;获取数据库连接失败&quot;,e);
+      &#125;
+  &#125;
+  public static void free(ResultSet rs, Statement st, Connection conn) &#123;
+      try &#123;
+          if (rs != null)
+              rs.close();
+      &#125; catch (SQLException e) &#123;
+          e.printStackTrace();
+      &#125; finally &#123;
+          try &#123;
+              if (st != null)
+                  st.close();
+          &#125; catch (SQLException e) &#123;
+              e.printStackTrace();
+          &#125; finally &#123;
+              if (conn != null)
+                  try &#123;
+                      conn.close();
+                  &#125; catch (SQLException e) &#123;
+                      e.printStackTrace();
+                  &#125;
+          &#125;
+      &#125;
+  &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="Statement的深入"><a href="#Statement的深入" class="headerlink" title="Statement的深入"></a>Statement的深入</h3><ul>
+<li><strong>创建Statement的三种方式</strong></li>
+<li><strong>Statement stmt &#x3D; Connection.createStatement(…)</strong><br>  执行不带参数的简单SQL语句<pre><code class="line-numbers language-java">   Connection conn = null;
+   Statement st = null;
+   ResultSet rs = null;
+   try &#123;
+       // 2.建立连接
+       conn = JdbcUtils.getConnection();
+       // 3.创建语句
+       st = conn.createStatement();
+       // 4.执行语句
+       rs = st.executeQuery(&quot;select id,username,address,sex,birthday from user&quot;);
+       // 5.处理结果
+       while (rs.next()) &#123;
+           Date birthday = new Date(rs.getDate(&quot;birthday&quot;).getTime());
+           int id = rs.getInt(&quot;id&quot;);
+           String username = rs.getString(&quot;username&quot;);
+           String address = rs.getString(&quot;address&quot;);
+           String sex = rs.getString(&quot;sex&quot;);
+           System.out.println(&quot;id\t&quot; + id +&quot;\t username\t&quot; + username + &quot;\t address\t&quot; + address + &quot;\t sex\t&quot; + sex);
+       &#125;
+   &#125; finally &#123;
+       JdbcUtils.free(rs, st, conn);
+   &#125;
+</code></pre>
+</li>
+<li><strong>PreparedStatement pstmt &#x3D; Connection.prepareStatement(…)</strong><br>  执行带参数或不带参数的SQL语句<pre><code class="line-numbers language-java">   Connection conn = null;
+   PreparedStatement st = null;
+   ResultSet rs = null;
+   try &#123;
+       // 2.建立连接
+       conn = JdbcUtils.getConnection();
+       // 3.创建语句
+       st = conn.prepareStatement(&quot;select id,username,address,sex,birthday from user where username = ?&quot;);
+       st.setString(1,&quot;杨过&quot;);
+       // 4.执行语句
+       rs = st.executeQuery();
+       // 5.处理结果
+       while (rs.next()) &#123;
+           Date birthday = new Date(rs.getDate(&quot;birthday&quot;).getTime());
+           int id = rs.getInt(&quot;id&quot;);
+           String username = rs.getString(&quot;username&quot;);
+           String address = rs.getString(&quot;address&quot;);
+           String sex = rs.getString(&quot;sex&quot;);
+           System.out.println(&quot;id\t&quot; + id +&quot;\t username\t&quot; + username + &quot;\t address\t&quot; + address + &quot;\t sex\t&quot; + sex);
+       &#125;
+   &#125; finally &#123;
+       JdbcUtils.free(rs, st, conn);
+   &#125;
+</code></pre>
+</li>
+<li><strong>CallableStatement cstmt &#x3D; Connection.prepareCall(…)</strong></li>
+<li>执行对数据库已存储的 PL&#x2F;SQL 程序的调用，现在的实际开发中使用过程(存储过程)的地方已经越来越少了，所以对于存储过程的使用，只需要了解下即可，不用深入研究</li>
+<li>CallableStatement主要是调用数据库中的存储过程，CallableStatement也是Statement接口的子接口。在使用CallableStatement的时候可以接收过程的返回值。 </li>
+<li>在JDBC中，如果要想设置过程的返回值类型，可以使用Types完成，在Typs中定义了很多的常量，如果现在返回值类型为int，则使用:Types.INTEGER。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">int getInt( int parameterIndex) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据编号取出过程的返回值</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">float getFloat( int parameterIndex) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据编号取出过程的返回值</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">void setInt( String paramneterName ,int x) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">设置指定编号的内容</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">void setFloat(String parameterName,float x) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">设置指定编号的内容</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">void registerOutParameter(int parameterIndex,int sqlType) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">设置返回值的类型，需要使用Types类</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-sql">DROP PROCEDURE myproc //	-- 删除过程
+CREATE PROCEDURE myproc(IN p1 int,INOUT p2 int,OUT p3 int)
+BEGIN
+    SELECT p1,p2,p3	;		-- 输出p1、p2、p3的内容
+    SET p1=10 ;
+    SET p2=20 ;
+    SET p3=30 ;
+END
+DELIMITER ;
+SET @x1=70 ;	-- 定义变量x1，内容为70
+SET @x2=80 ;	-- 定义变量x2，内容为80
+CALL myproc(@x1,@x2,@x3) ;
+SELECT @x1,@x2,@x3 ;
+-- IN类型:默认的设置，什么都不声明就表示IN类型，只是将内容传递进来。
+-- INOUT类型:表示把值传递到过程中，并且可以保留过程对此值的修改。引用
+-- OUT:可以不用传递内容，过程中对此值的操作可以返回。
+</code></pre>
+<p>调用存储过程示例</p>
+<pre><code class="line-numbers language-java">Connection conn = null;
+CallableStatement st = null;
+ResultSet rs = null ;
+try &#123;
+            // 2.建立连接
+            conn = JdbcUtils.getConnection();
+            // 3.创建语句
+            String sql = &quot;&#123;CALL myproc(?,?,?)&#125;&quot;	;	// 调用过程
+            st = conn.prepareCall(sql) ;
+            st.setInt(1,11);
+            st.setInt(1,70) ;	// 设置第一个参数是70
+            st.setInt(2,80) ;	// 设置第二个参数是80
+            st.registerOutParameter(2,Types.INTEGER) ;
+            st.registerOutParameter(3,Types.INTEGER) ;
+            // 4.执行语句
+             st.execute() ;		// 执行过程
+            // 5.处理结果
+            System.out.println(&quot;INOUT的返回值：&quot; + st.getInt(2)) ;
+            System.out.println(&quot;OUT的返回值：&quot; + st.getInt(3)) ;
+        &#125; finally &#123;
+            JdbcUtils.free(rs, st, conn);
+&#125;
+</code></pre>
+<ul>
+<li><p><strong>执行SQL语句</strong><br><em>executeQuery():执行查询语句，返回查询结果集ResultSet</em><br><em>executeUpdate():执行DML 和 DDL语句，返回int 类型</em></p>
+<pre><code class="line-numbers language-java">      Connection conn = null;
+      PreparedStatement st = null;
+      try &#123;
+          // 2.建立连接
+          conn = JdbcUtils.getConnection();
+          // 3.创建语句
+          st = conn.prepareStatement(&quot;insert into user(username, sex,address) values (?, ?, ?)&quot;);
+          st.setString(1,&quot;虚竹&quot;);
+          st.setString(2,&quot;男&quot;);
+          st.setString(3,&quot;灵鹫宫&quot;);
+          // 4.执行语句
+          int rs = st.executeUpdate();
+          // 5.处理结果
+          System.out.println(&quot;插入一条记录:&quot; + rs);
+      &#125; finally &#123;
+          JdbcUtils.free(null, st, conn);
+      &#125;
+</code></pre>
+<p><em>execute():执行任何SQL语句，返回boolean类型，指示是否有ResultSet返回</em></p>
+</li>
+<li><p><strong>三种Statement的比较</strong><br><img src="/images/javase/jdbc/statement_diff.png" alt="jdbc_diff"></p>
+</li>
+</ul>
+<h3 id="JDBC处理大对象数据"><a href="#JDBC处理大对象数据" class="headerlink" title="JDBC处理大对象数据"></a>JDBC处理大对象数据</h3><ul>
+<li>大对象处理主要指的是CLOB和BLOB两种类型的字段，在CLOB可以存储海量文字，例如，存储一部《三国演义》或者是《红楼梦》等。在BLOB中可以存储二进制数据，如图片、电影等等，如果在程序中要想处理这样的大对象操作，则必须使用PreparedStatement完成，所有的内容.要通过IO流的方式从大文本字段中保存和读取。<br> <img src="/images/javase/jdbc/%E5%A4%84%E7%90%86%E5%A4%A7%E5%AF%B9%E8%B1%A1%E6%95%B0%E6%8D%AE.png"></li>
+<li>写入方法</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">NO</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1.</td>
+<td align="center">void setAsciiStream(int parameterIndex,InputStream x,int length) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">将指定的输入流写入数据库的文本字段</td>
+</tr>
+<tr>
+<td align="center">2.</td>
+<td align="center">void setBinaryStream(int parameterIndex,InputStream x,int length) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">将二进制的输入流数据写入到二进制字段之中</td>
+</tr>
+</tbody></table>
+<ul>
+<li>读取方法</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">InputStream getAsciiStream( int columnIndex)  throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据列的编号返回大对象的文本输入流</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">InputStream getAsciiStream(String columnName )throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据列的名称返回大对象的文本输入流</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">Clob getClob(int i) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据列的编号返回Clob数据</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">Clob getClob(String colName) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据列名称返回Clob数据</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">InputStream getBinaryStream( int columnIndex)throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据列的编号，返回二进制数据.</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">InputStream getBinaryStream(String columnName)throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据列的名称，返回二进制数据</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">Blob getBlob(int i) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据列的编号，返回Blob数据</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">Blob getBlob(String colName) throws SQLException</td>
+<td align="center">普通</td>
+<td align="center">根据列名称，返回Blob数据</td>
+</tr>
+</tbody></table>
+<h4 id="处理CLOB数据"><a href="#处理CLOB数据" class="headerlink" title="处理CLOB数据"></a>处理CLOB数据</h4><ul>
+<li>CLOB表示大文本数据，在MySQL中提供了<strong>LONGTEXT</strong>表示大文本数据，此字段的最大保存数据量为<strong>4G</strong>.<pre><code class="line-numbers language-sql">CREATE TABLE `airticle` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`title` varchar(32) DEFAULT NULL,
+`content` longtext,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+</code></pre>
+写入一本小说<pre><code class="line-numbers language-java">      Connection conn = null;
+      PreparedStatement st = null;
+      try &#123;
+          // 2.建立连接
+          conn = JdbcUtils.getConnection();
+          st = conn.prepareStatement(&quot;SET NAMES utf8mb4;&quot;);
+          st.executeUpdate();
+          // 3.创建语句
+          st = conn.prepareStatement(&quot;INSERT INTO airticle(title,content) VALUES (?,?) &quot;);
+          st.setString(1,&quot;契科夫短篇小说精选&quot;);
+          File f = new File(&quot;/Users/sxm/qkf.txt&quot;) ;
+          InputStream input = new FileInputStream(f) ;
+          st.setAsciiStream(2,input,(int)f.length());
+          // 4.执行语句
+          int rs = st.executeUpdate();
+          // 5.处理结果
+          System.out.println(&quot;插入一条记录:&quot; + rs);
+      &#125; finally &#123;
+          JdbcUtils.free(null, st, conn);
+      &#125;
+</code></pre>
+读取一本小说 第一种用流<pre><code class="line-numbers language-java">      Connection conn = null;
+      PreparedStatement st = null;
+      ResultSet rs = null;
+      try &#123;
+          // 2.建立连接
+          conn = JdbcUtils.getConnection();
+          st = conn.prepareStatement(&quot;SET NAMES utf8mb4;&quot;); //处理特殊表情符号
+          st.executeUpdate();
+          // 3.创建语句
+          String sql = &quot;SELECT title,content FROM airticle WHERE id=? &quot; ;
+          st = conn.prepareStatement(sql);
+          st.setInt(1,9);
+          // 4.执行语句
+          rs = st.executeQuery();
+          // 5.处理结果
+          if(rs.next())&#123;
+              String title = rs.getString(1) ;
+              StringBuffer content = new StringBuffer() ;
+              System.out.println(&quot;标题：&quot; + title) ;
+              InputStream input = rs.getAsciiStream(2) ;
+              Scanner scan = new Scanner(input) ;	// 使用Scanner类读取内容
+              scan.useDelimiter(&quot;\r\n&quot;) ;	// 将文件换行作为分割符
+              while(scan.hasNext())&#123;
+                  content.append(scan.next()).append(&quot;\n&quot;) ;
+              &#125;
+              System.out.println(&quot;内容：&quot; + content) ;
+              input.close() ;
+          &#125;
+      &#125; finally &#123;
+          JdbcUtils.free(rs, st, conn);
+      &#125;
+</code></pre>
+读取一本小说  第二种用CLOB<pre><code class="line-numbers language-java">      Connection conn = null;
+      PreparedStatement st = null;
+      ResultSet rs = null;
+      try &#123;
+          // 2.建立连接
+          conn = JdbcUtils.getConnection();
+          st = conn.prepareStatement(&quot;SET NAMES utf8mb4;&quot;); //处理特殊表情符号
+          st.executeUpdate();
+          // 3.创建语句
+          String sql = &quot;SELECT title,content FROM airticle WHERE id=? &quot; ;
+          st = conn.prepareStatement(sql);
+          st.setInt(1,9);
+          // 4.执行语句
+          rs = st.executeQuery();
+          // 5.处理结果
+          if(rs.next())&#123;
+              String title = rs.getString(1) ;
+              System.out.println(&quot;标题：&quot; + title) ;
+              Clob c = rs.getClob(2) ;
+              String content = c.getSubString(1,(int)c.length()) ;
+              System.out.println(&quot;内容：&quot; + content ) ;
+              c.truncate(100) ;	// 只能读100个内容
+              System.out.println(&quot;部分读取内容：&quot; + c.getSubString(1,(int)c.length())) ;
+          &#125;
+      &#125; finally &#123;
+          JdbcUtils.free(rs, st, conn);
+      &#125;
+</code></pre>
+</li>
+</ul>
+<h4 id="处理BLOB数据"><a href="#处理BLOB数据" class="headerlink" title="处理BLOB数据"></a>处理BLOB数据</h4><ul>
+<li>BLOB的操作与CLOB是很相似的，只是BLOB专门用于存放二进制数据，如图片、电影等，下面就通过BLOB进行图片的保存与读取。在MySQL中使用<strong>LONGBLOB</strong>声明，最高可以保存<strong>4G</strong>大小的内容。例如，有如下的数据库创建脚本:<pre><code class="line-numbers language-sql">CREATE TABLE `airticle` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`title` varchar(32) DEFAULT NULL,
+`content` longtext,
+`img` longblob,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+</code></pre>
+<strong>写入一张图片</strong><pre><code class="line-numbers language-java">Connection conn = null;
+PreparedStatement st = null;
+try &#123;
+          // 2.建立连接
+          conn = JdbcUtils.getConnection();
+          // 3.创建语句
+          String sql = &quot;INSERT INTO airticle(title,img) VALUES (?,?)  &quot; ;
+          st = conn.prepareStatement(sql);
+          st.setString(1,&quot;契科夫精选&quot;);
+          File f = new File(&quot;/Users/sxm/a92.jpg&quot;) ;	// 图片文件
+          InputStream input = null ;
+          input = new FileInputStream(f) ;
+          st.setBinaryStream(2,input,(int)f.length()) ;	// 设置输入流
+          // 4.执行语句
+          int rs = st.executeUpdate();
+          // 5.处理结果
+          System.out.println(&quot;插入数据:&quot; + rs);
+      &#125; finally &#123;
+          JdbcUtils.free(null, st, conn);
+&#125;
+</code></pre>
+<strong>读取一张图片 第一种用流</strong><pre><code class="line-numbers language-java">      Connection conn = null;
+      PreparedStatement st = null;
+      ResultSet rs = null ;
+      try &#123;
+          // 2.建立连接
+          conn = JdbcUtils.getConnection();
+          // 3.创建语句
+          String sql = &quot;SELECT title,img FROM airticle WHERE id=?  &quot; ;
+          st = conn.prepareStatement(sql);
+          st.setInt(1,11);
+          // 4.执行语句
+           rs = st.executeQuery();
+          // 5.处理结果
+          if(rs.next())&#123;
+              String title = rs.getString(1) ;
+              System.out.println(&quot;标题：&quot; + title) ;
+              InputStream input = rs.getBinaryStream(2) ;
+              File f = new File(&quot;/Users/sxm/load.png&quot;) ;	// 图片文件
+              OutputStream out = null ;
+              out = new FileOutputStream(f) ;
+              int temp = 0 ;
+              while((temp=input.read())!=-1)&#123;	// 边读边写
+                  out.write(temp) ;
+              &#125;
+              input.close() ;
+              out.close() ;
+          &#125;
+      &#125; finally &#123;
+          JdbcUtils.free(rs, st, conn);
+&#125;
+</code></pre>
+<strong>读取一张图片 第二种BLOB对象读取</strong><pre><code class="line-numbers language-java">Connection conn = null;
+PreparedStatement st = null;
+ResultSet rs = null ;
+try &#123;
+          // 2.建立连接
+          conn = JdbcUtils.getConnection();
+          // 3.创建语句
+          String sql = &quot;SELECT title,img FROM airticle WHERE id=?  &quot; ;
+          st = conn.prepareStatement(sql);
+          st.setInt(1,11);
+          // 4.执行语句
+           rs = st.executeQuery();
+          // 5.处理结果
+          if(rs.next())&#123;
+              String title = rs.getString(1) ;
+              System.out.println(&quot;标题：&quot; + title) ;
+              Blob b = rs.getBlob(2) ;
+              File f = new File(&quot;/Users/sxm/load.png&quot;) ;	// 图片文件
+              OutputStream out = null ;
+              out = new FileOutputStream(f) ;
+              out.write(b.getBytes(1,(int)b.length())) ;
+              out.close() ;
+          &#125;
+      &#125; finally &#123;
+          JdbcUtils.free(rs, st, conn);
+&#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="事务提交模式和隔离级别"><a href="#事务提交模式和隔离级别" class="headerlink" title="事务提交模式和隔离级别"></a>事务提交模式和隔离级别</h2><ul>
+<li>事务(Transaction)其实<strong>指的一组操作，里面包含许多个单一的逻辑。只要有一个逻辑没有执行成功,那么都算失败</strong>。所有的数据都回归到最初的状态(回滚)</li>
+</ul>
+<h3 id="事务的特性ACID"><a href="#事务的特性ACID" class="headerlink" title="事务的特性ACID"></a>事务的特性ACID</h3><p> <strong>原子性(atomicity)：</strong>即表示事务中所有操作是不可再分割的原子单位<br> <strong>一致性(consistency)：</strong>在事务处理执行前后，数据库是一致的(两个账户要么都变，或者都不变)。<br> <strong>隔离性(isolcation)：</strong>一个事务处理对另一个事务处理没有影响。<br> <strong>持续性(durability)：</strong>事务处理的效果能够被永久保存下来 </p>
+<h3 id="事务提交模式"><a href="#事务提交模式" class="headerlink" title="事务提交模式"></a><strong>事务提交模式</strong></h3><h4 id="自动提交模式"><a href="#自动提交模式" class="headerlink" title="自动提交模式"></a><strong>自动提交模式</strong></h4><p>   默认方式，每次执行完一条SQL语句就自动提交事务，每条SQL语句的执行都被单独提交，因此一个事物只有一条SQL语句组成。</p>
+<h4 id="手动提交模式（一般启用这种模式）"><a href="#手动提交模式（一般启用这种模式）" class="headerlink" title="手动提交模式（一般启用这种模式）"></a><strong>手动提交模式（一般启用这种模式）</strong></h4><p>   Connnetion.setAutoCommit(false):设置为手动提交模式<br>   Connection.commit():提交事务<br>   Connection.rollback():回滚事务<br>   一个事物中包含若干条SQL语句</p>
+<ul>
+<li>回滚部分<br>   当只想撤销事务中的部分操作时可使用SavePoint<br>  SavePoint sp &#x3D; connection.setSavepoint();<br> connection.rollerbak(sp);<br> connection.commit();<br>   &#96;&#96;&#96;java<br>Connection conn &#x3D; null ;		&#x2F;&#x2F; 数据库连接<br>Statement stmt &#x3D; null ;		&#x2F;&#x2F; 定义数据库操作<br>Class.forName(DBDRIVER) ;	&#x2F;&#x2F; 加载驱动程序<br>conn &#x3D; DriverManager.getConnection(DBURL,DBUSER,DBPASS) ;<br>conn.setAutoCommit(false) ;	&#x2F;&#x2F; 取消掉自动提交<br>stmt &#x3D; conn.createStatement() ;<br>stmt.executeUpdate(“INSERT INTO user(name,password,age,sex,birthday)” +<br>    “ VALUES (‘LL-1’,’hello-1’,11,’男’,’1975-03-05’) “) ;<br>stmt.executeUpdate(“INSERT INTO user(name,password,age,sex,birthday)” +<br>    “ VALUES (‘LL-2’,’hello-2’,12,’女’,’1976-03-05’) “) ;<br>Savepoint sp &#x3D; conn.setSavepoint() ;		&#x2F;&#x2F; 设置保存点<br><br>stmt.executeUpdate(“INSERT INTO user(name,password,age,sex,birthday)” +<br>    “ VALUES (‘LL-4’,’hello-4’,14,’女’,’1965-03-05’) “) ;<br>stmt.executeUpdate(“INSERT INTO user(name,password,age,sex,birthday)” +<br>    “ VALUES (‘LL-5’,’hello-5’,15,’女’,’1965-08-05’) “) ;<br>try{<br>    conn.rollback(sp) ;	&#x2F;&#x2F; 回滚到保存点<br>    conn.commit() ;	&#x2F;&#x2F; 所有的操作成功了<br>}catch(Exception e){<br>    e.printStackTrace() ;<br>}<br>stmt.close() ;<br>conn.close() ;			&#x2F;&#x2F; 数据库关闭</li>
+</ul>
+<pre><code>
+## **没有隔离的情况下，事物并发引发的问题**
+![](/images/javase/jdbc/事务并发的读写问题.png)
+### 读的问题有三种
+ - **脏读(dirty read)**
+ &gt;一个事物读取另一个事物未提交的数据，这就会引发”脏读” 读取到的是数据库内存中的数据,而并非真正磁盘上的数据。脏读又称无效数据的读出；
+事务1更新了记录，但没有提交，事务2读取了更新后的行，然后事务T1回滚，现在T2读取无效。 
+ - **不可重复读(unrepeatable read)**
+ &gt;一个事物运行期间两次读取相同数据但内容不一致；
+事务1读取记录时，事务2更新了记录并提交，事务1再次读取时可以看到事务2修改后的记录。
+ - **虚读/幻读(phantom read)**
+ &gt;一个事物运行期间两次读取相同**统计数据**但内容不一致，原因是两次读取期   间有其他事物执行了插入或者删除符和**统计条件的数据**并提交。
+
+### 写的问题一种
+ - **丢失更新：**就是两个事务在并发下同时进行更新，后一个事务的更新覆盖了前一个事务更新的情况，丢失更新是数据没有保证一致性导致的。比如，事务A 修改了一条记录，事务B 在 事务A 提交的同时也进行了一次修改并且提交。当事务A查询的时候，会发现刚才修改的内容没有被修改，好像丢失了更新。
+ ![](/images/javase/jdbc/事务丢失更新演示.png)
+### **事物隔离级别解决事务读的问题**  
+&gt;通过设置事物的 隔离级别，来解决脏读，不可重复读，幻读等问题
+ - **五种事物隔离级别**
+  &gt;**TRANSACTION_NONE(0):**不支持事物
+  &gt;**TRANSACTION_READ_UNCOMMITTED(1):**可读未提交数据
+  &gt;**TRANSACTION_READ_COMMITTED(2)：** 避免脏读
+  &gt;**TRANSACTION_REPEATABLE_READ(4):** 避免不可重复读
+  &gt;**TRANSACTION_SERIALIZABLE(8):**避免幻读
+
+  | 隔离级别  | dirty read  | unrepeatable read  | phantom read  |
+  | :------------: | :------------: | :------------: | :------------: |
+  |read uncommitted(1)   |  y | y  |  y |
+  | read committed(2)  | n  | y  |  y |
+  | repeateable read(4)  |  n |  n |  y |
+  | Serializable(8)  |  n | n  |  n |
+
+  **1.隔离级别越高，并发性能越差，一般将隔离级别设为2**
+  **2.Oracle的事物隔离级别：TRANSACTION_READ_COMMITTED（默认）和TRANSACTION_SERIALIZABLE**
+
+### 悲观锁和乐观锁两种手段解决事务并发写的问题
+#### 悲观锁-写锁/排它锁(互斥性)
+ **每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会block直到它拿到锁**。如DB的行锁、表锁等，适用于数据一致性比较高的场景，
+ **实现悲观锁利用select ... for update加锁, 操作完成后使用commit来释放锁，**
+ **innodb引擎时, 默认行级锁, 当有明确字段时会锁一行, 如无查询条件或条件字段不明确时, 会锁整个表. 条件为范围时会锁整个表**
+ **查不到数据时, 则不会锁表**
+ **排它锁的互斥性：如果一张表想添加排它锁，前提之前表一定没有加过共享锁和排他锁**
+ ```sql
+ -- 事务A执行以下
+ start transaction;
+ select * from user where id=123 for update; --示例事务A用了行级锁，如此时事务B也 执行查询条件id=123的行级锁或修改删除操作时必然阻塞，但是若事务B仅是 简单select * from user where id=123，则不会阻塞
+ update user set nick_name = &#39;命难违&#39; where id=123;
+ commit -- 事务A释放悲观锁
+</code></pre>
+<p> <strong>悲观锁优点</strong>：1.悲观锁利用数据库中的锁机制来实现数据变化的顺序执行，这是最有效的办法<br> <strong>悲观锁缺点</strong>：1.一个事务用悲观锁对数据加锁之后，其他事务将不能对加锁的数据进行除了查询以外的所有操作，如果该事务执行时间很长，那么其他事务将一直等待，那势必影响我们系统的吞吐量。</p>
+<h4 id="悲观锁-读锁-x2F-共享锁-没有互斥性"><a href="#悲观锁-读锁-x2F-共享锁-没有互斥性" class="headerlink" title="悲观锁-读锁&#x2F;共享锁(没有互斥性)"></a>悲观锁-读锁&#x2F;共享锁(没有互斥性)</h4><ul>
+<li>一张表可以添加多个读锁，如果表添加读锁(不是当前事务添加的)，该表不可以修改。<pre><code class="line-numbers language-sql"> select * from account lock in share mode ; --读锁/共享锁
+</code></pre>
+<strong>共享锁非常容易发生死锁,两个事物同时执行共享锁语句，然后都执行更新语句时，大家都在互相等待对方的锁，引发死锁</strong></li>
+</ul>
+<h4 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h4><p> <strong>每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据</strong>。通过版本号或时间戳控制，适用于多读少写的场景。如GIT,SVN,CVS等代码版本控制管理器，提交冲突现象就是一个乐观锁使用很好的场景</p>
+<pre><code class="line-numbers language-sql">-- 一般是在数据表中加上一个数据版本号version字段，表示数据被修改的次数，当数据被修改时，version值会加一。当线程A要更新数据值时，在读取数据的同时也会读取version值，在提交更新时，若刚才读取到的version值为当前数据库中的version值相等时才更新，否则重试更新操作，直到更新成功。
+start transaction;
+update user set balance=balance+1, version=version+1 where id=123 and version= #&#123;version&#125;; -- #&#123;version&#125;代表上次读取的版本
+commit
+</code></pre>
+<p> <strong>乐观锁优点</strong>：1.乐观锁不在数据库上加锁，任何事务都可以对数据进行操作，在更新时才进行校验，这样就避免了悲观锁造成的吞吐量下降的劣势。<br> <strong>乐观锁缺点</strong>：1.乐观锁因为是通过我们人为实现的，它仅仅适用于我们自己业务中，如果有外来事务插入，那么就可能发生错误。</p>
+<h3 id="事务-JTA"><a href="#事务-JTA" class="headerlink" title="事务(JTA)"></a>事务(JTA)</h3><pre><code class="line-numbers language-java">跨越多个数据源的事务，使用JTA容器(需要用到weblogic服务器，tomcat不支持)实现事务。
+分成两阶段提交。
+javax.transaction.UserTransaction tx = (UserTransaction)ctx.lookup(“jndiName&quot;);
+    tx.begin();
+    //connection1 connection2 (可能来自不同的数据库)… 
+    tx.commit();//tx.rollback();
+</code></pre>
+<h2 id="JDBC批处理"><a href="#JDBC批处理" class="headerlink" title="JDBC批处理"></a>JDBC批处理</h2><h3 id="批处理的作用"><a href="#批处理的作用" class="headerlink" title="批处理的作用"></a>批处理的作用</h3><ul>
+<li>一次和数据库交互过程中传输多条SQL语句或参数内容减少和数据库交互次数，提升性能</li>
+<li>mysql服务器默认是关闭批处理的，我们需要通过一个参数，让mysql开启批处理的支持。?rewriteBatchedStatements&#x3D;true 写在配置文件的url后面<pre><code class="line-numbers language-java">jdbc.url=jdbc:mysql://127.0.0.1:3306/testDB?charset=utf8mb4&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;rewriteBatchedStatements=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai
+</code></pre>
+</li>
+</ul>
+<h3 id="批处理操作涉及的API"><a href="#批处理操作涉及的API" class="headerlink" title="批处理操作涉及的API"></a>批处理操作涉及的API</h3><ul>
+<li>**addBatch():**将当前SQL语句交给Statement</li>
+<li>**executeBatch():**将多条SQL语句在一次和数据库交互过程中执行</li>
+<li>**clearBatch():**清除批处理缓存</li>
+</ul>
+<h3 id="Statement批处理示例"><a href="#Statement批处理示例" class="headerlink" title="Statement批处理示例"></a>Statement批处理示例</h3><pre><code class="line-numbers language-java">Statement stmt = conn.createStatement() ;
+stmt.addBatch(&quot;INSERT INTO user(name,password,age,sex,birthday)&quot; +
+            &quot; VALUES (&#39;LX-1&#39;,&#39;hello-1&#39;,11,&#39;男&#39;,&#39;1975-03-05&#39;) &quot;) ;
+stmt.addBatch(&quot;INSERT INTO user(name,password,age,sex,birthday)&quot; +
+            &quot; VALUES (&#39;LX-2&#39;,&#39;hello-2&#39;,12,&#39;女&#39;,&#39;1976-03-05&#39;) &quot;) ;
+stmt.addBatch(&quot;INSERT INTO user(name,password,age,sex,birthday)&quot; +
+            &quot; VALUES (&#39;LX-3&#39;,&#39;hello-3&#39;,13,&#39;男&#39;,&#39;1977-06-01&#39;) &quot;) ;
+stmt.addBatch(&quot;INSERT INTO user(name,password,age,sex,birthday)&quot; +
+            &quot; VALUES (&#39;LX-4&#39;,&#39;hello-4&#39;,14,&#39;女&#39;,&#39;1965-03-05&#39;) &quot;) ;
+stmt.addBatch(&quot;INSERT INTO user(name,password,age,sex,birthday)&quot; +
+            &quot; VALUES (&#39;LX-5&#39;,&#39;hello-5&#39;,15,&#39;女&#39;,&#39;1965-08-05&#39;) &quot;) ;
+//上述语句会导致数据库编译sq1语句五次----性能比较差，建议还是采用PreparedStatement的批处理操作
+int temp[] = stmt.executeBatch() ;                
+System.out.println(&quot;更新了：&quot; + temp.length+ &quot;条数据。&quot;) ;
+</code></pre>
+<h3 id="PreparedStatement批处理示例"><a href="#PreparedStatement批处理示例" class="headerlink" title="PreparedStatement批处理示例"></a>PreparedStatement批处理示例</h3><ul>
+<li>使用PreparedStatenent进行批处理,好处是如果连续执行多条结构相同sq1 ,采用预编译,SQL只需要编译一次<pre><code class="line-numbers language-java">static void createBatch() throws SQLException &#123;   //批量添加数据
+      Connection conn = null;
+      PreparedStatement ps = null;
+      ResultSet rs = null;
+      try &#123;
+          conn = JdbcUtils.getConnection();
+          String sql = &quot;insert into user(name,birthday, money) values (?, ?, ?) &quot;;
+          ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+          for (int i = 0; i &lt; 100050; i++) &#123;
+              ps.setString(1, &quot;batch name&quot; + i);
+              ps.setDate(2, new Date(System.currentTimeMillis()));
+              ps.setFloat(3, 100f + i);
+              ps.addBatch();
+              if(i%1000==0)&#123;
+                ps.executeBatch();
+                ps.clearBatch();
+              &#125;
+          &#125;
+          int[] is = ps.executeBatch(); //拿到最后一批批处理的主键ids
+      &#125; finally &#123;
+          JdbcUtils.free(rs, ps, conn);
+      &#125;
+&#125;
+</code></pre>
+<img src="/images/javase/jdbc/batch.png"><br><img src="/images/javase/jdbc/jdbc_batch.png"></li>
+</ul>
+<h2 id="JDBC获取数据库元数据"><a href="#JDBC获取数据库元数据" class="headerlink" title="JDBC获取数据库元数据"></a>JDBC获取数据库元数据</h2><h3 id="DatabaseMetaData"><a href="#DatabaseMetaData" class="headerlink" title="DatabaseMetaData"></a>DatabaseMetaData</h3><ul>
+<li>通过DatabaseMetaData可以获得数据库相关的信息如：数据库版本、数据库名、数据库厂商信息、是否支持事务、是否支持某种事务隔离级别，是否支持滚动结果集等<pre><code class="line-numbers language-java">      Connection conn = JdbcUtils.getConnection();
+      DatabaseMetaData dmd = conn.getMetaData();    // 数据库元数据,实例化对象
+      System.out.println(&quot;数据库名称：&quot; + dmd.getDatabaseProductName());
+      System.out.println(&quot;数据库版本：&quot; + dmd.getDatabaseMajorVersion() + &quot;.&quot; + dmd.getDatabaseMinorVersion());
+      System.out.println(&quot;URL:&quot; + dmd.getURL());
+      System.out.println(&quot;tx:&quot;+dmd.supportsTransactions());
+</code></pre>
+</li>
+</ul>
+<h3 id="ResultSetMetaData-封装获取记录对象-灵活性特别高"><a href="#ResultSetMetaData-封装获取记录对象-灵活性特别高" class="headerlink" title="ResultSetMetaData,封装获取记录对象,灵活性特别高"></a>ResultSetMetaData,封装获取记录对象,灵活性特别高</h3><pre><code class="line-numbers language-java">    static List&lt;Map&lt;String, Object&gt;&gt; read(String sql) throws SQLException &#123;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try &#123;
+            conn = JdbcUtils.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int count = rsmd.getColumnCount();
+            String[] colNames = new String[count];
+            for (int i = 1; i &lt;= count; i++) &#123;
+                colNames[i - 1] = rsmd.getColumnLabel(i);
+            &#125;
+            List&lt;Map&lt;String, Object&gt;&gt; datas = new ArrayList&lt;Map&lt;String, Object&gt;&gt;();
+
+            while (rs.next()) &#123;
+                Map&lt;String, Object&gt; data = new HashMap&lt;String, Object&gt;();
+                for (int i = 0; i &lt; colNames.length; i++) &#123;
+                    data.put(colNames[i], rs.getObject(colNames[i]));
+                &#125;
+                datas.add(data);
+            &#125;
+            return datas;
+        &#125; finally &#123;
+            JdbcUtils.free(rs, ps, conn);
+        &#125;
+    &#125;
+</code></pre>
+<p>ORM反射</p>
+<pre><code class="line-numbers language-java">public class ORMTest &#123;
+    public static void main(String[] args) throws SQLException,
+            IllegalAccessException, InvocationTargetException, Exception &#123;
+        List&lt;User&gt; user = getObject(
+                &quot;select id as Id,username as Username,address as Address,sex as Sex,birthday as Birthday from user&quot;,
+                User.class,new ArrayList&lt;User&gt;());
+        System.out.println(user);
+    &#125;
+    static List&lt;Object&gt; getObjects(String sql, Class clazz)
+            throws SQLException, Exception, IllegalAccessException,
+            InvocationTargetException &#123;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try &#123;
+            conn = JdbcUtils.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            String[] colNames = getColNames(rs);
+
+            List&lt;Object&gt; objects = new ArrayList&lt;Object&gt;();
+            Method[] ms = clazz.getMethods();
+            while (rs.next()) &#123;
+                Object object = clazz.newInstance();
+                for (int i = 0; i &lt; colNames.length; i++) &#123;
+                    String colName = colNames[i];
+                    String methodName = &quot;set&quot; + colName;
+                    for (Method m : ms) &#123;
+                        if (methodName.equals(m.getName())) &#123;
+                            m.invoke(object, rs.getObject(colName));
+                            break;
+                        &#125;
+                    &#125;
+                    objects.add(object);
+                &#125;
+            &#125;
+            return objects;
+        &#125; finally &#123;
+            JdbcUtils.free(rs, ps, conn);
+        &#125;
+    &#125;
+    private static String[] getColNames(ResultSet rs) throws SQLException &#123;
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int count = rsmd.getColumnCount();
+        String[] colNames = new String[count];
+        for (int i = 1; i &lt;= count; i++) &#123;
+            colNames[i - 1] = rsmd.getColumnLabel(i);
+        &#125;
+        return colNames;
+    &#125;
+    static&lt;E&gt; List&lt;E&gt; getObject(String sql, Class clazz,List&lt;E&gt; list) throws SQLException,
+            Exception, IllegalAccessException, InvocationTargetException &#123;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try &#123;
+            conn = JdbcUtils.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            String[] colNames = getColNames(rs);
+            Object object = null;
+            Method[] ms = clazz.getMethods();
+            while(rs.next()) &#123;
+                object = clazz.newInstance();
+                for (int i = 0; i &lt; colNames.length; i++) &#123;
+                    String colName = colNames[i];
+                    String methodName = &quot;set&quot; + colName;
+
+                    for (Method m : ms) &#123;
+                        if (methodName.equals(m.getName())) &#123;
+                            m.invoke(object, rs.getObject(colName));
+                            break;
+                        &#125;
+                    &#125;
+                &#125;
+                list.add((E)object);
+            &#125;
+            return list;
+        &#125; finally &#123;
+            JdbcUtils.free(rs, ps, conn);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="DAO模式"><a href="#DAO模式" class="headerlink" title="DAO模式"></a>DAO模式</h2><h3 id="DAO模式的使用目的"><a href="#DAO模式的使用目的" class="headerlink" title="DAO模式的使用目的"></a>DAO模式的使用目的</h3><p>  <em>封装和隐藏数据库的访问细节</em><br>  <em>将业务逻辑和数据库的访问细节实现隔离</em><br>  <em>降低耦合度</em></p>
+<h3 id="DAO模式的设计"><a href="#DAO模式的设计" class="headerlink" title="DAO模式的设计"></a>DAO模式的设计</h3><p>  <em>提供一个DAO接口(如:IStudentDAO)</em><br>  <em>提供DAO接口的实现类(如：StudentDAOImpl)</em></p>
+<h3 id="DAO模式的设计总结如图所示："><a href="#DAO模式的设计总结如图所示：" class="headerlink" title="DAO模式的设计总结如图所示："></a>DAO模式的设计总结如图所示：</h3><p>  <img src="/images/javase/jdbc/dao.png" alt="DAO">    </p>
+<h2 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h2><h3 id="ORM的介绍"><a href="#ORM的介绍" class="headerlink" title="ORM的介绍"></a>ORM的介绍</h3><p>  <img src="/images/javase/jdbc/orm.png" alt="orm"><br>  E-R多了解一对多<br>  <img src="/images/javase/jdbc/er.png" alt="E-R"> </p>
+<p>  <img src="/images/javase/jdbc/er2.png" alt="E-R"> </p>
+<p>  涉及一对多关系 SQL（订单和订单明细）<br>  <img src="/images/javase/jdbc/sql_table_one_to_many.png" alt="sql"></p>
+<h2 id="jdbcTemplate的概念和开发"><a href="#jdbcTemplate的概念和开发" class="headerlink" title="jdbcTemplate的概念和开发"></a>jdbcTemplate的概念和开发</h2><h3 id="jdbcTemplate的概念"><a href="#jdbcTemplate的概念" class="headerlink" title="jdbcTemplate的概念"></a>jdbcTemplate的概念</h3><blockquote>
+<p>封装CRUD的操作，并提供执行CRUD操作的方法<br>封装创建不同的Statement的语句</p>
+</blockquote>
+<h3 id="jdbcTemplate的开发"><a href="#jdbcTemplate的开发" class="headerlink" title="jdbcTemplate的开发"></a>jdbcTemplate的开发</h3><ul>
+<li><p><strong>jdbcTemplate</strong></p>
+<blockquote>
+<p>封装CRUD的操作和创建不同的Statement</p>
+</blockquote>
+</li>
+<li><p><strong>PreparedStatementSetter</strong></p>
+<blockquote>
+<p>一个用于通过PreparedStatement来设置值替换占位符的接口</p>
+</blockquote>
+</li>
+<li><p><strong>RowCallBackHandler</strong></p>
+<blockquote>
+<p>一个用于处理结果集的接口</p>
+</blockquote>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+未附代码</p>
+</li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>JDBC 研磨</p><p><a href="http://example.com/2013/09/13/javase/JAVASE-JDBC-13/">http://example.com/2013/09/13/javase/JAVASE-JDBC-13/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2013-09-13</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-07-12</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2013/09/14/javase/JDBC-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">数据库连接池dbcp,c3p0，</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2013/09/12/javase/JAVASE-IO%E6%B5%81-12/"><span class="level-item">JAVA中的IO流</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#JDBC基础"><span class="level-left"><span class="level-item">1</span><span class="level-item">JDBC基础</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#JDBC操控数据库步骤"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">JDBC操控数据库步骤</span></span></a></li><li><a class="level is-mobile" href="#ConnectionFactory了解"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">ConnectionFactory了解</span></span></a></li><li><a class="level is-mobile" href="#Statement的深入"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">Statement的深入</span></span></a></li><li><a class="level is-mobile" href="#JDBC处理大对象数据"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">JDBC处理大对象数据</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#处理CLOB数据"><span class="level-left"><span class="level-item">1.4.1</span><span class="level-item">处理CLOB数据</span></span></a></li><li><a class="level is-mobile" href="#处理BLOB数据"><span class="level-left"><span class="level-item">1.4.2</span><span class="level-item">处理BLOB数据</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#事务提交模式和隔离级别"><span class="level-left"><span class="level-item">2</span><span class="level-item">事务提交模式和隔离级别</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#事务的特性ACID"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">事务的特性ACID</span></span></a></li><li><a class="level is-mobile" href="#事务提交模式"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">事务提交模式</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#自动提交模式"><span class="level-left"><span class="level-item">2.2.1</span><span class="level-item">自动提交模式</span></span></a></li><li><a class="level is-mobile" href="#手动提交模式（一般启用这种模式）"><span class="level-left"><span class="level-item">2.2.2</span><span class="level-item">手动提交模式（一般启用这种模式）</span></span></a></li><li><a class="level is-mobile" href="#悲观锁-读锁-x2F-共享锁-没有互斥性"><span class="level-left"><span class="level-item">2.2.3</span><span class="level-item">悲观锁-读锁/共享锁(没有互斥性)</span></span></a></li><li><a class="level is-mobile" href="#乐观锁"><span class="level-left"><span class="level-item">2.2.4</span><span class="level-item">乐观锁</span></span></a></li></ul></li><li><a class="level is-mobile" href="#事务-JTA"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">事务(JTA)</span></span></a></li></ul></li><li><a class="level is-mobile" href="#JDBC批处理"><span class="level-left"><span class="level-item">3</span><span class="level-item">JDBC批处理</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#批处理的作用"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">批处理的作用</span></span></a></li><li><a class="level is-mobile" href="#批处理操作涉及的API"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">批处理操作涉及的API</span></span></a></li><li><a class="level is-mobile" href="#Statement批处理示例"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">Statement批处理示例</span></span></a></li><li><a class="level is-mobile" href="#PreparedStatement批处理示例"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">PreparedStatement批处理示例</span></span></a></li></ul></li><li><a class="level is-mobile" href="#JDBC获取数据库元数据"><span class="level-left"><span class="level-item">4</span><span class="level-item">JDBC获取数据库元数据</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#DatabaseMetaData"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">DatabaseMetaData</span></span></a></li><li><a class="level is-mobile" href="#ResultSetMetaData-封装获取记录对象-灵活性特别高"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">ResultSetMetaData,封装获取记录对象,灵活性特别高</span></span></a></li></ul></li><li><a class="level is-mobile" href="#DAO模式"><span class="level-left"><span class="level-item">5</span><span class="level-item">DAO模式</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#DAO模式的使用目的"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">DAO模式的使用目的</span></span></a></li><li><a class="level is-mobile" href="#DAO模式的设计"><span class="level-left"><span class="level-item">5.2</span><span class="level-item">DAO模式的设计</span></span></a></li><li><a class="level is-mobile" href="#DAO模式的设计总结如图所示："><span class="level-left"><span class="level-item">5.3</span><span class="level-item">DAO模式的设计总结如图所示：</span></span></a></li></ul></li><li><a class="level is-mobile" href="#ORM"><span class="level-left"><span class="level-item">6</span><span class="level-item">ORM</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#ORM的介绍"><span class="level-left"><span class="level-item">6.1</span><span class="level-item">ORM的介绍</span></span></a></li></ul></li><li><a class="level is-mobile" href="#jdbcTemplate的概念和开发"><span class="level-left"><span class="level-item">7</span><span class="level-item">jdbcTemplate的概念和开发</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#jdbcTemplate的概念"><span class="level-left"><span class="level-item">7.1</span><span class="level-item">jdbcTemplate的概念</span></span></a></li><li><a class="level is-mobile" href="#jdbcTemplate的开发"><span class="level-left"><span class="level-item">7.2</span><span class="level-item">jdbcTemplate的开发</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

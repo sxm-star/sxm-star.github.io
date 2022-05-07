@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>数据库第二篇--索引、视图、过程、触发器、事件 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="索引 案例  拼音 偏旁部首   简介  在MySQL中，索引（index）也叫做“键（key）”，它是存储引擎用于快速找到记录的一种数据结构。  索引对于良好的性能非常关键，尤其是当表中的数据量越来越大时，索引对性能的影响就愈发重要。  索引优化应该是对查询性能优化最有效的手段。  -- CREATE INDEX indexName ON mytable(username);  Create I"><meta property="og:type" content="blog"><meta property="og:title" content="数据库第二篇--索引、视图、过程、触发器、事件"><meta property="og:url" content="http://example.com/2013/10/27/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E7%AF%87--%E7%B4%A2%E5%BC%95%E3%80%81%E8%A7%86%E5%9B%BE%E3%80%81%E8%BF%87%E7%A8%8B%E3%80%81%E8%A7%A6%E5%8F%91%E5%99%A8%E3%80%81%E4%BA%8B%E4%BB%B6/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="索引 案例  拼音 偏旁部首   简介  在MySQL中，索引（index）也叫做“键（key）”，它是存储引擎用于快速找到记录的一种数据结构。  索引对于良好的性能非常关键，尤其是当表中的数据量越来越大时，索引对性能的影响就愈发重要。  索引优化应该是对查询性能优化最有效的手段。  -- CREATE INDEX indexName ON mytable(username);  Create I"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:published_time" content="2013-10-27T14:30:17.000Z"><meta property="article:modified_time" content="2022-05-07T14:18:23.003Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="’Developer,Programmer,Coder,Book,History,culture,science and technology‘"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2013/10/27/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E7%AF%87--%E7%B4%A2%E5%BC%95%E3%80%81%E8%A7%86%E5%9B%BE%E3%80%81%E8%BF%87%E7%A8%8B%E3%80%81%E8%A7%A6%E5%8F%91%E5%99%A8%E3%80%81%E4%BA%8B%E4%BB%B6/"},"headline":"数据库第二篇--索引、视图、过程、触发器、事件","image":["http://example.com/img/og_image.png"],"datePublished":"2013-10-27T14:30:17.000Z","dateModified":"2022-05-07T14:18:23.003Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"索引 案例  拼音 偏旁部首   简介  在MySQL中，索引（index）也叫做“键（key）”，它是存储引擎用于快速找到记录的一种数据结构。  索引对于良好的性能非常关键，尤其是当表中的数据量越来越大时，索引对性能的影响就愈发重要。  索引优化应该是对查询性能优化最有效的手段。  -- CREATE INDEX indexName ON mytable(username);  Create I"}</script><link rel="canonical" href="http://example.com/2013/10/27/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%BA%8C%E7%AF%87--%E7%B4%A2%E5%BC%95%E3%80%81%E8%A7%86%E5%9B%BE%E3%80%81%E8%BF%87%E7%A8%8B%E3%80%81%E8%A7%A6%E5%8F%91%E5%99%A8%E3%80%81%E4%BA%8B%E4%BB%B6/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2013-10-27T14:30:17.000Z" title="2013/10/27 下午10:30:17">2013-10-27</time>发表</span><span class="level-item"><time dateTime="2022-05-07T14:18:23.003Z" title="2022/5/7 下午10:18:23">2022-05-07</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span> / </span><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></span><span class="level-item">25 分钟读完 (大约3684个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">数据库第二篇--索引、视图、过程、触发器、事件</h1><div class="content"><h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ul>
+<li><p>案例</p>
+<ul>
+<li>拼音</li>
+<li>偏旁部首</li>
+</ul>
+</li>
+<li><p>简介</p>
+<ul>
+<li><p>在MySQL中，索引（index）也叫做“键（key）”，它是存储引擎用于快速找到记录的一种数据结构。</p>
+</li>
+<li><p>索引对于良好的性能非常关键，尤其是当表中的数据量越来越大时，索引对性能的影响就愈发重要。</p>
+</li>
+<li><p>索引优化应该是对查询性能优化最有效的手段。</p>
+</li>
+<li><pre><code>-- CREATE INDEX indexName ON mytable(username); 
+Create Index index_dept_dname on dept(dname);
+Drop  Index index_dept_dname on dept;</code></pre></li>
+</ul>
+</li>
+<li><p>索引的分类</p>
+<ul>
+<li>常规索引<ul>
+<li>常规索引，也叫普通索引（index或key），它可以常规地提高查询效率。一张数据表中可以有多个常规索引。常规索引是使用最普遍的索引类型，如果没有明确指明索引的类型，我们所说的索引都是指常规索引。</li>
+</ul>
+</li>
+<li>主键索引<ul>
+<li>主键索引（Primary Key），也简称主键。它可以提高查询效率，并提供唯一性约束。一张表中只能有一个主键。被标志为自动增长的字段一定是主键，但主键不一定是自动增长。一般把主键定义在无意义的字段上（如：编号），主键的数据类型最好是数值。</li>
+</ul>
+</li>
+<li>唯一索引<ul>
+<li>唯一索引（Unique Key），可以提高查询效率，并提供唯一性约束。一张表中可以有多个唯一索引。</li>
+</ul>
+</li>
+<li>外键索引<ul>
+<li>外键索引（Foreign Key），简称外键，它可以提高查询效率，外键会自动和对应的其他表的主键关联。外键的主要作用是保证记录的一致性和完整性。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>索引是数据库中一块独立的空间，专门存储索引值的一刻B-树</p>
+<ul>
+<li>我们可以通过B树快速的定位到要查找的数据</li>
+<li>尽量不要对重复列添加索引<ul>
+<li>性别</li>
+</ul>
+</li>
+<li>优点<ul>
+<li>索引可以让MySQL快速地查找到我们所需要的数据，但这并不是索引的唯一作用。<ul>
+<li>索引大大减少了MySQL服务器需要扫描的数据量。</li>
+<li>索引可以帮助服务器避免排序和临时表。</li>
+<li>索引可以将随机I&#x2F;O变为顺序I&#x2F;O。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>影响数据库的增删改速度</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><ul>
+<li><p>简介</p>
+<ul>
+<li>MySQL 视图（View）是一种虚拟存在的表，同真实表一样，视图也由列和行构成，但视图并不实际存在于数据库中。</li>
+<li>行和列的数据来自于定义视图的查询中所使用的表，并且还是在使用视图时动态生成的。</li>
+</ul>
+</li>
+<li><p>优点</p>
+<ul>
+<li><ol>
+<li>定制用户数据，聚焦特定的数据</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>简化数据操作</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>提高数据的安全性</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>共享所需数据</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>更改数据格式</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>重用 SQL 语句</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>创建 查看</p>
+<ul>
+<li><pre><code class="line-numbers language-sql">-- CREATE VIEW &lt;视图名&gt; AS &lt;SELECT语句&gt;
+-- &lt;视图名&gt;：指定视图的名称。该名称在数据库中必须是唯一的，不能与其他表或视图同名。
+-- &lt;SELECT语句&gt;：指定创建视图的 SELECT 语句，可用于查询多个基础表或源视图。
+
+CREATE VIEW v_swordsman AS 
+( SELECT tid, NAME FROM teacher ) UNION ALL
+( SELECT sid, NAME FROM student );
+
+SELECT
+    * 
+FROM
+    v_swordsman
+
+-- DESCRIBE 视图名；
+DESCRIBE v_swordsman
+
+-- SHOW CREATE VIEW 视图名;
+SHOW CREATE VIEW v_swordsman
+
+-- ALTER VIEW &lt;视图名&gt; AS &lt;SELECT语句&gt;
+-- &lt;视图名&gt;：指定视图的名称。该名称在数据库中必须是唯一的，不能与其他表或视图同名。
+-- &lt;SELECT 语句&gt;：指定创建视图的 SELECT 语句，可用于查询多个基础表或源视图。
+
+--DROP VIEW IF EXISTS &lt;视图名1&gt; [ , &lt;视图名2&gt; …]
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><h3 id="创建调用删除"><a href="#创建调用删除" class="headerlink" title="创建调用删除"></a>创建调用删除</h3><ul>
+<li><pre><code class="line-numbers language-sql">--删除存储过程
+drop procedure if exists p_hello_world;
+
+--创建存储过程
+create procedure p_hello_world()
+begin
+    select sysdate();
+end;
+
+-- 调用存储过程
+call p_hello_world();
+</code></pre>
+</li>
+<li><pre><code class="line-numbers language-sql">--删除存储过程
+drop procedure if exists p_hello_world;
+
+--创建存储过程
+create procedure p_hello_world(in v_empno int)
+begin
+    select * from emp e where e.empno = v_empno;
+end;
+
+-- 调用存储过程
+call p_hello_world(7788);
+</code></pre>
+</li>
+</ul>
+<h3 id="变量定义与赋值"><a href="#变量定义与赋值" class="headerlink" title="变量定义与赋值"></a>变量定义与赋值</h3><ul>
+<li><pre><code class="line-numbers language-sql">--删除存储过程
+drop procedure if exists p_hello_world;
+
+--创建存储过程
+create procedure p_hello_world()
+begin
+    declare v_number int;
+    declare v_varchar varchar(32);
+    set v_number = 1;
+    set v_varchar = &#39;hello world&#39;;
+
+    select v_number;
+    select v_varchar;
+end;
+
+-- 调用存储过程
+call p_hello_world();
+</code></pre>
+</li>
+</ul>
+<h3 id="选择语句"><a href="#选择语句" class="headerlink" title="选择语句"></a>选择语句</h3><ul>
+<li><pre><code class="line-numbers language-sql">--删除存储过程
+drop procedure if exists p_hello_world;
+
+--创建存储过程
+create procedure p_hello_world(in v_id int)
+begin
+    if (v_id &gt; 0) then
+        select &#39;&gt; 0&#39;;
+    elseif (v_id = 0) then
+        select &#39;= 0&#39;;
+    else
+        select &#39;&lt; 0&#39;;
+    end if;
+end;
+
+-- 调用存储过程
+call p_hello_world(-9);
+</code></pre>
+</li>
+</ul>
+<h3 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h3><ul>
+<li><pre><code class="line-numbers language-sql">drop procedure if exists p_while_do;
+
+create procedure p_while_do()
+begin
+    declare i int;
+        set i = 1;
+        while i &lt;= 10 do
+            select concat(&#39;index : &#39;, i);
+            set i = i + 1;
+        end while;
+end;
+
+call p_while_do();
+</code></pre>
+</li>
+<li><pre><code class="line-numbers language-sql">drop procedure if exists p_for_loop;
+
+create procedure p_for_loop()
+begin
+    declare i int;
+        set i = 1;
+        loop_example : loop
+            select concat(&#39;index -&gt; &#39;, i);
+            set i = i + 1;
+
+            if i &gt; 10 then
+                leave loop_example;
+            end if;
+        end loop;
+end;
+
+call p_for_loop();
+</code></pre>
+</li>
+</ul>
+<h3 id="静态游标"><a href="#静态游标" class="headerlink" title="静态游标"></a>静态游标</h3><ul>
+<li><pre><code class="line-numbers language-sql">--删除存储过程
+drop procedure if exists p_hello_world;
+
+--创建存储过程
+create procedure p_hello_world()
+begin
+    declare empno integer;
+    declare ename varchar(256);
+    declare result varchar(4000) default &#39;&#39;;
+    
+    declare cursor_emp cursor for select e.empno,e.ename from emp e;
+    declare continue handler for SQLSTATE &#39;02000&#39; set empno = null; 
+    open cursor_emp;
+    fetch cursor_emp into empno, ename;
+    while (empno is not null ) do
+        set result = concat(result, &#39;empno:&#39;, empno, &#39;,ename:&#39;, ename, &#39;;&#39;);
+        fetch cursor_emp into empno, ename;
+    end while;
+    close cursor_emp;
+    select result;
+end
+
+-- 调用存储过程
+call p_hello_world();
+</code></pre>
+</li>
+</ul>
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>触发器与数据表关系密切，主要用于保护表中的数据。</li>
+<li>特别是当有多个表具有一定的相互联系的时候，触发器能够让不同的表保持数据的一致性。</li>
+<li>在 MySQL 中，只有执行 INSERT、UPDATE 和 DELETE 操作时才能激活触发器</li>
+</ul>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><ul>
+<li>优点：<ul>
+<li>触发器的执行是自动的，当对触发器相关表的数据做出相应的修改后立即执行。</li>
+<li>触发器可以实施比 FOREIGN KEY 约束、CHECK 约束更为复杂的检查和操作。</li>
+<li>触发器可以实现表数据的级联更改，在一定程度上保证了数据的完整性。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>使用触发器实现的业务逻辑在出现问题时很难进行定位，特别是涉及到多个触发器的情况下，会使后期维护变得困难。</li>
+<li>大量使用触发器容易导致代码结构被打乱，增加了程序的复杂性，</li>
+<li>如果需要变动的数据量较大时，触发器的执行效率会非常低。</li>
+</ul>
+</li>
+</ul>
+<h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><ul>
+<li>INSERT 触发器<ul>
+<li>在 INSERT 语句执行之前或之后响应的触发器。</li>
+<li>在 INSERT 触发器代码内，可引用一个名为 NEW（不区分大小写）的虚拟表来访问被插入的行。</li>
+<li>在 UPDATE 触发器代码内，可引用一个名为 NEW（不区分大小写）的虚拟表来访问更新的值。</li>
+</ul>
+</li>
+<li>update触发器<ul>
+<li>在 UPDATE 触发器代码内，可引用一个名为 NEW（不区分大小写）的虚拟表来访问更新的值。</li>
+<li>在 UPDATE 触发器代码内，可引用一个名为 OLD（不区分大小写）的虚拟表来访问 UPDATE 语句执行前的值。</li>
+<li>在 BEFORE UPDATE 触发器中，NEW 中的值可能也被更新，即允许更改将要用于 UPDATE 语句中的值。</li>
+<li>OLD 中的值全部是只读的，不能被更新。</li>
+</ul>
+</li>
+<li>Delete触发器<ul>
+<li>在 DELETE 触发器代码内，可以引用一个名为 OLD（不区分大小写）的虚拟表来访问被删除的行。</li>
+<li>OLD 中的值全部是只读的，不能被更新。</li>
+</ul>
+</li>
+<li>对于事务性表，如果触发程序失败，以及由此导致的整个语句失败，那么该语句所执行的所有更改将回滚；</li>
+<li>对于非事务性表，则不能执行此类回滚，即使语句失败，失败之前所做的任何更改依然有效。</li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ul>
+<li><p>语法</p>
+<ul>
+<li><pre><code class="line-numbers language-sql">CREATE TRIGGER &lt;触发器名&gt; &lt; BEFORE | AFTER &gt;
+&lt;INSERT | UPDATE | DELETE &gt;
+ON &lt;表名&gt; FOR EACH Row &lt;触发器主体&gt;
+
+1) 触发器名
+触发器的名称，触发器在当前数据库中必须具有唯一的名称。如果要在某个特定数据库中创建，名称前面应该加上数据库的名称。
+
+2) INSERT | UPDATE | DELETE
+触发事件，用于指定激活触发器的语句的种类。
+注意：三种触发器的执行时间如下。
+INSERT：将新行插入表时激活触发器。例如，INSERT的BEFORE触发器不仅能被INSERT 语句激活，也能被LOAD DATA 语句激活。
+DELETE： 从表中删除某一行数据时激活触发器，例如 DELETE 和 REPLACE 语句。
+UPDATE：更改表中某一行数据时激活触发器，例如 UPDATE 语句。
+
+3) BEFORE | AFTER
+BEFORE 和 AFTER，触发器被触发的时刻，表示触发器是在激活它的语句之前或之后触发。
+若希望验证新数据是否满足条件，则使用 BEFORE 选项；
+若希望在激活触发器的语句执行之后完成几个或更多的改变，则通常使用 AFTER 选项。
+
+4) 表名
+与触发器相关联的表名，此表必须是永久性表，不能将触发器与临时表或视图关联起来。
+在该表上触发事件发生时才会激活触发器。同一个表不能拥有两个具有相同触发时刻和事件的触发器。
+
+5) 触发器主体
+触发器动作主体，包含触发器激活时将要执行的 MySQL 语句。如果要执行多个语句，可使用 BEGIN…END 复合语句结构。
+
+6) FOR EACH ROW
+一般是指行级触发，对于受触发事件影响的每一行都要激活触发器的动作。
+</code></pre>
+</li>
+<li><p>创建 BEFORE 触发器</p>
+<ul>
+<li><pre><code class="line-numbers language-sql">-- 创建 ,每次将新增的薪资记录到一个局部变量中
+CREATE TRIGGER tr_salsum
+BEFORE INSERT ON emp
+FOR EACH ROW
+SET @sum=@sum+NEW.sal;
+
+-- 创建完成后 可以在设计表对应的触发器处看到
+
+-- 查看触发器的作用
+SET @sum=0;
+INSERT INTO `emp` VALUES (&#39;9999&#39;, &#39;MILLER&#39;, &#39;CLERK&#39;, &#39;7782&#39;, &#39;1982-01-23&#39;, &#39;1300&#39;, null, &#39;10&#39;);
+select @sum;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>创建 AFTER 触发器</p>
+<ul>
+<li><pre><code class="line-numbers language-sql">-- 首先创建一张相同的表
+create table dept_copy as select * from dept; 
+
+-- 向Dept插入数据的时候，也会向复制表中插入数据
+CREATE TRIGGER tr_chinaloc
+AFTER INSERT ON dept
+FOR EACH ROW
+INSERT INTO dept_copy
+VALUES (NEW.deptno,NEW.dname,concat(&#39;china-&#39;,NEW.loc));
+
+-- 测试 
+insert into dept values(88,&#39;shop&#39;,&#39;shanghai&#39;);
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><ul>
+<li><p>在 MySQL 中，若需要查看数据库中已有的触发器，则可以使用 SHOW TRIGGERS 语句</p>
+</li>
+<li><pre><code class="line-numbers language-sql">-- 简单模式
+SHOW TRIGGERS;
+
+-- 指定触发器
+SELECT * FROM information_schema.triggers WHERE trigger_name= &#39;tr_chinaloc&#39;;
+</code></pre>
+</li>
+</ul>
+<h3 id="修改删除"><a href="#修改删除" class="headerlink" title="修改删除"></a>修改删除</h3><ul>
+<li><p>修改触发器可以通过删除原触发器，再以相同的名称创建新的触发器。</p>
+</li>
+<li><p>删除一个表的同时，也会自动删除该表上的触发器。</p>
+</li>
+<li><p>触发器不能更新或覆盖，为了修改一个触发器，必须先删除它，再重新创建。</p>
+</li>
+<li><pre><code class="line-numbers language-sql">-- DROP TRIGGER [ IF EXISTS ] [数据库名] &lt;触发器名&gt;
+DROP TRIGGER IF EXISTS tr_chinaloc;
+</code></pre>
+</li>
+</ul>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>事件（event）是MySQL在相应的时刻调用的过程式数据库对象。一个事件可调用一次，也可周期性的启动，它由一个特定的线程来管理的，也就是所谓的“事件调度器”。</li>
+<li>事件取代了原先只能由操作系统的计划任务来执行的工作<ul>
+<li>MySQL的事件调度器可以精确到每秒钟执行一个任务，</li>
+<li>操作系统的计划任务（如：Linux下的CRON或Windows下的任务计划）只能精确到每分钟执行一次。</li>
+</ul>
+</li>
+</ul>
+<h3 id="开启事件"><a href="#开启事件" class="headerlink" title="开启事件"></a>开启事件</h3><ul>
+<li><p>查看是否开启</p>
+</li>
+<li><pre><code class="line-numbers language-sql">-- 是否开启
+show variables like &#39;%event_scheduler%&#39;;
+
+-- 如果是关闭的（临时开启）
+set global event_scheduler = on;
+
+--如果是关闭的（长久开启）
+--修改my.ini中[mysqld]数据  C:\ProgramData\MySQL\MySQL Server 8.0
+event_scheduler=ON
+</code></pre>
+</li>
+</ul>
+<h3 id="创建事件"><a href="#创建事件" class="headerlink" title="创建事件"></a>创建事件</h3><ul>
+<li><p>一条create event语句创建一个事件。</p>
+</li>
+<li><p>每个事件由两个主要部分组成</p>
+<ul>
+<li>第一部分是事件调度（eventschedule，表示事件何时启动以及按什么频率启动;</li>
+<li>第二部分是事件动作（event action），这是事件启动时执行的代码</li>
+</ul>
+</li>
+<li><p>一个事件可以是活动（打开）的或停止（关闭）的</p>
+<ul>
+<li>活动意味着事件调度器检查事件动作是否必须调用</li>
+<li>停止意味着事件的声明存储在目录中，但调度器不会检查它是否应该调用。</li>
+</ul>
+</li>
+<li><p>语法</p>
+<ul>
+<li><pre><code class="line-numbers language-sql">CREATE
+  [DEFINER = &#123; user | CURRENT_USER &#125;] 
+  EVENT 
+  [IF NOT EXISTS] 
+  event_name 
+  ON SCHEDULE schedule 
+  [ON COMPLETION [NOT] PRESERVE] 
+  [ENABLE | DISABLE | DISABLE ON SLAVE] 
+  [COMMENT &#39;comment&#39;] 
+  DO event_body; 
+   
+schedule: 
+  AT timestamp [+ INTERVAL interval] ... 
+  | 
+  EVERY interval 
+  [STARTS timestamp [+ INTERVAL interval] ...] 
+  [ENDS timestamp [+ INTERVAL interval] ...] 
+   
+interval: 
+  quantity &#123;YEAR | QUARTER | MONTH | DAY | HOUR | MINUTE | 
+       WEEK | SECOND | YEAR_MONTH | DAY_HOUR | DAY_MINUTE | 
+       DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND&#125;
+       
+#DEFINER：定义事件执行的时候检查权限的用户。
+#event_name：表示事件名称
+#SCHEDULE：表示触发点
+    AT timestamp一般用于只执行一次。
+    EVERY interval一般用于周期性执行，可以设定开始时间和结束时间。
+#ON COMPLETION PRESERVE：表示任务执行之后仍保留
+#ON COMPLETION NOT PRESERVE：表示任务执行完成后不保留
+#ENABLE|DISABLE：表示设置启用或者禁止这个事件。
+#COMMENT：添加注释
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>案例</p>
+<ul>
+<li><pre><code class="line-numbers language-sql">-- 立即启动事件
+create event event_now 
+on schedule 
+at now() 
+do insert into events_list values(&#39;event_now&#39;, now());
+
+-- 5秒钟后自动清空表
+CREATE EVENT IF NOT EXISTS event_truncate_dept_copy
+ON SCHEDULE
+AT CURRENT_TIMESTAMP + INTERVAL 5 SECOND
+DO TRUNCATE TABLE dept_copy;
+
+
+-- 每秒钟启动事件
+CREATE event event_SECOND 
+ON SCHEDULE 
+EVERY 1 SECOND
+DO INSERT INTO event_test VALUES(1);
+
+-- 每分钟启动事件
+create event event_minute 
+on schedule 
+every 1 minute 
+do insert into events_list values(&#39;event_now&#39;, now());
+
+--5天后开启每天定时3秒向表test2中插入数据，一个月后停止执行
+CREATE EVENT IF NOT EXISTS event_truncate_test3
+ON SCHEDULE 
+EVERY 3 SECOND
+STARTS CURRENT_TIMESTAMP + INTERVAL 5 day
+ENDS CURRENT_TIMESTAMP + INTERVAL  1 month
+ON COMPLETION PRESERVE
+DO INSERT INTO test2(department,time_v) VALUES(&#39;1&#39;,NOW());
+
+-- 每秒钟调用存储过程
+CREATE DEFINER=`root`@`localhost` EVENT `eventUpdateStatus` 
+ON SCHEDULE 
+EVERY 1 SECOND
+STARTS &#39;2017-11-21 00:12:44&#39;
+ON COMPLETION PRESERVE 
+ENABLE 
+DO call updateStatus()
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>启用禁用</p>
+<ul>
+<li><pre><code class="line-numbers language-sql">alter event event_name disable;
+alter event event_name enable;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>删除</p>
+<ul>
+<li><pre><code class="line-numbers language-sql">drop event [if exists] event_name
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>数据库第二篇--索引、视图、过程、触发器、事件</p><p><a href="http://example.com/2013/10/27/数据库/MySQL/数据库第二篇--索引、视图、过程、触发器、事件/">http://example.com/2013/10/27/数据库/MySQL/数据库第二篇--索引、视图、过程、触发器、事件/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2013-10-27</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-05-07</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2013/11/01/framework/%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6/DB-Utils/%E7%BC%96%E5%86%99%E8%87%AA%E5%B7%B1%E7%9A%84JDBC%E5%B0%81%E8%A3%85%E5%B7%A5%E5%85%B7%E7%B1%BB/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Apache的DBUtils预热篇--自定义类似的框架</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2013/10/27/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/MySQL%E7%AC%AC%E4%B8%80%E7%AF%87--%E5%85%A5%E9%97%A8%E7%AF%87/"><span class="level-item">MySQL第一篇--入门篇</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#索引"><span class="level-left"><span class="level-item">1</span><span class="level-item">索引</span></span></a></li><li><a class="level is-mobile" href="#视图"><span class="level-left"><span class="level-item">2</span><span class="level-item">视图</span></span></a></li><li><a class="level is-mobile" href="#存储过程"><span class="level-left"><span class="level-item">3</span><span class="level-item">存储过程</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#创建调用删除"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">创建调用删除</span></span></a></li><li><a class="level is-mobile" href="#变量定义与赋值"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">变量定义与赋值</span></span></a></li><li><a class="level is-mobile" href="#选择语句"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">选择语句</span></span></a></li><li><a class="level is-mobile" href="#循环语句"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">循环语句</span></span></a></li><li><a class="level is-mobile" href="#静态游标"><span class="level-left"><span class="level-item">3.5</span><span class="level-item">静态游标</span></span></a></li></ul></li><li><a class="level is-mobile" href="#触发器"><span class="level-left"><span class="level-item">4</span><span class="level-item">触发器</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#简介"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">简介</span></span></a></li><li><a class="level is-mobile" href="#优缺点"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">优缺点</span></span></a></li><li><a class="level is-mobile" href="#类型"><span class="level-left"><span class="level-item">4.3</span><span class="level-item">类型</span></span></a></li><li><a class="level is-mobile" href="#使用"><span class="level-left"><span class="level-item">4.4</span><span class="level-item">使用</span></span></a></li><li><a class="level is-mobile" href="#查看"><span class="level-left"><span class="level-item">4.5</span><span class="level-item">查看</span></span></a></li><li><a class="level is-mobile" href="#修改删除"><span class="level-left"><span class="level-item">4.6</span><span class="level-item">修改删除</span></span></a></li></ul></li><li><a class="level is-mobile" href="#事件"><span class="level-left"><span class="level-item">5</span><span class="level-item">事件</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#简介-1"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">简介</span></span></a></li><li><a class="level is-mobile" href="#开启事件"><span class="level-left"><span class="level-item">5.2</span><span class="level-item">开启事件</span></span></a></li><li><a class="level is-mobile" href="#创建事件"><span class="level-left"><span class="level-item">5.3</span><span class="level-item">创建事件</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

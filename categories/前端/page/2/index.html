@@ -1,0 +1,2157 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="robots" content="noindex"><meta><title>分类: 前端 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="藏经阁"><meta property="og:url" content="http://example.com/"><meta property="og:site_name" content="藏经阁"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="’Developer,Programmer,Coder,Book,History,culture,science and technology‘"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com"},"headline":"藏经阁","image":["http://example.com/img/og_image.png"],"author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":""}</script><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-content"><nav class="breadcrumb" aria-label="breadcrumbs"><ul><li><a href="/categories">分类</a></li><li class="is-active"><a href="#" aria-current="page">前端</a></li></ul></nav></div></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2015-01-06T11:40:36.000Z" title="2015/1/6 下午7:40:36">2015-01-06</time>发表</span><span class="level-item"><time dateTime="2020-04-24T02:45:16.426Z" title="2020/4/24 上午10:45:16">2020-04-24</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span> / </span><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/CSS/">CSS</a></span><span class="level-item">几秒读完 (大约6个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2015/01/06/%E5%89%8D%E7%AB%AF/css/css06/">CSS第六篇</a></h1><div class="content"><h2 id="CSS定位及应用"><a href="#CSS定位及应用" class="headerlink" title="CSS定位及应用"></a>CSS定位及应用</h2></div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2015-01-05T10:40:36.000Z" title="2015/1/5 下午6:40:36">2015-01-05</time>发表</span><span class="level-item"><time dateTime="2020-04-24T10:43:19.435Z" title="2020/4/24 下午6:43:19">2020-04-24</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span> / </span><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/CSS/">CSS</a></span><span class="level-item">23 分钟读完 (大约3483个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2015/01/05/%E5%89%8D%E7%AB%AF/css/css05/">CSS第五篇</a></h1><div class="content"><h2 id="浮动及应用"><a href="#浮动及应用" class="headerlink" title="浮动及应用"></a>浮动及应用</h2><h3 id="普通流-normal-flow"><a href="#普通流-normal-flow" class="headerlink" title="普通流(normal flow)"></a>普通流(normal flow)</h3><p>这个单词很多人翻译为 文档流 ， 字面翻译  普通流 或者标准流都可以。<br>前面我们说过，网页布局的核心，就是用CSS来摆放盒子位置。如何把盒子摆放到合适的位置？<br>CSS的定位机制有3种：普通流（标准流）、浮动和定位。<br>html语言当中另外一个相当重要的概念———-标准流！或者普通流。普通流实际上就是一个网页内标签元素正常从上到下，从左到右排列顺序的意思，比如块级元素会独占一行，行内元素会按顺序依次前后排列；按照这种大前提的布局排列之下绝对不会出现例外的情况叫做普通流布局。</p>
+<h3 id="浮动-float"><a href="#浮动-float" class="headerlink" title="浮动(float)"></a>浮动(float)</h3><ol>
+<li><p>浮动最早是用来控制图片，以便达到其他元素（特别是文字）实现“环绕”图片的效果。<br>示例-文字环绕效果：</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+     &lt;meta charset=&quot;utf-8&quot;&gt;
+     &lt;style&gt;
+     div &#123;
+         width: 500px;
+         height: 330px;
+         border: 1px solid hotpink;
+         margin: 0 auto;  /* 让盒子居中对齐 */
+     &#125;
+     img &#123;
+         float: right; /* 开始的时候 ，浮动是用来做文字环绕效果 */
+     &#125;
+     &lt;/style&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+ &lt;div&gt;
+     李敖（1935年4月25日－2018年3月18日），男，字敖之，出生于黑龙江省哈尔滨市，思想家，自由主义大师，国学大师，中国近代史学者，时事批评家，台湾作家，历史学家，诗人；台湾省无党派人士，曾任台湾“立法委员”，
+     &lt;img src=&quot;la.png&quot; height=&quot;220&quot; width=&quot;171&quot; alt=&quot;&quot;&gt;
+     2008年任满，宣布退出台湾省政坛。因其文笔犀利、批判色彩浓厚，嬉笑怒骂皆成文章，所以自诩为“中国白话文第一人”。 
+    “以玩世来醒世，用骂世而救世”，有《北京法源寺》、《阳痿美国》、《李敖有话说》、《红色11》等100多本著作，前后共有九十六本被禁，创下历史纪录，被西方传媒追捧为“中国近代最杰出的批评家”。《李敖大全集》是他大部分著作的合集，共80册，凡3000万字。2005年9月访问大陆，在北大、清华、复旦三所顶尖高校发表了名为“金刚怒目、菩萨低眉、尼姑思凡”的系列演讲。
+ &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>效果：<br><img src="/images/css/%E6%96%87%E5%AD%97%E7%8E%AF%E7%BB%95.png" alt="文字环绕效果"></p>
+</li>
+<li><p>后来，我们发现浮动有个很有意思的事情：就是让任何盒子可以一行排列。之前把块级元素转换为行内块元素 就可以放一行上 有宽度高度  但是 元素之间有空隙 不方便处理</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+     &lt;meta charset=&quot;utf-8&quot;&gt;
+     &lt;style&gt;
+     div &#123;
+         width: 200px;
+         height: 200px;
+         background-color: pink;
+         display: inline-block;   /*转换为行内块元素 就可以放一行上 有宽度高度  但是 元素之间有空隙 不方便处理*/
+     &#125;
+     div:nth-child(2) &#123;
+         background-color: hotpink;
+     &#125;
+     div:last-child &#123;
+         background-color: deeppink;
+     &#125;
+     &lt;/style&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+ &lt;div&gt;&lt;/div&gt;
+ &lt;div&gt;&lt;/div&gt;
+ &lt;div&gt;&lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>问题展示：<br><img src="/images/css/%E9%97%AE%E9%A2%98%E9%97%B4%E9%9A%99.png" alt="问题间隙"></p>
+</li>
+</ol>
+<p><strong>用浮动就可以令块级元素一行显示，且无间隙</strong></p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        div &#123;
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            /*display: inline-block; */  /*转换为行内块元素 就可以放一行上 有宽度高度  但是 元素之间有空隙 不方便处理*/
+            float: left;
+        &#125;
+        div:nth-child(2) &#123;
+            background-color: hotpink;
+        &#125;
+        div:last-child &#123;
+            background-color: deeppink;
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>示例完美效果：<br><img src="/images/css/%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%E4%BD%93%E9%AA%8C.png" alt="浮动布局体验"></p>
+<h3 id="什么是浮动？"><a href="#什么是浮动？" class="headerlink" title="什么是浮动？"></a>什么是浮动？</h3><p>元素的浮动是指设置了浮动属性的元素会脱离标准普通流的控制，移动到其父元素中指定位置的过程。<br>在CSS中，通过float属性来定义浮动，其基本语法格式如下：</p>
+<pre><code>选择器&#123;float:属性值;&#125;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>left</td>
+<td>元素向左浮动</td>
+</tr>
+<tr>
+<td>right</td>
+<td>元素向右浮动</td>
+</tr>
+<tr>
+<td>none</td>
+<td>元素不浮动（默认值）</td>
+</tr>
+</tbody></table>
+<h3 id="浮动详细内幕特性"><a href="#浮动详细内幕特性" class="headerlink" title="浮动详细内幕特性"></a>浮动详细内幕特性</h3><blockquote>
+<p>浮动首先创建包含块的概念（包裹）。就是说， 浮动的元素总是找理它最近的父级元素对齐。<strong>但是不会超出内边距的范围</strong>。 </p>
+</blockquote>
+<blockquote>
+<p>浮动的元素排列位置，跟上一个元素（块级）有关系。如果上一个元素有浮动，则A元素顶部会和上一个元素的顶部对齐；如果上一个元素是标准流，则A元素的顶部会和上一个元素的底部对齐。</p>
+</blockquote>
+<blockquote>
+<p>由2可以推断出，<strong>一个父盒子里面的子盒子，如果其中一个子级有浮动的，则其他子级都需要浮动。这样才能一行对齐显示</strong>。</p>
+</blockquote>
+<pre><code>浮动脱离标准流，不占位置，会影响标准流。浮动只有左右浮动。
+</code></pre>
+<pre><code>元素添加浮动后，元素会具有行内块元素的特性。元素的大小完全取决于定义的大小或者默认的内容多少
+</code></pre>
+<p>示例</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        div &#123;
+            height: 200px;
+            background-color: pink;
+            float: left; /*  块级元素添加浮动之后，具有行内块的特性 */
+        &#125;
+        span &#123;
+            background-color: purple; 
+            height: 100px;
+            float: left;/*  行内元素添加浮动之后，具有行内块的特性   */
+        &#125;
+        /* 行内块特性  可以一行放多个  有宽度和高度  盒子的大小是有内容决定的 */
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div&gt;三大傻大闹宝莱坞&lt;/div&gt;
+    &lt;div&gt;三大傻大闹宝莱坞&lt;/div&gt;
+    &lt;span&gt;额的个神啊&lt;/span&gt;
+    &lt;span&gt;额的个神啊&lt;/span&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/%E6%B5%AE%E5%8A%A8%E5%BD%B1%E5%93%8D%E5%8F%98%E6%88%90%E8%A1%8C%E5%86%85%E5%9D%97%E7%89%B9%E6%80%A7.png"></p>
+<pre><code>浮动根据元素书写的位置来显示相应的浮动。
+</code></pre>
+<blockquote>
+<p>总结：  浮动 —&gt;  浮漏特<br><strong>浮：</strong>    加了浮动的元素盒子是浮起来的，漂浮在其他的标准流盒子上面。<br><strong>漏：</strong>    加了浮动的盒子，不占位置的，它浮起来了，它原来的位置漏 给了标准流的盒子。<br><strong>特：</strong>    特别注意，这是特殊的使用，有很多的不好处，使用要谨慎。</p>
+</blockquote>
+<h3 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h3><p>我们前面说过，浮动本质是用来做一些文字混排效果的，但是被我们拿来做布局用，则会有很多的问题出现， 但是，你不能说浮动不好<br>由于浮动元素不再占用原文档流的位置，所以它会对后面的元素排版产生影响，为了解决这些问题，此时就需要在该元素中清除浮动。<br>如果浮动一开始就是一个美丽的错误，那么请用正确的方法挽救它。</p>
+<h3 id="清除浮动本质"><a href="#清除浮动本质" class="headerlink" title="清除浮动本质"></a>清除浮动本质</h3><p><strong>清除浮动主要为了解决父级元素因为子级浮动引起内部高度为0 的问题。</strong><br><img src="/images/css/%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%E6%9C%AC%E8%B4%A8.png"></p>
+<h3 id="清除浮动的方法"><a href="#清除浮动的方法" class="headerlink" title="清除浮动的方法"></a>清除浮动的方法</h3><p>其实本质叫做闭合浮动更好一些, 记住，清除浮动就是把浮动的盒子圈到里面，让父盒子闭合出口和入口不让他们出来影响其他元素。</p>
+<p>在CSS中，clear属性用于清除浮动，其基本语法格式如下：</p>
+<pre><code>选择器&#123;clear:属性值;&#125;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>left</td>
+<td>不允许左侧有浮动元素（清除左侧浮动的影响）</td>
+</tr>
+<tr>
+<td>right</td>
+<td>不允许右侧有浮动元素（清除右侧浮动的影响）</td>
+</tr>
+<tr>
+<td>both</td>
+<td>同时清除左右两侧浮动的影响</td>
+</tr>
+</tbody></table>
+<h4 id="额外标签法"><a href="#额外标签法" class="headerlink" title="额外标签法"></a>额外标签法</h4><pre><code class="line-numbers language-html">是W3C推荐的做法是通过在浮动元素末尾添加一个空的标签例如 &lt;div style=”clear:both”&gt;&lt;/div&gt;，或则其他标签br等亦可。
+</code></pre>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        .box1 &#123;
+            /* height: 200px; 很多情况下，我们父级盒子，不方便给高度 考虑孩子高度会变  */
+            width: 600px;
+            /*height: 200px;*/
+            background-color: pink;
+        &#125;
+        .box2 &#123;
+            width: 600px;
+            height: 240px;
+            background-color: purple;
+        &#125;
+        .son1 &#123; /*  son1 和 son2 是标准流，会撑开盒子 */
+            width: 150px;
+            height: 100px;
+            background-color: skyblue;
+            float: left;
+        &#125;
+        .son2 &#123;
+            width: 300px;
+            height: 100px;
+            background-color: hotpink;
+            float: left;
+        &#125;
+        /* 如果son1 和son2 都浮动了， 浮动元素不占有位置， 父亲没有高度 此时  底下盒子就会跑上来 */
+        .clear &#123;
+            clear: both;  /* 清除浮动的影响 */
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class=&quot;box1&quot;&gt;
+        &lt;div class=&quot;son1&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;son2&quot;&gt;&lt;/div&gt;
+        &lt;!-- 在浮动盒子的后面添加一个空盒子 --&gt;
+            &lt;div class=&quot;clear&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;box2&quot;&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>优点： 通俗易懂，书写方便</p>
+<p>缺点： 添加许多无意义的标签，结构化较差。  我只能说，w3c你推荐的方法我不接受，你不值得拥有。。。</p>
+<h4 id="父级添加overflow属性方法"><a href="#父级添加overflow属性方法" class="headerlink" title="父级添加overflow属性方法"></a>父级添加overflow属性方法</h4><p>可以通过触发BFC的方式，可以实现清除浮动效果。（BFC后面讲解）</p>
+<pre><code class="line-numbers language-css">可以给父级添加： overflow为 hidden|auto|scroll  都可以实现。
+</code></pre>
+<p>优点：  代码简洁</p>
+<p>缺点：  内容增多时候容易造成不会自动换行导致内容被隐藏掉，无法显示需要溢出的元素。</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        .box1 &#123;
+            /* height: 200px; 很多情况下，我们父级盒子，不方便给高度 考虑孩子高度会变  */
+            width: 600px;
+            background-color: pink;
+            overflow: hidden; /*  触发BFC BFC可以清除浮动 这是解决方案 BFC我们后面讲解 */
+        &#125;
+        .box2 &#123;
+            width: 600px;
+            height: 240px;
+            background-color: purple;
+        &#125;
+        .son1 &#123; /*  son1 和 son2 是标准流，会撑开盒子 */
+            width: 150px;
+            height: 100px;
+            background-color: skyblue;
+            float: left;
+        &#125;
+        .son2 &#123;
+            width: 300px;
+            height: 100px;
+            background-color: hotpink;
+            float: left;
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class=&quot;box1&quot;&gt;
+        &lt;div class=&quot;son1&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;son2&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;box2&quot;&gt;&lt;/div&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h4 id="使用after伪元素清除浮动"><a href="#使用after伪元素清除浮动" class="headerlink" title="使用after伪元素清除浮动"></a>使用after伪元素清除浮动</h4><p>使用方法：</p>
+<pre><code class="line-numbers language-css"> .clearfix:after &#123;  content: &quot;.&quot;; display: block; height: 0; clear: both; visibility: hidden;  &#125;   
+
+ .clearfix &#123;*zoom: 1;&#125;   /* IE6、7 专有 */
+</code></pre>
+<p>优点： 符合闭合浮动思想  结构语义化正确</p>
+<p>缺点： 由于IE6-7不支持:after，使用 zoom:1触发 hasLayout。</p>
+<p>代表网站： 百度、淘宝网、网易等</p>
+<p>注意： content:”.”  里面尽量跟一个小点，或者其他，尽量不要为空，否则再firefox 7.0前的版本会有生成空格。<br>示例用法：</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        .box1 &#123;
+            /* height: 200px; 很多情况下，我们父级盒子，不方便给高度 考虑孩子高度会变  */
+            width: 600px;
+            background-color: pink;
+        &#125;
+        .box2 &#123;
+            width: 600px;
+            height: 240px;
+            background-color: purple;
+        &#125;
+        .son1 &#123; /*  son1 和 son2 是标准流，会撑开盒子 */
+            width: 150px;
+            height: 100px;
+            background-color: skyblue;
+            float: left;
+        &#125;
+        .son2 &#123;
+            width: 300px;
+            height: 100px;
+            background-color: hotpink;
+            float: left;
+        &#125;
+        /* p:after &#123;
+            content: &quot;456&quot;;
+        &#125; */
+    /*	伪元素产生出的是  行内元素
+        在整个父元素后面内容   转成块元素  
+        高度为0   隐藏掉点  清除浮动*/
+        .clearfix:after &#123;
+            content: &quot;.&quot;;  /* 内容为小点， 尽量加不要空， 否则旧版本浏览器有空隙 */
+            display: block;  /* 转换为块级元素 */
+            height: 0; /* 高度为0 */
+            visibility: hidden;  /* 隐藏盒子 */
+            clear: both; /* 清除浮动 */
+        &#125;
+        .clearfix &#123;  /* ie6.7浏览器的处理方式 */
+            *zoom: 1; 
+            /*  * 代表ie6.7能识别的特殊符号  带有这个*的属性 只有ie6.7才执行  
+             zoom 就是ie6.7 清除浮动的方法 */
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;p&gt;123&lt;/p&gt;
+    &lt;div class=&quot;box1 clearfix&quot;&gt;
+        &lt;div class=&quot;son1&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;son2&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;box2&quot;&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h4 id="使用before和after双伪元素清除浮动-强烈推荐"><a href="#使用before和after双伪元素清除浮动-强烈推荐" class="headerlink" title="使用before和after双伪元素清除浮动(强烈推荐)"></a>使用before和after双伪元素清除浮动(强烈推荐)</h4><p>使用方法：</p>
+<pre><code class="line-numbers language-css">.clearfix:before,.clearfix:after &#123; 
+  content:&quot;.&quot;;
+  display:table;
+&#125;
+.clearfix:after &#123;
+ clear:both;
+&#125;
+.clearfix &#123;
+  *zoom:1;
+&#125;
+</code></pre>
+<p>优点：  代码更简洁</p>
+<p>缺点：  由于IE6-7不支持:after，使用 zoom:1触发 hasLayout。</p>
+<p>代表网站： 小米、腾讯等</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        .box1 &#123;
+            /* height: 200px; 很多情况下，我们父级盒子，不方便给高度 考虑孩子高度会变  */
+            width: 600px;
+            background-color: pink;
+        &#125;
+        .box2 &#123;
+            width: 600px;
+            height: 240px;
+            background-color: purple;
+        &#125;
+        .son1 &#123; /*  son1 和 son2 是标准流，会撑开盒子 */
+            width: 150px;
+            height: 100px;
+            background-color: skyblue;
+            float: left;
+        &#125;
+        .son2 &#123;
+            width: 300px;
+            height: 100px;
+            background-color: hotpink;
+            float: left;
+        &#125;
+        .clearfix:before, .clearfix:after &#123;
+            content: &quot;&quot;;
+            display: table;  
+        &#125;
+        .clearfix:after &#123;
+            clear: both;
+        &#125;
+        .clearfix &#123;
+            *zoom: 1;
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class=&quot;box1 clearfix&quot;&gt;
+        &lt;div class=&quot;son1&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;son2&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;box2&quot;&gt;&lt;/div&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="版心和布局流程"><a href="#版心和布局流程" class="headerlink" title="版心和布局流程"></a>版心和布局流程</h2><blockquote>
+<p>阅读报纸时容易发现，虽然报纸中的内容很多，但是经过合理地排版，版面依然清晰、易读。同样，在制作网页时，要想使页面结构清晰、有条理，也需要对网页进行“排版”。<br>“版心”是指网页中主体内容所在的区域。一般在浏览器窗口中水平居中显示，常见的宽度值为960px、980px、1000px、1200px等。</p>
+</blockquote>
+<h3 id="布局流程"><a href="#布局流程" class="headerlink" title="布局流程"></a>布局流程</h3><p>为了提高网页制作的效率，布局时通常需要遵守一定的布局流程，具体如下：</p>
+<p>1、确定页面的版心（可视区）。</p>
+<p>2、分析页面中的行模块，以及每个行模块中的列模块。</p>
+<p>3、制作HTML页面，CSS文件。</p>
+<p>4、CSS初始化，然后开始运用盒子模型的原理，通过DIV+CSS布局来控制网页的各个模块。</p>
+<h3 id="一列固定宽度且居中"><a href="#一列固定宽度且居中" class="headerlink" title="一列固定宽度且居中"></a>一列固定宽度且居中</h3><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        * &#123;
+            margin: 0;
+            padding: 0;  /* 清除内外边距 css 第一讲句话 */
+        &#125;
+        /* 相同的样式，我们会想到 并集选择器 */
+        .top,
+        .banner,
+        .main,
+        .footer &#123;
+            width: 960px;
+            text-align: center; /* 文字居中对齐 */
+            margin: 0 auto; /* 可以让盒子居中对齐  只要保证 左右auto就阔以了 */
+            margin-bottom: 10px;
+            border: 1px dashed #ccc;
+        &#125;
+        .top &#123;		
+            height: 80px;
+            background-color: #EEE;									
+        &#125;
+        .banner &#123;
+            height: 120px;
+            background-color: #EEE;
+        &#125;
+        .main &#123;
+            height: 500px;
+            background-color: #EEE;
+        &#125;
+        .footer &#123;
+            height: 150px;
+            background-color: #EEE;
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class=&quot;top&quot;&gt;top&lt;/div&gt;
+    &lt;div class=&quot;banner&quot;&gt;banner&lt;/div&gt;
+    &lt;div class=&quot;main&quot;&gt;main&lt;/div&gt;
+    &lt;div class=&quot;footer&quot;&gt;footer&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/%E5%B8%83%E5%B1%801.png"><br>最普通的，最为常用的结构</p>
+<h3 id="两列左窄右宽型"><a href="#两列左窄右宽型" class="headerlink" title="两列左窄右宽型"></a>两列左窄右宽型</h3><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        * &#123;
+            margin: 0;
+            padding: 0;
+        &#125;
+        .top,  /* 并集选择器给相同样式集体声明 */
+        .banner,
+        .main,
+        .footer &#123;
+            width: 960px;
+            margin: 0 auto;
+            border: 1px dashed #ccc;
+            text-align: center;
+            background-color: #eee;
+            margin-bottom: 8px;
+        &#125;
+        .top &#123;
+            height: 80px;
+        &#125;
+        .banner &#123;
+            height: 150px;
+        &#125;
+         .main &#123;
+            height: 500px;
+        &#125; 
+        .left &#123;
+            width: 360px;
+            height: 500px;
+            background-color: #eee;
+            float: left;
+
+        &#125;
+        .right &#123;
+            width: 592px;
+            height: 500px;
+            background-color: #eee;
+            float: right;
+        &#125;
+        .footer &#123;
+            height: 120px;
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class=&quot;top&quot;&gt;top&lt;/div&gt;
+    &lt;div class=&quot;banner&quot;&gt;banner&lt;/div&gt;
+    &lt;div class=&quot;main&quot;&gt;
+        &lt;div class=&quot;left&quot;&gt;left&lt;/div&gt;
+        &lt;div class=&quot;right&quot;&gt;right&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;footer&quot;&gt;footer&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/%E5%B8%83%E5%B1%802.png"><br>比如小米    <a href="http://www.mi.com" target="_blank"> 小米官网 </a></p>
+<h3 id="通栏平均分布型"><a href="#通栏平均分布型" class="headerlink" title="通栏平均分布型"></a>通栏平均分布型</h3><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        * &#123;
+            margin: 0;
+            padding: 0;
+        &#125;
+        ul &#123;
+            list-style: none;  /* 取消列表的默认样式小点 */
+        &#125;
+        .top &#123;
+            height: 60px;
+            background-color: #000;
+        &#125;
+        .banner &#123;
+            width: 960px;
+            height: 400px;
+            background-color: skyblue;
+            margin: 20px auto;
+            border-radius: 15px;
+        &#125;
+        .main &#123;
+            width: 960px;
+            margin: 0 auto;
+            height: 200px;
+        &#125;
+        .main ul li &#123;
+            width: 240px;
+            height: 200px;
+            background-color: pink;
+            float: left;  /* 浮动的目的让多个块级li 一行显示 而且米有缝隙呦 */
+        &#125;
+        .main ul li:nth-child(even) &#123;  /* even 偶数  个  odd  奇数 */
+            background-color: purple;
+        &#125;
+        .footer &#123;
+            height: 100px;
+            background-color: #000;
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class=&quot;top&quot;&gt;top&lt;/div&gt;
+    &lt;div class=&quot;banner&quot;&gt;banner&lt;/div&gt;
+    &lt;div class=&quot;main&quot;&gt;
+        &lt;ul&gt;
+            &lt;li&gt;1&lt;/li&gt;
+            &lt;li&gt;2&lt;/li&gt;
+            &lt;li&gt;3&lt;/li&gt;
+            &lt;li&gt;4&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;main&quot;&gt;
+        &lt;ul&gt;
+            &lt;li&gt;1&lt;/li&gt;
+            &lt;li&gt;2&lt;/li&gt;
+            &lt;li&gt;3&lt;/li&gt;
+            &lt;li&gt;4&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;footer&quot;&gt;footer&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/%E5%B8%83%E5%B1%803.png"><br>比如锤子    <a href="http://www.smartisan.com/" target="_blank"> 锤子官网 </a></p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2015-01-04T11:56:36.000Z" title="2015/1/4 下午7:56:36">2015-01-04</time>发表</span><span class="level-item"><time dateTime="2020-04-24T07:00:13.141Z" title="2020/4/24 下午3:00:13">2020-04-24</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span> / </span><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/CSS/">CSS</a></span><span class="level-item">26 分钟读完 (大约3862个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2015/01/04/%E5%89%8D%E7%AB%AF/css/css04/">CSS第四篇</a></h1><div class="content"><h2 id="CSS盒模型及应用"><a href="#CSS盒模型及应用" class="headerlink" title="CSS盒模型及应用"></a>CSS盒模型及应用</h2><p><strong>其实，CSS就三个大模块：  盒子模型 、 浮动 、 定位，其余的都是细节</strong>。<br>所谓盒子模型就是把HTML页面中的元素看作是一个矩形的盒子，也就是一个盛装内容的容器。每个矩形都由元素的内容、内边距（padding）、边框（border）和外边距（margin）组成。</p>
+<h3 id="看透网页布局的本质"><a href="#看透网页布局的本质" class="headerlink" title="看透网页布局的本质"></a>看透网页布局的本质</h3><p>看透网页布局的本质：  把网页元素比如文字图片等等，放入盒子里面，然后利用CSS摆放盒子的过程，就是网页布局。<br>CSS 其实没有太多逻辑可言 ， 类似我们小时候玩的积木,我们可以自由的，随意的摆放出我们想要的效果。</p>
+<h3 id="盒子模型（Box-Model）"><a href="#盒子模型（Box-Model）" class="headerlink" title="盒子模型（Box Model）"></a>盒子模型（Box Model）</h3><p>所有的文档元素（标签）都会生成一个矩形框，我们成为元素框（element box），它描述了一个文档元素再网页布局汇总所占的位置大小。因此，<strong>每个盒子除了有自己大小和位置外，还影响着其他盒子的大小和位置。</strong></p>
+<h3 id="盒子边框（border）"><a href="#盒子边框（border）" class="headerlink" title="盒子边框（border）"></a>盒子边框（border）</h3><p>边框就是那层皮。  橘子皮。。柚子皮。。橙子皮。。。<br>语法： </p>
+<pre><code class="line-numbers language-css">border : border-width || border-style || border-color 
+</code></pre>
+<p>边框属性—设置边框样式（border-style）<br>边框样式用于定义页面中边框的风格，常用属性值如下：</p>
+<pre><code>none：没有边框即忽略所有边框的宽度（默认值）
+solid：边框为单实线(最为常用的)
+dashed：边框为虚线
+dotted：边框为点线
+double：边框为双实线
+</code></pre>
+<h4 id="表格的细线边框"><a href="#表格的细线边框" class="headerlink" title="表格的细线边框"></a>表格的细线边框</h4><p>示例表格边框发现很粗 </p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+    table&#123;
+        border: 1px solid red;
+        widows: 700px;
+        height: 300px;	
+    &#125;
+    td&#123;
+        border: 1px solid red;
+    &#125;
+    &lt;/style&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>效果<br><img src="/images/css/%E7%B2%97%E8%BE%B9%E6%A1%86.png"><br>发现边框是2px。</p>
+<p><strong>解决</strong>：<br>table{ border-collapse:collapse; }<br>border-collapse:collapse; <strong>表示边框合并在一起</strong>。</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+    table&#123;
+        border: 1px solid red;
+        widows: 700px;
+        height: 300px;	
+        border-collapse: collapse; /*合并相邻边框*/
+    &#125;
+    td&#123;
+        border: 1px solid red;
+    &#125;
+    &lt;/style&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+            &lt;td&gt;123456&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>效果 合并相邻边框<br><img src="/images/css/%E7%BB%86%E8%BE%B9%E6%A1%86.png"></p>
+<p><strong>盒子边框总结表</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>设置内容</td>
+<td>样式属性</td>
+<td>常用属性值</td>
+</tr>
+<tr>
+<td>上边框</td>
+<td>border-top-style:样式; border-top-width:宽度;border-top-color:颜色;border-top:宽度 样式 颜色;</td>
+<td></td>
+</tr>
+<tr>
+<td>下边框</td>
+<td>border-bottom-style:样式;border- bottom-width:宽度;border- bottom-color:颜色;border-bottom:宽度 样式 颜色;</td>
+<td></td>
+</tr>
+<tr>
+<td>左边框</td>
+<td>border-left-style:样式; border-left-width:宽度;border-left-color:颜色;border-left:宽度 样式 颜色;</td>
+<td></td>
+</tr>
+<tr>
+<td>右边框</td>
+<td>border-right-style:样式;border-right-width:宽度;border-right-color:颜色;border-right:宽度 样式 颜色;</td>
+<td></td>
+</tr>
+<tr>
+<td>样式综合设置</td>
+<td>border-style:上边 [右边 下边 左边];</td>
+<td>none无（默认）、solid单实线、dashed虚线、dotted点线、double双实线</td>
+</tr>
+<tr>
+<td>宽度综合设置</td>
+<td>border-width:上边 [右边 下边 左边];</td>
+<td>像素值</td>
+</tr>
+<tr>
+<td>颜色综合设置</td>
+<td>border-color:上边 [右边 下边 左边];</td>
+<td>颜色值、#十六进制、rgb(r,g,b)、rgb(r%,g%,b%)</td>
+</tr>
+<tr>
+<td>边框综合设置</td>
+<td>border:四边宽度 四边样式 四边颜色;</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="圆角边框-CSS3"><a href="#圆角边框-CSS3" class="headerlink" title="圆角边框(CSS3)"></a>圆角边框(CSS3)</h4><p>从此以后，我们的世界不只有矩形。<br>语法格式：</p>
+<pre><code class="line-numbers language-css">Border-radius: 水平半径/垂直半径；
+</code></pre>
+<p> 一般我们垂直半径都是省略的默认和水平半径一样。</p>
+<pre><code class="line-numbers language-css">border-radius: 左上角  右上角  右下角  左下角;
+</code></pre>
+<p>示例</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+     div&#123;
+         width: 100px;
+         height: 100px;
+         border: 1px solid red;
+         border-collapse: collapse;
+     &#125;
+     div:first-child&#123;
+         border-radius: 20px; 表示 左上，右上，右下，左下 均是20px
+     &#125;
+     div:nth-child(2)&#123;
+       border-radius: 50%; /*取宽度和高度的一半，则变成了圆*/
+     &#125;
+     div:nth-child(3)&#123;
+       border-radius: 10px 40px; 表示 左上，右下均是10px，右上，左下 均是40px
+     &#125;
+     div:nth-child(4)&#123;
+       border-radius: 10px 40px 80px; 表示 左上是10px，右上，左下 均是40px， 右下是80px
+     &#125;
+   div:nth-child(5)&#123;
+         border-radius: 50%; /*取宽度和高度的一半，则变成了圆*/
+         height: 50px; /*行高变为一半，把圆压扁成胶囊形状了*/
+     &#125;
+    &lt;/style&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>效果：<br><img src="/images/css/%E7%9B%92%E5%AD%90%E5%8D%8A%E5%BE%84.png"></p>
+<h3 id="内边距（padding）"><a href="#内边距（padding）" class="headerlink" title="内边距（padding）"></a>内边距（padding）</h3><p>padding属性用于设置内边距。  是指 边框与内容之间的距离。</p>
+<p>padding-top:上内边距<br>padding-right:右内边距<br>padding-bottom:下内边距<br>padding-left:左内边距</p>
+<p>注意：  后面跟几个数值表示的意思是不一样的。</p>
+<table>
+<thead>
+<tr>
+<th>值的个数</th>
+<th>表达意思</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1个值</td>
+<td>padding：上下左右边距 比如padding: 3px; 表示上下左右都是3像素</td>
+</tr>
+<tr>
+<td>2个值</td>
+<td>padding: 上下边距 左右边距 比如 padding: 3px 5px; 表示 上下3像素 左右 5像素</td>
+</tr>
+<tr>
+<td>3个值</td>
+<td>padding：上边距 左右边距 下边距 比如 padding: 3px 5px 10px; 表示 上是3像素 左右是5像素 下是10像素</td>
+</tr>
+<tr>
+<td>4个值</td>
+<td>padding:上内边距 右内边距 下内边距 左内边距 比如: padding: 3px 5px 10px 15px; 表示 上3px 右是5px 下 10px 左15px 顺时针</td>
+</tr>
+</tbody></table>
+<h4 id="内边距运用–新浪导航栏示例"><a href="#内边距运用–新浪导航栏示例" class="headerlink" title="内边距运用–新浪导航栏示例"></a>内边距运用–新浪导航栏示例</h4><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+            body&#123;
+                margin: 0 auto;
+                padding: 0;
+            &#125;
+        nav &#123;
+            height: 41px;
+            background-color: #FCFCFC;
+            border-top: 3px solid #FF8500;  /* 上边框 */
+            border-bottom: 1px solid #EDEEF0;  /* 下边框 */
+        &#125;
+        nav a &#123;
+            font-size: 14px;
+            color: #4C4C4C;
+            text-decoration: none; /*  取消下划线 */
+            padding: 0 15px;  /* 上下是0  左右是 15  */
+            height: 41px;
+            line-height: 41px; /* 行高等于高度可以文字垂直居中 */
+            /* 因为链接是行内元素么有大小  所以需要转换  行内块 */
+            display: inline-block;
+        &#125;
+        nav a:hover &#123;  /* 链接伪类选择器  鼠标经过a链接的时候 */
+            background-color: #eee;
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;nav&gt;
+        &lt;a href=&quot;#&quot;&gt;首页&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;手机新浪网&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;网站导航&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;三个字&lt;/a&gt;
+    &lt;/nav&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>效果：<br><img src="/images/css/%E5%86%85%E8%BE%B9%E8%B7%9D%E8%BF%90%E7%94%A8%E6%96%B0%E6%B5%AA%E5%AF%BC%E8%88%AA%E9%97%B4%E9%9A%94.png"></p>
+<h3 id="外边距（margin）"><a href="#外边距（margin）" class="headerlink" title="外边距（margin）"></a>外边距（margin）</h3><p>margin属性用于设置外边距。  设置外边距会在元素之间创建“空白”， 这段空白通常不能放置其他内容。<br>margin-top:上外边距<br>margin-right:右外边距<br>margin-bottom:下外边距<br>margin-left:左外边距</p>
+<p>margin:上外边距 右外边距  下外边距  左外边</p>
+<p>取值顺序跟内边距相同。</p>
+<h4 id="外边距实现盒子居中"><a href="#外边距实现盒子居中" class="headerlink" title="外边距实现盒子居中"></a>外边距实现盒子居中</h4><p>可以让一个盒子实现水平居中，需要满足一下两个条件：</p>
+<ol>
+<li>必须是块级元素。     </li>
+<li>盒子必须指定了宽度（width）</li>
+</ol>
+<p>然后就给左右的外边距都设置为auto，就可使块级元素水平居中。</p>
+<p>实际工作中常用这种方式进行网页布局，示例代码如下：</p>
+<pre><code class="line-numbers language-css">.header&#123; width:960px; margin:0 auto;&#125;
+</code></pre>
+<h4 id="插入图片和背景图片控制"><a href="#插入图片和背景图片控制" class="headerlink" title="插入图片和背景图片控制"></a>插入图片和背景图片控制</h4><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style&gt;
+    div &#123;
+        width: 300px;
+        height: 100px;
+        border: 1px solid pink;
+        text-align: center; /*  文字居中水平 */
+        margin: 10px auto;  /* 盒子水平居中  左右margin 改为 auto 就阔以了 */
+    &#125;
+    section &#123;
+        width: 400px;
+        height: 400px;
+        border: 1px solid #000;
+    &#125;
+    section img &#123;  
+        width: 200px;/* 插入图片更改大小 width 和 height */
+        height: 210px;
+        margin-top: 30px;  /* 插入图片更改位置 可以用margin 或padding  盒模型 */
+        margin-left: 50px; /* 插入当图片也是一个盒子 */
+    &#125;
+
+    aside &#123;
+        width: 400px;
+        height: 400px;
+        border: 1px solid purple;
+        background: #fff url(images/sun.jpg) no-repeat;
+    
+        background-size: 200px 210px; /*  背景图片更改大小只能用 background-size */
+        background-position: 30px 50px; /* 背景图片更该位置 我用 background-position */
+    &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    1. 文字水平居中  和  盒子水平居中 
+    &lt;div&gt;文字水平居中&lt;/div&gt;
+    2. 插入图片和背景图片
+    &lt;section&gt;
+        &lt;img src=&quot;images/sun.jpg&quot; height=&quot;691&quot; width=&quot;721&quot; alt=&quot;&quot;&gt;123
+    &lt;/section&gt;
+
+    &lt;aside&gt;
+        123123123
+    &lt;/aside&gt;
+    3. 一般情况下，背景图片适合做一些小图标使用 
+       产品展示之类的就用插入图片
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h4 id="清除元素的默认内外边距"><a href="#清除元素的默认内外边距" class="headerlink" title="清除元素的默认内外边距"></a>清除元素的默认内外边距</h4><p>为了更方便地控制网页中的元素，制作网页时，可使用如下代码清除元素的默认内外边距： </p>
+<pre><code class="line-numbers language-css">* &#123;
+   padding:0;         /* 清除内边距 */
+   margin:0;          /* 清除外边距 */
+&#125;
+</code></pre>
+<p><strong>注意：  行内元素是只有左右内外边距的，是没有上下内外边距的</strong>。</p>
+<h3 id="外边距合并"><a href="#外边距合并" class="headerlink" title="外边距合并"></a>外边距合并</h3><p><strong>使用margin定义块元素的垂直外边距时，可能会出现外边距的合并。</strong></p>
+<h4 id="相邻块元素垂直外边距的合并"><a href="#相邻块元素垂直外边距的合并" class="headerlink" title="相邻块元素垂直外边距的合并"></a>相邻块元素垂直外边距的合并</h4><p>当上下相邻的两个块元素相遇时，如果上面的元素有下外边距margin-bottom，下面的元素有上外边距margin-top，<strong>则他们之间的垂直间距不是margin-bottom与margin-top之和，而是两者中的较大者</strong>。这种现象被称为相邻块元素垂直外边距的合并（也称<strong>外边距塌陷</strong>）。<br><img src="/images/css/%E5%A4%96%E8%BE%B9%E8%B7%9D%E5%9E%82%E7%9B%B4%E8%87%AA%E5%8A%A8%E6%8B%A9%E5%A4%A7%E5%8E%9F%E5%88%99.png"></p>
+<p>解决方案：  避免就好了。</p>
+<h4 id="嵌套块元素垂直外边距的合并"><a href="#嵌套块元素垂直外边距的合并" class="headerlink" title="嵌套块元素垂直外边距的合并"></a>嵌套块元素垂直外边距的合并</h4><p>对于两个嵌套关系的块元素，如果父元素没有上内边距及边框，则父元素的上外边距会与子元素的上外边距发生合并，<strong>合并后的外边距为两者中的较大者</strong>，即使父元素的上外边距为0，也会发生合并。</p>
+<p><img src="/images/css/%E5%B5%8C%E5%A5%97%E5%9E%82%E7%9B%B4%E5%A4%96%E8%BE%B9%E8%B7%9D%E5%90%88%E5%B9%B6.png"><br>问题现象示例：</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        #father&#123;
+            background-color: pink;
+            width: 200px;
+            height: 200px;
+            margin-top: 100px;
+        &#125;
+         #son&#123;
+            background-color:blue;
+            width: 50px;
+            height: 50px;
+            margin-top: 20px;
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;div id=&quot;father&quot;&gt;
+          &lt;div id=&quot;son&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/%E9%97%AE%E9%A2%98%E7%8E%B0%E8%B1%A1%E7%A4%BA%E4%BE%8B.png"></p>
+<p>解决方案：</p>
+<ol>
+<li><strong>可以为父元素定义1像素的上边框或上内边距。</strong></li>
+<li><strong>可以为父元素添加overflow:hidden。</strong><br>示例：<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+     &lt;meta charset=&quot;utf-8&quot;&gt;
+     &lt;style&gt;
+     #father&#123;
+         background-color: pink;
+         width: 200px;
+         height: 200px;
+         margin-top: 100px;
+         border: 1px solid pink; /*解决嵌套块元素外边距合并问题，父元素加一个 1px边框  或内边距1px*/
+         /*padding: 1px;*/
+         /*overflow: hidden; /*BFC机制也可以解决*/
+     &#125;
+      #son&#123;
+         background-color:blue;
+         width: 50px;
+         height: 50px;
+         margin-top: 20px;
+     &#125;
+     &lt;/style&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+   &lt;div id=&quot;father&quot;&gt;
+       &lt;div id=&quot;son&quot;&gt;&lt;/div&gt;
+   &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<img src="/images/css/%E9%97%AE%E9%A2%98%E7%8E%B0%E8%B1%A1%E8%A7%A3%E5%86%B31.png"><h3 id="content宽度和高度"><a href="#content宽度和高度" class="headerlink" title="content宽度和高度"></a>content宽度和高度</h3></li>
+</ol>
+<p>使用宽度属性width和高度属性height可以对盒子的大小进行控制。<br>width和height的属性值可以为不同单位的数值或相对于父元素的百分比%，实际工作中最常用的是像素值。<br>大多数浏览器，如Firefox、IE6及以上版本都采用了W3C规范，符合CSS规范的盒子模型的总宽度和总高度的计算原则是：<br><strong>外盒尺寸计算(元素空间尺寸)</strong></p>
+<pre><code>外盒尺寸计算(元素空间尺寸)
+盒子的总高度=content height + 上下内边距之和（pading）+ 上下边框宽度之和(border) + 上下外边距之和(margin)
+盒子的总宽度=content width + 左右内边距之和(pading) + 左右边框宽度之和(border) + 左右外边距之和(margin)
+</code></pre>
+<p><strong>实际计算只计算内盒尺寸(元素大小) 排除外边距</strong></p>
+<pre><code>盒子的总高度=content height + 上下内边距之和（pading）+ 上下边框宽度之和(border) 
+盒子的总宽度=content width + 左右内边距之和(pading) + 左右边框宽度之和(border)
+</code></pre>
+<p>注意：</p>
+<ol>
+<li>宽度属性width和高度属性height仅适用于块级元素，对行内元素无效（ img 标签和 input除外）。</li>
+<li>计算盒子模型的总高度时，还应考虑上下两个盒子垂直外边距合并的情况。</li>
+<li><strong>如果一个盒子没有给定宽度&#x2F;高度或者是继承了父亲的宽度&#x2F;高度，则padding不会影响本盒子大小。</strong><br>示例：<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+ &lt;meta charset=&quot;UTF-8&quot;&gt;
+ &lt;title&gt;&lt;/title&gt;
+ &lt;style&gt;
+ div &#123;
+     height: 30px;
+     border: 1px solid red;
+     padding-left: 20px; /* 因为这个盒子没有宽度 所以padding 不会影响盒子的宽度 */
+     padding-top: 10px;
+     /* width: 100%; */
+ &#125;
+ nav &#123;
+     width: 300px;
+     height: 40px;
+     border: 1px solid pink;
+ &#125;
+ p &#123;
+     /* 因为p没有指定宽度 则会默认和父亲一样宽 块级元素 */
+     height: 20px;
+     background-color: hotpink;
+     padding-left: 30px;  /* 此时padding 也不会影响盒子的宽度 */
+ &#125;
+ &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ &lt;div&gt;奔跑吧，兄弟&lt;/div&gt;
+ &lt;nav&gt;
+     &lt;p&gt;摔跤吧，爸爸&lt;/p&gt;
+ &lt;/nav&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<img src="/images/css/padding.png"><h3 id="综合例子运用"><a href="#综合例子运用" class="headerlink" title="综合例子运用"></a>综合例子运用</h3><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+     &lt;meta charset=&quot;utf-8&quot;&gt;
+     &lt;style&gt;
+     * &#123;  /* 清空默认的内外边距 几乎是我们写css 必须要写的 */
+         margin: 0;
+         padding: 0;
+     &#125;
+     ul &#123;
+         list-style: none; /* 取消列表自带的小点  默认的列表样式 */
+      &#125;
+     .searchPic &#123;
+         width: 238px;
+         height: 294px;
+         border: 1px solid #D9E0EE;
+         border-top: 3px solid #FF8400;  /* 这句话要放到 border 的下面 */
+         margin: 100px;
+     &#125;
+     .searchPic h3 &#123;
+         height: 35px;
+         line-height: 35px;  /* 让行高等于高度 ，可以让文字垂直居中 */
+         border-bottom: 1px solid #D9E0EE; 
+         font-size: 16px;
+         font-weight:  normal;  /*  让粗体不变粗 */
+         padding-left: 12px;  /* 因为这个h3我么没有给宽度 继承的父亲的宽度 padding就不会撑开盒子了 */
+     &#125;
+     .searchPic img &#123;
+         margin: 7px 0 0 8px; /*  上 右 下 左 */
+     &#125;
+     .searchPic ul li a &#123;
+         font-size: 12px;
+         color: #666;
+         text-decoration: none; /* 取消下划线 */
+     &#125;
+     .searchPic ul &#123;
+         margin-left: 8px;
+     &#125;
+     .searchPic ul li&#123;
+         padding-left: 10px;
+         height: 26px;
+         line-height: 26px;
+         background: url(images/square.png) no-repeat left center; /* 背景设置 */
+     &#125;
+     .searchPic ul li a:hover &#123;
+         text-decoration: underline;  /* 添加下划线 */
+         color: #ff8400;
+     &#125;
+     &lt;/style&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;div class=&quot;searchPic&quot;&gt;
+      &lt;h3&gt;搜索趣图&lt;/h3&gt;
+      &lt;img src=&quot;images/happy.gif&quot; height=&quot;160&quot; width=&quot;218&quot; alt=&quot;&quot;&gt;
+      &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;#&quot;&gt;GIF：小胖墩游泳被卡 被救后一脸无辜&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#&quot;&gt;GIF：小胖墩游泳被卡 被救后一脸无辜&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#&quot;&gt;GIF：小胖墩游泳被卡 被救后一脸无辜&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+  &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<img src="/images/css/%E6%90%9C%E7%B4%A2%E8%B6%A3%E5%9B%BE.png"></li>
+</ol>
+<h3 id="盒子模型布局稳定性"><a href="#盒子模型布局稳定性" class="headerlink" title="盒子模型布局稳定性"></a>盒子模型布局稳定性</h3><p>学习盒子模型，最大的困惑就是， 分不清内外边距的使用，什么情况下使用内边距，什么情况下使用外边距？<br>答案是：  其实他们大部分情况下是可以混用的。  就是说，你用内边距也可以，用外边距也可以。 你觉得哪个方便，就用哪个。<br>但是，总有一个最好用的吧，我们根据稳定性来分，建议如下：</p>
+<p><strong>按照 优先使用  宽度 （width）  其次 使用内边距（padding）    再次  外边距（margin）</strong>。   </p>
+<pre><code>  width &gt;  padding  &gt;   margin   
+</code></pre>
+<p>原因：</p>
+<ol>
+<li>margin 会有外边距合并 还有 ie6下面margin 加倍的bug（讨厌）所以最后使用。</li>
+<li>padding  会影响盒子大小， 需要进行加减计算（麻烦） 其次使用。</li>
+<li>width   没有问题（嗨皮）我们经常使用宽度剩余法 高度剩余法来做。</li>
+</ol>
+<h3 id="CSS3盒模型"><a href="#CSS3盒模型" class="headerlink" title="CSS3盒模型"></a>CSS3盒模型</h3><p>CSS3中可以通过box-sizing 来指定盒模型，即可指定为<strong>content-box</strong>、<strong>border-box</strong>，这样我们计算盒子大小的方式就发生了改变。</p>
+<p>可以分成两种情况：</p>
+<p>1、box-sizing: border-box  盒子大小为 width</p>
+<p>2、box-sizing: content-box  盒子大小为 width + padding + border</p>
+<p>注：上面的标注的width指的是CSS属性里设置的width: length，content的值是会自动调整的。</p>
+<pre><code class="line-numbers language-css">div &#123;
+  width: 100px;
+  height: 100px;
+  background: skyblue;
+  margin: 0 auto;
+  border: 1px solid gray;
+
+  /* 
+  默认的设置 如果我们添加了 border属性 该容器的大小会发生改变
+  因为他要优先保证内部的内容所占区域 不变
+  */
+
+  /*  
+  box-sizing  如果不设置 默认的值 就是 
+  content-box: 优先保证内容的大小 对盒子进行缩放;
+  border-box: 让 盒子 优先保证自己所占区域的大小,对内容进行压缩;
+  */
+  box-sizing: border-box;
+&#125;
+</code></pre>
+<h3 id="盒子阴影"><a href="#盒子阴影" class="headerlink" title="盒子阴影"></a>盒子阴影</h3><p>语法格式：</p>
+<pre><code class="line-numbers language-css">box-shadow:水平阴影位置 垂直阴影位置 模糊距离(模糊程度) 阴影尺寸(影子大小) 阴影颜色  内/外阴影；
+</code></pre>
+<ol>
+<li>前两个属性是必须写的。其余的可以省略。</li>
+<li><strong>外阴影 (outset) 但是不能写    默认</strong>      想要内阴影  inset</li>
+</ol>
+<pre><code class="line-numbers language-css">img &#123;
+  border:10px solid orange;
+  box-shadow:3px 3px 5px 4px rgba(0,0,0,1);
+&#125;
+</code></pre>
+<h4 id="盒子阴影综合运用–水晶图片"><a href="#盒子阴影综合运用–水晶图片" class="headerlink" title="盒子阴影综合运用–水晶图片"></a>盒子阴影综合运用–水晶图片</h4><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+        div &#123;
+            width: 249px;
+            height: 249px;
+            line-height: 249px;
+            background-color: pink;
+            margin: 100px;
+            background: url(images/shui.jpg) 0 0 no-repeat;
+            font-size: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);/*  颜色半透明 */
+            border-radius: 50%; /*  变成一个圆 圆角 */
+            box-shadow: 5px 5px 10px 16px rgba(255,255,255, 0.4) inset,  
+            7px 6px 9px rgba(0,0,0,0.3);/* 内阴影 */
+        &#125;
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div&gt; 水晶图片 &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>素材效果<br><img src="/images/css/%E6%B0%B4%E6%99%B6%E6%95%88%E6%9E%9C.png"></p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2015-01-03T08:56:36.000Z" title="2015/1/3 下午4:56:36">2015-01-03</time>发表</span><span class="level-item"><time dateTime="2020-04-23T11:51:53.278Z" title="2020/4/23 下午7:51:53">2020-04-23</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span> / </span><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/CSS/">CSS</a></span><span class="level-item">7 分钟读完 (大约1097个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2015/01/03/%E5%89%8D%E7%AB%AF/css/css03/">CSS第三篇</a></h1><div class="content"><h2 id="CSS三大特性"><a href="#CSS三大特性" class="headerlink" title="CSS三大特性"></a>CSS三大特性</h2><h3 id="层叠性"><a href="#层叠性" class="headerlink" title="层叠性"></a>层叠性</h3><pre><code class="line-numbers language-text">所谓层叠性是指多种CSS样式的叠加。
+
+是浏览器处理冲突的一个能力,如果一个属性通过两个选择器设置到同一个元素上，那么这个时候一个属性就会将另一个属性层叠掉
+
+比如先给某个标签指定了内部文字颜色为红色，接着又指定了颜色为蓝色，此时出现一个标签指定了相同样式不同值的情况，这就是样式冲突。
+
+一般情况下，如果出现样式冲突，则会按照CSS书写的顺序，以最后的样式为准。
+</code></pre>
+<h3 id="继承性"><a href="#继承性" class="headerlink" title="继承性"></a>继承性</h3><pre><code class="line-numbers language-text">所谓继承性是指书写CSS样式表时，子标签会继承父标签的某些样式，如文本颜色和字号。想要设置一个可继承的属性，只需将它应用于父元素即可。
+恰当地使用继承可以简化代码，降低CSS样式的复杂性。子元素可以继承父元素的样式（text-，font-，line-这些元素开头的都可以继承，以及color属性）。
+并不是所有的CSS属性都可以继承，例如，下面的属性就不具有继承性，边框，外边距，内边距，背景，定位，元素高属性。
+</code></pre>
+<h3 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h3><p>定义CSS样式时，经常出现两个或更多规则应用在同一元素上，这时就会出现优先级的问题。<br>在考虑权重时，初学者还需要注意一些特殊的情况，具体如下：</p>
+<pre><code class="line-numbers language-text">继承样式的权重为0。即在嵌套结构中，不管父元素样式的权重多大，被子元素继承时，他的权重都为0，也就是说子元素定义的样式会覆盖继承来的样式。
+行内样式优先。应用style属性的元素，其行内样式的权重非常高，可以理解为远大于100。总之，他拥有比上面提高的选择器都大的优先级。
+权重相同时，CSS遵循就近原则。也就是说靠近元素的样式具有最大的优先级，或者说排在最后的样式优先级最大。
+CSS定义了一个!important命令，该命令被赋予最大的优先级。也就是说不管权重如何以及样式位置的远近，!important都具有最大优先级。
+</code></pre>
+<h4 id="CSS特殊性（Specificity）"><a href="#CSS特殊性（Specificity）" class="headerlink" title="CSS特殊性（Specificity）"></a>CSS特殊性（Specificity）</h4><p>关于CSS权重，我们需要一套计算公式来去计算，这个就是 CSS Specificity，我们称为CSS 特性或称非凡性，它是一个衡量CSS值优先级的一个标准 具体规范入如下：</p>
+<p>specificity用一个四位的数 字串(CSS2是三位)来表示，更像四个级别，值从左到右，左面的最大，一级大于一级，数位之间没有进制，级别之间不可超越。 </p>
+<table>
+<thead>
+<tr>
+<th>继承或者* 的贡献值</th>
+<th>0,0,0,0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每个元素（标签）贡献值为</td>
+<td>0,0,0,1</td>
+</tr>
+<tr>
+<td>每个类，伪类贡献值为</td>
+<td>0,0,1,0</td>
+</tr>
+<tr>
+<td>每个ID贡献值为</td>
+<td>0,1,0,0</td>
+</tr>
+<tr>
+<td>每个行内样式贡献值</td>
+<td>1,0,0,0</td>
+</tr>
+<tr>
+<td>每个!important贡献值</td>
+<td>∞ 无穷大</td>
+</tr>
+</tbody></table>
+<p> 比如的例子：</p>
+<pre><code>div ul  li   ------&gt;      0,0,0,3
+
+.nav ul li   ------&gt;      0,0,1,2
+
+a:hover      -----—&gt;      0,0,1,1
+
+.nav a       ------&gt;      0,0,1,1   
+
+#nav p       -----&gt;       0,1,0,1
+</code></pre>
+<pre><code class="line-numbers language-text">注意： 数位之间没有进制 比如说： 0,0,0,5 + 0,0,0,5 =0,0,0,10 而不是 0,0, 1, 0， 所以不会存在10个div能赶上一个类选择器的情况。
+总结优先级：
+1. 使用了 !important声明的规则。
+2. 内嵌在 HTML 元素的 style属性里面的声明。
+3. 使用了 ID 选择器的规则。
+4. 使用了类选择器、属性选择器、伪元素和伪类选择器的规则。
+5. 使用了元素选择器的规则。
+6. 只包含一个通用选择器的规则。
+总结：权重是优先级的算法，层叠是优先级的表现
+</code></pre>
+<p> <strong>权重叠加示例：</strong></p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+     ul li &#123; /* ul权重 0，0，0，1； li权重 0，0，0，1； 叠加 0，0，0，2 ，所以最终显示颜色skyblue */
+         color: skyblue;
+     &#125;
+     li&#123; /*权重 0,0,0,1 */
+         color: red;
+     &#125;
+    &lt;/style&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;nav&gt;
+        &lt;ul&gt;
+            &lt;li&gt;首页&lt;/li&gt;
+            &lt;li&gt;新闻&lt;/li&gt;
+            &lt;li&gt;服务&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/nav&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>效果：<br><img src="/images/css/diejia.png"></p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2015-01-02T02:56:36.000Z" title="2015/1/2 上午10:56:36">2015-01-02</time>发表</span><span class="level-item"><time dateTime="2020-04-23T10:18:39.052Z" title="2020/4/23 下午6:18:39">2020-04-23</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span> / </span><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/CSS/">CSS</a></span><span class="level-item">20 分钟读完 (大约2929个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2015/01/02/%E5%89%8D%E7%AB%AF/css/css02/">CSS第二篇</a></h1><div class="content"><h2 id="CSS复合选择器"><a href="#CSS复合选择器" class="headerlink" title="CSS复合选择器"></a>CSS复合选择器</h2><p><strong>复合选择器</strong>是由<strong>两个或多个基础选择器</strong>，通过<strong>不同的方式组合</strong>而成的,目的是为了可以选择更准确更精细的目标元素标签。</p>
+<h3 id="交集选择器"><a href="#交集选择器" class="headerlink" title="交集选择器"></a>交集选择器</h3><p><strong>交集选择器</strong>由<strong>两个选择器</strong>构成，其中<strong>第一个为标签选择器</strong>，<strong>第二个为class选择器</strong>，两个选择器之间<strong>不能有空格</strong>，如h3.special。</p>
+<p><strong>记忆技巧：</strong></p>
+<p>交集选择器 是 并且的意思。  即…又…的意思</p>
+<pre><code>比如：   p.one   选择的是： 类名为 .one  的 段落标签。  
+</code></pre>
+<p>用的相对来说比较少，不太建议使用。<br>示例：</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        .singer&#123;
+            color: red
+        &#125;
+        /*交集选择器运用，把港澳歌手加粗*/
+        div.singer&#123;
+            font-weight: 700;
+        &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;singer&quot;&gt;刘德华&lt;/div&gt;
+    &lt;div class=&quot;singer&quot;&gt;张学友&lt;/div&gt;
+    &lt;p class=&quot;singer&quot;&gt;汪峰&lt;/p&gt;
+    &lt;p class=&quot;singer&quot;&gt;王菲&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="并集选择器"><a href="#并集选择器" class="headerlink" title="并集选择器"></a>并集选择器</h3><p>并集选择器（CSS选择器分组）是各个选择器通过<strong style="color:#f00">逗号</strong>连接而成的，任何形式的选择器（包括标签选择器、class类选择器id选择器等），都可以作为并集选择器的一部分。如果某些选择器定义的样式完全相同，或部分相同，就可以利用并集选择器为它们定义相同的CSS样式。</p>
+<p>记忆技巧：</p>
+<p>并集选择器  和 的意思，  就是说，只要逗号隔开的，所有选择器都会执行后面样式。</p>
+<pre><code>比如  .one, p , #test &#123;color: #F00;&#125;  表示   .one 和 p  和 #test 这三个选择器都会执行颜色为红色。  通常用于集体声明。
+</code></pre>
+<h3 id="后代选择器"><a href="#后代选择器" class="headerlink" title="后代选择器"></a>后代选择器</h3><p>后代选择器又称为包含选择器，用来选择元素或元素组的后代，其写法就是把外层标签写在前面，内层标签写在后面，中间用空格分隔。当标签发生嵌套时，内层标签就成为外层标签的后代。</p>
+<p>子孙后代都可以这么选择。 或者说，它能选择任何包含在内 的标签。<br>示例:</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        /*后代选择器示例*/
+       .nav ul li&#123;
+           color: red
+       &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- 导航栏的菜单全部采用红色 --&gt;
+    &lt;div class=&quot;nav&quot;&gt;
+        &lt;ul&gt;
+            &lt;li&gt;首页&lt;/li&gt;
+            &lt;li&gt;频道&lt;/li&gt;
+            &lt;li&gt;服务&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;ul&gt;
+            &lt;li&gt;百度&lt;/li&gt;
+            &lt;li&gt;新浪&lt;/li&gt;
+            &lt;li&gt;搜狐&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="子元素选择器"><a href="#子元素选择器" class="headerlink" title="子元素选择器"></a>子元素选择器</h3><p>子元素选择器只能选择作为某元素子元素的元素。其写法就是把父级标签写在前面，子级标签写在后面，中间跟一个 &gt; 进行连接，注意，符号左右两侧各保留一个空格。<br>白话：  这里的子 指的是 亲儿子  不包含孙子 重孙子之类。</p>
+<pre><code> 比如：  .demo &gt; h3 &#123;color: red;&#125;   说明  h3 一定是demo 亲儿子。  demo 元素包含着h3。
+</code></pre>
+<p>示例:</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        /*后代选择器全部黑色显示 */
+     .nav li &#123;
+     	color: black;
+     &#125;	
+   /*   子元素选择器 一级菜单变为红色显示 */
+     .nav &gt; li &#123;
+         color: red;
+     &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- 导航栏的菜单全部采用红色 --&gt;
+    &lt;div class=&quot;head&quot;&gt;
+        &lt;ul class=&quot;nav&quot;&gt;
+            &lt;li&gt;
+                一级菜单
+                &lt;ul&gt;
+                    &lt;li&gt;二级菜单&lt;/li&gt;
+                    &lt;li&gt;二级菜单&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                一级菜单
+                &lt;ul&gt;
+                    &lt;li&gt;二级菜单&lt;/li&gt;
+                    &lt;li&gt;二级菜单&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                一级菜单
+                &lt;ul&gt;
+                    &lt;li&gt;二级菜单&lt;/li&gt;
+                    &lt;li&gt;二级菜单&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/%E5%AD%90%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8.png"></p>
+<h3 id="综合使用示例"><a href="#综合使用示例" class="headerlink" title="综合使用示例"></a>综合使用示例</h3><p>需求：</p>
+<pre><code class="line-numbers language-text">在不修改以下代码的前提下，完成以下任务：
+1. 链接 登录 的颜色为红色。     
+2. 主导航栏里面的文字颜色为绿色。
+3. 主导航栏和侧导航栏里面文字都是16像素并且是微软雅黑。
+4. 一级菜单显示改为天蓝色。
+</code></pre>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        /*后代选择器使用*/
+        .site-r a &#123;
+            color: red;
+        &#125;
+        /*后代选择器使用*/
+        .nav ul li a &#123;
+            color: green;
+        &#125;
+        /*并集元素选择器使用*/
+        .nav,sitenav&#123;
+            /*font-size: 16px;
+            font-family: microsoft yahei;*/
+            font: 16px microsoft yahei;
+        &#125;
+        /*子元素选择器使用*/
+        .nav &gt; ul &gt; li &gt; a &#123;
+            color: skyblue;
+        &#125;
+    &lt;/style&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;nav&quot;&gt;    &lt;!-- 主导航栏 --&gt;
+          &lt;ul&gt;
+                &lt;li&gt; &lt;a href=&quot;&quot;&gt;公司首页&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt; &lt;a href=&quot;&quot;&gt;公司简介&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt; &lt;a href=&quot;&quot;&gt;公司产品&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt; &lt;a href=&quot;&quot;&gt;联系我们&lt;/a&gt;
+                    &lt;ul&gt;
+                        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;公司邮箱&lt;/a&gt;&lt;/li&gt;
+                        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;公司电话&lt;/a&gt;&lt;/li&gt;
+                    &lt;/ul&gt;
+                &lt;/li&gt;
+          &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;sitenav&quot;&gt;    &lt;!-- 侧导航栏 --&gt;
+      &lt;div class=&quot;site-l&quot;&gt;左侧侧导航栏&lt;/div&gt;
+      &lt;div class=&quot;site-r&quot;&gt;&lt;a href=&quot;#&quot;&gt;登录&lt;/a&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/%E7%BB%BC%E5%90%88%E9%80%89%E6%8B%A9%E5%99%A8%E8%BF%90%E7%94%A8.png"></p>
+<h3 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h3><table>
+<thead>
+<tr>
+<th>**选择器</th>
+<th>**示例</th>
+<th>**含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>E[attr]</strong>****</td>
+<td></td>
+<td>存在attr属性即可</td>
+</tr>
+<tr>
+<td><strong>E[attr&#x3D;val]</strong>****</td>
+<td></td>
+<td>属性值完全等于val</td>
+</tr>
+<tr>
+<td><strong>E[attr*&#x3D;val]</strong>****</td>
+<td></td>
+<td>属性值里包含val字符并且在“任意”位置</td>
+</tr>
+<tr>
+<td><strong>E[attr^&#x3D;val]</strong>****</td>
+<td></td>
+<td>属性值里包含val字符并且在“开始”位置</td>
+</tr>
+<tr>
+<td><strong>E[attr$&#x3D;val]</strong>****</td>
+<td></td>
+<td>属性值里包含val字符并且在“结束”位置</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-css">/* 获取到 拥有 该属性的元素 */
+li[type] &#123;
+  border: 1px solid gray;
+&#125;
+/* 获取 属性等于某个值的 元素 属性值 可以使用 引号进行包裹 */
+li[type=&quot;vegetable&quot;] &#123;
+  background-color: green;
+&#125;
+/* 使用空格分隔的 多个属性 其中有某个属性即可获取 */
+li[type~=&quot;hot&quot;] &#123;
+  font-size: 40px;
+&#125;
+/* 获取以某个属性开头的语法  */
+li[color^=&#39;green&#39;] &#123;
+  background-color: orange;
+&#125;
+/* 获取以某个值 结尾的属性 */
+li[type$=&#39;t&#39;]&#123;
+  color: hotpink;
+  font-weight: 900;
+&#125;
+
+/* 获取 属性中 拥有某个值的 元素 */
+li[type*=ea] &#123;
+  font-size: 100px;
+&#125;
+/*  如果属性的值 只有very 也能够获取  用来获取 多个属性 并且 使用-连接 */
+li[price|=&#39;very&#39;] &#123;
+  background-color: darkred;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-html">&lt;ul&gt;
+  &lt;li type=&#39;fruit&#39; color=&#39;green&#39;&gt;西瓜&lt;/li&gt;
+  &lt;li type=&#39;vegetable&#39; color=&#39;greenyellow&#39;&gt;西兰花&lt;/li&gt;
+  &lt;li type=&#39;meat&#39;&gt;牛肉&lt;/li&gt;
+  &lt;li type=&#39;meat hot&#39;&gt;猪肉&lt;/li&gt;
+  &lt;li type=&#39;drink hot&#39;&gt;可乐&lt;/li&gt;
+  &lt;li type=&#39;drink hot&#39;&gt;雪碧&lt;/li&gt;
+  &lt;li price=&#39;very-cheap&#39;&gt;红酒&lt;/li&gt;
+  &lt;li price=&#39;very&#39;&gt;白酒&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<h3 id="伪元素选择器（CSS3"><a href="#伪元素选择器（CSS3" class="headerlink" title="伪元素选择器（CSS3)"></a>伪元素选择器（CSS3)</h3><ol>
+<li>E::first-letter文本的第一个单词或字（如中文、日文、韩文等）</li>
+<li>E::first-line 文本第一行；</li>
+<li>E::selection 可改变选中文本的样式；</li>
+</ol>
+<pre><code class="line-numbers language-css">p::first-letter &#123;
+  font-size: 20px;
+  color: hotpink;
+&#125;
+
+/* 首行特殊样式 */
+p::first-line &#123;
+  color: skyblue;
+&#125;
+
+p::selection &#123;
+  /* font-size: 50px; */
+  color: orange;
+&#125;
+</code></pre>
+<p>示例：</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        p::first-letter&#123;
+            color: red;
+            font: 50px microsoft yahei;
+        &#125;
+        p::first-line&#123;
+            color: green
+        &#125;
+        p::selection&#123;
+            color: pink
+        &#125;
+    &lt;/style&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;p&gt;
+    李敖（1935年4月25日－2018年3月18日），男，字敖之，出生于黑龙江省哈尔滨市，思想家，自由主义大师，国学大师，中国近代史学者，时事批评家，台湾作家，历史学家，诗人；台湾省无党派人士，曾任台湾“立法委员”，2008年任满，宣布退出台湾省政坛。因其文笔犀利、批判色彩浓厚，嬉笑怒骂皆成文章，所以自诩为“中国白话文第一人”。
+    &lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/%E4%BC%AA%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8.png"></p>
+<p>4、E::before和E::after</p>
+<p>在E元素内部的开始位置和结束位创建一个元素，该元素为行内元素，且必须要结合content属性使用。</p>
+<pre><code class="line-numbers language-css">div::befor &#123;
+  content:&quot;开始&quot;;
+&#125;
+div::after &#123;
+  content:&quot;结束&quot;;
+&#125;
+</code></pre>
+<p>示例：</p>
+<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+      div::before&#123; /*before 和 after在盒子div 的内部前面插入或者是内部后面插入*/
+          content: &quot;俺在&quot;;
+      &#125;
+      div::after&#123;
+          content: &quot;度假&quot;;
+      &#125;
+    &lt;/style&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;杭州&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/%E4%BC%AA%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A82.png"></p>
+<p>E:after、E:before 在旧版本里是伪元素，CSS3的规范里“:”用来表示伪类，“::”用来表示伪元素，但是在高版本浏览器下E:after、E:before会被自动识别为E::after、E::before，这样做的目的是用来做兼容处理。</p>
+<p>E:after、E:before后面的练习中会反复用到，目前只需要有个大致了解</p>
+<p>“:” 与 “::” 区别在于区分伪类和伪元素</p>
+<h2 id="CSS背景-backgroud"><a href="#CSS背景-backgroud" class="headerlink" title="CSS背景(backgroud)"></a>CSS背景(backgroud)</h2><p>CSS 可以添加背景颜色和背景图片，以及来进行图片设置。</p>
+<table>
+<thead>
+<tr>
+<th>background-color</th>
+<th>背景颜色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>background-image</td>
+<td>背景图片地址</td>
+</tr>
+<tr>
+<td>background-repeat</td>
+<td>是否平铺</td>
+</tr>
+<tr>
+<td>background-position</td>
+<td>背景位置</td>
+</tr>
+<tr>
+<td>background-attachment</td>
+<td>背景固定还是滚动</td>
+</tr>
+<tr>
+<td>背景的合写（复合属性）</td>
+<td></td>
+</tr>
+<tr>
+<td>background:背景颜色 背景图片地址 背景平铺 背景滚动 背景位置</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="背景图片-image"><a href="#背景图片-image" class="headerlink" title="背景图片(image)"></a>背景图片(image)</h3><p>语法： </p>
+<pre><code class="line-numbers language-css">background-image : none | url (url) 
+</code></pre>
+<p>参数：<br>none : 　无背景图（默认的）<br>url : 　使用绝对或相对地址指定背景图像<br>background-image 属性允许指定一个图片展示在背景中（只有CSS3才可以多背景）可以和 background-color 连用。 如果图片不重复地话，图片覆盖不到地地方都会被背景色填充。 如果有背景图片平铺，则会覆盖背景颜色。</p>
+<p><strong>小技巧</strong>：  我们提倡 背景图片后面的地址，url不要加引号。</p>
+<h3 id="背景平铺-repeat"><a href="#背景平铺-repeat" class="headerlink" title="背景平铺(repeat)"></a>背景平铺(repeat)</h3><p>语法： </p>
+<pre><code class="line-numbers language-css">background-repeat : repeat | no-repeat | repeat-x | repeat-y 
+</code></pre>
+<p>参数：<br>repeat : 　背景图像在纵向和横向上平铺（默认的）<br>no-repeat : 　背景图像不平铺<br>repeat-x : 　背景图像在横向上平铺<br>repeat-y : 　背景图像在纵向平铺<br>设置背景图片时，默认把图片在水平和垂直方向平铺以铺满整个元素。<br>repeat-x : 　背景图像在横向上平铺 </p>
+<h3 id="背景位置-position"><a href="#背景位置-position" class="headerlink" title="背景位置(position)"></a>背景位置(position)</h3><p>语法： </p>
+<pre><code class="line-numbers language-css">background-position : length || length
+background-position : position || position 
+</code></pre>
+<p>参数：<br>length : 　百分数 | 由浮点数字和单位标识符组成的长度值。请参阅长度单位<br>position : 　top | center | bottom | left | center | right </p>
+<p>说明：<br>设置或检索对象的背景图像位置。必须先指定background-image属性。默认值为：(0% 0%)。<br>如果只指定了一个值，该值将用于横坐标。纵坐标将默认为50%。第二个值将用于纵坐标。</p>
+<p>注意：</p>
+<ol>
+<li>position 后面是x坐标和y坐标。 可以使用方位名词或者 精确单位。</li>
+<li>如果和精确单位和方位名字混合使用，则必须是x坐标在前，y坐标后面。比如 background-position: 15px top;   则 15px 一定是  x坐标   top是 y坐标。</li>
+</ol>
+<p>实际工作用的最多的，就是背景图片居中对齐了。</p>
+<h3 id="背景附着-attachment"><a href="#背景附着-attachment" class="headerlink" title="背景附着(attachment)"></a>背景附着(attachment)</h3><p>语法： </p>
+<pre><code class="line-numbers language-css">background-attachment : scroll | fixed 
+</code></pre>
+<p>参数：<br>scroll : 　背景图像是随对象内容滚动<br>fixed : 　背景图像固定 </p>
+<p>说明：<br>设置或检索背景图像是随对象内容滚动还是固定的。</p>
+<h3 id="背景简写"><a href="#背景简写" class="headerlink" title="背景简写"></a>背景简写</h3><p>background属性的值的书写顺序官方并没有强制标准的。为了可读性，建议大家如下写：<br>background:背景颜色 背景图片地址 背景平铺 背景滚动 背景位置</p>
+<pre><code class="line-numbers language-css">background: transparent url(image.jpg) repeat-y  scroll 50% 0 ;
+</code></pre>
+<h3 id="背景透明-CSS3"><a href="#背景透明-CSS3" class="headerlink" title="背景透明(CSS3)"></a>背景透明(CSS3)</h3><p>CSS3支持背景半透明的写法语法格式是:</p>
+<pre><code class="line-numbers language-css">background: rgba(0,0,0,0.3);
+</code></pre>
+<p> 最后一个参数是alpha 透明度  取值范围 0~1之间<br> 注意：  背景半透明是指盒子背景半透明， 盒子里面的内容不收影响。<br>同样， 可以给 文字和边框透明  都是 rgba 的格式来写。</p>
+<pre><code class="line-numbers language-css">color:rgba(0,0,0,0.3);
+border: 1px solid rgba(0,0,0,0.3);
+</code></pre>
+<h3 id="背景缩放-CSS3"><a href="#背景缩放-CSS3" class="headerlink" title="背景缩放(CSS3)"></a>背景缩放(CSS3)</h3><p>通过background-size设置背景图片的尺寸，就像我们设置img的尺寸一样，在移动Web开发中做屏幕适配应用非常广泛。</p>
+<p>其参数设置如下：<br>a) 可以设置长度单位(px)或百分比（设置百分比时，参照盒子的宽高）<br>b) 设置为cover时，会自动调整缩放比例，保证图片始终填充满背景区域，如有溢出部分则会被隐藏。<br>c) 设置为contain会自动调整缩放比例，保证图片始终完整显示在背景区域。</p>
+<pre><code class="line-numbers language-css">background-image: url(&#39;images/gyt.jpg&#39;);
+            background-size: 300px 100px;
+            /* background-size: contain; */
+            /* background-size: cover; */
+</code></pre>
+<h3 id="多背景-CSS3"><a href="#多背景-CSS3" class="headerlink" title="多背景(CSS3)"></a>多背景(CSS3)</h3><p>以逗号分隔可以设置多背景，可用于自适应布局</p>
+<pre><code class="line-numbers language-css">background-image: url(&#39;images/gyt.jpg&#39;),url(&#39;images/robot.png&#39;);
+</code></pre>
+<h3 id="综合运用案例"><a href="#综合运用案例" class="headerlink" title="综合运用案例"></a>综合运用案例</h3><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+      body&#123;
+          background: url(king.jpg) no-repeat right top #000;
+          text-align:center;
+      &#125;
+      a&#123;
+          width: 200px;
+          height: 50px;
+   /*   	background-color: orange;*/
+          display: inline-block;
+          text-align: center;
+          line-height: 50px;
+          text-decoration: none;
+          color: #FFF;
+          font-size: 22px;
+      &#125;
+      a:hover&#123;
+          background: url(h.png) no-repeat;
+      &#125;
+    &lt;/style&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;a href=&quot;#&quot;&gt;专区说明&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;申请资格&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;兑换奖励&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;下载游戏&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="/images/css/CSS%E8%83%8C%E6%99%AF%E7%BB%BC%E5%90%88%E4%BD%BF%E7%94%A8.png"></p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2015-01-01T06:56:36.000Z" title="2015/1/1 下午2:56:36">2015-01-01</time>发表</span><span class="level-item"><time dateTime="2020-04-23T10:18:25.850Z" title="2020/4/23 下午6:18:25">2020-04-23</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span> / </span><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/CSS/">CSS</a></span><span class="level-item">29 分钟读完 (大约4420个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2015/01/01/%E5%89%8D%E7%AB%AF/css/css01/">CSS第一篇</a></h1><div class="content"><h2 id="字体样式字号和字体"><a href="#字体样式字号和字体" class="headerlink" title="字体样式字号和字体"></a>字体样式字号和字体</h2><blockquote>
+<p>单位：px(像素),em(字体尺寸)</p>
+</blockquote>
+<blockquote>
+<p>Google和火狐默认字体大小为 16px</p>
+</blockquote>
+<blockquote>
+<p>font-family 设置时：中文字体需要加英文状态下的引号，英文字体一般不需要加引号。当需要设置英文字体时，英文字体必须位于中文字体之前。<br>如：body{font-family：“Microsoft YaHei”,”黑体”,“楷体”} —–正确<br>body{font-family：”黑体”,“楷体”,“Microsoft YaHei”}—–错误</p>
+</blockquote>
+<blockquote>
+<p>可以同时指定多个字体，中间以逗号隔开，表示如果浏览器不支持第一个字体，则会尝试下一个，直到找到合适的字体。</p>
+</blockquote>
+<pre><code class="line-numbers language-text">1. 现在网页中普遍使用14px+。
+2. 尽量使用偶数的数字字号。ie6等老式浏览器支持奇数会有bug。
+3. 各种字体之间必须使用英文状态下的逗号隔开。
+4. 中文字体需要加英文状态下的引号，英文字体一般不需要加引号。当需要设置英文字体时，英文字体名必须位于中文字体名之前。
+5. 如果字体名中包含空格、#、$等符号，则该字体必须加英文状态下的单引号或双引号，例如font-family: &quot;Times New Roman&quot;;。
+6. 尽量使用系统默认字体，保证在任何用户的浏览器中都能正确显示。
+</code></pre>
+<h2 id="CSS-Unicode字体"><a href="#CSS-Unicode字体" class="headerlink" title="CSS Unicode字体"></a>CSS Unicode字体</h2><p>在 CSS 中设置字体名称，直接写中文是可以的。但是在文件编码（GB2312、UTF-8 等）不匹配时会产生乱码的错误。xp 系统不支持 类似微软雅黑的中文。</p>
+<p>方案一： 你可以使用英文来替代。 比如 font-family:”Microsoft Yahei”。</p>
+<p>方案二： 在 CSS 直接使用 Unicode 编码来写字体名称可以避免这些错误。使用 Unicode 写中文字体名称，浏览器是可以正确的解析的。<br>font-family: “\5FAE\8F6F\96C5\9ED1”，表示设置字体为“微软雅黑”。</p>
+<p>可以通过escape()  来测试属于什么字体。</p>
+<table>
+<thead>
+<tr>
+<th>字体名称</th>
+<th>英文名称</th>
+<th>Unicode 编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>宋体</td>
+<td>SimSun</td>
+<td>\5B8B\4F53</td>
+</tr>
+<tr>
+<td>新宋体</td>
+<td>NSimSun</td>
+<td>\65B0\5B8B\4F53</td>
+</tr>
+<tr>
+<td>黑体</td>
+<td>SimHei</td>
+<td>\9ED1\4F53</td>
+</tr>
+<tr>
+<td>微软雅黑</td>
+<td>Microsoft YaHei</td>
+<td>\5FAE\8F6F\96C5\9ED1</td>
+</tr>
+<tr>
+<td>楷体_GB2312</td>
+<td>KaiTi_GB2312</td>
+<td>\6977\4F53_GB2312</td>
+</tr>
+<tr>
+<td>隶书</td>
+<td>LiSu</td>
+<td>\96B6\4E66</td>
+</tr>
+<tr>
+<td>幼园</td>
+<td>YouYuan</td>
+<td>\5E7C\5706</td>
+</tr>
+<tr>
+<td>华文细黑</td>
+<td>STXihei</td>
+<td>\534E\6587\7EC6\9ED1</td>
+</tr>
+<tr>
+<td>细明体</td>
+<td>MingLiU</td>
+<td>\7EC6\660E\4F53</td>
+</tr>
+<tr>
+<td>新细明体</td>
+<td>PMingLiU</td>
+<td>\65B0\7EC6\660E\4F53</td>
+</tr>
+</tbody></table>
+<p>为了照顾不同电脑的字体安装问题，我们尽量只使用宋体和微软雅黑中文字体</p>
+<h2 id="字体设置"><a href="#字体设置" class="headerlink" title="字体设置"></a>字体设置</h2><h3 id="字体综合设定"><a href="#字体综合设定" class="headerlink" title="字体综合设定"></a>字体综合设定</h3><pre><code class="line-numbers language-css">选择器&#123;font: font-style  font-weight  font-size/line-height  font-family;&#125;
+注意：其中font-style和font-weight是可以选择不写的，但font-size	和font-family必须要有！
+</code></pre>
+<h3 id="font-weight-字体粗细"><a href="#font-weight-字体粗细" class="headerlink" title="font-weight:字体粗细"></a>font-weight:字体粗细</h3><p>字体加粗除了用 b  和 strong 标签之外，可以使用CSS 来实现，但是CSS 是没有语义的。</p>
+<pre><code class="line-numbers language-html">font-weight属性用于定义字体的粗细，其可用属性值：normal、bold、bolder、lighter、100~900（100的整数倍）。
+</code></pre>
+<pre><code class="line-numbers language-css">数字 400 等价于 normal，而 700 等价于 bold。  但是我们更喜欢用数字来表示。  
+</code></pre>
+<h3 id="font-style-字体风格"><a href="#font-style-字体风格" class="headerlink" title="font-style:字体风格"></a>font-style:字体风格</h3><p>字体倾斜除了用 i  和 em 标签之外，可以使用CSS 来实现，但是CSS 是没有语义的。</p>
+<p>font-style属性用于定义字体风格，如设置斜体、倾斜或正常字体，其可用属性值如下：</p>
+<p>normal：默认值，浏览器会显示标准的字体样式。</p>
+<p>italic：浏览器会显示斜体的字体样式。</p>
+<p>oblique：浏览器会显示倾斜的字体样式。</p>
+<pre><code>平时我们很少给文字加斜体，反而喜欢给斜体标签（em，i）改为普通模式。
+</code></pre>
+<h2 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h2><h3 id="标签选择器（元素选择器）"><a href="#标签选择器（元素选择器）" class="headerlink" title="标签选择器（元素选择器）"></a>标签选择器（元素选择器）</h3><p>标签选择器是指用HTML标签名称作为选择器，按标签名称分类，为页面中某一类标签指定统一的CSS样式。其基本语法格式如下：</p>
+<pre><code>标签名&#123;属性1:属性值1; 属性2:属性值2; 属性3:属性值3; &#125;  或者
+元素名&#123;属性1:属性值1; 属性2:属性值2; 属性3:属性值3; &#125;
+</code></pre>
+<p>标签选择器最大的优点是能快速为页面中同类型的标签统一样式，同时这也是他的缺点，不能设计差异化样式。</p>
+<h3 id="类选择器"><a href="#类选择器" class="headerlink" title="类选择器"></a>类选择器</h3><pre><code class="line-numbers language-css">类选择器的写法
+.类名&#123;属性1:属性值1; 属性2:属性值2; 属性3:属性值3; &#125;
+</code></pre>
+<blockquote>
+<p>类选择器最大的优势是可以为元素定义单独或相同的样式。<br>将拥有这个类名的所有元素加上css样式<br>样式显示效果跟HTML元素中的类名先后顺序没有关系,受css样式书写的上下顺序有关。各个类名中间用空格隔开。</p>
+</blockquote>
+<pre><code>1.长名称或词组可以使用中横线来为选择器命名。
+2.不建议使用“_”下划线来命名CSS选择器。
+</code></pre>
+<pre><code>浏览器兼容问题 (比如使用_tips的选择器命名，在IE6是无效的)
+　能良好区分JavaScript变量命名(JS变量命名是用“_”)
+</code></pre>
+<h3 id="ID选择器"><a href="#ID选择器" class="headerlink" title="ID选择器"></a>ID选择器</h3><pre><code class="line-numbers language-css">id选择器
+#id名&#123;属性1:属性值1; 属性2:属性值2; 属性3:属性值3; &#125;
+</code></pre>
+<blockquote>
+<p>元素的id值是唯一的，只能对应于文档中某一个具体的元素。将拥有这个id名的唯一元素加上css样式	</p>
+</blockquote>
+<h3 id="通配符选择器"><a href="#通配符选择器" class="headerlink" title="通配符选择器"></a>通配符选择器</h3><pre><code class="line-numbers language-css">通配符选择器
+*&#123;属性1:属性值1; 属性2:属性值2; 属性3:属性值3; &#125;
+</code></pre>
+<p>例如下面的代码，使用通配符选择器定义CSS样式，清除所有HTML标记的默认边距。</p>
+<pre><code class="line-numbers language-css">* &#123;
+  margin: 0;                    /* 定义外边距*/
+  padding: 0;                   /* 定义内边距*/
+&#125;
+</code></pre>
+<blockquote>
+<p>缺点：性能太低。一般情况不建议使用，或者直接不用。</p>
+</blockquote>
+<h3 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h3><p>  伪类选择器用于向某些选择器添加特殊的效果。比如给链接添加特殊效果， 比如可以选择 第1个，第n个元素。</p>
+<pre><code class="line-numbers language-css">为了和我们刚才学的类选择器相区别，  类选择器是一个点 比如 .demo &#123;&#125;   
+而我们的伪类 用 2个点 就是 冒号  比如  :link&#123;&#125;
+</code></pre>
+<h3 id="链接伪类选择器"><a href="#链接伪类选择器" class="headerlink" title="链接伪类选择器"></a>链接伪类选择器</h3><ul>
+<li>:link      &#x2F;* 未访问的链接 *&#x2F;</li>
+<li>:visited   &#x2F;* 已访问的链接 *&#x2F;</li>
+<li>:hover     &#x2F;* 鼠标移动到链接上 *&#x2F;</li>
+<li>:active    &#x2F;* 选定的链接 *&#x2F;</li>
+</ul>
+<p>注意写的时候，他们的顺序尽量不要颠倒  按照  lvha 的顺序。   love   hate  爱上了讨厌 记忆法    或者   lv 包包 非常 hao </p>
+<pre><code class="line-numbers language-css">a &#123;   /* a是标签选择器  所有的链接 */
+            font-weight: 700;
+            font-size: 16px;
+            color: gray;
+        &#125;
+a:hover &#123;   /* :hover 是链接伪类选择器 鼠标经过 */
+            color: red; /*  鼠标经过的时候，由原来的 灰色 变成了红色 */
+&#125;
+</code></pre>
+<h3 id="结构-位置-伪类选择器（CSS3"><a href="#结构-位置-伪类选择器（CSS3" class="headerlink" title="结构(位置)伪类选择器（CSS3)"></a>结构(位置)伪类选择器（CSS3)</h3><ul>
+<li>:first-child :选取属于其父元素的首个子元素的指定选择器</li>
+<li>:last-child :选取属于其父元素的最后一个子元素的指定选择器</li>
+<li>:nth-child(n) ： 匹配属于其父元素的第 N 个子元素，不论元素的类型</li>
+<li>:nth-last-child(n) ：选择器匹配属于其元素的第 N 个子元素的每个元素，不论元素的类型，从最后一个子元素开始计数。<br>n 可以是数字、关键词或公式</li>
+<li>​</li>
+</ul>
+<pre><code class="line-numbers language-css">li:first-child &#123; /*  选择第一个孩子 */
+                color: pink; 
+            &#125;
+li:last-child &#123;   /* 最后一个孩子 */
+                color: purple;
+            &#125;
+li:nth-child(4) &#123;   /* 选择第4个孩子  n  代表 第几个的意思 */ 
+                color: skyblue;
+            &#125;
+</code></pre>
+<h3 id="目标伪类选择器-CSS3"><a href="#目标伪类选择器-CSS3" class="headerlink" title="目标伪类选择器(CSS3)"></a>目标伪类选择器(CSS3)</h3><p> :target目标伪类选择器 :选择器可用于选取当前活动的目标元素</p>
+<pre><code class="line-numbers language-css">:target &#123;
+        color: red;
+        font-size: 30px;
+&#125;
+</code></pre>
+<h2 id="CSS外观属性"><a href="#CSS外观属性" class="headerlink" title="CSS外观属性"></a>CSS外观属性</h2><h3 id="color-文本颜色"><a href="#color-文本颜色" class="headerlink" title="color:文本颜色"></a>color:文本颜色</h3><p>color属性用于定义文本的颜色，其取值方式有如下3种：</p>
+<p>1.预定义的颜色值，如red，green，blue等。</p>
+<p>2.十六进制，如#FF0000，#FF6600，#29D794等。实际工作中，十六进制是最常用的定义颜色的方式。</p>
+<p>3.RGB代码，如红色可以表示为rgb(255,0,0)或rgb(100%,0%,0%)。</p>
+<p>需要注意的是，如果使用RGB代码的百分比颜色值，取值为0时也不能省略百分号，必须写为0%。</p>
+<h3 id="line-height-行间距"><a href="#line-height-行间距" class="headerlink" title="line-height:行间距"></a>line-height:行间距</h3><p>line-height属性用于设置行间距，就是行与行之间的距离，即字符的垂直间距，一般称为行高。line-height常用的属性值单位有三种，分别为像素px，相对值em和百分比%，实际工作中使用最多的是像素px</p>
+<p>一般情况下，行距比字号大7.8像素左右就可以了。</p>
+<h3 id="text-align-水平对齐方式"><a href="#text-align-水平对齐方式" class="headerlink" title="text-align:水平对齐方式"></a>text-align:水平对齐方式</h3><pre><code>text-align属性用于设置文本内容的水平对齐，相当于html中的align对齐属性。其可用属性值如下：
+</code></pre>
+<p>left：左对齐（默认值）</p>
+<p>right：右对齐</p>
+<p>center：居中对齐</p>
+<h3 id="text-indent-首行缩进"><a href="#text-indent-首行缩进" class="headerlink" title="text-indent:首行缩进"></a>text-indent:首行缩进</h3><p>text-indent属性用于设置首行文本的缩进，其属性值可为不同单位的数值、em字符宽度的倍数、或相对于浏览器窗口宽度的百分比%，允许使用负值, 建议使用em作为设置单位。</p>
+<p>1em 就是一个字的宽度   如果是汉字的段落， 1em 就是一个汉字的宽度</p>
+<h3 id="letter-spacing-字间距"><a href="#letter-spacing-字间距" class="headerlink" title="letter-spacing:字间距"></a>letter-spacing:字间距</h3><p>letter-spacing属性用于定义字间距，所谓字间距就是字符与字符之间的空白。其属性值可为不同单位的数值，允许使用负值，默认为normal。</p>
+<h3 id="word-spacing-单词间距"><a href="#word-spacing-单词间距" class="headerlink" title="word-spacing:单词间距"></a>word-spacing:单词间距</h3><p>word-spacing属性用于定义英文单词之间的间距，对中文字符无效。和letter-spacing一样，其属性值可为不同单位的数值，允许使用负值，默认为normal。</p>
+<p>word-spacing和letter-spacing均可对英文进行设置。不同的是letter-spacing定义的为字母之间的间距，而word-spacing定义的为英文单词之间的间距。</p>
+<h3 id="颜色半透明-css3"><a href="#颜色半透明-css3" class="headerlink" title="颜色半透明(css3)"></a>颜色半透明(css3)</h3><p>文字颜色到了CSS3我们可以采取半透明的格式了语法格式如下：</p>
+<pre><code class="line-numbers language-css">    color: rgba(r,g,b,a)  a 是alpha  透明的意思  取值范围 0~1之间    color: rgba(0,0,0,0.3)  
+</code></pre>
+<h3 id="文字阴影-CSS3"><a href="#文字阴影-CSS3" class="headerlink" title="文字阴影(CSS3)"></a>文字阴影(CSS3)</h3><p>以后我们可以给我们的文字添加阴影效果了  Shadow  影子<br>前两项是必须写的。  后两项可以选写。<br>text-shadow 属性向文本添加一个或多个阴影。该属性是逗号分隔的阴影列表，每个阴影有两个或三个长度值和一个可选的颜色值进行规定。省略的长度是 0。</p>
+<pre><code class="line-numbers language-css">text-shadow:水平位置 垂直位置 模糊距离 阴影颜色;
+</code></pre>
+<p><img src="/images/css/%E9%98%B4%E5%BD%B1.png" alt="文字阴影设置值"></p>
+<h2 id="标签显示模式"><a href="#标签显示模式" class="headerlink" title="标签显示模式"></a>标签显示模式</h2><p>HTML标签一般分为块标签和行内标签两种类型，它们也称<strong>块元素</strong>和<strong>行内元素</strong>。具体如下：</p>
+<h3 id="块级元素-block-level"><a href="#块级元素-block-level" class="headerlink" title="块级元素(block-level)"></a>块级元素(block-level)</h3><p>每个块元素通常都会<strong>独自占据一整行或多整行</strong>，可以<strong>对其设置宽度、高度、对齐等属性</strong>，常用于网页布局和网页结构的搭建。</p>
+<pre><code>常见的块元素有&lt;h1&gt;~&lt;h6&gt;、&lt;p&gt;、&lt;div&gt;、&lt;ul&gt;、&lt;ol&gt;、&lt;li&gt;等，其中&lt;div&gt;标签是最典型的块元素。
+</code></pre>
+<p>块级元素的特点：</p>
+<p>（1）总是从新行开始</p>
+<p>（2）高度，行高、外边距以及内边距都可以控制。</p>
+<p>（3）宽度默认是容器的100%</p>
+<p>（4）可以容纳内联元素和其他块元素。</p>
+<h3 id="行内元素-inline-level"><a href="#行内元素-inline-level" class="headerlink" title="行内元素(inline-level)"></a>行内元素(inline-level)</h3><p>行内元素（内联元素）<strong>不占有独立的区域</strong>，仅仅<strong>靠自身的字体大小和图像尺寸来支撑结构</strong>，一般<strong>不可以设置宽度、高度、对齐等属性</strong>，常用于控制页面中文本的样式。</p>
+<pre><code>常见的行内元素有&lt;a&gt;、&lt;strong&gt;、&lt;b&gt;、&lt;em&gt;、&lt;i&gt;、&lt;del&gt;、&lt;s&gt;、&lt;ins&gt;、&lt;u&gt;、&lt;span&gt;等，其中&lt;span&gt;标签最典型的行内元素。
+</code></pre>
+<p>行内元素的特点：</p>
+<p>（1）和相邻行内元素在一行上。</p>
+<p>（2）高、宽无效，<strong>但水平方向的padding和margin可以设置，垂直方向的无效</strong>。</p>
+<p>（3）默认宽度就是它本身内容的宽度。</p>
+<p>（4）行内元素<strong>只能容纳文本或则其他行内元素</strong>。（a特殊）</p>
+<ol>
+<li>只有 文字才 能组成段落  因此 p  里面不能放块级元素，同理还有这些标签h1,h2,h3,h4,h5,h6,dt，他们都是文字类块级标签，里面不能放其他块级元素。</li>
+<li>链接里面不能再放链接。</li>
+</ol>
+<h3 id="块级元素和行内元素区别"><a href="#块级元素和行内元素区别" class="headerlink" title="块级元素和行内元素区别"></a>块级元素和行内元素区别</h3><pre><code>块级元素的特点：
+（1）总是从新行开始
+（2）高度，行高、外边距以及内边距都可以控制。
+（3）宽度默认是容器的100%
+（4）可以容纳内联元素和其他块元素。
+</code></pre>
+<pre><code>行内元素的特点：
+（1）和相邻行内元素在一行上。
+（2）高、宽无效，但水平方向的padding和margin可以设置，垂直方向的无效。
+（3）默认宽度就是它本身内容的宽度。
+（4）行内元素只能容纳文本或则其他行内元素。
+</code></pre>
+<h3 id="行内块元素（inline-block）"><a href="#行内块元素（inline-block）" class="headerlink" title="行内块元素（inline-block）"></a>行内块元素（inline-block）</h3><pre><code>在行内元素中有几个特殊的标签——&lt;img /&gt;、&lt;input /&gt;、&lt;td&gt;，可以对它们设置宽高和对齐属性，有些资料可能会称它们为行内块元素。
+行内块元素的特点：
+（1）和相邻行内元素（行内块）在一行上,但是之间会有空白缝隙。
+（2）默认宽度就是它本身内容的宽度。
+（3）高度，行高、外边距以及内边距都可以控制。
+</code></pre>
+<h3 id="标签显示模式转换-display"><a href="#标签显示模式转换-display" class="headerlink" title="标签显示模式转换 display"></a>标签显示模式转换 display</h3><p>块转行内，display:inline<br>行内转块，display:block<br>块、行内元素转换为行内块，display：inline-block</p>
+<h3 id="sublime快捷方式"><a href="#sublime快捷方式" class="headerlink" title="sublime快捷方式"></a>sublime快捷方式</h3><p>sublime可以快速提高我们代码的书写方式</p>
+<pre><code class="line-numbers language-html">1. 生成标签 直接输入标签名 按tab键即可   比如  div   然后tab 键， 就可以生成 &lt;div&gt;&lt;/div&gt;
+2. 如果想要生成多个相同标签  加上 * 就可以了 比如   div*3  就可以快速生成3个div
+3. 如果有父子级关系的标签，可以用 &gt;  比如   ul &gt; li就可以了
+4. 如果有兄弟关系的标签，用  +  就可以了 比如 div+p  
+5. 如果生成带有类名或者id名字的，  直接写  .demo  或者  #two   tab 键就可以了
+</code></pre>
+<h2 id="CSS样式表引入的三种方式"><a href="#CSS样式表引入的三种方式" class="headerlink" title="CSS样式表引入的三种方式"></a>CSS样式表引入的三种方式</h2><h3 id="行内样式表（内联样式）"><a href="#行内样式表（内联样式）" class="headerlink" title="行内样式表（内联样式）"></a>行内样式表（内联样式）</h3><p>是通过标签的style属性来设置元素的样式，其基本语法格式如下：</p>
+<pre><code class="line-numbers language-text">&lt;标签名 style=&quot;属性1:属性值1; 属性2:属性值2; 属性3:属性值3;&quot;&gt; 内容 &lt;/标签名&gt;
+</code></pre>
+<p>语法中style是标签的属性，实际上任何HTML标签都拥有style属性，用来设置行内式。其中属性和值的书写规范与CSS样式规则相同，行内式只对其所在的标签及嵌套在其中的子标签起作用。<br>示例：</p>
+<pre><code class="line-numbers language-html">&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div style=&quot;color: red&quot;&gt;行内样式表&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="内部样式表（内嵌式）"><a href="#内部样式表（内嵌式）" class="headerlink" title="内部样式表（内嵌式）"></a>内部样式表（内嵌式）</h3><p>内嵌式是将CSS代码集中写在HTML文档的head头部标签中，并且用style标签定义，其基本语法格式如下：</p>
+<pre><code class="line-numbers language-html">&lt;head&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    选择器 &#123;属性1:属性值1; 属性2:属性值2; 属性3:属性值3;&#125;
+&lt;/style&gt;
+&lt;/head&gt;
+</code></pre>
+<p>语法中，style标签一般位于head标签中title标签之后，也可以把他放在HTML文档的任何地方。<br>示例：</p>
+<pre><code class="line-numbers language-html">&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        div&#123;
+            color: green
+        &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;内部样式表&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="外部样式表（外链式）"><a href="#外部样式表（外链式）" class="headerlink" title="外部样式表（外链式）"></a>外部样式表（外链式）</h3><p>链入式是将所有的样式放在一个或多个以.CSS为扩展名的外部样式表文件中，通过link标签将外部样式表文件链接到HTML文档中，其基本语法格式如下：</p>
+<pre><code class="line-numbers language-html">&lt;head&gt;
+  &lt;link href=&quot;CSS文件的路径&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; /&gt;
+&lt;/head&gt;
+</code></pre>
+<p>注意：  link 是个单标签哦!!!</p>
+<p>该语法中，link标签需要放在head头部标签中，并且必须指定link标签的三个属性，具体如下：</p>
+<pre><code class="line-numbers language-text">href：定义所链接外部样式表文件的URL，可以是相对路径，也可以是绝对路径。
+type：定义所链接文档的类型，在这里需要指定为“text/css”，表示链接的外部文件为CSS样式表。
+rel：定义当前文档与被链接文档之间的关系，在这里需要指定为“stylesheet”，表示被链接的文档是一个样式表文件。
+</code></pre>
+<h3 id="三种样式表总结"><a href="#三种样式表总结" class="headerlink" title="三种样式表总结"></a>三种样式表总结</h3><table>
+<thead>
+<tr>
+<th>样式表</th>
+<th>优点</th>
+<th>缺点</th>
+<th>使用情况</th>
+<th>控制范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>行内样式表</td>
+<td>书写方便，权重高</td>
+<td>没有实现样式和结构相分离</td>
+<td>较少</td>
+<td>控制一个标签（少）</td>
+</tr>
+<tr>
+<td>内嵌样式表</td>
+<td>部分结构和样式相分离</td>
+<td>没有彻底分离</td>
+<td>较多</td>
+<td>控制一个页面（中）</td>
+</tr>
+<tr>
+<td>外部样式表</td>
+<td>完全实现结构和样式相分离</td>
+<td>需要引入</td>
+<td>最多，强烈推荐</td>
+<td>控制整个站点（多）</td>
+</tr>
+</tbody></table>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2013-04-01T12:04:35.000Z" title="2013/4/1 下午8:04:35">2013-04-01</time>发表</span><span class="level-item"><time dateTime="2020-05-21T13:19:16.910Z" title="2020/5/21 下午9:19:16">2020-05-21</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span> / </span><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/">JavaScript</a></span><span class="level-item">几秒读完 (大约3个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2013/04/01/javascript/%E8%AE%A4%E8%AF%86JavaScript-2013-04-01/">认识JavaScript</a></h1><div class="content"><h2 id="JavaScript简介"><a href="#JavaScript简介" class="headerlink" title="JavaScript简介"></a>JavaScript简介</h2></div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/categories/%E5%89%8D%E7%AB%AF/">上一页</a></div><div class="pagination-next is-invisible is-hidden-mobile"><a href="/categories/%E5%89%8D%E7%AB%AF/page/3/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/categories/%E5%89%8D%E7%AB%AF/">1</a></li><li><a class="pagination-link is-current" href="/categories/%E5%89%8D%E7%AB%AF/page/2/">2</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

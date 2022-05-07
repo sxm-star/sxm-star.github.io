@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Redis第二篇 理论应用基础操作 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="NoSQL数据库的四大分类如下: 键值(Key-Value)存储数据库相关产品： Tokyo Cabinet&amp;#x2F;Tyrant、Redis、Voldemort、Berkeley DB、Oracle BDB、 MemcacheDB典型应用： 内容缓存，主要用于处理大量数据的高访问负载。数据模型： 一系列键值对,采用Hash表结构存储（简单、易部署）优势： 快速查询劣势： 存储的数据缺少结构化"><meta property="og:type" content="blog"><meta property="og:title" content="Redis第二篇 理论应用基础操作"><meta property="og:url" content="http://example.com/2016/03/03/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis/redis-%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="NoSQL数据库的四大分类如下: 键值(Key-Value)存储数据库相关产品： Tokyo Cabinet&amp;#x2F;Tyrant、Redis、Voldemort、Berkeley DB、Oracle BDB、 MemcacheDB典型应用： 内容缓存，主要用于处理大量数据的高访问负载。数据模型： 一系列键值对,采用Hash表结构存储（简单、易部署）优势： 快速查询劣势： 存储的数据缺少结构化"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/redis/%E6%8F%90%E4%BA%A4%E4%BA%8B%E5%8A%A1.png"><meta property="og:image" content="http://example.com/images/redis/%E6%89%A7%E8%A1%8C%E9%94%99%E8%AF%AF%E6%9C%AA%E5%9B%9E%E6%BB%9A.png"><meta property="og:image" content="http://example.com/images/redis/%E4%BA%8B%E5%8A%A1%E5%9B%9E%E6%BB%9A.png"><meta property="article:published_time" content="2016-03-02T16:04:00.000Z"><meta property="article:modified_time" content="2020-06-28T08:56:08.998Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="中间件"><meta property="article:tag" content="redis"><meta property="article:tag" content="NOSQL"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/redis/%E6%8F%90%E4%BA%A4%E4%BA%8B%E5%8A%A1.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2016/03/03/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis/redis-%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/"},"headline":"Redis第二篇 理论应用基础操作","image":["http://example.com/images/redis/%E6%8F%90%E4%BA%A4%E4%BA%8B%E5%8A%A1.png","http://example.com/images/redis/%E6%89%A7%E8%A1%8C%E9%94%99%E8%AF%AF%E6%9C%AA%E5%9B%9E%E6%BB%9A.png","http://example.com/images/redis/%E4%BA%8B%E5%8A%A1%E5%9B%9E%E6%BB%9A.png"],"datePublished":"2016-03-02T16:04:00.000Z","dateModified":"2020-06-28T08:56:08.998Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"NoSQL数据库的四大分类如下: 键值(Key-Value)存储数据库相关产品： Tokyo Cabinet&#x2F;Tyrant、Redis、Voldemort、Berkeley DB、Oracle BDB、 MemcacheDB典型应用： 内容缓存，主要用于处理大量数据的高访问负载。数据模型： 一系列键值对,采用Hash表结构存储（简单、易部署）优势： 快速查询劣势： 存储的数据缺少结构化"}</script><link rel="canonical" href="http://example.com/2016/03/03/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis/redis-%E5%BA%94%E7%94%A8%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2016-03-02T16:04:00.000Z" title="2016/3/3 上午12:04:00">2016-03-03</time>发表</span><span class="level-item"><time dateTime="2020-06-28T08:56:08.998Z" title="2020/6/28 下午4:56:08">2020-06-28</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span> / </span><a class="link-muted" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/">nosql</a><span> / </span><a class="link-muted" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/">redis</a></span><span class="level-item">36 分钟读完 (大约5372个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Redis第二篇 理论应用基础操作</h1><div class="content"><h2 id="NoSQL数据库的四大分类如下"><a href="#NoSQL数据库的四大分类如下" class="headerlink" title="NoSQL数据库的四大分类如下:"></a>NoSQL数据库的四大分类如下:</h2><ul>
+<li><strong>键值(Key-Value)存储数据库</strong><br>相关产品： Tokyo Cabinet&#x2F;Tyrant、Redis、Voldemort、Berkeley DB、Oracle BDB、 MemcacheDB<br>典型应用： 内容缓存，主要用于处理大量数据的高访问负载。<br>数据模型： 一系列键值对,采用Hash表结构存储（简单、易部署）<br>优势： 快速查询<br>劣势： 存储的数据缺少结构化</li>
+<li><strong>列存储数据库</strong><br>相关产品：Cassandra, HBase, Riak<br>典型应用：分布式的文件系统<br>数据模型：以列簇式存储，将同一列数据存在一起，应对分布式存储的海量数据<br>优势：查找速度快，可扩展性强，更容易进行分布式扩展<br>劣势：功能相对局限</li>
+<li><strong>文档型数据库</strong><br>相关产品：CouchDB、MongoDB、SequoiaDB<br>典型应用：Web应用（与Key-Value类似，Value是结构化的）<br>数据模型： 采用类似JSON的形式存储<br>优势：数据结构要求不严格<br>劣势： 查询性能不高，而且缺乏统一的查询语法</li>
+<li><strong>图形(Graph)数据库</strong><br>相关数据库：Neo4J、InfoGrid、Infinite Graph、FlockDB<br>典型应用：社交网络<br>数据模型：图结构<br>优势：利用图结构相关算法。<br>劣势：需要对整个图做计算才能得出结果，不容易做分布式的集群方案。</li>
+<li><strong>对象存储：</strong>通过类似面向对象语言的语法操作数据库。<br>相关产品：db4o、 Versant</li>
+<li><strong>xml数据库：</strong>高效的存储XML数据，并支持XML的内部查询语法，比如XQuery，Xpath。<br>相关产品：Berkeley DB XML、BaseX<span id="more"></span></li>
+</ul>
+<h2 id="Redis的介绍"><a href="#Redis的介绍" class="headerlink" title="Redis的介绍"></a>Redis的介绍</h2><ul>
+<li>redis是一个nosql(not only sql不仅仅只有sql)数据库.翻译成中文叫做非关系型型数据库.<strong>关系型数据库:以二维表形式存储数据</strong>非关系型数据库: 以键值对形式存储数据(key, value形式)是一家意大利的创业公司出的,然后后来这家公司被VMware赞助. redis底层用C语句编写.</li>
+<li>redis是将数据存放到内存中,由于内容存取速度快所以redis被广泛应用在互联网项目中,</li>
+<li>redis优点:存取速度快,官方称读取速度会达到30万次每秒,写速度在10万次每秒最有,具体限制于硬件.</li>
+<li>缺点:对持久化支持不够良好,所以redis一般不作为数据的主数据库存储,一般配合传统的关系型数据库使用.</li>
+</ul>
+<h2 id="超大规模和高并发的SNS类型的web2-0纯动态网站，暴露了很多难以克服的问题，例如："><a href="#超大规模和高并发的SNS类型的web2-0纯动态网站，暴露了很多难以克服的问题，例如：" class="headerlink" title="超大规模和高并发的SNS类型的web2.0纯动态网站，暴露了很多难以克服的问题，例如："></a>超大规模和高并发的SNS类型的web2.0纯动态网站，暴露了很多难以克服的问题，例如：</h2><ul>
+<li><strong>1、High performance - 对数据库高并发读写的需求</strong><br>web2.0网站要根据用户个性化信息来实时生成动态页面和提供动态信息，所以基本上无法使用动态页面静态化技术，因此数据库并发负载非常高，往往要达到每秒上万次读写请求。<strong>关系数据库应付上万次SQL查询还勉强顶得住</strong>，但是<strong>应付上万次SQL写数据请求，硬盘IO就已经无法承受了</strong>。其实对于普通的BBS网站，往往也存在对高并发写请求的需求，例如网站的实时统计在线用户状态，记录热门帖子的点击次数，投票计数等，因此这是一个相当普遍的需求。</li>
+<li><strong>2、Huge Storage - 对海量数据的高效率存储和访问的需求</strong><br>类似Facebook，twitter，Friendfeed这样的SNS网站，每天用户产生海量的用户动态，以<strong>Friendfeed为例，一个月就达到了2.5亿条用户动态，对于关系数据库来说，在一张2.5亿条记录的表里面进行SQL查询，效率是极其低下乃至不可忍受的</strong>。再例如<strong>大型web网站的用户登录系统，例如腾讯，盛大，动辄数以亿计的帐号，关系数据库也很难应付。</strong> </li>
+<li><strong>3、High Scalability &amp;&amp; High Availability- 对数据库的高可扩展性和高可用性的需求</strong><br>在基于web的架构当中，数据库是最难进行横向扩展的，当一个应用系统的用户量和访问量与日俱增的时候，你的数据库却没有办法像web server和app server那样简单的通过添加更多的硬件和服务节点来扩展性能和负载能力。对于很多需要提供24小时不间断服务的网站来说，对数据库系统进行升级和扩展是非常痛苦的事情，往往需要停机维护和数据迁移。<br><strong>NoSQL数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题。</strong></li>
+</ul>
+<h2 id="redis特点"><a href="#redis特点" class="headerlink" title="redis特点"></a>redis特点</h2><ul>
+<li><strong>异常快速：</strong> Redis是非常快的，每秒可以执行<strong>大约110000设置操作</strong>， <strong>81000个&#x2F;海秒的读取操作</strong>。</li>
+<li><strong>支持丰富的数据类型</strong>： Redis支持最大多数开发人员已经知道如<em>列表，集合，可排序集合，哈希等数据类型</em>。</li>
+<li><strong>原子性操作：</strong>所有Redis的操作都是原子，<strong>从而确保当两个客户同时访问Redis服务器得到的是更新后的值（最新值）</strong>。</li>
+<li><strong>MultiUtility工具：</strong> Redis是一个多功能实用工具，可以在很多如：缓存，消息传递队列中使用（ Redis原生支持发布&#x2F;订阅） ， 在应用程序中，如： Web应用程序会话，网站页面点击数等任何短暂的数据.</li>
+</ul>
+<h2 id="Redis应用领域"><a href="#Redis应用领域" class="headerlink" title="Redis应用领域"></a>Redis应用领域</h2><ul>
+<li><strong>分布式缓存</strong> 数据查询、短连接、新闻内容、商品内容等等 <em>（mybatis，hibernate虽有二级缓存但性能不好，企业一般不用）</em></li>
+<li><strong>分布式session</strong> 分布式集群架构中的session分离。</li>
+<li><strong>聊天室的在线好友列表。</strong></li>
+<li><strong>任务队列。（秒杀、抢购、12306等等）</strong></li>
+<li><strong>应用排行榜</strong></li>
+<li><strong>网站访问统计。</strong></li>
+<li><strong>数据过期处理（可以精确到毫秒)</strong></li>
+<li><strong>保存博客或者论坛的留言回复等.</strong> <em>(像文档型text类型或者小说更倾向于 mongodb来存储)</em></li>
+<li><strong>总之是用在数据量大,并发量高的情况下</strong></li>
+</ul>
+<h2 id="Redis支持的键值对类型："><a href="#Redis支持的键值对类型：" class="headerlink" title="Redis支持的键值对类型："></a>Redis支持的键值对类型：</h2><ul>
+<li><p><strong>1.字符串类型string</strong></p>
+<pre><code class="line-numbers language-shell">#字符串数据操作示例：
+➢设置操作数据: set KEY VALUE ;  set username-ecit hello
+➢查询数据:get KEY;   get username-ecit
+➢不覆盖设置: setnx KEY VALUE ; 此时KEY必须是不存在库里的才行，否则会设置失败返回 0.
+➢设置数据有效期: setex KEY TIME VALUE ; setex 110-code 10 8789 设置验证码(8789)在10s后过期；用ttl 110-code 查看验证码失效剩余时间效果，如果过期了返回-2；persist 110-code 让该key取消有效时间，这时 ttl 110-code返回-1
+➢设置多个key : mset KEY1 VALUE1 KEY2 VALUE2 .... ;  mset username-110 hello username-119 world
+➢不覆盖设置多个key : msetnx KEY1 VALUE1 KEY2 VALUE2 ... ;
+➢追加内容: append KEY 追加内容;   append 110-code 999 返回当前字符串的长度
+➢取得数据长度: strlen KEY ;
+➢删除指定数据: del key key key ; del 110-code username-1 username-99 如果现在指定的key不存在，也不会影响到程序的执行，只会删除掉存在的key值；
+➢自增处理:incr KEY;
+➢自增指定数据: incrby KEY 数字;
+➢自减处理:decr KEY;
+➢自减指定数据: decrby KEY ;
+</code></pre>
+</li>
+<li><p><strong>2.散列类型Hash</strong> 一般应用于将redis作为分布式缓存,存储数据库中的数据对象</p>
+<pre><code class="line-numbers language-shell">#散列(Hash)类型操作示例：
+➢存放hash数据: hset 对象KEY 属性KEY 内容; hset user-ecit uid 001 
+➢取得hash数据: hget 对象KEY 属性KEY ; hget user-ecit uid ;hset user-ecit uname 张三丰
+➢不覆盖设置: hsetnx 对象KEY 属性KEY 内容;
+➢批量设置: hmset 对象KEY 属性KEY1 内容1 属性KEY2 内容2 ... ;
+➢获取对象的所有key : hmget 对象KEY 属性KEY1 属性KEY2 .. ; hmget user-ecit uid uname
+➢判断某个数据是否存在: hexists 对象KEY 属性KEY ;    hexists user-ecit uid
+➢取得全部内容数量: hlen KEY ;  hlen user-ecit 返回属性数量
+➢删除指定key信息: hdel 对象KEY 属性KEY .... ;
+➢取得所有key : hkeys 对象KEY ;     hkeys user-ecit
+➢取得hash中所有内容: hvals 对象KEY ;   hvals user-ecit
+➢获得全部的key与value : hgetall 对象KEY ; hgetall user-ecit
+➢数据加法: hincrby 对象KEY 数字;
+</code></pre>
+</li>
+<li><p>3.列表类型list <strong>redis中使用的是双向循环链表来实现的list,在redis中更像栈，先进后出</strong></p>
+<pre><code class="line-numbers language-shell">➢向左边顶部压入栈中存放数据: lpush LIST集合KEY 内容; lpush searchkeys java c c++ php c#
+➢取得指定索引位置的内容: lrange 集合KEY 头部索引 尾部索引; lrange searchkeys 0 1 输出 c# php ;lrange searchkeys 0 -1 输出全部数据
+➢从右边尾部保存元素: rpush 集合KEY 内容; rpush searchkeys 1 2 3 4 5
+➢在指定元素前追加内容: linsert 集合KEY before 内容1 增加内容; linsert searchkeys before c# sql 此时sql在栈顶了 | linsert searchkeys after  sql mysql 此时sql已然在栈顶，紧接着是mysql
+#如果此时你保存的集合内容存放有重复的数据，则以栈顶第一个数据位置为准，进行插入操作
+➢修改指定索引的内容: lset 集合KEY 索引 内容;    lset searchkeys 0 ruby :修改栈顶元素，改为ruby值
+➢删除数据:lrem 集合KEY 重复个数 删除内容;   LREM searchkeys 2 sql :删除重复的两个sql值
+➢保留指定key的值范围内的数据: ltrim 集合KEY 开始索引 结束索引; ltrim searchkeys 0 5 :保留栈顶向下的6个元素值
+➢从指定集合的头部删除元素,并返回删除元素: lpop 集合KEY ; lpop searchkeys :栈顶元素出栈
+➢从指定集合的底部删除元素,并返回删除元素: rpop 集合key ; rpop searchkeys:从栈底出栈
+➢将移除的元素添加到指定的集合中: rpoplpush 集合KEY 集合KEY ; rpoplpush searchkeys searchkeys :栈底元素出栈，然后压入栈顶
+➢取得元素指定索引的内容: lindex 集合KEY 索引; lindex searchkeys 1 :返回指定索引位置的元素
+➢返回集合中的元素个数: llen 集合KEY ; llen searchkeys:返回集合中的元素个数
+</code></pre>
+</li>
+<li><p>4.集合类型set <strong>set中数据是无序的并且不允许重复，可以做集合操作交集、并集，差集</strong></p>
+<pre><code class="line-numbers language-shell">➢向集合添加元素 : sadd 集合KEY 内容; sadd user-friend a b c d e
+➢查询set集合: smembers 集合KEY ; smembers user-friend
+➢删除集合元素: srem 集合KEY 内容; srem user-friend a
+➢从集合中随机弹出一个元素,并删除: spop 集合KEY ; spop user-friend
+➢返回两个集合的差集: sdiff 集合KEY1 集合KEY2 ; 
+sadd user-f a b c d e
+sadd user-g a c e x y z
+sdiff user-f user-g :返回 b,d
+sdiff user-g user-f :返回 x,y,z
+➢将差集保存到另外一个集合之中: sdiffstore 存储集合KEY 集合KEY1 集合KEY2 ; sdiffstore user-f-g user-f user-g :查看差集的结果保存
+➢交集计算: sinter 集合KEY1 集合KEY2 ; sinter user-f user-g
+➢将交集保存到新的集合之中: sinterstore 存储集合集合KEY1 集合KEY2 ; sinterstore user-f-g-inter  user-f user-g :查看交集的结果保存
+➢并集计算,将两个集合合并在一起: sunion 集合KEY1 集合KEY2 ; sunion user-f user-g:并集计算
+➢将并集进行存储 : sunionstore 存储集合集合KEY1 集合KEY2 ; sunionstore user-f-g-union user-f user-g: 查看并集保存结果
+➢ 从第一个key对应的set中移除并添加到另外一个集合之中: smove 集合KEY1 集合KEY2 第一个集合内容;  smove user-f user-temp a
+➢返回名称为key的集合个数 : scard 集合key ; scard user-f
+➢测试member是否是名称为key的set的元素: sismember 集合KEY 内容; sismember user-f b
+➢随机返回名称为key的一个集合的元素,但是不删除元素: srandmember 集合KEY ; srandmember user-f:随机返回一个 | srandmember user-f 3:随机返回三个集合
+</code></pre>
+</li>
+<li><p>5.有序集合类型zset <strong>redis会根据分数自动排序,这里可以使用在学生成绩排序, 或者是手机应用商店流行软件排名等需求中</strong></p>
+<pre><code class="line-numbers language-shell">➢追加有序集合数据: zadd 集合KEY 分数 内容; zadd user-d 1 pid-1: 假设用户查看该产品一次，记分数为1
+➢取出有序集合内容: zrange 集合KEY 0 -1 withscores ; 
+zrange user-d 0 -1 :取出了集合中的全部数据的内容；
+zrange user-d 0 -1 withscores : 取出了集合中的全部数据的内容和分数
+zrange user-d 0 2 withscores: 取出了集合中的前三个数据的内容和分数
+➢删除集合数据 :zrem 集合KEY 内容; zrem user-d pid-1 :删除该元素
+➢数据增长(针对于顺序增加) : zincrby 集合KEY 分数 内容; zincrby user-d 5 pid-2: 表示元素pid-2的分数涨5，分数变成了6
+➢返回集合中指定元素的索引数值: zrank 集合KEY 内容; zrank user-d pid-7
+➢反转取数据索引: zrevrank 集合KEY 内容; zrevrank user-d pid-3:反转取出数据索引位置
+➢反转后取得数据: zrevrange 集合 开始分数 结束分数 withscores ; zrevrange user-d 0 -1 :反转取出数据
+➢根据索引取得指定范围的数据: zrangebyscore 集合 开始分数 结束分数 withscores ;zrangebyscore user-d 0 9: 取出分数在0和9之间的数据
+➢取得集合中指定分数范围的数量: zcount 集合KEY 开始分数 结束分数; zcount user-d 0 9:分数0-9之间的数量
+➢取得指定集合中的元素个数: zcard 集合key ; zcard user-d
+➢根据下标排序，删除指定范围中的数据: zremrangebyrank 集合KEY 索引开始 结束索引; zremrangebyrank user-d 0 2 :删除前三个数据
+</code></pre>
+</li>
+</ul>
+<h2 id="Redis事务处理"><a href="#Redis事务处理" class="headerlink" title="Redis事务处理"></a>Redis事务处理</h2><ul>
+<li>Redis本身支持事务处理，<strong>但是这种支持的事务处理本身是存在有设计缺陷的</strong>，而且与传统的关系型数据库事务不同。<br>● 打开事务: multi;<br>● 取消事务: discard;  会回滚到最初<br>● 提交事务: exec。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/redis/%E6%8F%90%E4%BA%A4%E4%BA%8B%E5%8A%A1.png" alt="提交事务"></td>
+<td align="center"><img src="/images/redis/%E6%89%A7%E8%A1%8C%E9%94%99%E8%AF%AF%E6%9C%AA%E5%9B%9E%E6%BB%9A.png" alt="提交-执行错误未回滚"></td>
+<td align="center"><img src="/images/redis/%E4%BA%8B%E5%8A%A1%E5%9B%9E%E6%BB%9A.png" alt="取消事务事务回滚"></td>
+</tr>
+</tbody></table>
+<h2 id="Redis乐观锁"><a href="#Redis乐观锁" class="headerlink" title="Redis乐观锁"></a>Redis乐观锁</h2><ul>
+<li>在数据库执行操作的时候，为了保证数据的一致性，即: <strong>A用户更新数据的时候B用户不能够更新</strong>。实现上分为两种:<br>● <strong>悲观锁</strong>:基于数据库的操作实现; <strong>SELECT * FROM member WHERE mid&#x3D;1 FOR UPDATE</strong> .<br>● <strong>乐观锁</strong>:基于算法的实现,在数据表上追加一个锁的处理列;在Redis里面是直接支持有乐观锁的,想观察乐观锁的处理，则可以打开两个不同的redis-session来进行处理<br>1、第一个Session 执行如下的操作:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">设置一个数据:</td>
+<td align="center">set age 30</td>
+</tr>
+<tr>
+<td align="center">进行该数据的监听:</td>
+<td align="center">watch age</td>
+</tr>
+<tr>
+<td align="center">启用事务:Multi</td>
+<td align="center">multi</td>
+</tr>
+</tbody></table>
+<p>2、第二个session对数据进行修改操作:</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">覆盖age数据:</td>
+<td align="center">set age 500</td>
+</tr>
+<tr>
+<td align="center">取得age数据:</td>
+<td align="center">get age</td>
+</tr>
+</tbody></table>
+<p>3.第一个session进行数据修改操作</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">修改数据:</td>
+<td align="center">set age 60</td>
+</tr>
+<tr>
+<td align="center">提交事务:</td>
+<td align="center">exec</td>
+</tr>
+</tbody></table>
+<p>此时由于第二个Session已经更新了原始的数据，那么就表示当第一个session对原始数据更新的时候会发现返回了“(nil)”， 意味着本次更新失败。</p>
+<h2 id="Redis性能监控"><a href="#Redis性能监控" class="headerlink" title="Redis性能监控"></a>Redis性能监控</h2><p>redis性能监控，需要借助三方的组件，“redis-stat”工具实现Redis监控操作，地址: <a target="_blank" rel="noopener" href="https://github.com/junegunn/redis-stat">https://github.com/junegunn/redis-stat</a></p>
+<ul>
+<li>1、为了更加清楚的发现redis-stat特点，下面建立三个Redis运行进程，需要准备出不同的redis.conf配置文件;</li>
+<li>2、 建立redis数据的保存目录，要求可以同时保存三个Redis进程;mkdir -p &#x2F;usr&#x2F;data&#x2F;redis&#x2F; {redis-6379,redis-6380,redis-6381 }&#x2F; {run,logs,dbcache}</li>
+<li>3、 将之前的redis.conf 配置文件拷贝三份:<pre><code class="line-numbers language-shell">cp /usr/local/redis/conf/redis.conf /usr/local/redis/conf/redis-6379.conf 
+cp /usr/local/redis/conf/redis.conf /usr/local/redis/conf/redis-6380.conf
+cp /usr/local/redis/conf/redis conf /usr/local/redis/conf/redis-6381.conf
+</code></pre>
+</li>
+<li>4、 编辑每一个配置文件，修改各自的内容，以redis-6379为例:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">取消外网访问限制:</td>
+<td align="center">#bind 127.0.0. 1</td>
+</tr>
+<tr>
+<td align="center">设置端口:</td>
+<td align="center">port 6379</td>
+</tr>
+<tr>
+<td align="center">设置pid保存路径:</td>
+<td align="center">pidfile &#x2F;usr&#x2F;data&#x2F;redis&#x2F;redis-6379&#x2F;run&#x2F;redis_6379.pid</td>
+</tr>
+<tr>
+<td align="center">设置日志文件路径:</td>
+<td align="center">logfile “&#x2F;usr&#x2F;data&#x2F;redis&#x2F;redis-6379&#x2F;logs&#x2F;redis.log”</td>
+</tr>
+<tr>
+<td align="center">数据文件目录:</td>
+<td align="center">dir &#x2F;usr&#x2F;data&#x2F;redis&#x2F;redis-6379&#x2F;dbcache</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>5、 将redis-6379.conf 复制为redis-6380.conf、redis-6381.conf.</p>
+<pre><code class="line-numbers language-shell">cp /usr/local/redis/conf/redis-6379.conf /usr/local/redis/conf/redis-6380.conf 
+cp /usr/local/redis/conf/redis-6379.conf /usr/local/redis/conf/redis-6381.conf
+</code></pre>
+<p>随后进入到每一个配置 文件进行6379内容的更新: </p>
+<pre><code class="line-numbers language-shell">vim redis-6380.conf
+1,$s/6379/6380/g
+</code></pre>
+<p>同理，redis-6381.conf也要修改</p>
+</li>
+<li><p>6、 启动所有的Redis服务:</p>
+<pre><code class="line-numbers language-shell">/usr/local/redis/bin/redis-server /usr/local/redis/conf/redis-6379.conf
+/usr/local/redis/bin/redis-server /usr/local/redis/conf/redis-6380.conf
+/usr/local/redis/bin/redis-server /usr/local/redis/conf/redis-6381.conf 
+</code></pre>
+</li>
+<li><p>7、 通过GITHUB下载redis-stat开发包<br> 如果要想使用redis-stat检测包必须下载ruby相关环境,ruby相关环境: apt-get install ruby ruby-dev rubygems;<br> 将该工具下载到“&#x2F;usr&#x2F;local” 目录之中: cd &#x2F;usr&#x2F;local&#x2F;;.<br> 进行redis-stat 的下载: git clone htts:&#x2F;&#x2F;github.com&#x2F;junegunn&#x2F;redis-stat.git</p>
+</li>
+<li><p>8、下载下来的redis-stat 里面实际上只有一个执行命令,执行命令: &#x2F;usr&#x2F;local&#x2F;redis-stat&#x2F;bin&#x2F;redis-stat;<br> 如果要想使用这个命令则必须使用ruby进行该命令的处理: gem install &#x2F;usr&#x2F;local&#x2F;redis-stat&#x2F;bin&#x2F;redis-stat;</p>
+</li>
+<li><p>9、启动redis-stat工具进行监听控制， </p>
+<pre><code class="line-numbers language-shell">/usr/local/redis-stat/bin/redis-stat 192.168.1.163:6379 192.168.1.163:6380 192.168.1.163:6381 -a ecit@123456
+</code></pre>
+</li>
+<li><p>10、该工具还支持WEB启动查看，也就是说它内部自动提供有一个httpserver:</p>
+<pre><code class="line-numbers language-shell">/usr/local/redis-stat/bin/redis-stat 192.168.1.163:6379 192.168.1.163:6380 192.168.1.163:6381 -a ecit@123456 --server=80 --daemon --verbose
+</code></pre>
+</li>
+</ul>
+<h2 id="jedis"><a href="#jedis" class="headerlink" title="jedis"></a>jedis</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。<br> 在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。<br> Jedis同样也是托管在github上，地址：<a target="_blank" rel="noopener" href="https://github.com/xetorthio/jedis">https://github.com/xetorthio/jedis</a></li>
+</ul>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ul>
+<li>由于linux防火墙默认开启，redis的服务端口6379并不在开放规则之内，所有需要将此端口开放访问或者关闭防火墙。<br> 关闭防火墙命令：sevice iptables stop<br> 如果是修改防火墙规则，可以修改：&#x2F;etc&#x2F;sysconfig&#x2F;iptables文件</li>
+</ul>
+<h3 id="通过jedis连接redis单机"><a href="#通过jedis连接redis单机" class="headerlink" title="通过jedis连接redis单机"></a>通过jedis连接redis单机</h3><pre><code class="line-numbers language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+    &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+    &lt;version&gt;2.7.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h4 id="单实例连接"><a href="#单实例连接" class="headerlink" title="单实例连接"></a>单实例连接</h4><pre><code class="line-numbers language-java">// 单实例连接redis
+    @Test
+    public void testJedisSingle() &#123;
+        Jedis jedis = new Jedis(&quot;192.168.101.3&quot;, 6379);
+        jedis.set(&quot;name&quot;, &quot;bar&quot;);
+        String name = jedis.get(&quot;name&quot;);
+        System.out.println(name);
+        jedis.close();
+    &#125;
+</code></pre>
+<h4 id="使用连接池连接"><a href="#使用连接池连接" class="headerlink" title="使用连接池连接"></a>使用连接池连接</h4><p>   通过单实例连接redis不能对redis连接进行共享，可以使用连接池对redis连接进行共享，提高资源利用率，使用jedisPool连接redis服务，如下代码：</p>
+<pre><code class="line-numbers language-java">@Test
+    public void pool() &#123;
+        JedisPoolConfig config = new JedisPoolConfig();
+        //最大连接数
+        config.setMaxTotal(30);
+        //最大连接空闲数
+        config.setMaxIdle(2);
+        JedisPool pool = new JedisPool(config, &quot;192.168.101.3&quot;, 6379);
+        Jedis jedis = null;
+        try  &#123;
+            jedis = pool.getResource();
+            jedis.set(&quot;name&quot;, &quot;lisi&quot;);
+            String name = jedis.get(&quot;name&quot;);
+            System.out.println(name);
+        &#125;catch(Exception ex)&#123;
+            ex.printStackTrace();
+        &#125;finally&#123;
+            if(jedis != null)&#123;
+                //关闭连接,会被会收回连接池
+                jedis.close(); 
+            &#125;
+        &#125;
+    &#125;
+</code></pre>
+<h4 id="jedis与spring整合"><a href="#jedis与spring整合" class="headerlink" title="jedis与spring整合"></a>jedis与spring整合</h4><ul>
+<li>配置spring配置文件applicationContext.xml</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-3.2.xsd &quot;&gt;
+
+&lt;!-- 连接池配置 --&gt;
+    &lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;
+        &lt;!-- 最大连接数 --&gt;
+        &lt;property name=&quot;maxTotal&quot; value=&quot;30&quot; /&gt;
+        &lt;!-- 最大空闲连接数 --&gt;
+        &lt;property name=&quot;maxIdle&quot; value=&quot;10&quot; /&gt;
+        &lt;!-- 每次释放连接的最大数目 --&gt;
+        &lt;property name=&quot;numTestsPerEvictionRun&quot; value=&quot;1024&quot; /&gt;
+        &lt;!-- 释放连接的扫描间隔（毫秒） --&gt;
+        &lt;property name=&quot;timeBetweenEvictionRunsMillis&quot; value=&quot;30000&quot; /&gt;
+        &lt;!-- 连接最小空闲时间 --&gt;
+        &lt;property name=&quot;minEvictableIdleTimeMillis&quot; value=&quot;1800000&quot; /&gt;
+        &lt;!-- 连接空闲多久后释放, 当空闲时间&gt;该值 且 空闲连接&gt;最大空闲连接数 时直接释放 --&gt;
+        &lt;property name=&quot;softMinEvictableIdleTimeMillis&quot; value=&quot;10000&quot; /&gt;
+        &lt;!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 --&gt;
+        &lt;property name=&quot;maxWaitMillis&quot; value=&quot;1500&quot; /&gt;
+        &lt;!-- 在获取连接的时候检查有效性, 默认false --&gt;
+        &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot; /&gt;
+        &lt;!-- 在空闲时检查有效性, 默认false --&gt;
+        &lt;property name=&quot;testWhileIdle&quot; value=&quot;true&quot; /&gt;
+        &lt;!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true --&gt;
+        &lt;property name=&quot;blockWhenExhausted&quot; value=&quot;false&quot; /&gt;
+    &lt;/bean&gt;
+    &lt;!-- redis单机 通过连接池 --&gt;
+      &lt;!-- destroy-method=&quot;close&quot; 的意思是连接执行完，回收回到连接池，当然不需要显示执行  close方法，已经交给Spring容器来管理了--&gt;
+    &lt;bean id=&quot;jedisPool&quot; class=&quot;redis.clients.jedis.JedisPool&quot; destroy-method=&quot;close&quot;&gt;
+        &lt;constructor-arg name=&quot;poolConfig&quot; ref=&quot;jedisPoolConfig&quot;/&gt;
+        &lt;constructor-arg name=&quot;host&quot; value=&quot;192.168.25.145&quot;/&gt;
+        &lt;constructor-arg name=&quot;port&quot; value=&quot;6379&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<p>整合操作示例：</p>
+<pre><code class="line-numbers language-java">import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+public class JedisSpringTest &#123;
+    private ApplicationContext applicationContext;
+    @Before
+    public void setUp() throws Exception&#123;
+        String configLocation = &quot;classpath:ApplicationContext.xml&quot;;
+        applicationContext = new ClassPathXmlApplicationContext(configLocation);
+    &#125;
+    @Test
+    public void testJedisSpring() throws Exception&#123;
+        //获取连接池
+        JedisPool jedisPool = (JedisPool)applicationContext.getBean(&quot;jedisPool&quot;);
+        //获取连接
+        Jedis jedis = jedisPool.getResource();
+        //存入
+        jedis.set(&quot;key4&quot;, &quot;bbb&quot;);
+        //取出
+        System.out.println(jedis.get(&quot;key4&quot;));  //这里没有执行close，是因为交给Spring容器管理了，Spring会执行回收的。
+    &#125;
+&#125;
+</code></pre>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Redis第二篇 理论应用基础操作</p><p><a href="http://example.com/2016/03/03/中间件/redis/redis-应用基础操作/">http://example.com/2016/03/03/中间件/redis/redis-应用基础操作/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2016-03-03</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-06-28</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><a class="link-muted mr-2" rel="tag" href="/tags/redis/">redis</a><a class="link-muted mr-2" rel="tag" href="/tags/NOSQL/">NOSQL</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2016/03/04/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis/redis%E9%AB%98%E5%8F%AF%E7%94%A8/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Redis高可用-五种集群设计方案分析</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2016/03/02/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis/redis-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="level-item">Redis第一篇 环境搭建</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#NoSQL数据库的四大分类如下"><span class="level-left"><span class="level-item">1</span><span class="level-item">NoSQL数据库的四大分类如下:</span></span></a></li><li><a class="level is-mobile" href="#Redis的介绍"><span class="level-left"><span class="level-item">2</span><span class="level-item">Redis的介绍</span></span></a></li><li><a class="level is-mobile" href="#超大规模和高并发的SNS类型的web2-0纯动态网站，暴露了很多难以克服的问题，例如："><span class="level-left"><span class="level-item">3</span><span class="level-item">超大规模和高并发的SNS类型的web2.0纯动态网站，暴露了很多难以克服的问题，例如：</span></span></a></li><li><a class="level is-mobile" href="#redis特点"><span class="level-left"><span class="level-item">4</span><span class="level-item">redis特点</span></span></a></li><li><a class="level is-mobile" href="#Redis应用领域"><span class="level-left"><span class="level-item">5</span><span class="level-item">Redis应用领域</span></span></a></li><li><a class="level is-mobile" href="#Redis支持的键值对类型："><span class="level-left"><span class="level-item">6</span><span class="level-item">Redis支持的键值对类型：</span></span></a></li><li><a class="level is-mobile" href="#Redis事务处理"><span class="level-left"><span class="level-item">7</span><span class="level-item">Redis事务处理</span></span></a></li><li><a class="level is-mobile" href="#Redis乐观锁"><span class="level-left"><span class="level-item">8</span><span class="level-item">Redis乐观锁</span></span></a></li><li><a class="level is-mobile" href="#Redis性能监控"><span class="level-left"><span class="level-item">9</span><span class="level-item">Redis性能监控</span></span></a></li><li><a class="level is-mobile" href="#jedis"><span class="level-left"><span class="level-item">10</span><span class="level-item">jedis</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#介绍"><span class="level-left"><span class="level-item">10.1</span><span class="level-item">介绍</span></span></a></li><li><a class="level is-mobile" href="#遇到的问题"><span class="level-left"><span class="level-item">10.2</span><span class="level-item">遇到的问题</span></span></a></li><li><a class="level is-mobile" href="#通过jedis连接redis单机"><span class="level-left"><span class="level-item">10.3</span><span class="level-item">通过jedis连接redis单机</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#单实例连接"><span class="level-left"><span class="level-item">10.3.1</span><span class="level-item">单实例连接</span></span></a></li><li><a class="level is-mobile" href="#使用连接池连接"><span class="level-left"><span class="level-item">10.3.2</span><span class="level-item">使用连接池连接</span></span></a></li><li><a class="level is-mobile" href="#jedis与spring整合"><span class="level-left"><span class="level-item">10.3.3</span><span class="level-item">jedis与spring整合</span></span></a></li></ul></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

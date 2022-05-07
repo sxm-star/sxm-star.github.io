@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Spring框架-IOC - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="认识springframework的整体框架框架下载地址 https:&amp;#x2F;&amp;#x2F;repo.spring.io&amp;#x2F;libs-release&amp;#x2F;org&amp;#x2F;springframework&amp;#x2F;spring&amp;#x2F;4.2.7.RELEASE&amp;#x2F;"><meta property="og:type" content="blog"><meta property="og:title" content="Spring框架-IOC"><meta property="og:url" content="http://example.com/2013/11/08/framework/spring/spring%E6%A1%86%E6%9E%B6-IOC/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="认识springframework的整体框架框架下载地址 https:&amp;#x2F;&amp;#x2F;repo.spring.io&amp;#x2F;libs-release&amp;#x2F;org&amp;#x2F;springframework&amp;#x2F;spring&amp;#x2F;4.2.7.RELEASE&amp;#x2F;"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/spring/springframework.png"><meta property="og:image" content="http://example.com/images/spring/spring_jar.png"><meta property="og:image" content="http://example.com/images/spring/Snip20200619_1.png"><meta property="og:image" content="http://example.com/images/spring/dyn_factory.png"><meta property="og:image" content="http://example.com/images/spring/static_factory.png"><meta property="og:image" content="http://example.com/images/spring/ioc%E6%AF%94%E8%BE%83.png"><meta property="og:image" content="http://example.com/images/spring/Resource.png"><meta property="og:image" content="http://example.com/images/spring/ResourceLoader.png"><meta property="og:image" content="http://example.com/images/spring/test1.png"><meta property="og:image" content="http://example.com/images/spring/test2.png"><meta property="og:image" content="http://example.com/images/spring/test3.png"><meta property="article:published_time" content="2013-11-08T12:52:41.000Z"><meta property="article:modified_time" content="2020-07-10T19:26:16.469Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="’Developer,Programmer,Coder,Book,History,culture,science and technology‘"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/spring/springframework.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2013/11/08/framework/spring/spring%E6%A1%86%E6%9E%B6-IOC/"},"headline":"Spring框架-IOC","image":["http://example.com/images/spring/springframework.png","http://example.com/images/spring/spring_jar.png","http://example.com/images/spring/Snip20200619_1.png","http://example.com/images/spring/dyn_factory.png","http://example.com/images/spring/static_factory.png","http://example.com/images/spring/ioc%E6%AF%94%E8%BE%83.png","http://example.com/images/spring/Resource.png","http://example.com/images/spring/ResourceLoader.png","http://example.com/images/spring/test1.png","http://example.com/images/spring/test2.png","http://example.com/images/spring/test3.png"],"datePublished":"2013-11-08T12:52:41.000Z","dateModified":"2020-07-10T19:26:16.469Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"认识springframework的整体框架框架下载地址 https:&#x2F;&#x2F;repo.spring.io&#x2F;libs-release&#x2F;org&#x2F;springframework&#x2F;spring&#x2F;4.2.7.RELEASE&#x2F;"}</script><link rel="canonical" href="http://example.com/2013/11/08/framework/spring/spring%E6%A1%86%E6%9E%B6-IOC/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2013-11-08T12:52:41.000Z" title="2013/11/8 下午8:52:41">2013-11-08</time>发表</span><span class="level-item"><time dateTime="2020-07-10T19:26:16.469Z" title="2020/7/11 上午3:26:16">2020-07-11</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a><span> / </span><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/spring/">spring</a></span><span class="level-item">43 分钟读完 (大约6511个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Spring框架-IOC</h1><div class="content"><h2 id="认识springframework的整体框架"><a href="#认识springframework的整体框架" class="headerlink" title="认识springframework的整体框架"></a>认识springframework的整体框架</h2><p><img src="/images/spring/springframework.png"><br><strong>框架下载地址</strong> <a target="_blank" rel="noopener" href="https://repo.spring.io/libs-release/org/springframework/spring/4.2.7.RELEASE/">https://repo.spring.io/libs-release/org/springframework/spring/4.2.7.RELEASE/</a></p>
+<span id="more"></span>
+<h2 id="第一个Spring框架搭建的例子"><a href="#第一个Spring框架搭建的例子" class="headerlink" title="第一个Spring框架搭建的例子"></a>第一个Spring框架搭建的例子</h2><h3 id="第一种搭建方式maven方法搭建"><a href="#第一种搭建方式maven方法搭建" class="headerlink" title="第一种搭建方式maven方法搭建"></a>第一种搭建方式maven方法搭建</h3><ol>
+<li>pom.xml文件添加以下依赖即可<pre><code class="line-numbers language-xml">&lt;dependency&gt;
+ &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+ &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+ &lt;version&gt;4.0.3.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+ &lt;groupId&gt;junit&lt;/groupId&gt;
+ &lt;artifactId&gt;junit&lt;/artifactId&gt;
+ &lt;version&gt;4.9&lt;/version&gt;
+ &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+</ol>
+<h3 id="第二种搭建方式单独在项目libs下添加-jar包搭建"><a href="#第二种搭建方式单独在项目libs下添加-jar包搭建" class="headerlink" title="第二种搭建方式单独在项目libs下添加  jar包搭建"></a>第二种搭建方式单独在项目libs下添加  jar包搭建</h3><ul>
+<li><img src="/images/spring/spring_jar.png"></li>
+</ul>
+<h2 id="工厂模式IOC解耦"><a href="#工厂模式IOC解耦" class="headerlink" title="工厂模式IOC解耦"></a>工厂模式IOC解耦</h2><h3 id="耦合"><a href="#耦合" class="headerlink" title="耦合"></a>耦合</h3><ul>
+<li>耦合性(Coupling)，也叫耦合度，是对模块间关联程度的度量。耦合的强弱取决于模块间接口的复杂性、调 用模块的方式以及通过界面传送数据的多少。模块间的耦合度是指模块之间的依赖关系，包括控制关系、调用关 系、数据传递关系。模块间联系越多，其耦合性越强，同时表明其独立性越差( 降低耦合性，可以提高其独立 性)。耦合性存在于各个领域，而非软件设计中独有的，但是我们只讨论软件工程中的耦合。</li>
+<li>在软件工程中，耦合指的就是就是对象之间的依赖性。对象之间的耦合越高，维护成本越高。因此对象的设计 应使类和构件之间的耦合最小。软件设计中通常用耦合度和内聚度作为衡量模块独立程度的标准。划分模块的一个准则就是高内聚低耦合。<h4 id="耦合例子"><a href="#耦合例子" class="headerlink" title="耦合例子"></a>耦合例子</h4></li>
+<li>我们在开发中，有些 依赖关系是必须的，有些依赖关系可以通过 优化代码来解除的。<br> 请看下面的示例代码:<pre><code class="line-numbers language-java">public class AccountServiceImpl implements IAccountService &#123; 
+  private IAccountDao accountDao = new AccountDaoImpl();
+ &#125;
+//上面的代码表示:
+//业务层调用持 久层，并 且此时业 务层在依 赖持久层 的接口和实 现类。如 果此时没 有持久层 实现类， 编译
+//将不能通过。这种编译期依赖关系，应该在我们开发中杜绝。我们需要优化代码解决。
+</code></pre>
+<pre><code class="line-numbers language-java"> //当是我们讲解 jdbc 时，是通过反射来注册驱动的，代码如下: 
+ Class.forName(&quot;com.mysql.jdbc.Driver&quot;);//此处只是一个字符串
+ //产生了一个新的问题，mysql 驱动的全限定类名字符串是在 java 类中写死的，一旦要改还是要修改 源码。
+//解决这个问题也很简单，使用配置文件配置。
+</code></pre>
+<h3 id="工厂模式解耦"><a href="#工厂模式解耦" class="headerlink" title="工厂模式解耦"></a>工厂模式解耦</h3></li>
+<li>在实际开发中我们可以把三层的对象都使用配置文件配置起来，当启动服务器应用加载的时候，让一个类中的方法通过读取配置文件，把这些对象创建出来并存起来。在接下来的使用的时候，直接拿过来用就好了。<br>那么，这个读取配置文件，创建和获取三层对象的类就是工厂。<h3 id="控制反转-Inversion-Of-Control"><a href="#控制反转-Inversion-Of-Control" class="headerlink" title="控制反转-Inversion Of Control"></a>控制反转-Inversion Of Control</h3></li>
+<li>之前我们在获取对象时，都是采用 new 的方式。是主动的。现在:我们获取对象时，同时跟工厂要，有工厂为我们查找或者创建对象。是被动的。</li>
+<li>削减计算机程序的耦合(解除我们代码中的依赖关系)。</li>
+</ul>
+<h2 id="SpringIOC中的三种容器"><a href="#SpringIOC中的三种容器" class="headerlink" title="SpringIOC中的三种容器"></a>SpringIOC中的三种容器</h2><p><img src="/images/spring/Snip20200619_1.png" alt="spring容器中工厂类结构图"></p>
+<h3 id="ClassPathXmlApplicationContext-默认会去-classPath-路径下找。classPath-路径指的就是编译后的-classes-目录。"><a href="#ClassPathXmlApplicationContext-默认会去-classPath-路径下找。classPath-路径指的就是编译后的-classes-目录。" class="headerlink" title="ClassPathXmlApplicationContext 默认会去 classPath 路径下找。classPath 路径指的就是编译后的 classes 目录。"></a>ClassPathXmlApplicationContext 默认会去 classPath 路径下找。classPath 路径指的就是编译后的 classes 目录。</h3><pre><code class="line-numbers language-java">@Test
+public void testBean()&#123;
+    //单配置文件方式一
+    BeanFactory beanFactory=new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+    //单配置文件方式二
+    BeanFactory beanFactory=new ClassPathXmlApplicationContext(&quot;classpath:applicationContext.xml&quot;);
+    //多个配置文件
+    BeanFactory beanFactory=new ClassPathXmlApplicationContext(new String[]&#123;&quot;applicationContext.xml&quot;&#125;);
+    //绝对路径需加“file:”前缀
+    BeanFactory beanFactory = new ClassPathXmlApplicationContext(&quot;file:E:\Workspace\idea_workspace\spring\springtest\src\main\resources\applicationContext.xml&quot;);
+    TestBean bean= (TestBean) beanFactory.getBean(&quot;testBean&quot;);
+&#125;
+</code></pre>
+<p>运行示例你会发现 “classpath:” 是可以缺省的。<br>如果是绝对路径，就需要加上 “file:” 前缀，不可缺省。</p>
+<h3 id="FileSystemXmlApplicationContext使用方法"><a href="#FileSystemXmlApplicationContext使用方法" class="headerlink" title="FileSystemXmlApplicationContext使用方法"></a>FileSystemXmlApplicationContext使用方法</h3><p>FileSystemXmlApplicationContext 默认是去项目的路径下加载，可以是相对路径，也可以是绝对路径，若是绝对路径，“file:” 前缀可以缺省。</p>
+<pre><code class="line-numbers language-java">@Test
+public void testBean()&#123;
+    //classes目录
+    BeanFactory beanFactory=new FileSystemXmlApplicationContext(&quot;classpath:applicationContext.xml&quot;);
+    //项目路径相对路径
+    BeanFactory beanFactory=new FileSystemXmlApplicationContext(&quot;src\\main\\resources\\applicationContext.xml&quot;);
+    //多配置文件
+    BeanFactory beanFactory=new FileSystemXmlApplicationContext(new String[]&#123;&quot;src\\main\\resources\\applicationContext.xml&quot;&#125;);
+    //绝对目录
+    BeanFactory beanFactory=new FileSystemXmlApplicationContext(new String[]&#123;&quot;E:\\Workspace\\idea_workspace\\spring\\springtest\\src\\main\\resources\\applicationContext.xml&quot;&#125;);
+    TestBean bean= (TestBean) beanFactory.getBean(&quot;testBean&quot;);
+    assertEquals(&quot;testStr&quot;,bean.getTestStr());
+&#125;
+</code></pre>
+<h3 id="AnnotationConfigApplicationContext当我们使用注解配置容器对象时，需要使用此类来创建-spring-容器。它用来读取注解。"><a href="#AnnotationConfigApplicationContext当我们使用注解配置容器对象时，需要使用此类来创建-spring-容器。它用来读取注解。" class="headerlink" title="AnnotationConfigApplicationContext当我们使用注解配置容器对象时，需要使用此类来创建 spring 容器。它用来读取注解。"></a>AnnotationConfigApplicationContext当我们使用注解配置容器对象时，需要使用此类来创建 spring 容器。它用来读取注解。</h3><pre><code class="line-numbers language-java">AnnotationConfigApplicationContext actx  = new AnnotationConfigApplicationContext(AppConfig.class);
+DataSource  dataSource = (DataSource) actx.getBean(&quot;dataSource&quot;);
+System.out.println(dataSource);
+</code></pre>
+<h2 id="Applicationcontext容器加载Bean-和-Beanfactory容器加载Bean区别"><a href="#Applicationcontext容器加载Bean-和-Beanfactory容器加载Bean区别" class="headerlink" title="Applicationcontext容器加载Bean 和 Beanfactory容器加载Bean区别"></a>Applicationcontext容器加载Bean 和 Beanfactory容器加载Bean区别</h2><h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ol>
+<li>Applicationcontext容器在进行初始化时，会将其中的所有Bean（对象）进行创建</li>
+</ol>
+<ul>
+<li>缺点:占用系统资源（内存、CPU等）</li>
+<li>优点:响应速度快</li>
+</ul>
+<ol start="2">
+<li>Beanfactory容器中的对象，在容器初始化时并不会被创建，而是在真正获取该对象时才被创建</li>
+</ol>
+<ul>
+<li>缺点:相对来说，响应速度慢</li>
+<li>优点:不多占用系统资源<h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3>都是在无参构造器调用之前 ，就已经在堆内存分配空间，动态代码块先执行中可看出<pre><code class="line-numbers language-java">public class TestSpring &#123;
+  @Test
+  public void testApplicationContext() &#123;
+      @SuppressWarnings(&quot;resource&quot;)
+      ApplicationContext ac = new FileSystemXmlApplicationContext(&quot;classpath:applicationContext.xml&quot;);
+      ISomeService someService1 = (ISomeService) ac.getBean(&quot;someServiceImpl&quot;);
+       someService1.doSome();
+  &#125;
+  @Test
+  public void testBeanFactory() &#123;
+      BeanFactory beanFactory = (BeanFactory) new XmlBeanFactory(new ClassPathResource(&quot;applicationContext.xml&quot;));
+      ISomeService someService1 = (ISomeService) beanFactory.getBean(&quot;someServiceImpl&quot;);
+       someService1.doSome();
+  &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">public class TestSpring &#123;
+  @Test
+  public void testApplicationContext() &#123;
+//		ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+//		ISomeService someService = (ISomeService) ac.getBean(&quot;someImpl&quot;);
+//		someService.doSome();
+//		ApplicationContext ac = new FileSystemXmlApplicationContext(&quot;classpath:applicationContext.xml&quot;);
+//		ISomeService someService = (ISomeService) ac.getBean(&quot;someImpl&quot;);
+//		someService.doSome();
+//		BeanFactory beanFactory = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+//		ISomeService someService = (ISomeService) beanFactory.getBean(&quot;someImpl&quot;);
+//		someService.doSome();
+      BeanFactory beanFactory = new FileSystemXmlApplicationContext(&quot;classpath:applicationContext.xml&quot;);
+      ISomeService someService = (ISomeService) beanFactory.getBean(&quot;someImpl&quot;);
+      someService.doSome();
+  &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="容器加载动态工厂类，然后再由工厂类生产bean-示例"><a href="#容器加载动态工厂类，然后再由工厂类生产bean-示例" class="headerlink" title="容器加载动态工厂类，然后再由工厂类生产bean 示例"></a>容器加载动态工厂类，然后再由工厂类生产bean 示例</h2><p><img src="/images/spring/dyn_factory.png"></p>
+<pre><code class="line-numbers language-xml">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+
+    &lt;!-- bean definitions here --&gt;
+   &lt;beans&gt;
+    &lt;!-- 定义动态工厂 --&gt;
+   &lt;bean id=&quot;serviceFactory&quot; class=&quot;com.songxm.learning.spring.factory.ServiceFactory&quot;&gt;&lt;/bean&gt;
+   &lt;bean id=&quot;someServiceImpl&quot; factory-bean=&quot;serviceFactory&quot; factory-method=&quot;getSomeService&quot;&gt;&lt;/bean&gt;
+   &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<p>动态工厂</p>
+<pre><code class="line-numbers language-java">public class ServiceFactory &#123;
+    public ISomeService getSomeService()
+    &#123;
+        System.out.println(&quot;工厂生产bean&quot;);
+        return new SomeServiceImpl();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="容器加载静态工厂类，然后再由工厂类生产bean-示例"><a href="#容器加载静态工厂类，然后再由工厂类生产bean-示例" class="headerlink" title="容器加载静态工厂类，然后再由工厂类生产bean 示例"></a>容器加载静态工厂类，然后再由工厂类生产bean 示例</h2><p><img src="/images/spring/static_factory.png"></p>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+    &lt;!-- bean definitions here --&gt;
+   &lt;beans&gt;
+   &lt;bean id=&quot;someServiceImpl&quot; class=&quot;com.songxm.learning.spring.factory.ServiceFactory&quot; factory-method=&quot;getSomeService&quot;&gt;&lt;/bean&gt;
+   &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<p>静态工厂</p>
+<pre><code class="line-numbers language-java">public class ServiceFactory &#123;
+    public static ISomeService getSomeService()
+    &#123;
+        System.out.println(&quot;静态工厂生产bean&quot;);
+        return new SomeServiceImpl();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="Bean的作用域"><a href="#Bean的作用域" class="headerlink" title="Bean的作用域"></a>Bean的作用域</h2><pre><code class="line-numbers language-text">当通过 Spring容器创建一个Bean实例时，不仅可以完成Bean的实例化，还可以通过scope属性，为Bean指定特定的作用域。 Spring支持5种作用域。
+（1） singleton:单态模式。即在整个 Spring容器中，使用 singleton定义的Bean将是单例的只有一个实例。默认为单态的
+（2） prototype:原型模式。即每次使用 getbean方法获取的同一个&lt;bean&gt;的实例都是一个新的实例。
+（3） request对于每次HTTP请求，都将会产生一个不同的Bean实例。
+（4） session:对于每个不同的 HTTP session，都将产生一个不同的Bean实例。
+注意:
+（1）对于 scope的值 request、 session与 global session，只有在Web应用中使用Spring时，该作用域才有效
+（2）对于 scope为singleton的单例模式，该Bean是在容器被创建时即被装配好了。（
+ (3）对于 scope为prototype的原型模式，Bean实例是在代码中使用该Bean实例时才进行装配的。
+</code></pre>
+<h3 id="scope-x3D-prototype-原型模式-深克隆"><a href="#scope-x3D-prototype-原型模式-深克隆" class="headerlink" title="scope&#x3D;prototype 原型模式 深克隆"></a>scope&#x3D;prototype 原型模式 深克隆</h3><pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+   &lt;beans&gt;
+   &lt;!-- scope=&quot;prototype&quot;原型模式，其对象的创建时机不是在Spring容器初始化时创建，而是在代码中真正访问时才创建 --&gt;
+    &lt;bean id=&quot;someServiceImpl&quot; class=&quot;com.songxm.learning.spring.service.SomeServiceImpl&quot; scope=&quot;prototype&quot;&gt;&lt;/bean&gt;
+   &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">        ApplicationContext ac = new FileSystemXmlApplicationContext(&quot;classpath:applicationContext.xml&quot;);
+        ISomeService someService1 = (ISomeService) ac.getBean(&quot;someServiceImpl&quot;);
+        ISomeService someService2 = (ISomeService) ac.getBean(&quot;someServiceImpl&quot;);
+        System.out.println(someService1 == someService2);
+输出:
+执行无参构造器!!!!
+执行无参构造器!!!!
+false		
+</code></pre>
+<h3 id="scope-x3D-singleton-单例"><a href="#scope-x3D-singleton-单例" class="headerlink" title="scope&#x3D;singleton 单例"></a>scope&#x3D;singleton 单例</h3><pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+   &lt;beans&gt;
+    &lt;bean id=&quot;someServiceImpl&quot; class=&quot;com.songxm.learning.spring.service.SomeServiceImpl&quot; scope=&quot;singleton&quot;&gt;&lt;/bean&gt;
+   &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">输出:
+执行无参构造器!!!!
+true
+</code></pre>
+<h2 id="Bean后处理器"><a href="#Bean后处理器" class="headerlink" title="Bean后处理器"></a>Bean后处理器</h2><ul>
+<li><strong>Bean后处理器是一种特殊的Bean，容器中所有的Bean在初始化时，均会自动执行该类的两个方法</strong>。由于该Bean是由其它Bean自动调用执行，不是程序员手工调用，故此Bean无须id属性。需要做的是，在Bean后处理器类方法中，只要对Bean类与Bean类中的方法进行判断就可实现对指定的Bean的指定方法进行功能扩展与增强。方法返回的Bean对象，即是增强过的对象。</li>
+<li>代码中需要自定义Bean后处理器类。该类就是实现了接口 <strong>Beanpostprocessor</strong> 的类。该接口中包含两个方法，分别在目标Bean初始化完毕之前与之后执行。它们的返回值为:功能被扩展或增强后的Bean对象。<strong>Bean初始化完毕有一个标志:一个方法将被执行。即当该方法被执行时，表示该Bean被初始化完毕</strong>。所以Bean后处理器中两个方法的执行，是在这个方法之前之后执行。这个方法在后面将会讲到<br> <strong>public Object postprocessbeforeinitiailzation（Object bean， String beanId)throws Beansexception</strong><br>该方法会在目标Bean初始化完毕之前由容器自动调用。<br> <strong>public Object postprocessafterinitialization（Object bean， String beanId） throws Beansexception</strong>该方法会在目标Bean初始化完毕之后由容器自动调用<br>它们的参数是:第一个参数是系统即将初始化的Bean实例，第二个参数是该Bean实例的id属性值。若Bean没有id就是name属性值。</li>
+</ul>
+<pre><code class="line-numbers language-java">package com.songxm.learning.spring.service;
+public interface ISomeService &#123;
+    public String doSome(String task);
+&#125;
+package com.songxm.learning.spring.service;
+public class SomeServiceImpl implements ISomeService &#123;
+    public SomeServiceImpl() &#123;
+        System.out.println(&quot;执行无参构造器!!!!&quot;);
+    &#125;
+    @Override
+    public String doSome(String task) &#123;
+        System.out.println(&quot;doSome.....&quot; + task);
+        return task;
+    &#125;
+&#125;
+package com.songxm.learning.spring.service.processor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+public class MyBeanPostProcessor implements BeanPostProcessor &#123;
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException &#123;
+        System.out.println(&quot;bean初始化前准备阶段.........&quot; + beanName + &quot;--&gt;&quot; + bean);
+        return bean;
+    &#125;
+    @Override
+    public Object postProcessAfterInitialization(final Object bean, String beanName) throws BeansException &#123;
+        System.out.println(&quot;bean初始后.........&quot; + beanName + &quot;--&gt;&quot; + bean);
+        Object proxy_obj = Proxy.newProxyInstance(bean.getClass().getClassLoader(), bean.getClass().getInterfaces(),
+                new InvocationHandler() &#123;
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;
+                        System.out.println(&quot;动态代理拦截bean执行方法------&quot;);
+                        Object invoke = method.invoke(bean, args);
+                        return ((String) invoke).toUpperCase();
+                    &#125;
+                &#125;);
+        return proxy_obj;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+   &lt;beans&gt;
+    &lt;bean id=&quot;someServiceImpl&quot; class=&quot;com.songxm.learning.spring.service.SomeServiceImpl&quot;&gt;&lt;/bean&gt;
+    &lt;bean class=&quot;com.songxm.learning.spring.service.processor.MyBeanPostProcessor&quot;&gt;&lt;/bean&gt;
+   &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import com.songxm.learning.spring.service.ISomeService;
+public class TestSpring &#123;
+    @Test
+    public void testApplicationContext() &#123;
+        ApplicationContext ac = new FileSystemXmlApplicationContext(&quot;classpath:applicationContext.xml&quot;);
+        ISomeService someService1 = (ISomeService) ac.getBean(&quot;someServiceImpl&quot;);
+        System.out.println(someService1.doSome(&quot;abbbbbb&quot;));
+    &#125;
+&#125;
+执行结果:
+执行无参构造器!!!!
+bean初始化前准备阶段.........someServiceImpl--&gt;com.songxm.learning.spring.service.SomeServiceImpl@5f86961
+bean初始后.........someServiceImpl--&gt;com.songxm.learning.spring.service.SomeServiceImpl@5f86961
+动态代理拦截bean执行方法------
+doSome.....abbbbbb
+ABBBBBB
+</code></pre>
+<h2 id="定制bean的生命始末"><a href="#定制bean的生命始末" class="headerlink" title="定制bean的生命始末"></a>定制bean的生命始末</h2><p>对于bean定制的销毁调用需满足以下条件：</p>
+<ul>
+<li>当前bean需要是singleton的</li>
+<li>要手工关闭容器<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+ &lt;beans&gt;
+  &lt;bean id=&quot;someServiceImpl&quot; class=&quot;com.songxm.learning.spring.service.SomeServiceImpl&quot; init-method=&quot;init&quot; destroy-method=&quot;destroy&quot;&gt;&lt;/bean&gt;
+  &lt;bean class=&quot;com.songxm.learning.spring.service.processor.MyBeanPostProcessor&quot;&gt;&lt;/bean&gt;
+ &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">package com.songxm.learning.spring.service;
+public class SomeServiceImpl implements ISomeService &#123;
+  public SomeServiceImpl() &#123;
+      System.out.println(&quot;执行无参构造器!!!!&quot;);
+  &#125;
+  @Override
+  public String doSome(String task) &#123;
+      System.out.println(&quot;doSome.....&quot; + task);
+      return task;
+  &#125;
+  public void destroy() &#123;
+      System.out.println(&quot;销毁bean........&quot;);
+  &#125;
+  public void init() &#123;
+      System.out.println(&quot;初始化bean.......&quot;);
+  &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import com.songxm.learning.spring.service.ISomeService;
+public class TestSpring &#123;
+  @Test
+  public void testApplicationContext() &#123;
+      ApplicationContext ac = new FileSystemXmlApplicationContext(&quot;classpath:applicationContext.xml&quot;);
+      ISomeService someService1 = (ISomeService) ac.getBean(&quot;someServiceImpl&quot;);
+      System.out.println(someService1.doSome(&quot;abbbbbb&quot;));
+      ((FileSystemXmlApplicationContext)ac).close();
+  &#125;
+&#125;
+</code></pre>
+执行结果<pre><code class="line-numbers language-text">执行无参构造器!!!!
+bean初始化前准备阶段.........someServiceImpl--&gt;com.songxm.learning.spring.service.SomeServiceImpl@78ac15cd
+初始化bean.......
+bean初始后.........someServiceImpl--&gt;com.songxm.learning.spring.service.SomeServiceImpl@78ac15cd
+动态代理拦截bean执行方法------
+doSome.....abbbbbb
+ABBBBBB
+销毁bean........
+</code></pre>
+<h2 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h2>Spring IOC容器对Bean的生命周期进行管理的过程: .</li>
+<li><strong>通过构造器或工厂方法创建Bean实例</strong></li>
+<li><strong>为Bean的属性设置值和对其他Bean的引用</strong></li>
+<li>将Bean实例传递给Bean后置处理器的<br><strong>postProcessBeforelnitialization方法</strong></li>
+<li>调用Bean的<strong>初始化方法</strong></li>
+<li>将Bean实例传递给Bean后置处理器的<br><strong>postProcessAfterlnitialization方法</strong></li>
+<li>Bean可以使用了</li>
+<li>当容器<strong>关闭时,调用Bean的销毁方法</strong></li>
+</ul>
+<h2 id="bean-标签的id属性与name属性"><a href="#bean-标签的id属性与name属性" class="headerlink" title="bean 标签的id属性与name属性"></a>bean 标签的id属性与name属性</h2><ul>
+<li>一般情况下，命名 bean 使用id属性，而不使用name属性。在没有id属性的情况下name属性与id属性作用是相同的。但当bean中含有一些特殊字符时，就需要使用name属性了，id的命名需要满足XML对1D属性命名规范:必须以字母开头，可以包含字母、数字<br>下划线、连字符、句话、冒号<br><strong>name属性值则可以包含各种字符</strong></li>
+</ul>
+<h2 id="基于XML的DI"><a href="#基于XML的DI" class="headerlink" title="基于XML的DI"></a>基于XML的DI</h2><h3 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类"></a>注入分类</h3><p>Bean实例在调用无参构造器创建了空值对象后，就要对Bean对象的属性进行初始化<br>初始化是由容器自动完成的，称为注入。根据注入方式的不同，常用的有两类:</p>
+<ul>
+<li>设值注入</li>
+<li>构造注入<br>还有另外一种，实现特定接口注入。由于这种方式采用侵入式编程，污染了代码，所以几乎不用<h4 id="设值注入"><a href="#设值注入" class="headerlink" title="设值注入"></a>设值注入</h4><pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+  &lt;beans&gt;
+      &lt;bean id=&quot;school&quot; class=&quot;com.songxm.learning.spring.bean.School&quot;&gt;
+          &lt;property name=&quot;name&quot; value=&quot;清华大学&quot;/&gt;
+      &lt;/bean&gt;
+      &lt;bean id=&quot;student&quot; class=&quot;com.songxm.learning.spring.bean.Student&quot;&gt;
+          &lt;property name=&quot;name&quot; value=&quot;sxm&quot;/&gt;
+          &lt;property name=&quot;age&quot; value=&quot;18&quot;/&gt;
+          &lt;property name=&quot;school&quot; ref=&quot;school&quot;/&gt;
+      &lt;/bean&gt;
+  &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">package com.songxm.learning.spring.bean;
+public class School &#123;
+  private String name;
+  public School() &#123;&#125;
+  public School(String name) &#123;
+      this.name = name;
+  &#125;
+  public String getName() &#123;
+      return name;
+  &#125;
+  public void setName(String name) &#123;
+      this.name = name;
+  &#125;
+  @Override
+  public String toString() &#123;
+      return &quot;School [name=&quot; + name + &quot;]&quot;;
+  &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">package com.songxm.learning.spring.bean;
+public class Student &#123;
+  private String name;
+  private int age;
+  private School school;
+  public Student() &#123;
+  &#125;
+  public Student(String name, int age, School school) &#123;
+      this.name = name;
+      this.age = age;
+      this.school = school;
+  &#125;
+  public String getName() &#123;
+      return name;
+  &#125;
+  public void setName(String name) &#123;
+      this.name = name;
+  &#125;
+  public int getAge() &#123;
+      return age;
+  &#125;
+  public void setAge(int age) &#123;
+      this.age = age;
+  &#125;
+  public School getSchool() &#123;
+      return school;
+  &#125;
+  public void setSchool(School school) &#123;
+      this.school = school;
+  &#125;
+  @Override
+  public String toString() &#123;
+      return &quot;Student [name=&quot; + name + &quot;, age=&quot; + age + &quot;, school=&quot; + school + &quot;]&quot;;
+  &#125;
+&#125;
+</code></pre>
+测试效果<pre><code class="line-numbers language-java">import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import com.songxm.learning.spring.bean.Student;
+public class TestSpring &#123;
+  @Test
+  public void testApplicationContext() &#123;
+      ApplicationContext ac = new FileSystemXmlApplicationContext(&quot;classpath:applicationContext.xml&quot;);
+      Student studet = (Student) ac.getBean(&quot;student&quot;);
+      System.out.println(studet);
+  &#125;
+&#125;
+输出:
+Student [name=sxm, age=18, school=School [name=清华大学]]
+</code></pre>
+<h4 id="构造注入constructor-arg"><a href="#构造注入constructor-arg" class="headerlink" title="构造注入constructor-arg"></a>构造注入constructor-arg</h4><pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+  &lt;beans&gt;
+      &lt;bean id=&quot;school&quot; class=&quot;com.songxm.learning.spring.bean.School&quot;&gt;
+          &lt;property name=&quot;name&quot; value=&quot;清华大学&quot;/&gt;
+      &lt;/bean&gt;
+      &lt;bean id=&quot;student&quot; class=&quot;com.songxm.learning.spring.bean.Student&quot;&gt;
+          &lt;constructor-arg index=&quot;0&quot; value=&quot;sxm&quot;&gt;&lt;/constructor-arg&gt;
+          &lt;constructor-arg index=&quot;1&quot; value=&quot;18&quot;&gt;&lt;/constructor-arg&gt;
+          &lt;constructor-arg index=&quot;2&quot; ref=&quot;school&quot;&gt;&lt;/constructor-arg&gt;
+      &lt;/bean&gt;
+  &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<h4 id="命名空间p-设置注入"><a href="#命名空间p-设置注入" class="headerlink" title="命名空间p-设置注入"></a>命名空间p-设置注入</h4><pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+  xsi:schemaLocation=&quot;
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+  &lt;beans&gt;
+      &lt;bean id=&quot;school&quot; class=&quot;com.songxm.learning.spring.bean.School&quot; p:name=&quot;清华大学&quot;&gt;
+      &lt;/bean&gt;
+      &lt;bean id=&quot;student&quot; class=&quot;com.songxm.learning.spring.bean.Student&quot; p:name=&quot;sxm&quot; p:age=&quot;18&quot; p:school-ref=&quot;school&quot;&gt;
+      &lt;/bean&gt;
+  &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<h4 id="命令空间c-构造器注入"><a href="#命令空间c-构造器注入" class="headerlink" title="命令空间c-构造器注入"></a>命令空间c-构造器注入</h4><pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xmlns:c=&quot;http://www.springframework.org/schema/c&quot;
+  xsi:schemaLocation=&quot;
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+  &lt;beans&gt;
+      &lt;bean id=&quot;school&quot; class=&quot;com.songxm.learning.spring.bean.School&quot; c:name=&quot;清华大学&quot;&gt;
+      &lt;/bean&gt;
+      &lt;bean id=&quot;student&quot; class=&quot;com.songxm.learning.spring.bean.Student&quot; c:name=&quot;sxm&quot; c:age=&quot;18&quot; c:school-ref=&quot;school&quot;&gt;
+      &lt;/bean&gt;
+  &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<h4 id="集合属性注入"><a href="#集合属性注入" class="headerlink" title="集合属性注入"></a>集合属性注入</h4><pre><code class="line-numbers language-java">package com.songxm.learning.spring.bean;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+public class School &#123;
+  private String name;
+  private String[] strArray;
+  private List&lt;String&gt; list;
+  private Set&lt;String&gt; set;
+  private Map&lt;String,String&gt; map;
+  public School() &#123;&#125;
+  public String getName() &#123;
+      return name;
+  &#125;
+  public void setName(String name) &#123;
+      this.name = name;
+  &#125;
+  public String[] getStrArray() &#123;
+      return strArray;
+  &#125;
+  public void setStrArray(String[] strArray) &#123;
+      this.strArray = strArray;
+  &#125;
+  public List&lt;String&gt; getList() &#123;
+      return list;
+  &#125;
+  public void setList(List&lt;String&gt; list) &#123;
+      this.list = list;
+  &#125;
+  public Set&lt;String&gt; getSet() &#123;
+      return set;
+  &#125;
+  public void setSet(Set&lt;String&gt; set) &#123;
+      this.set = set;
+  &#125;
+  public Map&lt;String, String&gt; getMap() &#123;
+      return map;
+  &#125;
+  public void setMap(Map&lt;String, String&gt; map) &#123;
+      this.map = map;
+  &#125;
+  @Override
+  public String toString() &#123;
+      return &quot;School [name=&quot; + name + &quot;, strArray=&quot; + Arrays.toString(strArray) + &quot;, list=&quot; + list + &quot;, set=&quot; + set
+              + &quot;, map=&quot; + map + &quot;]&quot;;
+  &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:c=&quot;http://www.springframework.org/schema/c&quot;
+  xsi:schemaLocation=&quot;
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+  &lt;beans&gt;
+      &lt;bean id=&quot;school&quot; class=&quot;com.songxm.learning.spring.bean.School&quot;&gt;
+          &lt;property name=&quot;name&quot; value=&quot;清华大学&quot;&gt;&lt;/property&gt;
+          &lt;property name=&quot;strArray&quot; value=&quot;aaa,bbb,cccc&quot;&gt;&lt;/property&gt;
+          &lt;property name=&quot;list&quot; value=&quot;aaa,bbb,cccc&quot;&gt;&lt;/property&gt;
+          &lt;property name=&quot;set&quot; value=&quot;aaa,bbb,cccc&quot;&gt;&lt;/property&gt;
+          &lt;property name=&quot;map&quot;&gt;
+              &lt;map&gt;
+                  &lt;entry key=&quot;111&quot; value=&quot;1111&quot;&gt;&lt;/entry&gt;
+                  &lt;entry key=&quot;222&quot; value=&quot;222&quot;&gt;&lt;/entry&gt;
+                  &lt;entry key=&quot;333&quot; value=&quot;333&quot;&gt;&lt;/entry&gt;
+                  &lt;entry key=&quot;444&quot; value=&quot;444&quot;&gt;&lt;/entry&gt;
+              &lt;/map&gt;
+          &lt;/property&gt;
+      &lt;/bean&gt;
+      &lt;bean id=&quot;student&quot; class=&quot;com.songxm.learning.spring.bean.Student&quot;
+          c:name=&quot;sxm&quot; c:age=&quot;18&quot; c:school-ref=&quot;school&quot;&gt;
+      &lt;/bean&gt;
+  &lt;/beans&gt;
+&lt;/beans&gt;
+</code></pre>
+<h4 id="域属性-对象bean作为另一个对象的属性-的自动注入"><a href="#域属性-对象bean作为另一个对象的属性-的自动注入" class="headerlink" title="域属性(对象bean作为另一个对象的属性)的自动注入"></a>域属性(对象bean作为另一个对象的属性)的自动注入</h4></li>
+<li><strong>byName</strong><pre><code class="line-numbers language-xml">&lt;!--注册school--&gt;
+&lt;bean id=&quot;mySchool&quot; class=&quot;com.ecit.domain.School&quot;&gt;
+  &lt;property name=&quot;name&quot; value=&quot;情华大学&quot;/&gt;
+&lt;/bean&gt;
+ &lt;!--注册Student
+     autowire=&quot;byName&quot;会从容器中查找与实体类的域属性同名的Bean的id --&gt;
+&lt;bean id=&quot;myStudent&quot; class=&quot;com.ecit.domain.Student&quot; autowire=&quot;byName&quot;&gt;
+  &lt;property name=&quot;name&quot; value=&quot;张三&quot;/&gt;
+  &lt;property name= &quot;age&quot; value=&quot;23&quot; /&gt;
+&lt;/bean&gt;
+</code></pre>
+</li>
+<li><strong>byType</strong><pre><code class="line-numbers language-xml">&lt;!--注册Student
+      autowire=&quot;byType&quot; 会从容器中查找与实体类的域属性类型相同的Bean,并将该Bean对象自动注入给该域属性--&gt;
+&lt;bean id=&quot;myStudent&quot; class=&quot;com.ecit.domain.Student&quot; autowire=&quot;byType&quot;&gt;
+  &lt;property name=&quot;name&quot; value=&quot;张三&quot;/&gt;
+  &lt;property name= &quot;age&quot; value=&quot;23&quot; /&gt;
+&lt;/bean&gt;
+</code></pre>
+</li>
+</ul>
+<h4 id="SPEL"><a href="#SPEL" class="headerlink" title="SPEL"></a>SPEL</h4><p>Spring Expression Language,即 Spring EL表达式语言，以#开头，后跟一对大括号。</p>
+<pre><code class="line-numbers language-xml">&lt;bean id=&quot;abc&quot; value=&quot;#&#123;...&#125;&quot;/&gt;
+</code></pre>
+<pre><code class="line-numbers language-xml"> &lt;!--注册User --&gt;
+&lt;bean id=&quot;myUser&quot; class= &quot;com.ecit.domain.User&quot;&gt;
+    &lt;property name= &quot;username&quot; value= &quot;李四&quot;/&gt;
+    &lt;property name= &quot;age&quot; value=&quot;#&#123;T(java.lang.Math).random()*50&#125;&quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;myStudent&quot; class= &quot;com.ecit.domain.Student&quot;&gt;
+    &lt;property name= &quot;name&quot; value= &quot;#&#123;myUser.username&#125;&quot;/&gt;
+    &lt;property name=&quot;age&quot; value= &quot;#&#123;myUser.computeAge()&#125;&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+<h4 id="内部bean注入-了解"><a href="#内部bean注入-了解" class="headerlink" title="内部bean注入 了解"></a>内部bean注入 了解</h4><pre><code class="line-numbers language-xml"> &lt;!--注册User --&gt;
+&lt;bean id=&quot;myUser&quot; class=&quot;com.ecit.domain.User&quot;&gt;
+    &lt;property name=&quot;username&quot; value=&quot;李四&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;#&#123;T(java.lang.Math).random()*50&#125;&quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;myStudent&quot; class=&quot;com.ecit.domain.Student&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;#&#123;myUser.username&#125;&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;#&#123;myUser.computeAge()&#125;&quot;/&gt;
+    &lt;property name=&quot;school&quot;&gt;
+        &lt;bean class=&quot;com.ecit.domain.School&quot;&gt;
+            &lt;property name=&quot;name&quot; value=&quot;悄华大学&quot;/&gt;
+        &lt;/bean&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>
+<h4 id="同类抽象bean"><a href="#同类抽象bean" class="headerlink" title="同类抽象bean"></a>同类抽象bean</h4><pre><code class="line-numbers language-xml">&lt;bean id=&quot;baseStudent&quot; class=&quot;com.ecit.domain.Student&quot; abstract=&quot;true&quot;&gt;
+    &lt;property name=&quot;school&quot; value=&quot;清华大学&quot;/&gt;
+    &lt;property name=&quot;department&quot; value=&quot;计算机系&quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;myStudent1&quot; parent=&quot;baseStudent&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;张三 &quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;23&quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;myStudent2&quot; parent=&quot;baseStudent&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;李四&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;24 &quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;myStudent3&quot; parent=&quot;baseStudent&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;王五&quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;25&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+<h4 id="异类抽象"><a href="#异类抽象" class="headerlink" title="异类抽象"></a>异类抽象</h4><pre><code class="line-numbers language-xml">&lt;bean id=&quot;baseBean&quot; class=&quot;com.ecit.domain.Student&quot; abstract=&quot;true&quot;&gt;
+    &lt;property name=&quot;school&quot; value=&quot;清华大学&quot;/&gt;
+    &lt;property name=&quot;department&quot; value=&quot;计算机系&quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;myStudent1&quot; parent=&quot;baseBean&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;张三 &quot;/&gt;
+    &lt;property name=&quot;age&quot; value=&quot;23&quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id= &quot;myTeacher&quot; class=&quot;com.ecit.domain.Teacher&quot; parent= &quot;baseBean&quot;&gt;
+    &lt;property name= &quot;name&quot; value= &quot;Reyco&quot;/&gt;
+    &lt;property name= &quot;workAge&quot; value=&quot;18&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+<h4 id="Spring指定多个-xml配置文件"><a href="#Spring指定多个-xml配置文件" class="headerlink" title="Spring指定多个 xml配置文件"></a>Spring指定多个 xml配置文件</h4><pre><code class="line-numbers language-java">@Test
+public void testApplicationMutilConfig()&#123;
+        String resource1 = &quot;config/spring-base.xml&quot;;
+        String resource2 = &quot;config/spring-beans.xml&quot;;
+        String[ ] resources = &#123;resource1, resource2&#125;;
+        ApplicationContext ac = new ClassPathXmlApplicationContext(resources);
+        Student student = (Student) ac. getBean(&quot;myStudent1&quot;);
+        System. out. println(student);
+        Teacher teacher = (Teacher) ac.getBean(&quot;myTeacher&quot;);
+        System. out. println(teacher);
+&#125;
+</code></pre>
+<h4 id="Spring指定多个xml配置文件-包含关系include"><a href="#Spring指定多个xml配置文件-包含关系include" class="headerlink" title="Spring指定多个xml配置文件 包含关系include"></a>Spring指定多个xml配置文件 包含关系include</h4><pre><code class="line-numbers language-xml">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+    &lt;import resource=&quot;classpath:config/spring-base.xml&quot;/&gt;
+    &lt;import resource=&quot;classpath:config/spring-beans.xml&quot;/&gt;
+&lt;/beans&gt;
+</code></pre>
+<h2 id="基于注解的DI"><a href="#基于注解的DI" class="headerlink" title="基于注解的DI"></a>基于注解的DI</h2><pre><code class="line-numbers language-java">@Component   //组件，表示当前类被Spring容器所管理，用在类上面
+</code></pre>
+<pre><code class="line-numbers language-xml">&lt;bean id=&quot;student&quot; class=&quot;com.songxm.learning.spring.bean.Student&quot;
+            c:name=&quot;sxm&quot; c:age=&quot;18&quot; c:school-ref=&quot;school&quot;&gt;
+&lt;/bean&gt;
+</code></pre>
+<p>等同于注解形式的</p>
+<pre><code class="line-numbers language-java">@Component(&quot;student&quot;)
+public class Student &#123;
+    @Value(&quot;清华大学&quot;)
+    private String name;
+    @Value(&quot;18&quot;)
+    private int age;
+    @Autowired
+    private School school;
+    public Student() &#123;
+    &#125;
+&#125;
+</code></pre>
+<p>需要xml配置注解扫描器 和AOP 依赖</p>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+    &lt;context:component-scan base-package=&quot;com.songxm.learning.spring.bean.*&quot;/&gt;
+&lt;/beans&gt;
+</code></pre>
+<h3 id="扫描包注意"><a href="#扫描包注意" class="headerlink" title="扫描包注意"></a>扫描包注意</h3><pre><code class="line-numbers language-xml"> &lt;!--扫描com.ecit这个包及其子包--&gt;
+&lt;context:component-scan base-package=&quot;com.ecit&quot;/&gt;
+&lt;!--扫描com.ecit 这个包的子包--&gt;
+&lt;context:component-scan base-package=&quot;com.ecit.*&quot;/&gt;
+</code></pre>
+<pre><code class="line-numbers language-xml">当在组件类上使用了特定的注解之后, 还需要在 Spring 的配置文件中声明 &lt;context:component-scan&gt; ：
+  base-package 属性指定一个需要扫描的基类包，Spring 容器将会扫描这个基类包里及其子包中的所有类. 
+  当需要扫描多个包时, 可以使用逗号分隔.
+  如果仅希望扫描特定的类而非基包下的所有类，可使用 resource-pattern 属性过滤特定的类，示例：
+&lt;context:include-filter&gt; 子节点表示要包含的目标类
+&lt;context:exclude-filter&gt; 子节点表示要排除在外的目标类
+&lt;context:component-scan&gt; 下可以拥有若干个 &lt;context:include-filter&gt; 和 &lt;context:exclude-filter&gt; 子节点
+&lt;context:component-scan&gt; 元素还会自动注册 AutowiredAnnotationBeanPostProcessor 实例, 该实例可以自动装配具有 @Autowired 和 @Resource 、@Inject注解的属性.
+@Inject 和 @Autowired 注解一样也是按类型匹配注入的 Bean， 但没有 reqired 属性,建议使用 @Autowired 注解
+</code></pre>
+<h3 id="与注解-Componet功能相同意义不同的注解"><a href="#与注解-Componet功能相同意义不同的注解" class="headerlink" title="与注解@Componet功能相同意义不同的注解"></a>与注解@Componet功能相同意义不同的注解</h3><pre><code class="line-numbers language-java">与 @Component注解功能相同，但意义不同的注解还有三个:
+1）@Repository:注解在Dao实现类上
+2）@Service:注解在 Service实现类上
+3）@Controller:注解在 Springmvc的处理器上
+</code></pre>
+<h4 id="Scope"><a href="#Scope" class="headerlink" title="@Scope"></a>@Scope</h4><pre><code class="line-numbers language-java">@Scope(&quot;prototype&quot;)
+@Component(&quot;student&quot;)
+public class Student &#123;
+    @Value(&quot;清华大学&quot;)
+    private String name;
+    @Value(&quot;18&quot;)
+    private int age;
+    @Autowired
+    private School school;
+    public Student() &#123;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="基于注解域属性注入"><a href="#基于注解域属性注入" class="headerlink" title="基于注解域属性注入"></a>基于注解域属性注入</h4><pre><code class="line-numbers language-java">@Component(&quot;student&quot;)
+public class Student &#123;
+    @Value(&quot;清华大学&quot;)
+    private String name;
+    @Value(&quot;18&quot;)
+    private int age;
+    @Autowired
+    @Qualifier(&quot;school&quot;)  //byName方式
+    private School school;
+    public Student() &#123;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="Resource"><a href="#Resource" class="headerlink" title="@Resource"></a>@Resource</h4><pre><code class="line-numbers language-java">@Component(&quot;student&quot;)
+public class Student &#123;
+    @Value(&quot;清华大学&quot;)
+    private String name;
+    @Value(&quot;18&quot;)
+    private int age;
+    @Resource  //byType方式
+    private School school;
+    public Student() &#123;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="基于注解的Bean的生命始末-PostConstruct-与-PreDestroy"><a href="#基于注解的Bean的生命始末-PostConstruct-与-PreDestroy" class="headerlink" title="基于注解的Bean的生命始末@PostConstruct 与 @PreDestroy"></a>基于注解的Bean的生命始末@PostConstruct 与 @PreDestroy</h3><pre><code class="line-numbers language-java">@Postconstruct,与原来的 init-method等效。在方法上使用 @predestro 与 destroy-method等效。
+</code></pre>
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="@Configuration"></a>@Configuration</h3><p>表示当前充当Spring容器，即所有的bean将由这个类来创建</p>
+<pre><code class="line-numbers language-java">@Configuration
+public class MyConfig &#123;
+    @Bean(name = &quot;school&quot;)
+    public School createSchool()
+    &#123;
+        return new School();
+    &#125;
+    @Bean(name=&quot;student&quot;,autowire=Autowire.BY_NAME) //将根据名字注入域属性school到 student对象里
+    public Student createStudent() &#123;
+        return new Student();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="基于注解的DI-XML的优先级高于注解的"><a href="#基于注解的DI-XML的优先级高于注解的" class="headerlink" title="基于注解的DI-XML的优先级高于注解的"></a>基于注解的DI-XML的优先级高于注解的</h3><h2 id="Spring注解和XML依赖注入IOC的选择总结"><a href="#Spring注解和XML依赖注入IOC的选择总结" class="headerlink" title="Spring注解和XML依赖注入IOC的选择总结"></a>Spring注解和XML依赖注入IOC的选择总结</h2><ul>
+<li>注解的优势:<br> 配置简单，维护方便(我们找到类，就相当于找到了对应的配置)。</li>
+<li>XML 的优势:<br> 修改时，不用改源码。不涉及重新编译和部署。</li>
+</ul>
+<p><img src="/images/spring/ioc%E6%AF%94%E8%BE%83.png"></p>
+<h2 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h2><ul>
+<li>当singleton类型的bean引用prototype类型的bean时候，就会有问题,在这里假设A为singleton类型的bean B为prototype类型的bean A需要引用B,Class A的scope是默认的singleton，因此Context只会创建Class A的bean一次，所以也就只有一次注入依赖的机会，容器也就无法每次给Class A提供一个新的Class B.<pre><code class="line-numbers language-java">//单例的Class A
+@Component
+public class ClassA &#123;
+ @Autowired
+ private ClassB classB;
+ public void printClass() &#123;
+System.out.println(&quot;This is Class A: &quot; + this);
+classB.printClass();
+ &#125;
+&#125;
+//非单例的Class B
+@Component
+@Scope(value = SCOPE_PROTOTYPE)
+public class ClassB &#123;
+public void printClass() &#123;
+  System.out.println(&quot;This is Class B: &quot; + this);
+&#125;
+&#125;
+</code></pre>
+查看问题<pre><code class="line-numbers language-java">@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = &#123;ClassA.class, ClassB.class&#125;)
+public class MyTest &#123;
+@Autowired
+private ClassA classA;
+@Test
+public void simpleTest() &#123;
+  for (int i = 0; i &lt; 3; i++) &#123;
+    classA.printClass();
+  &#125;
+&#125;
+&#125;
+</code></pre>
+<h3 id="Lookup"><a href="#Lookup" class="headerlink" title="@Lookup"></a>@Lookup</h3>Spring提供了一个名为@Lookup的注解，这是一个作用在方法上的注解，被其标注的方法会被重写，然后根据其返回值的类型，容器调用BeanFactory的getBean()方法来返回一个bean。<pre><code class="line-numbers language-java">@Component
+public class ClassA &#123;
+public void printClass() &#123;
+  System.out.println(&quot;This is Class A: &quot; + this);
+  getClassB().printClass();
+&#125;
+@Lookup
+public ClassB getClassB() &#123; //被标注的方法的返回值不再重要，因为容器会动态生成一个子类然后将这个被注解的方法重写/实现，最终调用的是子类的方法。
+  return null;
+&#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="xml方式的lookup"><a href="#xml方式的lookup" class="headerlink" title="xml方式的lookup"></a>xml方式的lookup</h3><pre><code class="line-numbers language-xml">&lt;lookup-method name=&quot;getClassB&quot; bean=&quot;classB&quot;/&gt;告诉 Spring用 CGLLB动态地生成一个子类。
+</code></pre>
+<h2 id="IOC之Spring统一资源加载策略"><a href="#IOC之Spring统一资源加载策略" class="headerlink" title="IOC之Spring统一资源加载策略"></a>IOC之Spring统一资源加载策略</h2><ul>
+<li>在学Java SE 的时候我们学习了一个标准类 <strong>java.net.URL（Uniform Resource Locator）</strong>，叫做统一资源定位器，<strong>但是它的实现基本只限于网络形式发布的资源的查找和定位</strong>。然而，实际上资源的定义比较广泛，除了网络形式的资源，还有以二进制形式存在的、以文件形式存在的、以字节流形式存在的等等。而且它可以存在于任何场所，<strong>比如网络、文件系统、应用程序中。所以 java.net.URL 的局限性迫使 Spring 必须实现自己的资源加载策略</strong>，该资源加载策略需要满足如下要求：</li>
+<li>职能划分清楚。资源的定义和资源的加载应该要有一个清晰的界限；</li>
+<li>统一的抽象。统一的资源定义和资源加载策略。资源加载后要返回统一的抽象给客户端，客户端要对资源进行怎样的处理，应该由抽象资源接口来界定。</li>
+</ul>
+<h3 id="统一资源：Resource"><a href="#统一资源：Resource" class="headerlink" title="统一资源：Resource"></a>统一资源：Resource</h3><p>org.springframework.core.io.Resource为Spring 框架所有资源的抽象和访问接口，它继承 org.springframework.core.io.InputStreamSource接口。<strong>作为所有资源的统一抽象</strong>，Source 定义了一些通用的方法，由子类 AbstractResource 提供统一的默认实现。</p>
+<pre><code class="line-numbers language-java">public interface Resource extends InputStreamSource &#123;
+    /**
+     * 资源是否存在
+     */
+    boolean exists();
+
+    /**
+     * 资源是否可读
+     */
+    default boolean isReadable() &#123;
+        return true;
+    &#125;
+    /**
+     * 资源所代表的句柄是否被一个stream打开了
+     */
+    default boolean isOpen() &#123;
+        return false;
+    &#125;
+    /**
+     * 是否为 File
+     */
+    default boolean isFile() &#123;
+        return false;
+    &#125;
+    /**
+     * 返回资源的URL的句柄
+     */
+    URL getURL() throws IOException;
+    /**
+     * 返回资源的URI的句柄
+     */
+    URI getURI() throws IOException;
+    /**
+     * 返回资源的File的句柄
+     */
+    File getFile() throws IOException;
+    /**
+     * 返回 ReadableByteChannel
+     */
+    default ReadableByteChannel readableChannel() throws IOException &#123;
+        return Channels.newChannel(getInputStream());
+    &#125;
+    /**
+     * 资源内容的长度
+     */
+    long contentLength() throws IOException;
+    /**
+     * 资源最后的修改时间
+     */
+    long lastModified() throws IOException;
+    /**
+     * 根据资源的相对路径创建新资源
+     */
+    Resource createRelative(String relativePath) throws IOException;
+    /**
+     * 资源的文件名
+     */
+    @Nullable
+    String getFilename();
+    /**
+     * 资源的描述
+     */
+    String getDescription();
+&#125;
+</code></pre>
+<p><img src="/images/spring/Resource.png"></p>
+<h3 id="统一资源定位：ResourceLoader"><a href="#统一资源定位：ResourceLoader" class="headerlink" title="统一资源定位：ResourceLoader"></a>统一资源定位：ResourceLoader</h3><ul>
+<li>Spring 将资源的定义和资源的加载区分开了，Resource 定义了统一的资源，那资源的加载则由 ResourceLoader 来统一定义。org.springframework.core.io.ResourceLoader 为 Spring 资源加载的统一抽象，具体的资源加载则由相应的实现类来完成，所以我们可以将 <strong>ResourceLoader 称作为统一资源定位器</strong>。其定义如下<pre><code class="line-numbers language-java">public interface ResourceLoader &#123;
+  String CLASSPATH_URL_PREFIX = &quot;classpath:&quot;;
+  Resource getResource(String var1);
+  ClassLoader getClassLoader();
+&#125;
+</code></pre>
+</li>
+<li>ResourceLoader 接口提供两个方法：**getResource()、getClassLoader()**。</li>
+<li>getResource()根据所提供资源的路径 location 返回 Resource 实例，但是它不确保该 Resource一定存在，需要调用 Resource.exist()方法判断。该方法支持以下模式的资源加载：<br> URL位置资源，如”file:C:&#x2F;test.dat”<br> ClassPath位置资源，如”classpath:test.dat”<br> 相对路径资源，如”WEB-INF&#x2F;test.dat”，<strong>此时返回的Resource实例根据实现不同而不同</strong><br>该方法的主要实现是在其子类 DefaultResourceLoader 中实现<br><img src="/images/spring/ResourceLoader.png"><pre><code class="line-numbers language-java">public Resource getResource(String location) &#123;
+      Assert.notNull(location, &quot;Location must not be null&quot;);
+      Iterator ex = this.protocolResolvers.iterator();
+      Resource resource;
+      do &#123;
+          if(!ex.hasNext()) &#123;
+              if(location.startsWith(&quot;/&quot;)) &#123;
+                  return this.getResourceByPath(location);
+              &#125;
+              if(location.startsWith(&quot;classpath:&quot;)) &#123;
+                  return new ClassPathResource(location.substring(&quot;classpath:&quot;.length()), this.getClassLoader());
+              &#125;
+              try &#123;
+                  URL ex1 = new URL(location);
+                  return new UrlResource(ex1);
+              &#125; catch (MalformedURLException var5) &#123;
+                  return this.getResourceByPath(location);
+              &#125;
+          &#125;
+          ProtocolResolver protocolResolver = (ProtocolResolver)ex.next();//首先通过 ProtocolResolver 来加载资源，成功返回 Resource
+          resource = protocolResolver.resolve(location, this);
+      &#125; while(resource == null);
+      return resource;
+&#125;
+</code></pre>
+<h3 id="综合示例"><a href="#综合示例" class="headerlink" title="综合示例"></a>综合示例</h3></li>
+<li>创建一个引用Resource接口的实现类<pre><code class="line-numbers language-java">import org.springframework.core.io.Resource;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+@Data
+public class InfoBean &#123;
+  // Resource所代表的资源可能来自磁盘、网络、类路径.
+  private Resource res;
+  private String charset;
+  public void readInfo()&#123;
+      try (BufferedReader br = new BufferedReader(new InputStreamReader(res.getInputStream(), charset)))&#123;
+          String line = null;
+          while( (line = br.readLine () ) != null ) &#123;
+              System. out.println (line) ;
+          &#125;
+      &#125;catch (UnsupportedEncodingException e )&#123;
+          throw new RuntimeException(e);
+      &#125;catch(IOException e)&#123;
+          throw new RuntimeException(e);
+      &#125;
+  &#125;
+&#125;
+</code></pre>
+</li>
+<li>在Spring容器配置文件bean.xml添加<pre><code class="line-numbers language-xml">&lt;bean id=&quot;infobean1&quot; class=&quot;com.ecit.domain.InfoBean&quot;&gt;
+          &lt;property name=&quot;charset&quot; value=&quot;UTF-8&quot; /&gt;
+          &lt;property name=&quot;res&quot; value=&quot;classpath:datasource.properties&quot;/&gt;
+      &lt;/bean&gt;
+      &lt;bean id=&quot;infobean2&quot; class=&quot;com.ecit.domain.InfoBean&quot;&gt;
+          &lt;property name=&quot;charset&quot; value=&quot;UTF-8&quot; /&gt;
+          &lt;property name=&quot;res&quot; value=&quot;file:///Users/sxm/Desktop/test.txt&quot;/&gt;
+      &lt;/bean&gt;
+      &lt;bean id=&quot;infobean3&quot; class=&quot;com.ecit.domain.InfoBean&quot;&gt;
+          &lt;property name=&quot;charset&quot; value=&quot;UTF-8&quot; /&gt;
+          &lt;property name=&quot;res&quot; value=&quot;http://www.baidu.com&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+</li>
+<li>测试结果<pre><code class="line-numbers language-java">import com.ecit.domain.InfoBean;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.Test;
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = &quot;classpath:bean.xml&quot;)
+public class Spring4Test &#123;
+  @Autowired
+  @Qualifier(&quot;infobean1&quot;)
+  InfoBean infoBean1;
+  @Autowired
+  @Qualifier(&quot;infobean2&quot;)
+  InfoBean infoBean2;
+  @Autowired
+  @Qualifier(&quot;infobean3&quot;)
+  InfoBean infoBean3;
+  @Test
+  public  void testResource1()&#123;
+        infoBean1.readInfo();
+  &#125;
+  @Test
+  public  void testResource2()&#123;
+      infoBean2.readInfo();
+  &#125;
+  @Test
+  public  void testResource3()&#123;
+      infoBean3.readInfo();
+  &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/spring/test1.png"></td>
+<td align="center"><img src="/images/spring/test2.png"></td>
+<td align="center"><img src="/images/spring/test3.png"></td>
+</tr>
+</tbody></table>
+<h2 id="Bean获取Spring容器"><a href="#Bean获取Spring容器" class="headerlink" title="Bean获取Spring容器"></a>Bean获取Spring容器</h2><ul>
+<li>有些时候，Bean要实现某个功能，但该功能需要借助于Spring容器来实现，此时就需要让该Bean获取它所在的容器。<br>1.让该Beam实现 ApplicationContextAware接口<br>2.必须实现该接口中 setApplicationContext方法。<pre><code class="line-numbers language-java">public class ServiceEvent implements ApplicationContextAware&#123;
+  private ApplicationContext ctx;
+  public void sendNotice(NoticeEvent event)&#123;
+      ctx.publishEvent(event);
+  &#125;
+  //Spring会自动检测容器中所有Bean,如果发现某个Bean实现 ApplicationContextAware接口,
+  //Spring容器就会在 setter方法调用之后,自动调用 setApplicationContext方法
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException &#123;
+      this.ctx = applicationContext;
+  &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="使用外部属性文件-PropertyPlaceholderConfigurer"><a href="#使用外部属性文件-PropertyPlaceholderConfigurer" class="headerlink" title="使用外部属性文件-PropertyPlaceholderConfigurer"></a>使用外部属性文件-PropertyPlaceholderConfigurer</h2><ul>
+<li>在配置文件里配置Bean时，有时需要在Bean的配置里<strong>混入系统部署的细节信息(例如:文件路径,数据源配置信息等)</strong>.而这些<strong>部署细节实际上需要和Bean配置相分离</strong></li>
+<li>Spring提供了一个<strong>PropertyPlaceholderConfigurer的BeanFactory后置处理器,<strong>这个处理器允许用户<em>将Bean配置的部分内容外移到属性文件中</em>.可以在Bean配置文件里</strong>使用形式为${var}的变量</strong>, PropertyPlaceholderConfigurer从属性文件里加载属性,并使用这些属性来替换变量.</li>
+<li>Spring还<strong>允许在属性文件中使用${propName},以实现属性之间的相互引用</strong>。</li>
+</ul>
+<h3 id="注册PropertyPlaceholderConfigurer"><a href="#注册PropertyPlaceholderConfigurer" class="headerlink" title="注册PropertyPlaceholderConfigurer"></a>注册PropertyPlaceholderConfigurer</h3><ul>
+<li>Spring 2.0:<pre><code class="line-numbers language-xml">&lt;bean class= &quot;org.springframework.beans.factory.config.PropertyPlaceholderConfigurer&quot;&gt;
+  &lt;property name=&quot;location&quot; value= &quot;classpath:db.properties&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>
+</li>
+<li>Spring 2.5之后支持:<pre><code class="line-numbers language-xml">&lt;context:property-placeholder location =&quot;classpath:db.properties&quot;/&gt;
+</code></pre>
+</li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Spring框架-IOC</p><p><a href="http://example.com/2013/11/08/framework/spring/spring框架-IOC/">http://example.com/2013/11/08/framework/spring/spring框架-IOC/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2013-11-08</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-07-11</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2013/11/09/framework/spring/spring%E6%A1%86%E6%9E%B6-AOP/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Spring框架-AOP</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2013/11/05/framework/%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6/mybatis/mybatis%E5%85%A8%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/"><span class="level-item">mybatis框架-全注解开发</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#认识springframework的整体框架"><span class="level-left"><span class="level-item">1</span><span class="level-item">认识springframework的整体框架</span></span></a></li><li><a class="level is-mobile" href="#第一个Spring框架搭建的例子"><span class="level-left"><span class="level-item">2</span><span class="level-item">第一个Spring框架搭建的例子</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#第一种搭建方式maven方法搭建"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">第一种搭建方式maven方法搭建</span></span></a></li><li><a class="level is-mobile" href="#第二种搭建方式单独在项目libs下添加-jar包搭建"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">第二种搭建方式单独在项目libs下添加  jar包搭建</span></span></a></li></ul></li><li><a class="level is-mobile" href="#工厂模式IOC解耦"><span class="level-left"><span class="level-item">3</span><span class="level-item">工厂模式IOC解耦</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#耦合"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">耦合</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#耦合例子"><span class="level-left"><span class="level-item">3.1.1</span><span class="level-item">耦合例子</span></span></a></li></ul></li><li><a class="level is-mobile" href="#工厂模式解耦"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">工厂模式解耦</span></span></a></li><li><a class="level is-mobile" href="#控制反转-Inversion-Of-Control"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">控制反转-Inversion Of Control</span></span></a></li></ul></li><li><a class="level is-mobile" href="#SpringIOC中的三种容器"><span class="level-left"><span class="level-item">4</span><span class="level-item">SpringIOC中的三种容器</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#ClassPathXmlApplicationContext-默认会去-classPath-路径下找。classPath-路径指的就是编译后的-classes-目录。"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">ClassPathXmlApplicationContext 默认会去 classPath 路径下找。classPath 路径指的就是编译后的 classes 目录。</span></span></a></li><li><a class="level is-mobile" href="#FileSystemXmlApplicationContext使用方法"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">FileSystemXmlApplicationContext使用方法</span></span></a></li><li><a class="level is-mobile" href="#AnnotationConfigApplicationContext当我们使用注解配置容器对象时，需要使用此类来创建-spring-容器。它用来读取注解。"><span class="level-left"><span class="level-item">4.3</span><span class="level-item">AnnotationConfigApplicationContext当我们使用注解配置容器对象时，需要使用此类来创建 spring 容器。它用来读取注解。</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Applicationcontext容器加载Bean-和-Beanfactory容器加载Bean区别"><span class="level-left"><span class="level-item">5</span><span class="level-item">Applicationcontext容器加载Bean 和 Beanfactory容器加载Bean区别</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#不同点"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">不同点</span></span></a></li><li><a class="level is-mobile" href="#相同点"><span class="level-left"><span class="level-item">5.2</span><span class="level-item">相同点</span></span></a></li></ul></li><li><a class="level is-mobile" href="#容器加载动态工厂类，然后再由工厂类生产bean-示例"><span class="level-left"><span class="level-item">6</span><span class="level-item">容器加载动态工厂类，然后再由工厂类生产bean 示例</span></span></a></li><li><a class="level is-mobile" href="#容器加载静态工厂类，然后再由工厂类生产bean-示例"><span class="level-left"><span class="level-item">7</span><span class="level-item">容器加载静态工厂类，然后再由工厂类生产bean 示例</span></span></a></li><li><a class="level is-mobile" href="#Bean的作用域"><span class="level-left"><span class="level-item">8</span><span class="level-item">Bean的作用域</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#scope-x3D-prototype-原型模式-深克隆"><span class="level-left"><span class="level-item">8.1</span><span class="level-item">scope=prototype 原型模式 深克隆</span></span></a></li><li><a class="level is-mobile" href="#scope-x3D-singleton-单例"><span class="level-left"><span class="level-item">8.2</span><span class="level-item">scope=singleton 单例</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Bean后处理器"><span class="level-left"><span class="level-item">9</span><span class="level-item">Bean后处理器</span></span></a></li><li><a class="level is-mobile" href="#定制bean的生命始末"><span class="level-left"><span class="level-item">10</span><span class="level-item">定制bean的生命始末</span></span></a></li><li><a class="level is-mobile" href="#Bean的生命周期"><span class="level-left"><span class="level-item">11</span><span class="level-item">Bean的生命周期</span></span></a></li><li><a class="level is-mobile" href="#bean-标签的id属性与name属性"><span class="level-left"><span class="level-item">12</span><span class="level-item">bean 标签的id属性与name属性</span></span></a></li><li><a class="level is-mobile" href="#基于XML的DI"><span class="level-left"><span class="level-item">13</span><span class="level-item">基于XML的DI</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#注入分类"><span class="level-left"><span class="level-item">13.1</span><span class="level-item">注入分类</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#设值注入"><span class="level-left"><span class="level-item">13.1.1</span><span class="level-item">设值注入</span></span></a></li><li><a class="level is-mobile" href="#构造注入constructor-arg"><span class="level-left"><span class="level-item">13.1.2</span><span class="level-item">构造注入constructor-arg</span></span></a></li><li><a class="level is-mobile" href="#命名空间p-设置注入"><span class="level-left"><span class="level-item">13.1.3</span><span class="level-item">命名空间p-设置注入</span></span></a></li><li><a class="level is-mobile" href="#命令空间c-构造器注入"><span class="level-left"><span class="level-item">13.1.4</span><span class="level-item">命令空间c-构造器注入</span></span></a></li><li><a class="level is-mobile" href="#集合属性注入"><span class="level-left"><span class="level-item">13.1.5</span><span class="level-item">集合属性注入</span></span></a></li><li><a class="level is-mobile" href="#域属性-对象bean作为另一个对象的属性-的自动注入"><span class="level-left"><span class="level-item">13.1.6</span><span class="level-item">域属性(对象bean作为另一个对象的属性)的自动注入</span></span></a></li><li><a class="level is-mobile" href="#SPEL"><span class="level-left"><span class="level-item">13.1.7</span><span class="level-item">SPEL</span></span></a></li><li><a class="level is-mobile" href="#内部bean注入-了解"><span class="level-left"><span class="level-item">13.1.8</span><span class="level-item">内部bean注入 了解</span></span></a></li><li><a class="level is-mobile" href="#同类抽象bean"><span class="level-left"><span class="level-item">13.1.9</span><span class="level-item">同类抽象bean</span></span></a></li><li><a class="level is-mobile" href="#异类抽象"><span class="level-left"><span class="level-item">13.1.10</span><span class="level-item">异类抽象</span></span></a></li><li><a class="level is-mobile" href="#Spring指定多个-xml配置文件"><span class="level-left"><span class="level-item">13.1.11</span><span class="level-item">Spring指定多个 xml配置文件</span></span></a></li><li><a class="level is-mobile" href="#Spring指定多个xml配置文件-包含关系include"><span class="level-left"><span class="level-item">13.1.12</span><span class="level-item">Spring指定多个xml配置文件 包含关系include</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#基于注解的DI"><span class="level-left"><span class="level-item">14</span><span class="level-item">基于注解的DI</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#扫描包注意"><span class="level-left"><span class="level-item">14.1</span><span class="level-item">扫描包注意</span></span></a></li><li><a class="level is-mobile" href="#与注解-Componet功能相同意义不同的注解"><span class="level-left"><span class="level-item">14.2</span><span class="level-item">与注解@Componet功能相同意义不同的注解</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Scope"><span class="level-left"><span class="level-item">14.2.1</span><span class="level-item">@Scope</span></span></a></li><li><a class="level is-mobile" href="#基于注解域属性注入"><span class="level-left"><span class="level-item">14.2.2</span><span class="level-item">基于注解域属性注入</span></span></a></li><li><a class="level is-mobile" href="#Resource"><span class="level-left"><span class="level-item">14.2.3</span><span class="level-item">@Resource</span></span></a></li></ul></li><li><a class="level is-mobile" href="#基于注解的Bean的生命始末-PostConstruct-与-PreDestroy"><span class="level-left"><span class="level-item">14.3</span><span class="level-item">基于注解的Bean的生命始末@PostConstruct 与 @PreDestroy</span></span></a></li><li><a class="level is-mobile" href="#Configuration"><span class="level-left"><span class="level-item">14.4</span><span class="level-item">@Configuration</span></span></a></li><li><a class="level is-mobile" href="#基于注解的DI-XML的优先级高于注解的"><span class="level-left"><span class="level-item">14.5</span><span class="level-item">基于注解的DI-XML的优先级高于注解的</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Spring注解和XML依赖注入IOC的选择总结"><span class="level-left"><span class="level-item">15</span><span class="level-item">Spring注解和XML依赖注入IOC的选择总结</span></span></a></li><li><a class="level is-mobile" href="#协调作用域不同步的Bean"><span class="level-left"><span class="level-item">16</span><span class="level-item">协调作用域不同步的Bean</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Lookup"><span class="level-left"><span class="level-item">16.1</span><span class="level-item">@Lookup</span></span></a></li><li><a class="level is-mobile" href="#xml方式的lookup"><span class="level-left"><span class="level-item">16.2</span><span class="level-item">xml方式的lookup</span></span></a></li></ul></li><li><a class="level is-mobile" href="#IOC之Spring统一资源加载策略"><span class="level-left"><span class="level-item">17</span><span class="level-item">IOC之Spring统一资源加载策略</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#统一资源：Resource"><span class="level-left"><span class="level-item">17.1</span><span class="level-item">统一资源：Resource</span></span></a></li><li><a class="level is-mobile" href="#统一资源定位：ResourceLoader"><span class="level-left"><span class="level-item">17.2</span><span class="level-item">统一资源定位：ResourceLoader</span></span></a></li><li><a class="level is-mobile" href="#综合示例"><span class="level-left"><span class="level-item">17.3</span><span class="level-item">综合示例</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Bean获取Spring容器"><span class="level-left"><span class="level-item">18</span><span class="level-item">Bean获取Spring容器</span></span></a></li><li><a class="level is-mobile" href="#使用外部属性文件-PropertyPlaceholderConfigurer"><span class="level-left"><span class="level-item">19</span><span class="level-item">使用外部属性文件-PropertyPlaceholderConfigurer</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#注册PropertyPlaceholderConfigurer"><span class="level-left"><span class="level-item">19.1</span><span class="level-item">注册PropertyPlaceholderConfigurer</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

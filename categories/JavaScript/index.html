@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="robots" content="noindex"><meta><title>分类: JavaScript - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="藏经阁"><meta property="og:url" content="http://example.com/"><meta property="og:site_name" content="藏经阁"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="’Developer,Programmer,Coder,Book,History,culture,science and technology‘"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com"},"headline":"藏经阁","image":["http://example.com/img/og_image.png"],"author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":""}</script><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-content"><nav class="breadcrumb" aria-label="breadcrumbs"><ul><li><a href="/categories">分类</a></li><li class="is-active"><a href="#" aria-current="page">JavaScript</a></li></ul></nav></div></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2017-10-10T12:04:35.000Z" title="2017/10/10 下午8:04:35">2017-10-10</time>发表</span><span class="level-item"><time dateTime="2018-02-21T15:49:07.248Z" title="2018/2/21 下午11:49:07">2018-02-21</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JavaScript/">JavaScript</a></span><span class="level-item">1 分钟读完 (大约195个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2017/10/10/javascript/react/">react</a></h1><div class="content"><h2 id="jspm安装react、react-dom、Semantic-UI"><a href="#jspm安装react、react-dom、Semantic-UI" class="headerlink" title="jspm安装react、react-dom、Semantic UI"></a>jspm安装react、react-dom、Semantic UI</h2><p>安装指定版本的react  $ jspm install <a href="mailto:&#114;&#x65;&#x61;&#99;&#116;&#64;&#x30;&#x2e;&#49;&#52;&#x2e;&#x30;&#x2d;&#114;&#x63;&#49;">&#114;&#x65;&#x61;&#99;&#116;&#64;&#x30;&#x2e;&#49;&#52;&#x2e;&#x30;&#x2d;&#114;&#x63;&#49;</a><br>安装指定版本的react-dom  $ jspm install <a href="mailto:&#x72;&#x65;&#x61;&#99;&#x74;&#45;&#x64;&#111;&#109;&#64;&#48;&#x2e;&#49;&#x34;&#x2e;&#x30;&#45;&#114;&#x63;&#49;">&#x72;&#x65;&#x61;&#99;&#x74;&#45;&#x64;&#111;&#109;&#64;&#48;&#x2e;&#49;&#x34;&#x2e;&#x30;&#45;&#114;&#x63;&#49;</a><br>安装 semantic-ui      $ jspm install semantic-ui<br>安装 css插件        $ jspm install css</p>
+<h2 id="BrowserSync，react项目正常启动"><a href="#BrowserSync，react项目正常启动" class="headerlink" title="BrowserSync，react项目正常启动"></a>BrowserSync，react项目正常启动</h2><ol>
+<li>通过npm安装browserSync，命令npm install -g browser-sync</li>
+<li>如果你想启动后，增加一些监听文件修改时，自动刷新页面，则启动命令为 browser-sync start –server  –no-notify –files ‘xxxx’     (xxx为具体的文件名，相对路径，有多个时，可用逗号分开，如 ‘index.html, app&#x2F;main.js’);</li>
+<li>到此，我们可以看到React项目正常启动后，出现页面。<br>在 main.js 里导入  import ‘semantic-ui&#x2F;semantic.min.css!’<br><img src="/images/js/react_xg.png"><br><img src="/images/js/react_xg1.png"></li>
+</ol>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2017-10-09T12:04:35.000Z" title="2017/10/9 下午8:04:35">2017-10-09</time>发表</span><span class="level-item"><time dateTime="2018-02-21T14:40:54.000Z" title="2018/2/21 下午10:40:54">2018-02-21</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JavaScript/">JavaScript</a></span><span class="level-item">5 分钟读完 (大约751个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2017/10/09/javascript/jspm/">jspm</a></h1><div class="content"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ol>
+<li>JavaScript 模块的写法有几种，比如 AMD，CommonJS .. 还有标准化的 ES6 的写法 .. jspm 支持加载所有的用这些方法写的 JavaScript 模块</li>
+<li>在你的应用里，现在就可以使用 ES6 提供的标准写法 .. 至于怎么去载入模块可以交给 jspm 去处理 .. 也就是你只需要了解 ES6 的模块写法 ..</li>
+<li>jspm 还是一个为浏览器上用的东西准备的一个包管理 .. 比如它可以让你去从不同的源去安装不同的包 .. 默认的源有 npm ，还有 github .. 安装好你需要的包以后，在你的代码里，只需要一行代码，就可以使用这些包提供的功能 .. 不用担心其它的事情 . .</li>
+<li>在开发的时候，jspm 可以使用 Traceur 或者 Babel ，实时的在浏览器上编译 JavaScript ，把 es6 的代码编译成 es5 的代码 ..<br>在正式发布应用的时候，可以优化创建的模块，把模块依赖的东西打成一个包</li>
+</ol>
+<h2 id="安装jspm"><a href="#安装jspm" class="headerlink" title="安装jspm"></a>安装jspm</h2><pre><code class="line-numbers language-text">   npm install jspm -g  //在全局范围安装jspm，就可以在任何地方使用jspm命令了
+   jspm // 完成后输入jspm，会返回一些帮组信息
+   cd ~/desktop
+   mkdir reactProject // 创建项目文件夹
+   cd  reactProject
+   npm init // 创建package.json，一路回车即可
+   ls // 查看文件夹，就会一个package.json文件
+   npm install jspm --save-dev // 把 jspm添加到项目开发依赖
+   ls // node_modules package.json两个文件
+   jspm init // 为jspm创建配置文件config.js， 一系列问题，可一路回车
+   ls // 会发现有config.js , jspm_packages（jspm安装的一些包） node_modules package.json
+</code></pre>
+<h2 id="安装包-jspm-install"><a href="#安装包-jspm-install" class="headerlink" title="安装包 jspm install"></a>安装包 jspm install</h2><p>jspm install jquery&#x3D;github:components&#x2F;jquery<br>jspm uninstall  jquery<br><img src="/images/js/jquery.png"><br><img src="/images/js/jquery2.png"><br><img src="/images/js/jquery3.png"><br><img src="/images/js/jquery_xg.png"></p>
+<h2 id="使用ES6模块-BrowserSync-使用"><a href="#使用ES6模块-BrowserSync-使用" class="headerlink" title="使用ES6模块, BrowserSync 使用"></a>使用ES6模块, BrowserSync 使用</h2><ol>
+<li>npm install -g browser-sync &#x2F;&#x2F; 安装Node后，通过npm安装BrowserSync(自动刷新)</li>
+<li>使用BrowserSync： browser-sync start –server 开启服务</li>
+</ol>
+<h2 id="打包bundle-功能"><a href="#打包bundle-功能" class="headerlink" title="打包bundle 功能"></a>打包bundle 功能</h2><p>打开浏览器的开发者工具 .. 再打开 network 这个选项卡 .. 在这里你会看到被下载的一些东西 .. 这里有挺多 js 文件 .. main.js .. fruit.js ，jquery.js 等等 ..<br>jspm 支持 bundle，也就是打包的功能，就是把一些资源打包成一个东西 .. 比如下面我们去把 main.js 这个模块打包成一个东西 ..<br>打包用的是 jspm bundle 命令</p>
+<pre><code class="line-numbers language-text">进入项目目录
+jspm bundle app/main app/build.js  // 将app文件夹下的main.js里面的js都打包到build.js中
+完成以后，会在 app 目录下面创建一个叫 build.js 的文件 .. 回到编辑器 .. 用一个 script 标签 .. 把 app 下的 build.js 嵌入进来 .. 保存 ..
+再回到浏览器 .. 在 network 这个选项卡里，会少了很多 js 文件，因为我们把它们打成了一个包 .. 就是这个 build.js ..
+</code></pre>
+<p><img src="/images/js/bundle.png"><br><img src="/images/js/bundle_xg.png"></p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2017-10-08T12:04:35.000Z" title="2017/10/8 下午8:04:35">2017-10-08</time>发表</span><span class="level-item"><time dateTime="2018-02-21T14:02:55.165Z" title="2018/2/21 下午10:02:55">2018-02-21</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JavaScript/">JavaScript</a></span><span class="level-item">4 分钟读完 (大约646个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2017/10/08/javascript/babel/">Babel</a></h1><div class="content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>Babel 通过语法转换器支持最新版本的 JavaScript 。 这些插件允许你立刻使用新语法，无需等待浏览器支持。</p>
+</blockquote>
+<h2 id="全局安装"><a href="#全局安装" class="headerlink" title="全局安装"></a>全局安装</h2><ol>
+<li>npm install –global babel-cli</li>
+<li>babel –help 便可查看安装是否完成</li>
+</ol>
+<h2 id="某个项目单独安装"><a href="#某个项目单独安装" class="headerlink" title="某个项目单独安装"></a>某个项目单独安装</h2><ol>
+<li>新建一个目录，示例 mkdir babel</li>
+<li>新建 package.json文件 ，示例 cd babel &amp;&amp; npm init 一路回车</li>
+<li>新建 babel ,示例: npm install –save-dev babel-cli</li>
+<li>查看安装成功与否,示例：  babel&#x2F;node_modules&#x2F;.bin&#x2F;babel –help 回车查看</li>
+<li>可以用atom打开进行编辑   cd babel &amp;&amp; atom .&#x2F;  回车</li>
+</ol>
+<h2 id="es6-转es5-还需要安装插件"><a href="#es6-转es5-还需要安装插件" class="headerlink" title="es6 转es5 还需要安装插件"></a>es6 转es5 还需要安装插件</h2><p>前提 test.js</p>
+<pre><code class="line-numbers language-javascript">//es 6箭头函数写法
+let dessert = x =&gt;x++;
+</code></pre>
+<ol>
+<li>npm install –save-dev babel-preset-es2015</li>
+<li>babel test.js –presets&#x3D;es2015，可以看到转es2015的效果<pre><code class="line-numbers language-javascript">&quot;use strict&quot;;
+//es 6箭头函数写法
+var dessert = function dessert(x) &#123;
+  return x++;
+&#125;;
+</code></pre>
+babel test.js –presets&#x3D;es2015 –out-file test-compile.js   可以指定把转换后的重新输出到指定文集<br>babel –watch test.js –presets&#x3D;es2015 –out-file test-compile.js   可以<strong>实时监测显示</strong>指定把转换后的重新输出到指定文集<br>babel src –out-file src_compile.js   可以把整个src目录下的转码编译放到 新的js文件里<br>babel src –out-dir lib   可以把整个src目录下的转码编译放到 新的lib目录下<h2 id="其他插件类似"><a href="#其他插件类似" class="headerlink" title="其他插件类似"></a>其他插件类似</h2>  同理，可以设置 React 的编译插件    <strong>npm install –save-dev babel-preset-react</strong><br>  babel-polyfill插件，为了完整使用 ES6 的 API ，我们只能安装这个插件  <strong>npm install -save-dev babel-polyfill</strong></li>
+</ol>
+<p>Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 API ，比如 Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise 等全局对象，以及一些定义在全局对象上的方法（比如 Object.assign）都不会转码。Babel 默认不转码的 API 非常多，详细清单可以查看 definitions.js 文件</p>
+<h2 id="babel-core注意的坑"><a href="#babel-core注意的坑" class="headerlink" title="babel-core注意的坑"></a>babel-core注意的坑</h2><p>从babel 6.0开始不再提供浏览器版本，而是需要构建工具构建出来。如果没有，或者不想用构建工具，可以安装5.x的babel-core模块来获取<br>npm install babel-core@5<br>这样才会在babel-core目录下找到 browser.js和 browser-polyfill.js</p>
+<h2 id="浏览器实时解析es6-语法"><a href="#浏览器实时解析es6-语法" class="headerlink" title="浏览器实时解析es6 语法"></a>浏览器实时解析es6 语法</h2><ol>
+<li>npm install –save-dev browser-sync</li>
+<li>新建index.html文件 引入 babel-core的js文件</li>
+</ol>
+<pre><code class="line-numbers language-html">!&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;&lt;/title&gt;
+    &lt;script src=&quot;./node_modules/babel-core/browser.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;./node_modules/babel-core/browser-polyfill.js&quot; &gt;&lt;/script&gt;
+    &lt;script src=&quot;./test.js&quot; type=&quot;text/babel&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="line-numbers language-javascript">//es 6箭头函数写法
+let dessert = x =&gt;x++;
+let fruit=[&#39;🍎&#39;,&#39;🍌&#39;];
+let food=[...fruit,&#39;🌰&#39;]
+document.body.innerText=food;
+console.log(food);
+</code></pre>
+<ol start="3">
+<li>启动服务  browser-sync start –server<br>效果<br><img src="/images/js/xg.png"></li>
+</ol>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2017-10-06T12:04:35.000Z" title="2017/10/6 下午8:04:35">2017-10-06</time>发表</span><span class="level-item"><time dateTime="2018-02-21T12:24:12.265Z" title="2018/2/21 下午8:24:12">2018-02-21</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JavaScript/">JavaScript</a></span><span class="level-item">25 分钟读完 (大约3688个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2017/10/06/javascript/es6%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8%E7%AC%AC%E4%BA%8C%E7%AF%87/">ES6深入理解迭代器与生成器第二篇</a></h1><div class="content"><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>下面是一段标准的for循环代码，通过变量i来跟踪colors数组的索引，循环每次执行时，如果i小于数组长度len则加1，并执行下一次循环</p>
+<pre><code class="line-numbers language-javascript">var colors = [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;];
+for (var i = 0, len = colors.length; i &lt; len; i++) &#123;
+    console.log(colors[i]);
+&#125;
+</code></pre>
+<p>虽然循环语句语法简单，但如果将多个循环嵌套则需要追踪多个变量，代码复杂度会大大增加，一不小心就错误使用了其他for循环的跟踪变量，从而导致程序出错。迭代器的出现旨在消除这种复杂性并减少循环中的错误</p>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>迭代器是一种特殊对象，它具有一些专门为迭代过程设计的专有接口，所有的迭代器对象都有一个next()方法，每次调用都返回一个结果对象。结果对象有两个属性：一个是value，表示下一个将要返回的值；另一个是done，它是一个布尔类型的值，当没有更多可返回数据时返回true。迭代器还会保存一个内部指针，用来指向当前集合中值的位置，每调用一次next()方法，都会返回下一个可用的值<br>如果在最后一个值返回后再调用next()方法，那么返回的对象中属性done的值为true，属性value则包含迭代器最终返回的值，这个返回值不是数据集的一部分，它与函数的返回值类似，是函数调用过程中最后一次给调用者传递信息的方法，如果没有相关数据则返回undefined<br><strong>下面用ES5的语法创建一个迭代器</strong></p>
+<pre><code class="line-numbers language-javascript">function createIterator(items) &#123;
+    var i = 0;
+    return &#123;
+        next: function() &#123;
+            var done = (i &gt;= items.length);
+            var value = !done ? items[i++] : undefined;
+            return &#123;
+                done: done,
+                value: value
+            &#125;;
+        &#125;
+    &#125;;
+&#125;
+var iterator = createIterator([1, 2, 3]);
+console.log(iterator.next()); // &quot;&#123; value: 1, done: false &#125;&quot;
+console.log(iterator.next()); // &quot;&#123; value: 2, done: false &#125;&quot;
+console.log(iterator.next()); // &quot;&#123; value: 3, done: false &#125;&quot;
+console.log(iterator.next()); // &quot;&#123; value: undefined, done: true &#125;&quot;
+// 之后的所有调用
+console.log(iterator.next()); // &quot;&#123; value: undefined, done: true &#125;&quot;
+</code></pre>
+<p>上面这个示例很复杂，而在ES6中，迭代器的编写规则也同样复杂，<strong>但ES6同时还引入了一个生成器对象，它可以让创建迭代器对象的过程变得更简单</strong></p>
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><blockquote>
+<p>生成器是一种返回迭代器的函数，通过function关键字后的星号(*)来表示，函数中会用到新的关键字yield。星号可以紧挨着function关键字，也可以在中间添加一个空格</p>
+</blockquote>
+<pre><code class="line-numbers language-javascript">// 生成器
+function *createIterator() &#123;
+    yield 1;
+    yield 2;
+    yield 3;
+&#125;
+// 生成器能像正规函数那样被调用，但会返回一个迭代器
+let iterator = createIterator();
+console.log(iterator.next().value); // 1
+console.log(iterator.next().value); // 2
+console.log(iterator.next().value); // 3
+</code></pre>
+<pre><code>在这个示例中，createlterator()前的星号表明它是一个生成器；yield关键字也是ES6的新特性，可以通过它来指定调用迭代器的next()方法时的返回值及返回顺序。生成迭代器后，连续3次调用它的next()方法返回3个不同的值，分别是1、2和3。生成器的调用过程与其他函数一样，最终返回的是创建好的迭代器
+</code></pre>
+<p>　　生成器函数最有趣的部分是，每当执行完一条yield语句后函数就会自动停止执行。举个例子，在上面这段代码中，执行完语句yield 1之后，函数便不再执行     其他任何语句，直到再次调用迭代器的next()方法才会继续执行yield 2语句。生成器函数的这种中止函数执行的能力有很多有趣的应用</p>
+<p>　　使用yield关键字可以返回任何值或表达式，所以可以通过生成器函数批量地给迭代器添加元素。例如，可以在循环中使用yield关键字</p>
+<pre><code class="line-numbers language-javascript">function *createIterator(items) &#123;
+    for (let i = 0; i &lt; items.length; i++) &#123;
+        yield items[i];
+    &#125;
+&#125;
+let iterator = createIterator([1, 2, 3]);
+console.log(iterator.next()); // &quot;&#123; value: 1, done: false &#125;&quot;
+console.log(iterator.next()); // &quot;&#123; value: 2, done: false &#125;&quot;
+console.log(iterator.next()); // &quot;&#123; value: 3, done: false &#125;&quot;
+console.log(iterator.next()); // &quot;&#123; value: undefined, done: true &#125;&quot;
+// 之后的所有调用
+console.log(iterator.next()); // &quot;&#123; value: undefined, done: true &#125;&quot;
+</code></pre>
+<p>在此示例中，给生成器函数createlterator()传入一个items数组，而在函数内部，for循环不断从数组中生成新的元素放入迭代器中，每遇到一个yield语句循环都会停止；每次调用迭代器的next()方法，循环会继续运行并执行下一条yield语句</p>
+<p><strong>生成器函数是ES6中的一个重要特性，可以将其用于所有支持函数使用的地方</strong></p>
+<p>【使用限制】<br><strong>yield关键字只可在生成器内部使用，在其他地方使用会导致程序抛出错误</strong></p>
+<pre><code class="line-numbers language-javascript">function *createIterator(items) &#123;
+    items.forEach(function(item) &#123;
+        // 语法错误
+        yield item + 1;
+    &#125;);
+&#125;
+</code></pre>
+<p>从字面上看，yield关键字确实在createlterator()函数内部，但是它与return关键字一样，二者都不能穿透函数边界。嵌套函数中的return语句不能用作外部函数的返回语句，而此处嵌套函数中的yield语句会导致程序抛出语法错误</p>
+<h2 id="ES5风格的对象字面量中，可以通过函数表达式来创建生成器"><a href="#ES5风格的对象字面量中，可以通过函数表达式来创建生成器" class="headerlink" title="ES5风格的对象字面量中，可以通过函数表达式来创建生成器"></a>ES5风格的对象字面量中，可以通过函数表达式来创建生成器</h2><pre><code class="line-numbers language-javascript">var o = &#123;
+    createIterator: function *(items) &#123;
+            for (let i = 0; i &lt; items.length; i++) &#123;
+                yield items[i];
+            &#125;
+        &#125;
+&#125;;
+let iterator = o.createIterator([1, 2, 3]);
+</code></pre>
+<h2 id="ES6的函数方法的简写方式来创建生成器"><a href="#ES6的函数方法的简写方式来创建生成器" class="headerlink" title="ES6的函数方法的简写方式来创建生成器"></a>ES6的函数方法的简写方式来创建生成器</h2><pre><code class="line-numbers language-javascript">var o = &#123;
+    *createIterator(items) &#123;
+            for (let i = 0; i &lt; items.length; i++) &#123;
+                yield items[i];
+            &#125;
+        &#125;
+&#125;;
+let iterator = o.createIterator([1, 2, 3])
+</code></pre>
+<h2 id="状态机"><a href="#状态机" class="headerlink" title="状态机"></a>状态机</h2><p><strong>生成器的一个常用功能是生成状态机</strong></p>
+<pre><code class="line-numbers language-javascript">let state = function*()&#123;
+    while(1)&#123;
+        yield &#39;A&#39;;
+        yield &#39;B&#39;;
+        yield &#39;C&#39;;
+    &#125;
+&#125;
+let status = state();
+console.log(status.next().value);//&#39;A&#39;
+console.log(status.next().value);//&#39;B&#39;
+console.log(status.next().value);//&#39;C&#39;
+console.log(status.next().value);//&#39;A&#39;
+console.log(status.next().value);//&#39;B&#39;
+</code></pre>
+<h2 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h2><blockquote>
+<p>可迭代对象具有Symbol.iterator属性，是一种与迭代器密切相关的对象。Symbol.iterator通过指定的函数可以返回一个作用于附属对象的迭代器。在ES6中，所有的集合对象(数组、Set集合及Map集合)和字符串都是可迭代对象，这些对象中都有默认的迭代器。ES6中新加入的特性for-of循环需要用到可迭代对象的这些功能<br>[注意]由于生成器默认会为Symbol.iterator属性赋值，因此所有通过生成器创建的迭代器都是可迭代对象<br>一开始，我们曾提到过循环内部索引跟踪的相关问题，要解决这个问题，需要两个工具：一个是迭代器，另一个是for-of循环。如此一来，便不需要再跟踪整个集合的索引，只需关注集合中要处理的内容<br>for-of循环每执行一次都会调用可迭代对象的next()方法，并将迭代器返回的结果对象的value属性存储在一个变量中，循环将持续执行这一过程直到返回对象的done属性的值为true。这里有个示例</p>
+</blockquote>
+<pre><code class="line-numbers language-javascript">let values = [1, 2, 3];
+for (let num of values) &#123;
+    //1
+    //2
+    //3
+    console.log(num);
+&#125;
+</code></pre>
+<p>这段for-of循环的代码通过调用values数组的Symbol.iterator方法来获取迭代器，这一过程是在JS引擎背后完成的。随后迭代器的next()方法被多次调用，从其返回对象的value属性读取值并存储在变量num中，依次为1、2和3，当结果对象的done属性值为true时循环退出，所以num不会被赋值为undefined<br>如果只需迭代数组或集合中的值，用for-of循环代替for循环是个不错的选择。相比传统的for循环，for-of循环的控制条件更简单，不需要追踪复杂的条件，所以更少出错<br>[注意]如果将for-of语句用于不可迭代对象、null或undefined将会导致程序抛出错误</p>
+<h2 id="访问默认迭代器"><a href="#访问默认迭代器" class="headerlink" title="访问默认迭代器"></a>访问默认迭代器</h2><p><strong>可以通过Symbol.iterator来访问对象默认的迭代器</strong></p>
+<pre><code class="line-numbers language-javascript">let values = [1, 2, 3];
+let iterator = values[Symbol.iterator]();
+console.log(iterator.next()); // &quot;&#123; value: 1, done: false &#125;&quot;
+console.log(iterator.next()); // &quot;&#123; value: 2, done: false &#125;&quot;
+console.log(iterator.next()); // &quot;&#123; value: 3, done: false &#125;&quot;
+console.log(iterator.next()); // &quot;&#123; value: undefined, done: true &#125;&quot;
+</code></pre>
+<p>在这段代码中，通过Symbol.iterator获取了数组values的默认迭代器，并用它遍历数组中的元素。在JS引擎中执行for-of循环语句时也会有类似的处理过程</p>
+<h2 id="由于具有Symbol-iterator属性的对象都有默认的迭代器，因此可以用它来检测对象是否为可迭代对象"><a href="#由于具有Symbol-iterator属性的对象都有默认的迭代器，因此可以用它来检测对象是否为可迭代对象" class="headerlink" title="由于具有Symbol.iterator属性的对象都有默认的迭代器，因此可以用它来检测对象是否为可迭代对象"></a>由于具有Symbol.iterator属性的对象都有默认的迭代器，因此可以用它来检测对象是否为可迭代对象</h2><pre><code class="line-numbers language-javascript">function isIterable(object) &#123;
+    return typeof object[Symbol.iterator] === &quot;function&quot;;
+&#125;
+console.log(isIterable([1, 2, 3])); // true
+console.log(isIterable(&quot;Hello&quot;)); // true
+console.log(isIterable(new Map())); // true
+console.log(isIterable(new Set())); // true
+console.log(isIterable(new WeakMap())); // false
+console.log(isIterable(new WeakSet())); // false
+</code></pre>
+<p>这里的islterable()函数可以检查指定对象中是否存在默认的函数类型迭代器，而for-of循环在执行前也会做相似的检查</p>
+<h2 id="除了使用内建的可迭代对象类型的Symbol-iterator，也可以使用Symbol-iterator来创建属于自己的迭代器"><a href="#除了使用内建的可迭代对象类型的Symbol-iterator，也可以使用Symbol-iterator来创建属于自己的迭代器" class="headerlink" title="除了使用内建的可迭代对象类型的Symbol.iterator，也可以使用Symbol.iterator来创建属于自己的迭代器"></a>除了使用内建的可迭代对象类型的Symbol.iterator，也可以使用Symbol.iterator来创建属于自己的迭代器</h2><p><strong>默认情况下，开发者定义的对象都是不可迭代对象，但如果给Symbol.iterator属性添加一个生成器，则可以将其变为可迭代对象</strong></p>
+<pre><code class="line-numbers language-javascript">let collection = &#123;
+    items: [],
+    *[Symbol.iterator]() &#123;
+        for (let item of this.items) &#123;
+            yield item;
+        &#125;
+    &#125;
+&#125;;
+collection.items.push(1);
+collection.items.push(2);
+collection.items.push(3);
+for (let x of collection) &#123;
+    //1
+    //2
+    //3
+    console.log(x);
+&#125;
+</code></pre>
+<blockquote>
+<p>在这个示例中，先创建一个生成器(注意，星号仍然在属性名前)并将其赋值给对象的Symbol.iterator属性来创建默认的迭代器；而在生成器中，通过for-of循环迭代this.items并用yield返回每一个值。collection对象默认迭代器的返回值由迭代器this.items自动生成，而非手动遍历来定义返回值</p>
+</blockquote>
+<h2 id="集合对象迭代器"><a href="#集合对象迭代器" class="headerlink" title="集合对象迭代器"></a>集合对象迭代器</h2><p>在ES6中有3种类型的集合对象：数组、Map集合与Set集合,为了更好地访问对象中的内容，这3种对象都内建了以下三种迭代器</p>
+<pre><code class="line-numbers language-text">entries() 返回一个迭代器，其值为多个键值对
+values() 返回一个迭代器，其值为集合的值
+keys() 返回一个迭代器，其值为集合中的所有键名
+</code></pre>
+<h3 id="entries-迭代器"><a href="#entries-迭代器" class="headerlink" title="entries()迭代器"></a>entries()迭代器</h3><pre><code class="line-numbers language-javascript">let colors = [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];
+let tracking = new Set([1234, 5678, 9012]);
+let data = new Map();
+data.set(&quot;title&quot;, &quot;Understanding ES6&quot;);
+data.set(&quot;format&quot;, &quot;ebook&quot;);
+for (let entry of colors.entries()) &#123;
+    console.log(entry);
+&#125;
+for (let entry of tracking.entries()) &#123;
+    console.log(entry);
+&#125;
+for (let entry of data.entries()) &#123;
+    console.log(entry);
+&#125;
+
+[0, &quot;red&quot;]
+[1, &quot;green&quot;]
+[2, &quot;blue&quot;]
+[1234, 1234]
+[5678, 5678]
+[9012, 9012]
+[&quot;title&quot;, &quot;Understanding ES6&quot;]
+[&quot;format&quot;, &quot;ebook&quot;]
+</code></pre>
+<h3 id="values-迭代器"><a href="#values-迭代器" class="headerlink" title="values()迭代器"></a>values()迭代器</h3><pre><code class="line-numbers language-javascript">let colors = [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];
+let tracking = new Set([1234, 5678, 9012]);
+let data = new Map();
+data.set(&quot;title&quot;, &quot;Understanding ES6&quot;);
+data.set(&quot;format&quot;, &quot;ebook&quot;);
+for (let value of colors.values()) &#123;
+    console.log(value);
+&#125;
+for (let value of tracking.values()) &#123;
+    console.log(value);
+&#125;
+for (let value of data.values()) &#123;
+    console.log(value);
+&#125;
+输出:
+&quot;red&quot;
+&quot;green&quot;
+&quot;blue&quot;
+1234
+5678
+9012
+&quot;Understanding ES6&quot;
+&quot;ebook&quot;
+</code></pre>
+<h3 id="keys-迭代器"><a href="#keys-迭代器" class="headerlink" title="keys()迭代器"></a>keys()迭代器</h3><pre><code class="line-numbers language-javascript">let colors = [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];
+let tracking = new Set([1234, 5678, 9012]);
+let data = new Map();
+data.set(&quot;title&quot;, &quot;Understanding ES6&quot;);
+data.set(&quot;format&quot;, &quot;ebook&quot;);
+for (let key of colors.keys()) &#123;
+    console.log(key);
+&#125;
+for (let key of tracking.keys()) &#123;
+    console.log(key);
+&#125;
+for (let key of data.keys()) &#123;
+    console.log(key);
+&#125;
+
+输出
+0
+1
+2
+1234
+5678
+9012
+&quot;title&quot;
+&quot;format&quot;
+</code></pre>
+<h2 id="不同集合类型的默认迭代器"><a href="#不同集合类型的默认迭代器" class="headerlink" title="不同集合类型的默认迭代器"></a>不同集合类型的默认迭代器</h2><p>每个集合类型都有一个默认的迭代器，在for-of循环中，如果没有显式指定则使用默认的迭代器。数组和Set集合的默认迭代器是values()方法，Map集合的默认迭代器是entries()方法。有了这些默认的迭代器，可以更轻松地在for-of循环中使用集合对象</p>
+<pre><code class="line-numbers language-javascript">let colors = [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];
+let tracking = new Set([1234, 5678, 9012]);
+let data = new Map();
+data.set(&quot;title&quot;, &quot;Understanding ES6&quot;);
+data.set(&quot;format&quot;, &quot;print&quot;);
+// 与使用 colors.values() 相同
+for (let value of colors) &#123;
+    console.log(value);
+&#125;
+// 与使用 tracking.values() 相同
+for (let num of tracking) &#123;
+    console.log(num);
+&#125;
+// 与使用 data.entries() 相同
+for (let entry of data) &#123;
+    console.log(entry);
+&#125;
+
+输出
+&quot;red&quot;
+&quot;green&quot;
+&quot;blue&quot;
+1234
+5678
+9012
+[&quot;title&quot;, &quot;Understanding ES6&quot;]
+[&quot;format&quot;, &quot;print&quot;]
+</code></pre>
+<p><strong>而WeakSet集合与WeakMap集合就没有内建的迭代器，由于要管理弱引用，因而无法确切地知道集合中存在的值，也就无法迭代这些集合了</strong></p>
+<h2 id="字符串迭代器"><a href="#字符串迭代器" class="headerlink" title="字符串迭代器"></a>字符串迭代器</h2><p>自ES5发布以后，JS字符串慢慢变得更像数组了，例如，ES5正式规定可以通过方括号访问字符串中的字符(也就是说，text[0]可以获取字符串text的第一个字符，并以此类推)。由于方括号操作的是编码单元而非字符，因此无法正确访问双字节字符</p>
+<pre><code class="line-numbers language-javascript">var message = &quot;A 𠮷 B&quot; ;
+for (let i=0; i &lt; message.length; i++) &#123;
+    console.log(message[i]);
+&#125;
+
+输出  ：
+A
+ 
+ 
+ 
+ 
+B
+</code></pre>
+<p>由于双字节字符被视作两个独立的编码单元，从而最终在A与B之间打印出4个空行<br>所幸，ES6的目标是全面支持Unicode，并且我们可以通过改变字符串的默认迭代器来解决这个问题，使其操作字符而不是编码单元。现在，修改前一个示例中字符串的默认迭代器，让for-of循环输出正确的内容</p>
+<pre><code class="line-numbers language-javascript">var message = &quot;A 𠮷 B&quot; ;
+for (let c of message) &#123;
+    console.log(c);
+&#125;
+输出:
+A
+ 
+𠮷
+ 
+B
+</code></pre>
+<h2 id="NodeList迭代器"><a href="#NodeList迭代器" class="headerlink" title="NodeList迭代器"></a>NodeList迭代器</h2><blockquote>
+<p>DOM标准中有一个NodeList类型，document对象中的所有元素都用这个类型来表示。对于编写Web浏览器环境中的JS开发者来说，需要花点儿功夫去理解NodeList对象和数组之间的差异。二者都使用length属性来表示集合中元素的数量，都可以通过方括号来访问集合中的独立元素。而在内部实现中，二者的表现非常不一致，因而会造成很多困扰<br>自从ES6添加了默认迭代器后，DOM定义中的NodeList类型(定义在HTML标准而不是ES6标准中)也拥有了默认迭代器，其行为与数组的默认迭代器完全一致。所以可以将NodeList应用于for-of循环及其他支持对象默认迭代器的地方</p>
+</blockquote>
+<pre><code class="line-numbers language-javascript">var divs = document.getElementsByTagName(&quot;div&quot;);
+for (let div of divs) &#123;
+    console.log(div.id);
+&#125;
+</code></pre>
+<p>在这段代码中，通过调用getElementsByTagName()方法获取到document对象中所有div元素的列表，在for-of循环中遍历列表中的每一个元素并输出元素ID，实际上是按照处理数组的方式来处理NodeList的</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2017-10-04T12:04:35.000Z" title="2017/10/4 下午8:04:35">2017-10-04</time>发表</span><span class="level-item"><time dateTime="2018-02-21T12:24:05.048Z" title="2018/2/21 下午8:24:05">2018-02-21</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JavaScript/">JavaScript</a></span><span class="level-item">9 分钟读完 (大约1421个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2017/10/04/javascript/es%E5%88%9D%E6%AC%A1%E4%BD%93%E9%AA%8C%E7%AC%AC%E4%B8%80%E7%AF%87/">ES初次体验第一篇</a></h1><div class="content"><h2 id="ES的块级作用域let、const"><a href="#ES的块级作用域let、const" class="headerlink" title="ES的块级作用域let、const"></a>ES的块级作用域let、const</h2><pre><code class="line-numbers language-text">javascript的变量作用域只有全局作用域和函数作用域,ES中出现块级作用域,let表示变量、const表示常量。let和const都是块级作用域。
+说白了 &#123;&#125;大括号内的代码块即为let 和 const的作用域。
+
+  function aa() &#123;
+    if(bool) &#123;
+       let test = &#39;hello man&#39;
+    &#125; else &#123;
+        //test 在此处访问不到
+        console.log(test)
+    &#125;
+  &#125;
+  let的作用域是在它所在当前代码块，但不会被提升到当前函数的最顶部。
+
+  再来说说const。
+    const name = &#39;aaaa&#39;
+    name = &#39;bbb&#39; //再次赋值此时会报错
+</code></pre>
+<p><strong>《JavaScript高级程序设计》中提到，所有函数的参数都是按值传递的</strong></p>
+<h2 id="经典的例子"><a href="#经典的例子" class="headerlink" title="经典的例子"></a>经典的例子</h2><pre><code class="line-numbers language-javascript">var funcs = []
+    for (var i = 0; i &lt; 10; i++) &#123;
+        funcs.push(function() &#123; console.log(i) &#125;)
+    &#125;
+    funcs.forEach(function(func) &#123;
+        func()
+    &#125;)
+
+   由js作用域链可得知结果 输出 10 十次
+   但是如果我们想依次输出0到9呢？两种解决方法。直接上代码。
+
+   // ES5告诉我们可以利用闭包解决这个问题
+    var func = []
+    for (var i = 0; i &lt; 10; i++) &#123;
+        func.push((function(value) &#123;
+            return function() &#123;
+                console.log(value)
+            &#125;
+        &#125;(i)))
+    &#125;
+        func.forEach(function(func) &#123;
+        func()
+    &#125;)
+    // es6
+    for (let i = 0; i &lt; 10; i++) &#123;
+        func.push(function() &#123;
+            console.log(i)
+        &#125;)
+    &#125;
+        func.forEach(function(func) &#123;
+        func()
+    &#125;)
+</code></pre>
+<h2 id="let-解构数组特性"><a href="#let-解构数组特性" class="headerlink" title="let 解构数组特性"></a>let 解构数组特性</h2><p><img src="/images/js/let.png"></p>
+<h2 id="let-解构对象特性"><a href="#let-解构对象特性" class="headerlink" title="let 解构对象特性"></a>let 解构对象特性</h2><p><img src="/images/js/let_object.png"></p>
+<h2 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h2><p>es6模板字符简直是开发者的福音啊，解决了ES5在字符串功能上的痛点。<br>第一个用途，基本的字符串格式化。将表达式嵌入字符串中进行拼接。用${}来界定。</p>
+<pre><code class="line-numbers language-javascript">    //es5 
+    var name = &#39;song&#39;
+    console.log(&#39;hello&#39; + name)
+    //es6
+    const name = &#39;song&#39;
+    console.log(`hello $&#123;name&#125;`) //hello song
+</code></pre>
+<p>第二个用途，在ES5时我们通过反斜杠()来做多行字符串或者字符串一行行拼接。ES6反引号(&#96;&#96;)直接搞定</p>
+<pre><code class="line-numbers language-javascript">   // es5
+    var msg = &quot;Hi \
+    man!
+    &quot;
+    // es6
+    const template = `&lt;div&gt;
+        &lt;span&gt;hello world&lt;/span&gt;
+    &lt;/div&gt;`
+</code></pre>
+<p>对于字符串es6当然也提供了很多厉害的方法。说几个常用的。</p>
+<pre><code class="line-numbers language-javascript">// 1.includes：判断是否包含然后直接返回布尔值
+    let str = &#39;hahay&#39;
+    console.log(str.includes(&#39;y&#39;)) // true
+    // 2.repeat: 获取字符串重复n次
+    let s = &#39;he&#39;
+    console.log(s.repeat(3)) // &#39;hehehe&#39;
+    //如果你带入小数, Math.floor(num) 来处理
+</code></pre>
+<h2 id="函数默认参数"><a href="#函数默认参数" class="headerlink" title="函数默认参数"></a>函数默认参数</h2><h3 id="在ES5我们给函数定义参数默认值是怎么样？"><a href="#在ES5我们给函数定义参数默认值是怎么样？" class="headerlink" title="在ES5我们给函数定义参数默认值是怎么样？"></a>在ES5我们给函数定义参数默认值是怎么样？</h3><pre><code class="line-numbers language-javascript"> function action(num) &#123;
+        num = num || 200
+        //当传入num时，num为传入的值
+        //当没传入参数时，num即有了默认值200
+        return num
+    &#125;
+// 但细心观察肯定会发现，num传入为0的时候就是false， 此时num = 200 与我们的实际要的效果明显不一样   
+</code></pre>
+<h3 id="ES6为参数提供了默认值。在定义函数时便初始化了这个参数，以便在参数没有被传递进去时使用。"><a href="#ES6为参数提供了默认值。在定义函数时便初始化了这个参数，以便在参数没有被传递进去时使用。" class="headerlink" title="ES6为参数提供了默认值。在定义函数时便初始化了这个参数，以便在参数没有被传递进去时使用。"></a>ES6为参数提供了默认值。在定义函数时便初始化了这个参数，以便在参数没有被传递进去时使用。</h3><pre><code class="line-numbers language-javascript">   function action(num = 200) &#123;
+        console.log(num)
+    &#125;
+    action() //200
+    action(300) //300
+</code></pre>
+<h2 id="展开操作符-spread-…"><a href="#展开操作符-spread-…" class="headerlink" title="展开操作符 spread(…)"></a>展开操作符 spread(…)</h2><p><img src="/images/js/spread.png"></p>
+<h2 id="剩余操作符-rest-…"><a href="#剩余操作符-rest-…" class="headerlink" title="剩余操作符 rest(…)"></a>剩余操作符 rest(…)</h2><p><img src="/images/js/spread.png"></p>
+<h2 id="解构对象参数"><a href="#解构对象参数" class="headerlink" title="解构对象参数"></a>解构对象参数</h2><p><img src="/images/js/de_param.png"></p>
+<h2 id="获取函数名字"><a href="#获取函数名字" class="headerlink" title="获取函数名字"></a>获取函数名字</h2><pre><code class="line-numbers language-javascript">    var  breakfast =  function () &#123;&#125;
+       console.log(breakfast.name);
+    输出结果    breakfast
+
+    var  breakfast =  function superMan() &#123;&#125;
+       console.log(breakfast.name);
+     输出结果    superMan   
+</code></pre>
+<h2 id="ES6箭头函数转码-es5"><a href="#ES6箭头函数转码-es5" class="headerlink" title="ES6箭头函数转码 es5"></a>ES6箭头函数转码 es5</h2><p><img src="/images/js/arrow_function.png"><br><strong>当你的函数有且仅有一个参数的时候，是可以省略掉括号的。当你函数返回有且仅有一个表达式的时候可以省略{}</strong><br>本地使用：<br>1、首先安装babel-cli（用于在终端使用babel）<br>　　npm install -g babel-cli<br>2、然后安装babel-preset-es2015插件<br>　　npm install –save babel-preset-es2015<br>当安装过第一步时 很多人只是执行了第一步，还需要安装插件，并且在使用的过程中去指定编译版本。<br>$<br> babel index.js –out-file<br> compiled.js<br>或<br>$<br> babel index.js -o<br> compiled.js<br>执行：<br>babel es6.js –presets es2015<br><strong>以前好像不用指定版本，不知道是哪里出错了，现在本地编译需要指定一下版本，或者默认指定一下版本。否则编译无效果。</strong></p>
+<h2 id="拓展的对象表达式"><a href="#拓展的对象表达式" class="headerlink" title="拓展的对象表达式"></a>拓展的对象表达式</h2><p><img src="/images/js/es6_object.png"></p>
+<h2 id="ES6-支持class关键字定义类-很接近JAVA的关键字了"><a href="#ES6-支持class关键字定义类-很接近JAVA的关键字了" class="headerlink" title="ES6 支持class关键字定义类  很接近JAVA的关键字了"></a>ES6 支持class关键字定义类  很接近JAVA的关键字了</h2><p><img src="/images/js/class.png"></p>
+<h2 id="ES6-get-set-关键字"><a href="#ES6-get-set-关键字" class="headerlink" title="ES6 get set 关键字"></a>ES6 get set 关键字</h2><pre><code class="line-numbers language-javascript">   class chef&#123;
+        constructor(food)&#123;
+            this.food = food;
+            this.dish = [];
+        &#125;
+        set menu(dish)&#123;
+           this.dish.push(dish);
+        &#125;
+        get menu()&#123;
+            return this.dish;
+        &#125;
+        cook()&#123;
+            console.log(this.food);
+        &#125;
+    &#125;
+
+    let sxm = new chef(&quot;apple&quot;);
+    sxm.cook();
+    console.log(sxm.menu=&#39;💪&#39;);
+    console.log(sxm.menu=&#39;☕️&#39;)
+
+    输出：
+    apple
+    💪
+    ☕️
+</code></pre>
+<h2 id="与Java一样作用的关键字"><a href="#与Java一样作用的关键字" class="headerlink" title="与Java一样作用的关键字"></a>与Java一样作用的关键字</h2><p><strong>static</strong>、<strong>extends</strong></p>
+<h2 id="与Java一样的-Set"><a href="#与Java一样的-Set" class="headerlink" title="与Java一样的 Set"></a>与Java一样的 Set</h2><pre><code class="line-numbers language-javascript">    let set = new Set();
+    set.add(&#39;🍎&#39;);
+    set.add(&#39;🍌&#39;);
+    set.add(&#39;🍊&#39;);
+     set.add(&#39;🍊&#39;);
+    set.forEach(item=&gt;&#123;
+        console.log(item);
+    &#125;);
+
+    set.delete(&#39;🍊&#39;);
+    console.log(set);
+
+    set.clear();
+    console.log(set);
+</code></pre>
+<p><img src="/images/js/set.png"></p>
+<h2 id="与JAVA一样的-Map"><a href="#与JAVA一样的-Map" class="headerlink" title="与JAVA一样的  Map"></a>与JAVA一样的  Map</h2><p><img src="/images/js/map.png"></p>
+<h2 id="import-和-export"><a href="#import-和-export" class="headerlink" title="import 和 export"></a>import 和 export</h2><pre><code class="line-numbers language-javascript">//全部导入
+import people from &#39;./example&#39;
+
+//有一种特殊情况，即允许你将整个模块当作单一对象进行导入
+//该模块的所有导出都会作为对象的属性存在
+import * as example from &quot;./example.js&quot;
+console.log(example.name)
+console.log(example.age)
+console.log(example.getName())
+
+//导入部分
+import &#123;name, age&#125; from &#39;./example&#39;
+
+// 导出默认, 有且只有一个默认
+export default App
+
+// 部分导出
+export class App extend Component &#123;&#125;;
+</code></pre>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>当用export default people导出时，就用 import people 导入（不带大括号）</li>
+<li>一个文件里，有且只能有一个export default。但可以有多个export。</li>
+<li>当用export name 时，就用import { name }导入（记得带上大括号）</li>
+<li>当一个文件里，既有一个export default people, 又有多个export name 或者 export age时，导入就用 import people, { name, age } </li>
+<li>当一个文件里出现n多个 export 导出很多模块，导入时除了一个一个导入，也可以用import * as example</li>
+</ol>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2014-10-02T12:04:35.000Z" title="2014/10/2 下午8:04:35">2014-10-02</time>发表</span><span class="level-item"><time dateTime="2018-02-20T06:30:07.000Z" title="2018/2/20 下午2:30:07">2018-02-20</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JavaScript/">JavaScript</a></span><span class="level-item">3 分钟读完 (大约441个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2014/10/02/javascript/js%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%AC%AC%E4%BA%8C%E7%AF%87/">JS深入理解变量作用域第二篇</a></h1><div class="content"><h2 id="代码一"><a href="#代码一" class="headerlink" title="代码一"></a>代码一</h2><pre><code class="line-numbers language-javascript">var i=10;   
+function a() &#123;   
+    alert(i);   // 先在函数体内查找变量 i,未找到，向上级作用域查找，找到输出 10
+&#125;;   
+a();
+</code></pre>
+<h2 id="代码二"><a href="#代码二" class="headerlink" title="代码二"></a>代码二</h2><pre><code class="line-numbers language-javascript">var i=10;   
+function a() &#123;   
+    alert(i);   // 先在函数体内查找变量 i,找到i，不再向上级作用域查找，找到输出 i值(但是初始化在下面) undefine
+    var i = 2;   
+&#125;;   
+a();
+</code></pre>
+<h2 id="代码三"><a href="#代码三" class="headerlink" title="代码三"></a>代码三</h2><pre><code class="line-numbers language-javascript">var i = 10;
+function a() &#123;
+    console.log(i); //先在函数体内查找变量i,未找到i(必须是var关键字声明才算)，向上级作用域查找，找到输出i值 10
+    i  = 100; // 没有var声明，则意思是 i提升为全局变量，再次赋值为 100
+&#125;
+a();
+console.log(i); //输出 i值为 100
+</code></pre>
+<h2 id="代码四"><a href="#代码四" class="headerlink" title="代码四"></a>代码四</h2><pre><code class="line-numbers language-javascript"> var a,b;
+    (function()&#123;
+        console.log(a);
+        console.log(b);
+        var a = b = 3;
+        console.log(a);
+        console.log(b);
+    &#125;)();
+        console.log(a);
+        console.log(b);
+结果输出 undefined undefined 3 3 undefined 3
+代码等价于
+var a,b;  
+    (function()&#123;  
+        alert(a);  
+        alert(b);  
+        var a = 3;  
+        b = 3;  
+        alert(a);  
+        alert(b);  
+    &#125;)();  
+        alert(a);  
+        alert(b);  
+</code></pre>
+<p><strong>这主要是Js中没有用var声明的变量都是全局变量，而且是顶层对象的属性</strong></p>
+<h2 id="代码五"><a href="#代码五" class="headerlink" title="代码五"></a>代码五</h2><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=UTF-8&quot;/&gt;
+    &lt;title&gt;ajax&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+    &lt;/style&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+       function buttonInit()&#123;
+            for(var i=1;i&lt;4;i++)&#123;
+                var b=document.getElementById(&quot;button&quot;+i);
+                b.addEventListener(&quot;click&quot;,function()&#123; alert(&quot;Button&quot;+i);&#125;,false);
+            &#125;
+        &#125;
+        window.onload=buttonInit;
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;button id=&quot;button1&quot;&gt;Button1&lt;/button&gt;
+&lt;button id=&quot;button2&quot;&gt;Button2&lt;/button&gt;
+&lt;button id=&quot;button3&quot;&gt;Button3&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<blockquote>
+<p>当文档加载完毕，给几个按钮注册点击事件，当我们点击按钮时，会弹出什么提示框呢？<br>很容易犯错，对是的，三个按钮都是弹出：”Button4”,你答对了吗？<br>当注册事件结束后，i的值为4，当点击按钮时，事件函数即function(){ alert(“Button”+i);}这个匿名函数中没有i,根据作用域链，所以到buttonInit函数中找，此时i的值为4<br>所以弹出”button4“。</p>
+</blockquote>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2014-10-01T12:04:35.000Z" title="2014/10/1 下午8:04:35">2014-10-01</time>发表</span><span class="level-item"><time dateTime="2018-02-20T05:05:20.858Z" title="2018/2/20 下午1:05:20">2018-02-20</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JavaScript/">JavaScript</a></span><span class="level-item">3 分钟读完 (大约498个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2014/10/01/javascript/js%E5%88%9D%E6%AC%A1%E4%BD%93%E9%AA%8C%E7%AC%AC%E4%B8%80%E7%AF%87/">JS 初次体验第一篇</a></h1><div class="content"><h2 id="js在浏览器的交互式运行"><a href="#js在浏览器的交互式运行" class="headerlink" title="js在浏览器的交互式运行"></a>js在浏览器的交互式运行</h2><pre><code class="line-numbers language-html">新建一个index.html
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;title&gt;&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;js.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="line-numbers language-javascript">新建一个js.js 文件
+var person = &#123;&#125;;      // 第一种方式定义对象 并且设置属性 初始化值的方式
+person.name = &quot;宋烜明&quot;;
+person[&quot;age&quot;] = 18; 
+console.log(person);
+
+var person2 = &#123;name:&quot;宋烜明2&quot;,age:19&#125;;      // 第二种方式定义对象 并且设置属性 初始化值的方式
+console.log(person2);
+</code></pre>
+<p>用浏览器打开index,右击审查元素，点击console 就可以开始查看js运行<br><img src="/images/js/one.png"></p>
+<h2 id="js对象里的属性和数组"><a href="#js对象里的属性和数组" class="headerlink" title="js对象里的属性和数组"></a>js对象里的属性和数组</h2><pre><code class="line-numbers language-javascript">var person = &#123;&#125;;      // 第一种方式定义对象 并且设置属性 初始化值的方式
+person.name = &quot;宋烜明&quot;;
+person[&quot;age&quot;] = 18; 
+person.albums = [&quot;91.png&quot;,&#39;92.gif&#39;,93.jpeg]; //对象里的数组
+console.log(person);
+</code></pre>
+<p><img src="/images/js/array.png"></p>
+<h2 id="js对象属性的更新与删除操作"><a href="#js对象属性的更新与删除操作" class="headerlink" title="js对象属性的更新与删除操作"></a>js对象属性的更新与删除操作</h2><p><img src="/images/js/del.png"></p>
+<h2 id="为对象添加方法"><a href="#为对象添加方法" class="headerlink" title="为对象添加方法"></a>为对象添加方法</h2><p><img src="/images/js/fun.png"></p>
+<h2 id="循环输出对象属性"><a href="#循环输出对象属性" class="headerlink" title="循环输出对象属性"></a>循环输出对象属性</h2><p><img src="/images/js/obj_foreach.png"></p>
+<h2 id="文档对象模型DOM（document-object-model）"><a href="#文档对象模型DOM（document-object-model）" class="headerlink" title="文档对象模型DOM（document object model）"></a>文档对象模型DOM（document object model）</h2><p><img src="/images/js/dom_tree.png"></p>
+<h2 id="DOM方法介绍"><a href="#DOM方法介绍" class="headerlink" title="DOM方法介绍"></a>DOM方法介绍</h2><p><img src="/images/js/getElementById.png"></p>
+<p><img src="/images/js/getElementsByTagName.png"><br>查询选择器<br><img src="/images/js/selector.png"><br>其它访问属性的方法<br><img src="/images/js/example.gif"><br>创建新元素并添加元素<br><img src="/images/js/create_element_append.png"></p>
+<p>在指定的位置插入节点<br><img src="/images/js/insert_before.png"><br><img src="/images/js/insert_before2.png"></p>
+<h2 id="处理事件"><a href="#处理事件" class="headerlink" title="处理事件"></a>处理事件</h2><p>通过属性设置事件方法机制<br><img src="/images/js/event1.png"></p>
+<p><img src="/images/js/event2.png"></p>
+<p><strong>为对象绑定事件addEventListener</strong><br><img src="/images/js/addEventListener.png"></p>
+<h2 id="事件传播"><a href="#事件传播" class="headerlink" title="事件传播"></a>事件传播</h2><pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;title&gt;&lt;/title&gt;
+
+    &lt;style type=&quot;text/css&quot;&gt;
+ul&#123;
+    display:inline-block
+&#125;
+li&#123;
+float:left;
+margin: 15px
+&#125;
+&lt;/style&gt;
+&lt;body style=&quot;text-align:center&quot;&gt;
+&lt;h2&gt;事件&lt;/h2&gt;
+&lt;ul style=&quot;list-style-type:none;&quot; class=&quot;list-group&quot;&gt;
+&lt;li id=&quot;img1&quot;&gt;&lt;img src=&quot;../Downloads/1.jpg&quot;  width=&quot;100&quot; height=&quot;100&quot; alt=&quot;1&quot;/&gt;&lt;h6&gt;111&lt;/h6&gt;&lt;/li&gt;
+&lt;li id=&quot;img2&quot;&gt;&lt;img src=&quot;../Downloads/2.jpg&quot;  width=&quot;100&quot; height=&quot;100&quot; alt=&quot;2&quot;/&gt;&lt;h6&gt;222&lt;/h6&gt;&lt;/li&gt;
+&lt;li id=&quot;img3&quot;&gt;&lt;img src=&quot;../Downloads/3.png&quot;  width=&quot;100&quot; height=&quot;100&quot; alt=&quot;3&quot;/&gt;&lt;h6&gt;333&lt;/h6&gt;&lt;/li&gt;
+&lt;li id=&quot;img4&quot;&gt;&lt;img src=&quot;../Downloads/4.gif&quot;  width=&quot;100&quot; height=&quot;100&quot; alt=&quot;4&quot;/&gt;&lt;h6&gt;444&lt;/h6&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="line-numbers language-javascript">var ulele = document.querySelector(&quot;.list-group&quot;);
+ulele.addEventListener(&quot;click&quot;,function(event)&#123; console.log(event.target.alt)&#125;,false);
+</code></pre>
+<p><strong>效果 ul绑定的事件会传播至其子元素里面</strong><br><img src="/images/js/event_trans.png"><br>如果js开头启用  window.onload 则不需要关注 js文件导入的位置访问不到元素的问题<br><strong>由子向父 冒泡执行监听事件 传播</strong><br><img src="/images/js/maopao_event_trans.png"><br><strong>由父向子 捕获方式执行监听事件 传播</strong><br><img src="/images/js/buhuo_event_trans.png"><br><strong>停止事件传播方式</strong><br><img src="/images/js/stop_event_trans.png"></p>
+</div></article></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

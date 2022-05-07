@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>前端项目构建工具--webpack - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="webpack解决什么问题的 webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来的一个前端工具.( webpack官网) 借助于webpack这个前端自动化构建工具，可以完美实现资源的合并、打包、压缩、混淆等诸多功能. 使用Webpack， 是基于整个项目进行构建的；使用Gulp， 是基于task任务的；  在网页中会引用哪些常见的静态资源？ JS   .js  .jsx"><meta property="og:type" content="blog"><meta property="og:title" content="前端项目构建工具--webpack"><meta property="og:url" content="http://example.com/2018/03/05/%E5%89%8D%E7%AB%AF/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/webpack/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="webpack解决什么问题的 webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来的一个前端工具.( webpack官网) 借助于webpack这个前端自动化构建工具，可以完美实现资源的合并、打包、压缩、混淆等诸多功能. 使用Webpack， 是基于整个项目进行构建的；使用Gulp， 是基于task任务的；  在网页中会引用哪些常见的静态资源？ JS   .js  .jsx"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/vue/xiaoguo.png"><meta property="article:published_time" content="2018-03-05T11:40:36.000Z"><meta property="article:modified_time" content="2020-08-12T12:48:26.003Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="前端项目构建工具"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/vue/xiaoguo.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2018/03/05/%E5%89%8D%E7%AB%AF/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/webpack/"},"headline":"前端项目构建工具--webpack","image":["http://example.com/images/vue/xiaoguo.png"],"datePublished":"2018-03-05T11:40:36.000Z","dateModified":"2020-08-12T12:48:26.003Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"webpack解决什么问题的 webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来的一个前端工具.( webpack官网) 借助于webpack这个前端自动化构建工具，可以完美实现资源的合并、打包、压缩、混淆等诸多功能. 使用Webpack， 是基于整个项目进行构建的；使用Gulp， 是基于task任务的；  在网页中会引用哪些常见的静态资源？ JS   .js  .jsx"}</script><link rel="canonical" href="http://example.com/2018/03/05/%E5%89%8D%E7%AB%AF/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/webpack/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2018-03-05T11:40:36.000Z" title="2018/3/5 下午7:40:36">2018-03-05</time>发表</span><span class="level-item"><time dateTime="2020-08-12T12:48:26.003Z" title="2020/8/12 下午8:48:26">2020-08-12</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span> / </span><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/">项目构建工具</a></span><span class="level-item">41 分钟读完 (大约6139个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">前端项目构建工具--webpack</h1><div class="content"><h2 id="webpack解决什么问题的"><a href="#webpack解决什么问题的" class="headerlink" title="webpack解决什么问题的"></a>webpack解决什么问题的</h2><ul>
+<li>webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来的一个前端工具.( <a target="_blank" rel="noopener" href="http://webpack.github.io/">webpack官网</a>)</li>
+<li>借助于webpack这个前端自动化构建工具，可以完美实现资源的合并、打包、压缩、混淆等诸多功能.</li>
+<li><strong>使用Webpack， 是基于整个项目进行构建的；</strong>使用Gulp， 是基于task任务的；</li>
+</ul>
+<h3 id="在网页中会引用哪些常见的静态资源？"><a href="#在网页中会引用哪些常见的静态资源？" class="headerlink" title="在网页中会引用哪些常见的静态资源？"></a>在网页中会引用哪些常见的静态资源？</h3><ul>
+<li><strong>JS</strong></li>
+</ul>
+<ul>
+<li>.js  .jsx  .coffee  .ts（TypeScript  类 C# 语言）</li>
+</ul>
+<ul>
+<li><strong>CSS</strong></li>
+</ul>
+<ul>
+<li>.css  .less   .sass  .scss</li>
+</ul>
+<ul>
+<li><strong>Images</strong></li>
+</ul>
+<ul>
+<li>.jpg   .png   .gif   .bmp   .svg</li>
+</ul>
+<ul>
+<li><strong>字体文件（Fonts）</strong></li>
+</ul>
+<ul>
+<li>.svg   .ttf   .eot   .woff   .woff2</li>
+</ul>
+<ul>
+<li><strong>模板文件</strong></li>
+</ul>
+<ul>
+<li>.ejs   .jade  .vue【这是在webpack中定义组件的方式，推荐这么用】<span id="more"></span></li>
+</ul>
+<h3 id="网页中引入的静态资源多了以后有什么问题？"><a href="#网页中引入的静态资源多了以后有什么问题？" class="headerlink" title="网页中引入的静态资源多了以后有什么问题？"></a>网页中引入的静态资源多了以后有什么问题？</h3><ul>
+<li>1.网页加载速度慢， 因为 我们要发起很多的二次请求；</li>
+<li>2.要处理错综复杂的依赖关系</li>
+</ul>
+<h3 id="解决上述两个问题常用手段"><a href="#解决上述两个问题常用手段" class="headerlink" title="解决上述两个问题常用手段"></a>解决上述两个问题常用手段</h3><ul>
+<li>1.合并、压缩、精灵图、图片的Base64编码</li>
+<li>2.可以使用之前学过的requireJS、也可以使用webpack可以解决各个包之间的复杂依赖关系</li>
+</ul>
+<h2 id="webpack安装的两种方式"><a href="#webpack安装的两种方式" class="headerlink" title="webpack安装的两种方式"></a>webpack安装的两种方式</h2><ul>
+<li>运行 <code>npm i webpack -g</code> 全局安装webpack，这样就能在全局使用webpack的命令</li>
+<li>在项目根目录中运行 <code>npm i webpack --save-dev</code> 安装到项目依赖中</li>
+</ul>
+<h2 id="初步使用webpack打包构建列表隔行变色案例"><a href="#初步使用webpack打包构建列表隔行变色案例" class="headerlink" title="初步使用webpack打包构建列表隔行变色案例"></a>初步使用webpack打包构建列表隔行变色案例</h2><ul>
+<li>创建工程目录 <code>mkdir  webpack-learn &amp;&amp; cd webpack-learn &amp;&amp; mkdir &#123;src,dist&#125; &amp;&amp; cd src &amp;&amp; mkdir &#123;js,css,images&#125;</code></li>
+<li>在项目根目录webpack-learn下 ，运行 <code>npm init -y</code> 初始化项目，使用npm管理项目中的依赖包</li>
+<li>先安装cnpm命令 <code>npm i cnpm -g</code>,然后使用 cnpm命令安装 jquery库 <code>cnpm i jquery --save</code>,安装完项目根目录下会有一个node_modules目录，里面存放了三方库</li>
+<li>在src目录下创建首页 <code>index.html</code> 和项目js入口文件 <code>main.js</code> 并书写各行变色的代码逻辑：<pre><code class="line-numbers language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+ &lt;meta charset=&quot;UTF-8&quot;&gt;
+ &lt;title&gt;Document&lt;/title&gt;
+ &lt;script src=&quot;../dist/bundle.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;ul&gt;
+   &lt;li&gt;张三&lt;/li&gt;
+   &lt;li&gt;丽思&lt;/li&gt;
+   &lt;li&gt;王五&lt;/li&gt;
+   &lt;li&gt;古丽&lt;/li&gt;
+   &lt;li&gt;李四&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="line-numbers language-js">// 1. 导入 Jquery
+// import *** from *** 是ES6中导入模块的方式
+// 由于 ES6的代码，太高级了，浏览器解析不了，所以，这一行执行会报错
+import $ from &#39;jquery&#39;
+$(function () &#123;
+ $(&#39;li:odd&#39;).css(&#39;backgroundColor&#39;, &#39;yellow&#39;)
+ $(&#39;li:even&#39;).css(&#39;backgroundColor&#39;, function () &#123;
+     return &#39;#&#39; + &#39;FF00FF&#39;
+ &#125;)
+&#125;)
+</code></pre>
+</li>
+<li>因为浏览器不认识<code>import</code>这种高级的JS语法，需要使用webpack进行处理，webpack默认会把这种高级的语法转换为低级的浏览器能识别的语法,运行<code>webpack 入口文件路径 输出文件路径</code>对<code>main.js</code>进行处理：<pre><code class="line-numbers language-shell">webpack src/js/main.js dist/bundle.js   3.0+版本
+webpack src/js/main.js -o dist/bundle.js --mode=none 4.0+版本
+</code></pre>
+</li>
+<li>查看效果：<br> <img src="/images/vue/xiaoguo.png"></li>
+</ul>
+<h2 id="使用webpack的配置文件简化打包时候的命令"><a href="#使用webpack的配置文件简化打包时候的命令" class="headerlink" title="使用webpack的配置文件简化打包时候的命令"></a>使用webpack的配置文件简化打包时候的命令</h2><ul>
+<li>在项目根目录中创建<code>webpack.config.js</code></li>
+<li>由于运行webpack命令的时候，webpack需要指定入口文件和输出文件的路径，所以，我们需要在<code>webpack.config.js</code>中配置这两个路径：<pre><code class="line-numbers language-js">// 导入处理路径的模块
+var path = require(&#39;path&#39;);
+// 导出一个配置对象，将来webpack在启动的时候，会默认来查找webpack.config.js，并读取这个文件中导出的配置对象，来进行打包处理
+module.exports = &#123;
+ entry: path.resolve(__dirname, &#39;src/js/main.js&#39;), // 项目入口文件
+ output: &#123; // 配置输出选项
+     path: path.resolve(__dirname, &#39;dist&#39;), // 配置输出的路径
+     filename: &#39;bundle.js&#39; // 配置输出的文件名
+ &#125;,
+ mode:&#39;none&#39; //4.0+版本要加, 3.0+版本可以不加
+&#125;
+</code></pre>
+</li>
+<li>这样每次只需在 工程下输入  <code>webpack</code> 就可以完成打包js的任务</li>
+</ul>
+<h2 id="实现webpack的实时打包构建-webpack-dev-server"><a href="#实现webpack的实时打包构建-webpack-dev-server" class="headerlink" title="实现webpack的实时打包构建-webpack-dev-server"></a>实现webpack的实时打包构建-webpack-dev-server</h2><ul>
+<li>1.由于每次重新修改代码之后，都需要手动运行webpack打包的命令，比较麻烦，所以使用<code>webpack-dev-server</code>来实现代码实时打包编译，当修改代码之后，会自动进行打包构建。</li>
+<li>2.运行<code>cnpm i webpack-dev-server --save-dev</code>安装到开发依赖；运行<code>cnpm i webpack --save-dev</code>安装到项目本地；如果webpack版本是4.0+，则需要运行 <code>cnpm i webpack-cli --save-dev</code>安装到项目本地</li>
+<li>3.安装完成之后，在命令行直接运行<code>webpack-dev-server</code>来进行打包，发现报错，此时需要借助于<code>package.json</code>文件中的指令，来进行运行<code>webpack-dev-server</code>命令，在<code>scripts</code>节点下新增<code>&quot;dev&quot;: &quot;webpack-dev-server&quot;</code>指令，发现可以进行实时打包，但是dist目录下并没有生成<code>bundle.js</code>文件，这是因为<code>webpack-dev-server</code>将<strong>打包好的文件放在了内存中</strong></li>
+</ul>
+<ul>
+<li>把<code>bundle.js</code>放在内存中的好处是：由于需要实时打包编译，所以放在内存中速度会非常快</li>
+<li><code>npm run dev</code> 运行启动，这个时候访问webpack-dev-server启动的<code>http://localhost:8080/</code>网站，发现是一个文件夹的面板，需要点击到src目录下，才能打开我们的index首页，此时引用不到bundle.js文件，需要修改index.html中script的src属性为:<code>&lt;script src=&quot;../bundle.js&quot;&gt;&lt;/script&gt;</code></li>
+<li>为了能在访问<code>http://localhost:8080/</code>的时候直接访问到index首页，可以使用<code>--contentBase src</code>指令来修改dev指令，指定启动的根目录：<pre><code class="line-numbers language-json">&quot;dev&quot;: &quot;webpack-dev-server&quot;,
+&quot;dev1&quot;: &quot;webpack-dev-server --contentBase src&quot;,
+&quot;dev2&quot;: &quot;webpack-dev-server --open --port 3000 --contentBase src --hot&quot; //推荐这个配置，启动 npm run dev2 
+</code></pre>
+ 同时修改index页面中script的src属性为<code>&lt;script src=&quot;bundle.js&quot;&gt;&lt;/script&gt;</code></li>
+</ul>
+<h2 id="使用html-webpack-plugin插件配置启动页面"><a href="#使用html-webpack-plugin插件配置启动页面" class="headerlink" title="使用html-webpack-plugin插件配置启动页面"></a>使用<code>html-webpack-plugin</code>插件配置启动页面</h2><ul>
+<li>由于使用<code>--contentBase</code>指令的过程比较繁琐，需要指定启动的目录，同时还需要修改index.html中script标签的src属性，所以推荐使用<code>html-webpack-plugin</code>插件配置启动页面.</li>
+<li>1.运行<code>cnpm i html-webpack-plugin --save-dev</code>安装到开发依赖</li>
+<li>2.修改<code>webpack.config.js</code>配置文件如下： <pre><code class="line-numbers language-js">// 导入处理路径的模块
+var path = require(&#39;path&#39;);
+// 导入自动生成HTMl文件的插件
+var htmlWebpackPlugin = require(&#39;html-webpack-plugin&#39;);
+// 导出一个配置对象，将来webpack在启动的时候，会默认来查找webpack.config.js，并读取这个文件中导出的配置对象，来进行打包处理
+module.exports = &#123;
+ entry: path.resolve(__dirname, &#39;src/js/main.js&#39;), // 项目入口文件
+ output: &#123; // 配置输出选项
+     path: path.resolve(__dirname, &#39;dist&#39;), // 配置输出的路径
+     filename: &#39;bundle.js&#39; // 配置输出的文件名
+ &#125;,
+ mode:&#39;none&#39;, //4.0+版本要加, 3.0+版本可以不加
+ plugins:[ // 添加plugins节点配置插件
+     new htmlWebpackPlugin(&#123;
+         template:path.resolve(__dirname, &#39;src/index.html&#39;),//模板路径
+         filename:&#39;index.html&#39;//自动生成的HTML文件的名称
+     &#125;)
+ ]
+&#125;
+</code></pre>
+</li>
+<li>3.修改<code>package.json</code>中<code>script</code>节点中的dev指令如下： <pre><code class="line-numbers language-json">&quot;dev&quot;: &quot;webpack-dev-server&quot;
+</code></pre>
+</li>
+<li>4.将index.html中script标签注释掉，因为<code>html-webpack-plugin</code>插件会自动把bundle.js注入到index.html页面中！ 运行 <code>npm run dev</code> 查看效果。</li>
+</ul>
+<h3 id="实现自动打开浏览器、热更新和配置浏览器的默认端口号"><a href="#实现自动打开浏览器、热更新和配置浏览器的默认端口号" class="headerlink" title="实现自动打开浏览器、热更新和配置浏览器的默认端口号"></a>实现自动打开浏览器、热更新和配置浏览器的默认端口号</h3><h4 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h4><ul>
+<li>修改<code>package.json</code>的script节点如下，其中<code>--open</code>表示自动打开浏览器，<code>--port 4321</code>表示打开的端口号为4321，<code>--hot</code>表示启用浏览器热更新：<pre><code class="line-numbers language-json">&quot;dev&quot;: &quot;webpack-dev-server --hot --port 4321 --open&quot;
+</code></pre>
+</li>
+</ul>
+<h4 id="方式二-不推荐"><a href="#方式二-不推荐" class="headerlink" title="方式二(不推荐)"></a>方式二(不推荐)</h4><ul>
+<li>修改<code>webpack.config.js</code>文件，新增<code>devServer</code>节点如下<pre><code class="line-numbers language-js">devServer: &#123; // 这是配置 dev-server 命令参数的第二种形式，相对来说，这种方式麻烦一些
+     //  --open --port 3000 --contentBase src --hot
+     open: true, // 自动打开浏览器
+     port: 3000, // 设置启动时候的运行端口
+     contentBase: &#39;src&#39;, // 指定托管的根目录
+     hot: true // 启用热更新 的 第1步
+&#125;,
+</code></pre>
+</li>
+<li>在头部引入<code>webpack</code>模块：<pre><code class="line-numbers language-js">// 启用热更新的 第2步
+const webpack = require(&#39;webpack&#39;)
+</code></pre>
+</li>
+<li>在<code>plugins</code>节点下新增：<pre><code class="line-numbers language-js">new webpack.HotModuleReplacementPlugin()
+</code></pre>
+</li>
+<li>最终 webpack.config.js修改为：<pre><code class="line-numbers language-js">// 导入处理路径的模块
+var path = require(&#39;path&#39;);
+// 导入自动生成HTMl文件的插件
+// 只要是插件，都一定要 放到 plugins 节点中去
+// 这个插件的两个作用：
+//  1. 自动在内存中根据指定页面生成一个内存的页面
+//  2. 自动，把打包好的 bundle.js 追加到页面中去
+var htmlWebpackPlugin = require(&#39;html-webpack-plugin&#39;);
+// 启用热更新的 第2步
+const webpack = require(&#39;webpack&#39;)
+// 导出一个配置对象，将来webpack在启动的时候，会默认来查找webpack.config.js，并读取这个文件中导出的配置对象，来进行打包处理
+module.exports = &#123;
+ entry: path.resolve(__dirname, &#39;src/js/main.js&#39;), // 项目入口文件
+ output: &#123; // 配置输出选项
+     path: path.resolve(__dirname, &#39;dist&#39;), // 配置输出的路径
+     filename: &#39;bundle.js&#39; // 配置输出的文件名
+ &#125;,
+ mode:&#39;none&#39;, //4.0+版本要加, 3.0+版本可以不加
+ devServer: &#123; // 这是配置 dev-server 命令参数的第二种形式，相对来说，这种方式麻烦一些
+     //  --open --port 3000 --contentBase src --hot
+     open: true, // 自动打开浏览器
+     port: 3000, // 设置启动时候的运行端口
+     contentBase: &#39;src&#39;, // 指定托管的根目录
+     hot: true // 启用热更新 的 第1步
+ &#125;,
+ plugins:[ // 添加plugins节点配置插件
+     new webpack.HotModuleReplacementPlugin(), // new 一个热更新的 模块对象， 这是 启用热更新的第 3 步
+     new htmlWebpackPlugin(&#123;
+         template:path.resolve(__dirname, &#39;src/index.html&#39;),//模板路径
+         filename:&#39;index.html&#39;//自动生成的HTML文件的名称
+     &#125;)
+ ]
+&#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="使用webpack打包css文件-less文件-sass文件"><a href="#使用webpack打包css文件-less文件-sass文件" class="headerlink" title="使用webpack打包css文件,less文件,sass文件"></a>使用webpack打包css文件,less文件,sass文件</h2><ul>
+<li>在项目css目录下新建 index.css ,index.less,index.scss<br> index.css示例：<pre><code class="line-numbers language-css">li&#123;
+ list-style: none;
+&#125;
+</code></pre>
+ index.less示例：<pre><code class="line-numbers language-less">ul&#123;
+padding: 0;
+margin: 0;
+&#125;
+</code></pre>
+ index.scss示例：<pre><code class="line-numbers language-scss">html, body&#123;
+margin: 0;
+padding: 0;
+li&#123;
+ font-size: 12px;
+ line-height: 30px;
+&#125;
+&#125;
+</code></pre>
+</li>
+<li>在main.js导入示例：<pre><code class="line-numbers language-js">// 使用 import 语法，导入 CSS样式表
+import &#39;../css/index.css&#39;
+import &#39;../css/index.less&#39;
+import &#39;../css/index.scss&#39;
+// 注意： webpack, 默认只能打包处理 JS 类型的文件，无法处理 其它的非 JS 类型的文件；
+// 如果要处理 非JS类型的文件，我们需要手动安装一些 合适 第三方 loader 加载器；
+// 1. 如果想要打包处理 css 文件，需要安装 cnpm i style-loader css-loader -D
+// 2. 打开 webpack.config.js 这个配置文件，在 里面，新增一个 配置节点，叫做 module, 它是一个对象；在 这个 module 对象身上，有个 rules 属性，这个 rules 属性是个 数组；这个数组中，存放了，所有第三方文件的 匹配和 处理规则；
+// 注意： webpack 处理第三方文件类型的过程：
+// 1. 发现这个 要处理的文件不是JS文件，然后就去 配置文件中，查找有没有对应的第三方 loader 规则
+// 2. 如果能找到对应的规则， 就会调用 对应的 loader 处理 这种文件类型；
+// 3. 在调用loader 的时候，是从后往前调用的；
+// 4. 当最后的一个 loader 调用完毕，会把 处理的结果，直接交给 webpack 进行 打包合并，最终输出到  bundle.js 中去
+</code></pre>
+</li>
+<li>运行<code>cnpm i style-loader css-loader --save-dev</code> ；运行<code>cnpm i less-loader less -D</code> ；运行<code>cnpm i sass-loader node-sass --save-dev</code>，然后分别修改<code>webpack.config.js</code><pre><code class="line-numbers language-js">module: &#123; // 这个节点，用于配置 所有 第三方模块 加载器
+     rules: [ // 所有第三方模块的 匹配规则
+         &#123; test: /\.css$/, use: [&#39;style-loader&#39;, &#39;css-loader&#39;] &#125;, //  配置处理 .css 文件的第三方loader 规则
+         &#123; test: /\.less$/, use: [&#39;style-loader&#39;, &#39;css-loader&#39;, &#39;less-loader&#39;] &#125;, //配置处理 .less 文件的第三方 loader 规则
+         &#123; test: /\.scss$/, use: [&#39;style-loader&#39;, &#39;css-loader&#39;, &#39;sass-loader&#39;] &#125;, // 配置处理 .scss 文件的 第三方 loader 规则
+     ]
+&#125;
+</code></pre>
+</li>
+<li>最终完整的 <code>webpack.config.js</code>如下：<pre><code class="line-numbers language-js">// 导入处理路径的模块
+var path = require(&#39;path&#39;);
+// 导入自动生成HTMl文件的插件
+// 只要是插件，都一定要 放到 plugins 节点中去
+// 这个插件的两个作用：
+//  1. 自动在内存中根据指定页面生成一个内存的页面
+//  2. 自动，把打包好的 bundle.js 追加到页面中去
+var htmlWebpackPlugin = require(&#39;html-webpack-plugin&#39;);
+// 启用热更新的 第2步
+const webpack = require(&#39;webpack&#39;)
+// 导出一个配置对象，将来webpack在启动的时候，会默认来查找webpack.config.js，并读取这个文件中导出的配置对象，来进行打包处理
+module.exports = &#123;
+  entry: path.resolve(__dirname, &#39;src/js/main.js&#39;), // 项目入口文件
+  output: &#123; // 配置输出选项
+      path: path.resolve(__dirname, &#39;dist&#39;), // 配置输出的路径
+      filename: &#39;bundle.js&#39; // 配置输出的文件名
+  &#125;,
+  mode:&#39;none&#39;, //4.0+版本要加, 3.0+版本可以不加
+  devServer: &#123; // 这是配置 dev-server 命令参数的第二种形式，相对来说，这种方式麻烦一些
+      //  --open --port 3000 --contentBase src --hot
+      open: true, // 自动打开浏览器
+      port: 3000, // 设置启动时候的运行端口
+      contentBase: &#39;src&#39;, // 指定托管的根目录
+      hot: true // 启用热更新 的 第1步
+  &#125;,
+  plugins:[ // 添加plugins节点配置插件
+      new webpack.HotModuleReplacementPlugin(), // new 一个热更新的 模块对象， 这是 启用热更新的第 3 步
+      new htmlWebpackPlugin(&#123;
+          template:path.resolve(__dirname, &#39;src/index.html&#39;),//模板路径
+          filename:&#39;index.html&#39;//自动生成的HTML文件的名称
+      &#125;)
+  ],
+  module: &#123; // 这个节点，用于配置 所有 第三方模块 加载器
+      rules: [ // 所有第三方模块的 匹配规则
+          &#123; test: /\.css$/, use: [&#39;style-loader&#39;, &#39;css-loader&#39;] &#125;, //  配置处理 .css 文件的第三方loader 规则
+          &#123; test: /\.less$/, use: [&#39;style-loader&#39;, &#39;css-loader&#39;, &#39;less-loader&#39;] &#125;, //配置处理 .less 文件的第三方 loader 规则
+          &#123; test: /\.scss$/, use: [&#39;style-loader&#39;, &#39;css-loader&#39;, &#39;sass-loader&#39;] &#125;, // 配置处理 .scss 文件的 第三方 loader 规则
+      ]
+  &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="使用webpack处理css中的路径"><a href="#使用webpack处理css中的路径" class="headerlink" title="使用webpack处理css中的路径"></a>使用webpack处理css中的路径</h3><ul>
+<li>1.运行<code>cnpm i url-loader file-loader --save-dev</code></li>
+<li>2.在<code>webpack.config.js</code>中添加处理url路径的loader模块：<pre><code class="line-numbers language-js">&#123; test: /\.(png|jpg|gif)$/, use: &#39;url-loader&#39; &#125;
+</code></pre>
+</li>
+<li>3.可以通过<code>limit</code>指定进行base64编码的图片大小；只有小于指定字节（byte）的图片才会进行base64编码：<pre><code class="line-numbers language-js">&#123; test: /\.(jpg|png|gif|bmp|jpeg)$/, use: &#39;url-loader?limit=7631&amp;name=[hash:8]-[name].[ext]&#39; &#125;, // 处理 图片路径的 loader
+// limit 给定的值，是图片的大小，单位是 byte， 如果我们引用的 图片，大于或等于给定的 limit值，则不会被转为base64格式的字符串， 如果 图片小于给定的 limit 值，则会被转为 base64的字符串
+&#123; test: /\.(ttf|eot|svg|woff|woff2)$/, use: &#39;url-loader&#39; &#125;, // 处理 字体文件的 loader
+</code></pre>
+</li>
+</ul>
+<h3 id="使用babel处理高级JS语法"><a href="#使用babel处理高级JS语法" class="headerlink" title="使用babel处理高级JS语法"></a>使用babel处理高级JS语法</h3><ul>
+<li>1.运行<code>cnpm i babel-core babel-loader babel-plugin-transform-runtime -D</code>安装babel的相关loader包</li>
+<li>2.运行<code>cnpm i babel-preset-env babel-preset-stage-0 -D</code>安装babel转换的语法</li>
+<li>3.在<code>webpack.config.js</code>中添加相关loader模块，其中需要注意的是，一定要把<code>node_modules</code>文件夹添加到排除项：<pre><code class="line-numbers language-js">&#123; test: /\.js$/, use: &#39;babel-loader&#39;, exclude: /node_modules/ &#125;
+</code></pre>
+</li>
+<li>4.在项目根目录中添加<code>.babelrc</code>文件，并修改这个配置文件如下：<pre><code class="line-numbers language-json">&#123;
+  &quot;presets&quot;:[&quot;env&quot;, &quot;stage-0&quot;],
+  &quot;plugins&quot;:[&quot;transform-runtime&quot;]
+&#125;
+</code></pre>
+</li>
+<li>注意事项：详解babel升级到7.X采坑总结<br> 项目提示没找到@babel&#x2F;core，需要把babel-core卸载掉，从新安装@babel&#x2F;core<pre><code class="line-numbers language-shell">npm un babel-core
+npm i -D @babel/core
+</code></pre>
+</li>
+</ul>
+<h2 id="在webpack中配置-vue组件页面的解析"><a href="#在webpack中配置-vue组件页面的解析" class="headerlink" title="在webpack中配置.vue组件页面的解析"></a>在webpack中配置.vue组件页面的解析</h2><ul>
+<li>1.运行<code>cnpm i vue -S</code>将vue安装为运行依赖；</li>
+<li>2.运行<code>cnpm i vue-loader vue-template-compiler -D</code>将解析转换vue的包安装为开发依赖；</li>
+<li>3.运行<code>cnpm i style-loader css-loader -D</code>将解析转换CSS的包安装为开发依赖，因为.vue文件中会写CSS样式；</li>
+<li>4.在<code>webpack.config.js</code>中，添加如下<code>module</code>规则：<pre><code class="line-numbers language-js">module: &#123;
+  rules: [
+    &#123; test: /\.css$/, use: [&#39;style-loader&#39;, &#39;css-loader&#39;] &#125;,
+    &#123; test: /\.vue$/, use: &#39;vue-loader&#39; &#125;// 处理 .vue 文件的 loader
+  ]
+&#125;
+</code></pre>
+</li>
+<li>5.在<code>main.js</code>入口文件：导入vue组件(关键要注意的几点)</li>
+<li>导入指令，但此时导入的的是runtime-only方式，还需要额外解析<pre><code class="line-numbers language-js">import Vue from &#39;vue&#39;
+// 回顾 包的查找规则：
+// 1. 找 项目根目录中有没有 node_modules 的文件夹
+// 2. 在 node_modules 中 根据包名，找对应的 vue 文件夹
+// 3. 在 vue 文件夹中，找 一个叫做 package.json 的包配置文件
+// 4. 在 package.json 文件中，查找 一个 main 属性【main属性指定了这个包在被加载时候，的入口文件】,npm安装完vue默认在node_modules/vue/package.json  的&quot;main&quot;:为 &quot;dist/vue.runtime.common.js&quot;,
+// 也就是要注意：在 webpack 中， 使用 import Vue from &#39;vue&#39; 导入的 Vue 构造函数，功能不完整，只提供了 runtime-only 的方式，并没有提供 像网页中那样的使用方式；import Vue from &#39;../../node_modules/vue/dist/vue.js&#39; 
+var app = new Vue(&#123;
+ el: &#39;#app&#39;,
+ data:&#123;
+     msg:&#39;123&#39;
+ &#125;
+&#125;);   
+</code></pre>
+</li>
+<li>主要修改 webpack.config.js<pre><code class="line-numbers language-js">resolve: &#123;
+ alias: &#123; // 修改 Vue 被导入时候的包的路径,对结尾vue的进行解析
+    &quot;vue$&quot;: &quot;vue/dist/vue.js&quot;
+ &#125;   
+&#125;
+</code></pre>
+</li>
+<li>在 index.html添加模板与之挂载,就完成了<pre><code class="line-numbers language-html">&lt;div id=&quot;app&quot;&gt;
+ &lt;h2&gt;&#123;&#123;msg&#125;&#125;&lt;h2&gt;
+&lt;/div&gt;
+</code></pre>
+</li>
+<li>6.自定义组件使用</li>
+<li>main.js修改<pre><code class="line-numbers language-js">import Vue from &#39;vue&#39;
+var login = &#123;
+  template: &#39;&lt;h1&gt;这是login组件，是使用网页中形式创建出来的组件&lt;/h1&gt;&#39;
+&#125;
+var app = new Vue(&#123;
+ el: &#39;#app&#39;,
+ data:&#123;
+     msg:&#39;自强不息&#39;
+ &#125;,
+  components: &#123;
+ login
+  &#125;
+&#125;);
+</code></pre>
+</li>
+<li>index.html使用自定义组件<pre><code class="line-numbers language-html">&lt;div id=&quot;app&quot;&gt;
+ &lt;h2&gt;&#123;&#123;msg&#125;&#125;&lt;h2&gt;
+ &lt;login&gt;&lt;/login&gt;  
+&lt;/div&gt;
+</code></pre>
+</li>
+<li>7.使用抽离组件为 .vue 再使用</li>
+<li>在src下新建 login.vue，组件有三部分组成: template script style<pre><code class="line-numbers language-html">&lt;template&gt;
+  &lt;div&gt;
+ &lt;h1&gt;这是登录组件，使用 .vue 文件定义出来的&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+&lt;/script&gt;
+&lt;style&gt;
+&lt;/style&gt;
+</code></pre>
+</li>
+<li>在main.js入口文件导入组件并渲染<pre><code class="line-numbers language-js">import Vue from &#39;vue&#39;
+import login from &#39;../login.vue&#39;
+var app = new Vue(&#123;
+ el: &#39;#app&#39;,
+ data:&#123;
+     msg:&#39;自强不息&#39;
+ &#125;,
+render: function (createElements) &#123; // 在 webpack 中，如果想要通过 vue， 把一个组件放到页面中去展示，vm 实例中的 render 函数可以实现
+ return createElements(login)
+  &#125; 
+  //等同于这个简写 render: c =&gt; c(login)
+&#125;);
+</code></pre>
+</li>
+<li>如果vue-loader版本是 15.0+，还需要额外安装插件 <code>cnpm i vue-loader-plugin -S</code>，并在webpack.config.js中配置插件<pre><code class="line-numbers language-js">// vue-loader在 15.0+版本需要额外启用插件
+const VueLoaderPlugin = require(&#39;vue-loader/lib/plugin&#39;)
+//添加plugins节点配置插件
+new VueLoaderPlugin()
+</code></pre>
+</li>
+<li>在login.vue，使用export default 使用data属性和 methods<pre><code class="line-numbers language-html">&lt;template&gt;
+  &lt;div&gt;
+ &lt;h1&gt;这是登录组件，使用 .vue 文件定义出来的 --- &#123;&#123;msg&#125;&#125;&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+export default &#123;
+  data() &#123;
+ // 注意：组件中的 data 必须是 function
+ return &#123;
+   msg: &quot;功勋卓著&quot;
+ &#125;;
+  &#125;,
+  methods: &#123;
+ show() &#123;
+   console.log(&quot;调用了 login.vue 中的 show 方法&quot;);
+ &#125;
+  &#125;
+&#125;;
+&lt;/script&gt;
+&lt;style&gt;
+&lt;/style&gt;
+</code></pre>
+</li>
+</ul>
+<h3 id="export-default-和-export区别"><a href="#export-default-和-export区别" class="headerlink" title="export default 和 export区别"></a>export default 和 export区别</h3><ul>
+<li>在 ES6 中，使用 export default 和 export 向外暴露成员：</li>
+<li>注意： export default 向外暴露的成员，可以使用任意的变量来接收</li>
+<li>注意： 在一个模块中，<strong>export default 只允许向外暴露1次</strong></li>
+<li>注意： 在一个模块中，<strong>可以同时使用 export default 和 export 向外暴露成员</strong></li>
+<li>注意： 使用 export 向外暴露的成员，只能使用 { } 的形式来接收，这种形式，叫做按需导出</li>
+<li>注意： export 可以向外暴露多个成员， 同时，如果某些成员，我们在 import 的时候，不需要，则可以 不在 {}  中定义</li>
+<li>注意： 使用 export 导出的成员，必须严格按照 导出时候的名称，来使用  {}  按需接收；</li>
+<li>注意： 使用 export 导出的成员，如果 就想 换个名称来接收，可以使用 as 来起别名； </li>
+<li>新建test.js<pre><code class="line-numbers language-js">var info = &#123;
+name: &#39;薛岳&#39;,
+age: 20
+&#125;
+export default info
+export var title = &#39;长沙保卫战&#39;
+export var content = &#39;天炉战法&#39;
+</code></pre>
+</li>
+<li>在main.js导入模块标识使用<pre><code class="line-numbers language-js">import infomation, &#123; title as titleAlia, content &#125; from &#39;./test.js&#39;
+console.log(infomation)
+console.log(titleAlia + &#39; --- &#39; + content)
+</code></pre>
+</li>
+</ul>
+<h3 id="ES6中语法使用总结"><a href="#ES6中语法使用总结" class="headerlink" title="ES6中语法使用总结"></a>ES6中语法使用总结</h3><ul>
+<li>1.使用 <code>export default</code> 和 <code>export</code> 导出模块中的成员; 对应ES5中的 <code>module.exports</code> 和 <code>export</code></li>
+<li>2.使用 <code>import ** from **</code> 和 <code>import &#39;路径&#39;</code> 还有 <code>import &#123;a, b&#125; from &#39;模块标识&#39;</code> 导入其他模块</li>
+<li>3.使用箭头函数：<code>(a, b)=&gt; &#123; return a-b; &#125;</code></li>
+</ul>
+<h2 id="在vue组件页面中，集成vue-router路由模块"><a href="#在vue组件页面中，集成vue-router路由模块" class="headerlink" title="在vue组件页面中，集成vue-router路由模块"></a>在vue组件页面中，集成vue-router路由模块</h2><ul>
+<li>安装vue-router组件 <code>cnpm i vue-router -S</code></li>
+<li>在src新建 App.vue,GoodsList.vue,Account.vue</li>
+<li>App.vue<pre><code class="line-numbers language-html">&lt;template&gt;
+  &lt;div&gt;
+ &lt;h1&gt;这是 App 组件&lt;/h1&gt;
+ &lt;router-link to=&quot;/account&quot;&gt;Account&lt;/router-link&gt;
+ &lt;router-link to=&quot;/goodslist&quot;&gt;Goodslist&lt;/router-link&gt;
+ &lt;router-view&gt;&lt;/router-view&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+&lt;/script&gt;
+&lt;style&gt;
+&lt;/style&gt;
+</code></pre>
+</li>
+<li>GoodsList.vue<pre><code class="line-numbers language-html">&lt;template&gt;
+  &lt;div&gt;
+ &lt;h1&gt;这是 GoodsList 组件&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+&lt;/script&gt;
+&lt;style&gt;
+&lt;/style&gt;
+</code></pre>
+</li>
+<li>Account.vue<pre><code class="line-numbers language-html">&lt;template&gt;
+  &lt;div&gt;
+ &lt;h1&gt;这是 Account 组件&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+&lt;/script&gt;
+&lt;style&gt;
+&lt;/style&gt;
+</code></pre>
+</li>
+<li>main.js导入，配置路由<pre><code class="line-numbers language-js">import Vue from &#39;vue&#39;
+// 1. 导入 vue-router 包
+import VueRouter from &#39;vue-router&#39;
+// 2. 手动安装 VueRouter 
+Vue.use(VueRouter)
+// 导入 app 组件
+import app from &#39;./App.vue&#39;
+// 导入 Account 组件
+import account from &#39;./Account.vue&#39;
+import goodslist from &#39;./GoodsList.vue&#39;
+// 3. 创建路由对象
+var router = new VueRouter(&#123;
+routes: [
+  // account  goodslist
+  &#123; path: &#39;/account&#39;, component: account &#125;,
+  &#123; path: &#39;/goodslist&#39;, component: goodslist &#125;
+]
+&#125;)
+var vm = new Vue(&#123;
+el: &#39;#app&#39;,
+render: c =&gt; c(app), // render 会把 el 指定的容器中，所有的内容都清空覆盖，所以 不要 把 路由的 router-view 和 router-link 直接写到 el 所控制的元素中
+router // 4. 将路由对象挂载到 vm 上
+&#125;)
+// 注意： App 这个组件，是通过 VM 实例的 render 函数，渲染出来的， render 函数如果要渲染 组件， 渲染出来的组件，只能放到 el: &#39;#app&#39; 所指定的 元素中；
+// Account 和 GoodsList 组件， 是通过 路由匹配监听到的，所以， 这两个组件，只能展示到 属于 路由的 &lt;router-view&gt;&lt;/router-view&gt; 中去；
+</code></pre>
+</li>
+</ul>
+<h3 id="添加子路由嵌套路由"><a href="#添加子路由嵌套路由" class="headerlink" title="添加子路由嵌套路由"></a>添加子路由嵌套路由</h3><ul>
+<li>在src下新建 login.vue<pre><code class="line-numbers language-html">&lt;template&gt;
+&lt;div&gt;
+  &lt;h3&gt;这是Account的登录子组件&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+&lt;/script&gt;
+&lt;style scoped&gt;&lt;!--scoped属性修改的样式只针对本组件--&gt;
+div &#123;
+color: red;
+&#125;
+&lt;/style&gt;
+</code></pre>
+</li>
+<li>修改Account.vue<pre><code class="line-numbers language-html">&lt;template&gt;
+&lt;div&gt;
+  &lt;h1&gt;这是 Account 组件&lt;/h1&gt;
+  &lt;router-link to=&quot;/account/login&quot;&gt;登录&lt;/router-link&gt;
+  &lt;router-view&gt;&lt;/router-view&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+&lt;/script&gt;
+&lt;style lang=&quot;scss&quot; scoped&gt;
+/* 普通的 style 标签只支持 普通的 样式，如果想要启用 scss 或 less ，需要为 style 元素，设置 lang 属性 */
+// 只要 咱们的 style 标签， 是在 .vue 组件中定义的，那么，推荐都为 style 开启 scoped 属性
+body &#123;
+div &#123;
+  font-style: italic;
+&#125;
+&#125;
+&lt;/style&gt;
+</code></pre>
+</li>
+<li>修改main.js<pre><code class="line-numbers language-js">import Vue from &#39;vue&#39;
+// 1. 导入 vue-router 包
+import VueRouter from &#39;vue-router&#39;
+// 2. 手动安装 VueRouter 
+Vue.use(VueRouter)
+// 导入 app 组件
+import app from &#39;./App.vue&#39;
+// 导入 Account 组件
+import account from &#39;./Account.vue&#39;
+import goodslist from &#39;./GoodsList.vue&#39;
+// 3. 创建路由对象
+var router = new VueRouter(&#123;
+routes: [
+  // account  goodslist
+  &#123; path: &#39;/account&#39;, 
+  component: account,
+      children: [
+      &#123; path: &#39;login&#39;, component: login &#125;
+    ] 
+  &#125;,
+  &#123; path: &#39;/goodslist&#39;, component: goodslist &#125;
+]
+&#125;)
+var vm = new Vue(&#123;
+el: &#39;#app&#39;,
+render: c =&gt; c(app), // render 会把 el 指定的容器中，所有的内容都清空覆盖，所以 不要 把 路由的 router-view 和 router-link 直接写到 el 所控制的元素中
+router // 4. 将路由对象挂载到 vm 上
+&#125;)
+// 注意： App 这个组件，是通过 VM 实例的 render 函数，渲染出来的， render 函数如果要渲染 组件， 渲染出来的组件，只能放到 el: &#39;#app&#39; 所指定的 元素中；
+// Account 和 GoodsList 组件， 是通过 路由匹配监听到的，所以， 这两个组件，只能展示到 属于 路由的 &lt;router-view&gt;&lt;/router-view&gt; 中去；
+</code></pre>
+</li>
+</ul>
+<h3 id="抽离路由信息"><a href="#抽离路由信息" class="headerlink" title="抽离路由信息"></a>抽离路由信息</h3><ul>
+<li>新建router.js,把main.js中路由创建信息抽离出来<br>&#96;&#96;&#96;js<br>import VueRouter from ‘vue-router’<br>&#x2F;&#x2F; 导入 Account 组件<br>import account from ‘.&#x2F;Account.vue’<br>import goodslist from ‘.&#x2F;GoodsList.vue’</li>
+</ul>
+<p>&#x2F;&#x2F; 导入Account的子组件<br>import login from ‘.&#x2F;login.vue’<br>&#x2F;&#x2F; 3. 创建路由对象<br>var router &#x3D; new VueRouter({<br>  routes: [<br>    {<br>      path: ‘&#x2F;account’,<br>      component: account,<br>      children: [<br>        { path: ‘login’, component: login }<br>      ]<br>    },<br>    { path: ‘&#x2F;goodslist’, component: goodslist }<br>  ]<br>})<br>&#x2F;&#x2F; 把路由对象暴露出去<br>export default router</p>
+<pre><code>- main.js最后修改
+```js
+import Vue from &#39;vue&#39;
+// 1. 导入 vue-router 包
+import VueRouter from &#39;vue-router&#39;
+// 2. 手动安装 VueRouter 
+Vue.use(VueRouter)
+// 导入 app 组件
+import app from &#39;./App.vue&#39;
+// 导入 自定义路由模块
+import router from &#39;./router.js&#39;
+var vm = new Vue(&#123;
+  el: &#39;#app&#39;,
+  render: c =&gt; c(app), // render 会把 el 指定的容器中，所有的内容都清空覆盖，所以 不要 把 路由的 router-view 和 router-link 直接写到 el 所控制的元素中
+  router // 4. 将路由对象挂载到 vm 上
+&#125;)
+// 注意： App 这个组件，是通过 VM 实例的 render 函数，渲染出来的， render 函数如果要渲染 组件， 渲染出来的组件，只能放到 el: &#39;#app&#39; 所指定的 元素中；
+// Account 和 GoodsList 组件， 是通过 路由匹配监听到的，所以， 这两个组件，只能展示到 属于 路由的 &lt;router-view&gt;&lt;/router-view&gt; 中去；
+</code></pre>
+<h2 id="使用-饿了么的-移动端MintUI组件"><a href="#使用-饿了么的-移动端MintUI组件" class="headerlink" title="使用 饿了么的 移动端MintUI组件"></a>使用 饿了么的 移动端MintUI组件</h2><ul>
+<li>Mint UI 包含丰富的 CSS 和 JS 组件，能够满足日常的移动端开发需要。通过它，可以快速构建出风格统一的页面，提升开发效率。</li>
+<li>考虑到移动端的性能门槛，Mint UI 采用 CSS3 处理各种动效，避免浏览器进行不必要的重绘和重排，从而使用户获得流畅顺滑的体验。</li>
+<li>依托 Vue.js 高效的组件化方案，Mint UI 做到了轻量化。即使全部引入，压缩后的文件体积也仅有 ~30kb (JS + CSS) gzip。</li>
+<li>地址：<a target="_blank" rel="noopener" href="http://mint-ui.github.io/%EF%BC%8C%E6%96%87%E6%A1%A3%EF%BC%9Ahttp://mint-ui.github.io/docs/#/zh-cn2/">http://mint-ui.github.io/，文档：http://mint-ui.github.io/docs/#/zh-cn2/</a></li>
+<li>安装<pre><code class="line-numbers language-shell">// 安装
+# Vue 1.x
+npm install mint-ui@1 -S
+# Vue 2.0
+npm install mint-ui -S
+</code></pre>
+</li>
+<li>引入<pre><code class="line-numbers language-js">// 引入全部组件
+import Vue from &#39;vue&#39;;
+import Mint from &#39;mint-ui&#39;;
+import &#39;mint-ui/lib/style.css&#39;;//导入样式
+Vue.use(Mint);
+// 按需引入部分组件
+import &#123; Cell, Checklist &#125; from &#39;mint-ui&#39;;
+Vue.component(Cell.name, Cell);
+Vue.component(Checklist.name, Checklist);
+</code></pre>
+</li>
+<li>在页面组件种直接使用<pre><code class="line-numbers language-html">&lt;mt-button type=&quot;primary&quot; size=&quot;large&quot;&gt;primary&lt;/mt-button&gt;
+</code></pre>
+</li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>前端项目构建工具--webpack</p><p><a href="http://example.com/2018/03/05/前端/构建工具/webpack/">http://example.com/2018/03/05/前端/构建工具/webpack/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2018-03-05</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-08-12</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/">前端项目构建工具</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2018/03/07/%E5%89%8D%E7%AB%AF/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6/vue/%E5%9F%BA%E4%BA%8Evue%E7%BB%84%E4%BB%B6%E5%BA%93/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">基于vue组件库(移动端MintUI，PC端elementUI)</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2018/03/01/%E5%89%8D%E7%AB%AF/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6/vue/vue%E5%9F%BA%E7%A1%80/"><span class="level-item">Vue基础</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#webpack解决什么问题的"><span class="level-left"><span class="level-item">1</span><span class="level-item">webpack解决什么问题的</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#在网页中会引用哪些常见的静态资源？"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">在网页中会引用哪些常见的静态资源？</span></span></a></li><li><a class="level is-mobile" href="#网页中引入的静态资源多了以后有什么问题？"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">网页中引入的静态资源多了以后有什么问题？</span></span></a></li><li><a class="level is-mobile" href="#解决上述两个问题常用手段"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">解决上述两个问题常用手段</span></span></a></li></ul></li><li><a class="level is-mobile" href="#webpack安装的两种方式"><span class="level-left"><span class="level-item">2</span><span class="level-item">webpack安装的两种方式</span></span></a></li><li><a class="level is-mobile" href="#初步使用webpack打包构建列表隔行变色案例"><span class="level-left"><span class="level-item">3</span><span class="level-item">初步使用webpack打包构建列表隔行变色案例</span></span></a></li><li><a class="level is-mobile" href="#使用webpack的配置文件简化打包时候的命令"><span class="level-left"><span class="level-item">4</span><span class="level-item">使用webpack的配置文件简化打包时候的命令</span></span></a></li><li><a class="level is-mobile" href="#实现webpack的实时打包构建-webpack-dev-server"><span class="level-left"><span class="level-item">5</span><span class="level-item">实现webpack的实时打包构建-webpack-dev-server</span></span></a></li><li><a class="level is-mobile" href="#使用html-webpack-plugin插件配置启动页面"><span class="level-left"><span class="level-item">6</span><span class="level-item">使用html-webpack-plugin插件配置启动页面</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#实现自动打开浏览器、热更新和配置浏览器的默认端口号"><span class="level-left"><span class="level-item">6.1</span><span class="level-item">实现自动打开浏览器、热更新和配置浏览器的默认端口号</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#方式一"><span class="level-left"><span class="level-item">6.1.1</span><span class="level-item">方式一</span></span></a></li><li><a class="level is-mobile" href="#方式二-不推荐"><span class="level-left"><span class="level-item">6.1.2</span><span class="level-item">方式二(不推荐)</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#使用webpack打包css文件-less文件-sass文件"><span class="level-left"><span class="level-item">7</span><span class="level-item">使用webpack打包css文件,less文件,sass文件</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#使用webpack处理css中的路径"><span class="level-left"><span class="level-item">7.1</span><span class="level-item">使用webpack处理css中的路径</span></span></a></li><li><a class="level is-mobile" href="#使用babel处理高级JS语法"><span class="level-left"><span class="level-item">7.2</span><span class="level-item">使用babel处理高级JS语法</span></span></a></li></ul></li><li><a class="level is-mobile" href="#在webpack中配置-vue组件页面的解析"><span class="level-left"><span class="level-item">8</span><span class="level-item">在webpack中配置.vue组件页面的解析</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#export-default-和-export区别"><span class="level-left"><span class="level-item">8.1</span><span class="level-item">export default 和 export区别</span></span></a></li><li><a class="level is-mobile" href="#ES6中语法使用总结"><span class="level-left"><span class="level-item">8.2</span><span class="level-item">ES6中语法使用总结</span></span></a></li></ul></li><li><a class="level is-mobile" href="#在vue组件页面中，集成vue-router路由模块"><span class="level-left"><span class="level-item">9</span><span class="level-item">在vue组件页面中，集成vue-router路由模块</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#添加子路由嵌套路由"><span class="level-left"><span class="level-item">9.1</span><span class="level-item">添加子路由嵌套路由</span></span></a></li><li><a class="level is-mobile" href="#抽离路由信息"><span class="level-left"><span class="level-item">9.2</span><span class="level-item">抽离路由信息</span></span></a></li></ul></li><li><a class="level is-mobile" href="#使用-饿了么的-移动端MintUI组件"><span class="level-left"><span class="level-item">10</span><span class="level-item">使用 饿了么的 移动端MintUI组件</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

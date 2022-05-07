@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>JAVA中的IO流 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="File类File类是唯一与文件本身操作有关的类，指的文件的创建、删除、重命名、取得文件大小和修改日期。一个File对象代表硬盘中实际存在的一个文件或者目录。 File类提供的构造方法public File(String pathname) ：通过将给定的路径名字符串转换为抽象路径名来创建新的 File实例。public File(String parent, String child) ：从父路"><meta property="og:type" content="blog"><meta property="og:title" content="JAVA中的IO流"><meta property="og:url" content="http://example.com/2013/09/12/javase/JAVASE-IO%E6%B5%81-12/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="File类File类是唯一与文件本身操作有关的类，指的文件的创建、删除、重命名、取得文件大小和修改日期。一个File对象代表硬盘中实际存在的一个文件或者目录。 File类提供的构造方法public File(String pathname) ：通过将给定的路径名字符串转换为抽象路径名来创建新的 File实例。public File(String parent, String child) ：从父路"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/javase/%E7%BC%93%E5%86%B2%E6%B5%81.png"><meta property="article:published_time" content="2013-09-12T08:52:17.000Z"><meta property="article:modified_time" content="2020-06-11T16:41:42.753Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="’Developer,Programmer,Coder,Book,History,culture,science and technology‘"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/javase/%E7%BC%93%E5%86%B2%E6%B5%81.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2013/09/12/javase/JAVASE-IO%E6%B5%81-12/"},"headline":"JAVA中的IO流","image":["http://example.com/images/javase/%E7%BC%93%E5%86%B2%E6%B5%81.png"],"datePublished":"2013-09-12T08:52:17.000Z","dateModified":"2020-06-11T16:41:42.753Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"File类File类是唯一与文件本身操作有关的类，指的文件的创建、删除、重命名、取得文件大小和修改日期。一个File对象代表硬盘中实际存在的一个文件或者目录。 File类提供的构造方法public File(String pathname) ：通过将给定的路径名字符串转换为抽象路径名来创建新的 File实例。public File(String parent, String child) ：从父路"}</script><link rel="canonical" href="http://example.com/2013/09/12/javase/JAVASE-IO%E6%B5%81-12/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2013-09-12T08:52:17.000Z" title="2013/9/12 下午4:52:17">2013-09-12</time>发表</span><span class="level-item"><time dateTime="2020-06-11T16:41:42.753Z" title="2020/6/12 上午12:41:42">2020-06-12</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JAVASE/">JAVASE</a><span> / </span><a class="link-muted" href="/categories/JAVASE/IO%E6%B5%81/">IO流</a></span><span class="level-item">1 小时读完 (大约8248个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">JAVA中的IO流</h1><div class="content"><h2 id="File类"><a href="#File类" class="headerlink" title="File类"></a>File类</h2><p><em>File类是唯一与文件本身操作有关的类，指的<strong>文件的创建、删除、重命名、取得文件大小和修改日期</strong>。一个File对象代表硬盘中实际存在的一个文件或者目录。</em></p>
+<h3 id="File类提供的构造方法"><a href="#File类提供的构造方法" class="headerlink" title="File类提供的构造方法"></a>File类提供的构造方法</h3><p><em>public File(String pathname) ：</em>通过将给定的路径名字符串转换为抽象路径名来创建新的 File实例。<br><em>public File(String parent, String child) ：</em>从父路径名字符串和子路径名字符串创建新的 File实例。<br><em>public File(File parent, String child) ：</em>从父抽象路径名和子路径名字符串创建新的 File实例<br><em>public File(URI uri)</em>:根据给定的URI创建文件</p>
+<span id="more"></span>
+<pre><code class="line-numbers language-java">// 文件路径名 
+String path = &quot;D:\\demo.java&quot;;
+File file1 = new File(path); 
+// 通过父路径和子路径字符串
+ String parent = &quot;D:\\java_pro&quot;;
+ String child = &quot;ThreadDemo.java&quot;;
+ File file3 = new File(parent, child);  --------相当于D:\\java_pro\\ThreadDemo.java
+// 通过父级File对象和子路径字符串
+File parentDir = new File(&quot;D:\\java_pro&quot;);
+String child = &quot;ThreadDemo.java&quot;;
+File file4 = new File(parentDir, child); --------相当于D:\\java_pro\\ThreadDemo.java
+//根据给定的URI创建文件
+ File file2 = new File(new URI(&quot;file:/Users/sxm/Desktop&quot;));
+</code></pre>
+<h3 id="File类提供的常用方法"><a href="#File类提供的常用方法" class="headerlink" title="File类提供的常用方法"></a>File类提供的常用方法</h3><ol>
+<li><p>访问文件名相关的方法</p>
+<pre><code class="line-numbers language-java">String getName():返回此ile对象所表示的文件名或路径名（如果是路径，则返回最后一级子路径名）。
+String getPath():返回此File对象所对应的路径名。
+File getAbsoluteFile():返回此File对象的绝对路径。
+String getAbsolutePath():返回此File对象所对应的绝对路径名。
+String getParent():返回此File对象所对应目录（最后一级子目录）的父目录名。
+boolean renameTo（File newName）:重命名此File对象所对应的文件或目录，如果重命名成功，则返回true；否则返回 false
+</code></pre>
+</li>
+<li><p>文件检测相关的方法</p>
+<pre><code class="line-numbers language-java">boolean exists():判断File对象所对应的文件或目录是否存在。
+boolean canWrite():判断File对象所对应的文件和目录是否可写。
+boolean canRead():判断File对象所对应的文件和目录是否可读。
+boolean isFile():判断File对象所对应的是否是文件，而不是目录。
+boolean isDirectory():判断File对象所对应的是否是目录，而不是文件。
+boolean isAbsolute():判断File对象所对应的文件或目录是否是绝对路径。该方法消除了不同平台的差异，可以直接判断File对象是否为绝对路径。在UNIX/Linux/BSD等系统上，如果路径名开头是一条斜线（/），则表明该Fil对象对应一个绝对路径；在 Windows等系统上，如果路径开头是盘符，则说明它是一个绝对路径。
+</code></pre>
+</li>
+<li><p>获取常规文件信息</p>
+<pre><code class="line-numbers language-java">long lastModified():返回文件的最后修改时间。
+long length():返回文件内容的长度。
+</code></pre>
+</li>
+<li><p>文件操作相关的方法</p>
+<pre><code class="line-numbers language-java">boolean createNewFile():当此file对象所对应的文件不存在时，该方法将新建一个该File对象所指定的新文件，如果创建成功则返回true；否则返回 false
+boolean delete():删除File对象所对应的文件或路径。
+static File createTempFile(String prefix,String suffix):在默认的临时文件目录中创建一个临时的空文件，使用给定前缀、系统生成的随机数和给定后缀作为文件名。这是一个静态方法，可以直接通过File类来调用。 prefix参数必须至少是3字节长。建议前缀使用一个短的、有意义的字符串，比如＂hjb＂或＂mail＂。 suffix参数可以为null，在这种情况下，将使用默认的后缀“.tmp”。
+static File createTempFile(String prefix,String suffix,File directory):在 directory所指定的目录中创建一个临时的空文件，使用给定前缀、系统生成的随机数和给定后缀作为文件名。这是一个
+静态方法，可以直接通过File类来调用。
+void deleteOnExit():注册一个删除钩子，指定当Java虚拟机退出时，删除File对象所对应的文件和目录。
+</code></pre>
+</li>
+<li><p>目录操作相关的方法</p>
+<pre><code class="line-numbers language-java">boolean mkdir():试图创建一个File对象所对应的目录，如果创建成功，则返回true；否则返回 false调用该方法时File对象必须对应一个路径，而不是一个文件。
+String[] list():列出File对象的所有子文件名和路径名，返回 String数组。
+File[］ listFiles():列出File对象的所有子文件和路径，返回File数组。
+static File[] listRoots():列出系统所有的根路径。这是一个静态方法，可以直接通过File类
+</code></pre>
+<p>文件操作示例:</p>
+<pre><code class="line-numbers language-java">import java.io.*;
+import java.net.*;
+public class FileTest&#123;
+ public static void main(String[] args) throws Exception&#123;
+     // 以当前路径来创建一个File对象
+     File file = new File(System.getProperty(&quot;user.dir&quot;)); 
+     // 直接获取文件名，输出一点
+     System.out.println(&quot;file.getName()--&gt;&quot;+file.getName());
+     // 获取相对路径的父路径可能出错，下面代码输出null
+     System.out.println(&quot;file.getParent()--&gt;&quot;+file.getParent());
+     // 获取绝对路径
+     System.out.println(&quot;file.getAbsoluteFile()--&gt;&quot;+file.getAbsoluteFile());
+     // 获取上一级路径
+     System.out.println(&quot;file.getAbsoluteFile().getParent()--&gt;&quot;+file.getAbsoluteFile().getParent());
+     // 在当前路径下创建一个临时文件
+     File tmpFile = File.createTempFile(&quot;aaa&quot;, &quot;.txt&quot;, file);
+     System.out.println(&quot;tmpFile:--&gt;&quot;+tmpFile.getAbsoluteFile());
+     // 指定当JVM退出时删除该文件
+      tmpFile.deleteOnExit();
+     // 以系统当前时间作为新文件名来创建新文件
+     File newFile = new File(System.currentTimeMillis() + &quot;&quot;);
+     System.out.println(&quot;newFile对象是否存在：&quot; + newFile.exists());
+     // 以指定newFile对象来创建一个文件
+     newFile.createNewFile();
+     // 以newFile对象来创建一个目录，因为newFile已经存在，
+     // 所以下面方法返回false，即无法创建该目录
+     newFile.mkdir();
+     // 使用list()方法来列出当前路径下的所有文件和路径
+     String[] fileList = file.list();
+     System.out.println(&quot;====当前路径下所有文件和路径如下====&quot;);
+     for (String fileName : fileList)
+     &#123;
+         System.out.println(fileName);
+     &#125;
+     // listRoots()静态方法列出所有的磁盘根路径。
+     File[] roots = File.listRoots();
+     System.out.println(&quot;====系统所有根路径如下====&quot;);
+     for (File root : roots)
+     &#123;
+         System.out.println(root);
+     &#125;
+ &#125;
+&#125;
+</code></pre>
+<p><strong>文件过滤选择示例:</strong></p>
+<pre><code class="line-numbers language-java">import java.io.*;
+import java.net.*;
+public class FileTest&#123;
+ public static void main(String[] args) throws Exception&#123;
+     File file = new File(&quot;.&quot;);
+     String[] nameList = file.list(new MyFilenameFilter());
+     for(String name : nameList)
+     &#123;
+         System.out.println(name);
+     &#125;
+ &#125;
+&#125;
+// 实现自己的FilenameFilter实现类
+class MyFilenameFilter implements FilenameFilter
+&#123;
+ public boolean accept(File dir, String name)
+ &#123;
+     // 如果文件名以.java结尾，或者文件对应一个路径，返回true
+     return name.endsWith(&quot;.java&quot;)
+         || new File(name).isDirectory();
+ &#125;
+&#125;
+</code></pre>
+<p><strong>使用Java8 lamda改写</strong></p>
+<pre><code class="line-numbers language-java">import java.io.*;
+import java.net.*;
+public class FileTest&#123;
+ public static void main(String[] args) throws Exception&#123;
+     File file = new File(&quot;.&quot;);
+     String[] nameList = file.list( (dir,name)-&gt; name.endsWith(&quot;.java&quot;)|| new File(name).isDirectory());
+     for(String name : nameList)
+     &#123;
+         System.out.println(name);
+     &#125;
+ &#125;
+&#125;
+</code></pre>
+<p><strong>遍历文件夹下所有文件</strong><br>&#96;&#96;&#96;java<br>import java.io.*;<br>public class FileTest{<br> public static void main(String[] args) throws Exception{<br> String dirPath &#x3D; System.getProperty(“user.dir”);<br>  recursionDirectory(new File(dirPath));<br>  }</p>
+<p>  public static void recursionDirectory(File file){<br> System.out.println(“开始遍历文件树:” + file.getAbsolutePath());<br>  if (!file.isDirectory()) {<br>      return;<br>  }else{<br>      File[] files &#x3D; file.listFiles();<br>      for (File fileTemp : files) {<br>          if (!fileTemp.isDirectory()) {<br>              System.out.println(“遍历–&gt;:” + fileTemp.getAbsolutePath());<br>          }else{<br>              recursionDirectory(fileTemp);<br>          }<br>      }<br>  }<br>  }</p>
+</li>
+</ol>
+<p>}</p>
+<pre><code>
+## IO流
+*Java的IO流是实现输入/输出的基础，它可以方便地实现数据的输入/输出操作，在Java中把不同的输入/输出源(键盘，文件，网络连接等)抽象表述为”流“(stream)，通过流的方式允许Java程序使用相同的方式来访问不同的输入/输出源。*
+
+### 流的分类
+#### 根据流向分为输入流和输出流
+&lt;font color=&quot;green&quot;&gt;输入流：&lt;/font&gt;只能从中读取数据，而不能向其写入数据。
+&lt;font color=&quot;green&quot;&gt;输出流：&lt;/font&gt;只能向其写入数据，而不能从中读取数据。
+#### 根据字节类型分为字节流和字符流
+**&lt;font color=&quot;green&quot;&gt;字节流：&lt;/font&gt;**以字节为单位，读写数据的流。
+**&lt;font color=&quot;green&quot;&gt;字符流：&lt;/font&gt;**以字符为单位，读写数据的流
+
+|  分类  |        输入流         |         输出流         |
+| :----: | :-------------------: | :--------------------: |
+| 字节流 | 字节输入流InputStream | 字节输出流OutputStream |
+| 字符流 |   字符输入流Reader    |    字符输出流Writer    |
+
+### OutputStream类的常用方法
+|方法|描述|
+|:-----:|:-------:|
+|void  close()|关闭输出流|
+|void  flush()|刷新缓冲区|
+|void  write(byte[] b)|将一个byte数组写入数据流|
+|void  write(byte[] b, int off, int len)|将一个指定范围的byte数组写入数据流|
+|abstract void	write(int b)|将一个字节数据写入数据流|
+
+### InputStream类的常用方法
+|方法|描述|
+|:-----:|:-------:|
+|int	available()|可以取得输入文件的大小|
+|void  close()|关闭输入流|
+|void  mark(int readlimit)|在记录指针当前位置记录一个标记mark|
+|boolean  markSupported()|判断此输入流是否支持mark()操作|
+|void  reset()|将此流的记录指针重新定位到上一次记录标记的位置|
+|abstract int  read()|从输入流读取单个字节|
+|int  read(byte[] b)|从输入流最多读取b.length个字节，并存储在b数组中，返回实际读取的字节数|
+|int  read(byte[] b, int off, int len)|从输入流最多读取len个字节数据,并存储在b数组，从数组off位置开始放入，返回实际读取的字节数|
+|long  skip(long n)|记录指针向前移动n个字节|
+
+### Writer类的常用方法
+|方法|描述|
+|:-----:|:-------:|
+|void	write(char[] cbuf)|将字符数组输出|
+|abstract void	write(char[] cbuf, int off, int len)|将字符数组从off位置开始,长度为len的字符输出流中|
+|void	write(int c)|将指定字符输出流中|
+|void	write(String str)|将str字符串里包含的字符输出到指定输出流中|
+|void	write(String str, int off, int len)|将str字符串里从off位置开始，长度为len的字符输出到指定输出流中|
+
+### Reader类常用方法
+|方法|描述|
+|:-----:|:-------:|
+|int  read()|读取单个字符|
+|int	read(char[] cbuf)|将内容读到字符数组之中，返回读入的长度|
+
+### 输入输出流的体系
+![](/images/javase/输入输出流体系.png)
+
+### 字节-字符转换流
+*输入/输出流体系中还提供了两个转换流，这两个转换流用于实现将字节流转换成字符流，其中InputStreamReader将字节输入流转换成字符输入流，OutputStreamWriter将字节输出流转换成字符输出流*
+```java
+import java.io.* ;
+public class OutputStreamWriterDemo01&#123;
+    public static void main(String args[]) throws Exception &#123;   
+        File f = new File(&quot;d:&quot; + File.separator + &quot;test.txt&quot;) ; 
+        Writer out = null ; // 字符输出流
+        out = new OutputStreamWriter(new FileOutputStream(f)) ; // 字节流变为字符流
+        out.write(&quot;hello world!!&quot;) ;    // 使用字符流输出
+        out.close() ;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import java.io.* ;
+public class InputStreamReaderDemo01&#123;
+    public static void main(String args[]) throws Exception&#123;
+        File f = new File(&quot;d:&quot; + File.separator + &quot;test.txt&quot;) ; 
+        Reader reader = null ;
+        reader = new InputStreamReader(new FileInputStream(f)) ;    // 将字节流变为字符流
+        char c[] = new char[1024] ;
+        int len = reader.read(c) ;  
+        reader.close() ;    
+        System.out.println(new String(c,0,len)) ;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="内存操作流"><a href="#内存操作流" class="headerlink" title="内存操作流"></a>内存操作流</h3><pre><code class="line-numbers language-java">import java.io.* ;
+public class ByteArrayDemo01&#123;
+    public static void main(String args[])&#123;
+        String str = &quot;HELLOWORLD&quot; ;		// 定义一个字符串，全部由大写字母组成
+        ByteArrayInputStream bis = null ;	// 内存输入流
+        ByteArrayOutputStream bos = null ;	// 内存输出流
+        bis = new ByteArrayInputStream(str.getBytes()) ;	// 向内存中输出内容
+        bos = new ByteArrayOutputStream() ;	// 准备从内存ByteArrayInputStream中读取内容
+        int temp = 0 ;
+        while((temp=bis.read())!=-1)&#123;
+            char c = (char) temp ;	// 读取的数字变为字符
+            bos.write(Character.toLowerCase(c)) ;	// 将字符变为小写
+        &#125;
+        // 所有的数据就全部都在ByteArrayOutputStream中
+        String newStr = bos.toString() ;	// 取出内容
+        try&#123;
+            bis.close() ;
+            bos.close() ;
+        &#125;catch(IOException e)&#123;
+            e.printStackTrace() ;
+        &#125;
+        System.out.println(newStr) ;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="线程通讯流-管道流"><a href="#线程通讯流-管道流" class="headerlink" title="线程通讯流-管道流"></a>线程通讯流-管道流</h3><p>管道流的主要作用是可以进行两个线程间的通讯，分为管道输出流(PipedOutputStream)、管道输入流(PipedInputStream),如果要想进行管道输出，则必须把输出流连接在输入流之上，在PipedOutputStream类有如下方法用于连接管道：<br><em>public void connect(PipedInputStream snk) throws IOException</em><br>![管道流连接])(&#x2F;images&#x2F;javase&#x2F;管道流连接.png)</p>
+<pre><code class="line-numbers language-java">import java.io.* ;
+class Send implements Runnable&#123;			// 线程类
+    private PipedOutputStream pos = null ;	// 管道输出流
+    public Send()&#123;
+        this.pos = new PipedOutputStream() ;	// 实例化输出流
+    &#125;
+    public void run()&#123;
+        String str = &quot;Hello World!!!&quot; ;	// 要输出的内容
+        try&#123;
+            this.pos.write(str.getBytes()) ;
+        &#125;catch(IOException e)&#123;
+            e.printStackTrace() ;
+        &#125;
+        try&#123;
+            this.pos.close() ;
+        &#125;catch(IOException e)&#123;
+            e.printStackTrace() ;
+        &#125;
+    &#125;
+    public PipedOutputStream getPos()&#123;	// 得到此线程的管道输出流
+        return this.pos ;	
+    &#125;
+&#125;;
+class Receive implements Runnable&#123;
+    private PipedInputStream pis = null ;	// 管道输入流
+    public Receive()&#123;
+        this.pis = new PipedInputStream() ;	// 实例化输入流
+    &#125;
+    public void run()&#123;
+        byte b[] = new byte[1024] ;	// 接收内容
+        int len = 0 ;
+        try&#123;
+            len = this.pis.read(b) ;	// 读取内容
+        &#125;catch(IOException e)&#123;
+            e.printStackTrace() ;
+        &#125;
+        try&#123;
+            this.pis.close() ;	// 关闭
+        &#125;catch(IOException e)&#123;
+            e.printStackTrace() ;
+        &#125;
+        System.out.println(&quot;接收的内容为：&quot; + new String(b,0,len)) ;
+    &#125;
+    public PipedInputStream getPis()&#123;
+        return this.pis ;
+    &#125;
+&#125;;
+public class PipedDemo&#123;
+    public static void main(String args[])&#123;
+        Send s = new Send() ;
+        Receive r = new Receive() ;
+        try&#123;
+            s.getPos().connect(r.getPis()) ;	// 连接管道
+        &#125;catch(IOException e)&#123;
+            e.printStackTrace() ;
+        &#125;
+        new Thread(s).start() ;	// 启动线程
+        new Thread(r).start() ;	// 启动线程
+    &#125;
+&#125;
+</code></pre>
+<h3 id="打印流"><a href="#打印流" class="headerlink" title="打印流"></a>打印流</h3><p><em>在整个IO包中，打印流是输出信息最方便的类，主要包含字节打印流(PrintStream)和字符打印流(PrintWriter)。打印流提供了非常方便的打印功能，可以打印任何的数据类型，例如：小数、整数、字符串等。</em></p>
+<h3 id="打印流特点"><a href="#打印流特点" class="headerlink" title="打印流特点"></a>打印流特点</h3><p>A:只操作目的地,不操作数据源<br>B:可以操作任意类型的数据<br>C:如果启用了自动刷新，在调用println()方法的时候，能够换行并刷新<br>D:可以直接操作文件<br>如果该流的构造方法能够同时接收File和String类型的参数，一般都是可以直接操作文件的！</p>
+<pre><code class="line-numbers language-java">import java.io.* ;
+public class PrintDemo01&#123;
+    public static void main(String arg[]) throws Exception&#123;
+        PrintStream ps = null ;		// 声明打印流对象
+        // 如果现在是使用FileOuputStream实例化，意味着所有的输出是向文件之中
+        ps = new PrintStream(new FileOutputStream(new File(&quot;d:&quot; + File.separator + &quot;test.txt&quot;))) ;
+        ps.print(&quot;hello &quot;) ;
+        ps.println(&quot;world!!!&quot;) ;
+        ps.print(&quot;1 + 1 = &quot; + 2) ;
+        ps.close() ;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import java.io.* ;
+public class PrintDemo02&#123;
+    public static void main(String arg[]) throws Exception&#123;
+        PrintStream ps = null ;		// 声明打印流对象
+        // 如果现在是使用FileOuputStream实例化，意味着所有的输出是向文件之中
+        ps = new PrintStream(new FileOutputStream(new File(&quot;d:&quot; + File.separator + &quot;test.txt&quot;))) ;
+        String name = &quot;李兴华&quot; ;	// 定义字符串
+        int age = 30 ;				// 定义整数
+        float score = 990.356f ;	// 定义小数
+        char sex = &#39;M&#39; ;			// 定义字符
+        ps.printf(&quot;姓名：%s；年龄：%d；成绩：%f；性别：%c&quot;,name,age,score,sex) ;
+        ps.close() ;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="缓冲流"><a href="#缓冲流" class="headerlink" title="缓冲流"></a>缓冲流</h3><p>Buffer：表示缓冲区的。之前的StringBuffer，缓冲区中的内容可以更改，可以提高效率。<br>如果想接收任意长度的数据，而且避免乱码的产生，就可以使用BufferedReader。<br><img src="/images/javase/%E7%BC%93%E5%86%B2%E6%B5%81.png"></p>
+<pre><code class="line-numbers language-java">import java.io.* ;
+public class BufferedReaderDemo01&#123;
+    public static void main(String args[])&#123;
+        BufferedReader buf = null ;		// 声明对象
+        buf = new BufferedReader(new InputStreamReader(System.in)) ;	// 将字节流变为字符流
+        String str = null ;	// 接收输入内容
+        System.out.print(&quot;请输入内容：&quot;) ;
+        try&#123;
+            str = buf.readLine() ;	// 读取一行数据
+        &#125;catch(IOException e)&#123;
+            e.printStackTrace() ;	// 输出信息
+        &#125;
+        System.out.println(&quot;输入的内容为：&quot; + str) ;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="数据流"><a href="#数据流" class="headerlink" title="数据流"></a>数据流</h3><p>在io包中，提供了两个与平台无关的数据操作流：<br>数据输出流（DataOutputStream）<br>数据输入流 （DataInputStream）<br>通常数据输出流会按照一定的格式将数据输出，再通过数据输入流按照一定的格式将数据读入。</p>
+<pre><code class="line-numbers language-java">import java.io.DataOutputStream ;
+import java.io.File ;
+import java.io.FileOutputStream ;
+public class DataOutputStreamDemo&#123;
+    public static void main(String args[]) throws Exception&#123;	// 所有异常抛出
+        DataOutputStream dos = null ;			// 声明数据输出流对象
+        File f = new File(&quot;d:&quot; + File.separator + &quot;order.txt&quot;) ; // 文件的保存路径
+        dos = new DataOutputStream(new FileOutputStream(f)) ;	// 实例化数据输出流对象
+        String names[] = &#123;&quot;衬衣&quot;,&quot;手套&quot;,&quot;围巾&quot;&#125; ;	// 商品名称
+        float prices[] = &#123;98.3f,30.3f,50.5f&#125; ;		// 商品价格
+        int nums[] = &#123;3,2,1&#125; ;	// 商品数量
+        for(int i=0;i&lt;names.length;i++)&#123;	// 循环输出
+            dos.writeChars(names[i]) ;	// 写入字符串
+            dos.writeChar(&#39;\t&#39;) ;	// 写入分隔符
+            dos.writeFloat(prices[i]) ; // 写入价格
+            dos.writeChar(&#39;\t&#39;) ;	// 写入分隔符
+            dos.writeInt(nums[i]) ; // 写入数量
+            dos.writeChar(&#39;\n&#39;) ;	// 换行
+        &#125;
+        dos.close() ;	// 关闭输出流
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import java.io.DataInputStream ;
+import java.io.File ;
+import java.io.FileInputStream ;
+public class DataInputStreamDemo&#123;
+    public static void main(String args[]) throws Exception&#123;	// 所有异常抛出
+        DataInputStream dis = null ;		// 声明数据输入流对象
+        File f = new File(&quot;d:&quot; + File.separator + &quot;order.txt&quot;) ; // 文件的保存路径
+        dis = new DataInputStream(new FileInputStream(f)) ;	// 实例化数据输入流对象
+        String name = null ;	// 接收名称
+        float price = 0.0f ;	// 接收价格
+        int num = 0 ;	// 接收数量
+        char temp[] = null ;	// 接收商品名称
+        int len = 0 ;	// 保存读取数据的个数
+        char c = 0 ;	// &#39;\u0000&#39;
+        try&#123;
+            while(true)&#123;
+                temp = new char[200] ;	// 开辟空间
+                len = 0 ;
+                while((c=dis.readChar())!=&#39;\t&#39;)&#123;	// 接收内容
+                    temp[len] = c ;
+                    len ++ ;	// 读取长度加1
+                &#125;
+                name = new String(temp,0,len) ;	// 将字符数组变为String
+                price = dis.readFloat() ;	// 读取价格
+                dis.readChar() ;	// 读取\t
+                num = dis.readInt() ;	// 读取int
+                dis.readChar() ;	// 读取\n
+                System.out.printf(&quot;名称：%s；价格：%5.2f；数量：%d\n&quot;,name,price,num) ;
+            &#125;
+        &#125;catch(Exception e)&#123;&#125;
+        dis.close() ;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="合并流"><a href="#合并流" class="headerlink" title="合并流"></a>合并流</h3><p>合并流：从概念上讲就是内容合并在一起了。<br>一般合并流的主要功能就是将两个文件的内容合并成一个文件</p>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.io.SequenceInputStream ;
+import java.io.FileInputStream ;
+import java.io.InputStream ;
+import java.io.FileOutputStream ;
+import java.io.OutputStream ;
+public class SequenceDemo&#123;
+    public static void main(String args[]) throws Exception &#123;	// 所有异常抛出
+        InputStream is1 = null ;		// 输入流1
+        InputStream is2 = null ;		// 输入流1
+        OutputStream os = null ;		// 输出流
+        SequenceInputStream sis = null ;	// 合并流
+        is1 = new FileInputStream(&quot;d:&quot; + File.separator + &quot;a.txt&quot;) ;
+        is2 = new FileInputStream(&quot;d:&quot; + File.separator + &quot;b.txt&quot;) ;
+        os = new FileOutputStream(&quot;d:&quot; + File.separator + &quot;ab.txt&quot;) ;
+        sis = new SequenceInputStream(is1,is2) ;	// 实例化合并流
+        int temp = 0 ;	// 接收内容
+        while((temp=sis.read())!=-1)&#123;	// 循环输出
+            os.write(temp) ;	// 保存内容
+        &#125;
+        sis.close() ;	// 关闭合并流
+        is1.close() ;	// 关闭输入流1`
+        is2.close() ;	// 关闭输入流2
+        os.close() ;	// 关闭输出流
+    &#125;
+&#125;
+</code></pre>
+<h3 id="压缩流"><a href="#压缩流" class="headerlink" title="压缩流"></a>压缩流</h3><p>在日常的使用中经常会使用到像WinRAR或WinZIP这样的压缩文件，通过这些软件可以把一个很大的文件进行压缩以方便传输。<br>在JAVA中 为了减少传输时的数据量也提供了专门的压缩流，可以将文件或文件夹压缩成ZIP、JAR、GZIP等文件的格式<br><strong>压缩流的实现</strong></p>
+<ul>
+<li>ZIP是一种较为常见的压缩形式，在Java中要想实现ZIP的压缩需要导入java.util.zip包，可以使用此包中的<strong>ZipFile、ZipOutputStream、ZipInputStream、ZipEntry</strong>几个类完成。</li>
+<li>JAR及GZIP文件格式的压缩输入、输出流：<br>  在JAVA IO中，不仅可以实现ZIP压缩格式的输入、输出，也可以实现JAR及GZIP文件格式的压缩：</li>
+<li><ul>
+<li>JAR压缩的支持类保存在java.util.jar包中，常用的类有如下几个：</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li>  JAR压缩输出流：JarOutputStream</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li>  JAR压缩输入流：JarInputStream</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li>JAR文件：JARFile</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li>  JAR实体：JAREntry</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>GZIP是用于UNIX系统的文件压缩，在Linux中经常会使用到*.gz的文件，就是GZIP格式，GZIP压缩的支持类保存在java.util.zip包中，常用的类有如下几个：</li>
+<li><ul>
+<li>GZIP压缩输出流：GZIPOutputStream</li>
+</ul>
+</li>
+<li><ul>
+<li>GZIP压缩输入流：GZIPInputStream<br>正常情况下在IO操作中，所有的类库都是在io包中。</li>
+</ul>
+</li>
+</ul>
+<p><strong>ZipEntry：</strong><br>   在每一个压缩文件中都会存在多个子文件，那么这每一个的子文件在JAVA中就使用ZipEntry表示。<br>ZipEntry类的常用方法：<br>  public ZipEntry(String name)  创建对象并指定要创建的ZipEntry名称。<br>  public boolean isDirectory()    判断ZipEntry是否是目录。<br>在实例化ZipEntry的时候，要设置名称，此名称实际上就是压缩文件中的每一个元素中的名称。</p>
+<p><strong>ZipFile</strong><br>是一个专门表示压缩文件的类，在JAVA中，每一个压缩文件都可以使用ZipFile表示，还可以使用ZipFile根据压缩后的文件名称找到每一个压缩文件中的ZipEntry并将其进行解压缩操作。<br>1、public ZipFile(File file) throws ZipException,IOException 构造方法 根据File类实例化ZipFile对象。<br>2、public ZipEntry  getEntry(String name) 根据名称找到其对应的ZipEntry。<br>3、public InputStream getInputStream(ZipEntry entry) throws IOException 根据ZipEntry取得InputStream对象。<br>4、public String getName()  得到压缩文件的路径名称。<br>ZipFile在实例化的时候必须接收File类的实例，此File类的实例是指向一个压缩的*.zip文件。<br>首先需要为ZipFile实例化，实例化时需要接收File类的引用。</p>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.io.FileInputStream ;
+import java.io.InputStream ;
+import java.util.zip.ZipEntry ;
+import java.util.zip.ZipOutputStream ;
+import java.util.zip.ZipFile ;
+import java.io.FileOutputStream ;
+public class ZipFileDemo01&#123;
+    public static void main(String args[]) throws Exception&#123;	// 所有异常抛出
+        File file = new File(&quot;d:&quot; + File.separator + &quot;bdn.zip&quot;) ;	// 找到压缩文件
+        ZipFile zipFile = new ZipFile(file) ;	// 实例化ZipFile对象
+        System.out.println(&quot;压缩文件的名称：&quot; + zipFile.getName()) ;	// 得到压缩文件的名称
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.io.FileInputStream ;
+import java.io.InputStream ;
+import java.io.OutputStream ;
+import java.util.zip.ZipEntry ;
+import java.util.zip.ZipOutputStream ;
+import java.util.zip.ZipFile ;
+import java.io.FileOutputStream ;
+public class ZipFileDemo02&#123;
+    public static void main(String args[]) throws Exception&#123;	// 所有异常抛出
+        File file = new File(&quot;d:&quot; + File.separator + &quot;bdn.zip&quot;) ;	// 找到压缩文件
+        File outputFile = new File(&quot;d:&quot; + File.separator + &quot;bdn_unzip.txt&quot;) ; // 定义解压缩的文件名称
+        ZipFile zipFile = new ZipFile(file) ;	// 实例化ZipFile对象
+        ZipEntry entry = zipFile.getEntry(&quot;bdn.txt&quot;) ;	// 得到一个压缩实体
+        OutputStream out = new FileOutputStream(outputFile) ; // 实例化输出流
+        InputStream input = zipFile.getInputStream(entry) ;	// 得到一个压缩实体的输入流
+        int temp = 0 ;
+        while((temp=input.read())!=-1)&#123;
+            out.write(temp) ;
+        &#125;
+        input.close() ;	// 关闭输入流
+        out.close() ;	// 关闭输出流
+    &#125;
+&#125;;
+</code></pre>
+<p><strong>ZipOutputStream：</strong><br>如果要想完成一个文件或文件夹的压缩，要使用ZipOutputStream类完成，ZipOutputStream是OutputStream的子类。<br>public ZipOutputStream(OutputStream out)  创建新的ZIP输出流。<br>public void putNextEntry(ZipEntry e) throws IOException  设置每一个ZipEntry对象。<br>public void setComment(String comment)   设置ZIP文件的注释<br>此类的功能就是完成ZIP格式输出的。</p>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.io.FileInputStream ;
+import java.io.InputStream ;
+import java.util.zip.ZipEntry ;
+import java.util.zip.ZipInputStream ;
+import java.io.FileInputStream ;
+public class ZipInputStreamDemo01&#123;
+    public static void main(String args[]) throws Exception&#123;	// 所有异常抛出
+        File zipFile = new File(&quot;d:&quot; + File.separator + &quot;bdn.zip&quot;) ;	// 定义压缩文件名称
+        ZipInputStream input = null ;	// 定义压缩输入流
+        input = new ZipInputStream(new FileInputStream(zipFile)) ;	// 实例化ZIpInputStream
+        ZipEntry entry = input.getNextEntry() ;	// 得到一个压缩实体
+        System.out.println(&quot;压缩实体名称：&quot; + entry.getName()) ;
+        input.close() ;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.io.OutputStream ;
+import java.io.InputStream ;
+import java.util.zip.ZipEntry ;
+import java.util.zip.ZipFile ;
+import java.util.zip.ZipInputStream ;
+import java.io.FileInputStream ;
+import java.io.FileOutputStream ;
+public class ZipInputStreamDemo02&#123;
+    public static void main(String args[]) throws Exception&#123;	// 所有异常抛出
+        File file = new File(&quot;d:&quot; + File.separator + &quot;bdndir.zip&quot;) ;	// 定义压缩文件名称
+        File outFile = null ;	// 输出文件的时候要有文件夹的操作
+        ZipFile zipFile = new ZipFile(file) ;	// 实例化ZipFile对象
+        ZipInputStream zipInput = null ;	// 定义压缩输入流
+        OutputStream out = null ;	// 定义输出流，用于输出每一个实体内容
+        InputStream input = null ;	// 定义输入流，读取每一个ZipEntry
+        ZipEntry entry = null ;	// 每一个压缩实体
+        zipInput = new ZipInputStream(new FileInputStream(file)) ;	// 实例化ZIpInputStream
+        while((entry = zipInput.getNextEntry())!=null)&#123;	// 得到一个压缩实体
+            System.out.println(&quot;解压缩&quot; + entry.getName() + &quot;文件。&quot;) ;
+            outFile = new File(&quot;d:&quot; + File.separator + entry.getName()) ;	// 定义输出的文件路径
+            if(!outFile.getParentFile().exists())&#123;	// 如果输出文件夹不存在
+                outFile.getParentFile().mkdir() ;	// 创建文件夹
+            &#125;
+            if(!outFile.exists())&#123;	// 判断输出文件是否存在
+                outFile.createNewFile() ;	// 创建文件
+            &#125;
+            input = zipFile.getInputStream(entry) ;	// 得到每一个实体的输入流
+            out = new FileOutputStream(outFile) ;	// 实例化文件输出流
+            int temp = 0 ;
+            while((temp=input.read())!=-1)&#123;
+                out.write(temp) ;
+            &#125;
+            input.close() ;		// 关闭输入流
+            out.close() ;	// 关闭输出流
+        &#125;
+        input.close() ;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.io.FileInputStream ;
+import java.io.InputStream ;
+import java.util.zip.ZipEntry ;
+import java.util.zip.ZipOutputStream ;
+import java.io.FileOutputStream ;
+public class ZipOutputStreamDemo01&#123;
+    public static void main(String args[]) throws Exception&#123;	// 所有异常抛出
+        File file = new File(&quot;d:&quot; + File.separator + &quot;bdn.txt&quot;) ;	// 定义要压缩的文件
+        File zipFile = new File(&quot;d:&quot; + File.separator + &quot;bdn.zip&quot;) ;	// 定义压缩文件名称
+        InputStream input = new FileInputStream(file) ;	// 定义文件的输入流
+        ZipOutputStream zipOut = null ;	// 声明压缩流对象
+        zipOut = new ZipOutputStream(new FileOutputStream(zipFile)) ;
+        zipOut.putNextEntry(new ZipEntry(file.getName())) ;	// 设置ZipEntry对象
+        zipOut.setComment(&quot;www.baidu.cn&quot;) ;	// 设置注释
+        int temp = 0 ;
+        while((temp=input.read())!=-1)&#123;	// 读取内容
+            zipOut.write(temp) ;	// 压缩输出
+        &#125;
+        input.close() ;	// 关闭输入流
+        zipOut.close() ;	// 关闭输出流
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.io.FileInputStream ;
+import java.io.InputStream ;
+import java.util.zip.ZipEntry ;
+import java.util.zip.ZipOutputStream ;
+import java.io.FileOutputStream ;
+public class ZipOutputStreamDemo02&#123;
+    public static void main(String args[]) throws Exception&#123;	// 所有异常抛出
+        File file = new File(&quot;d:&quot; + File.separator + &quot;bd&quot;) ;	// 定义要压缩的文件夹
+        File zipFile = new File(&quot;d:&quot; + File.separator + &quot;bddir.zip&quot;) ;	// 定义压缩文件名称
+        InputStream input = null ;	// 定义文件输入流
+        ZipOutputStream zipOut = null ;	// 声明压缩流对象
+        zipOut = new ZipOutputStream(new FileOutputStream(zipFile)) ;
+        zipOut.setComment(&quot;www.baidu.cn&quot;) ;	// 设置注释
+        int temp = 0 ;
+        if(file.isDirectory())&#123;	// 判断是否是文件夹
+            File lists[] = file.listFiles() ;	// 列出全部文件
+            for(int i=0;i&lt;lists.length;i++)&#123;
+                input = new FileInputStream(lists[i]) ;	// 定义文件的输入流
+                zipOut.putNextEntry(new ZipEntry(file.getName()
+                    +File.separator+lists[i].getName())) ;	// 设置ZipEntry对象
+                while((temp=input.read())!=-1)&#123;	// 读取内容
+                    zipOut.write(temp) ;	// 压缩输出
+                &#125;
+                input.close() ;	// 关闭输入流
+            &#125;
+        &#125;
+        zipOut.close() ;	// 关闭输出流
+    &#125;
+&#125;
+</code></pre>
+<h3 id="回退流"><a href="#回退流" class="headerlink" title="回退流"></a>回退流</h3><p>在JAVA IO中所有的数据都是采用顺序的读取方式，即对于一个输入流来讲都是采用从头到尾的顺序读取的，如果在输入流中某个不需要的内容被读取进来，则只能通过程序将这些不需要的内容处理掉，为了解决这样的处理问题，在JAVA中提供了一种回退输入流（PushbackInputStream、PushbackReader），可以把读取进来的某些数据重新回退到输入流的缓冲区之中。</p>
+<pre><code class="line-numbers language-java">import java.io.ByteArrayInputStream ;
+import java.io.PushbackInputStream ;
+public class PushInputStreamDemo&#123;
+    public static void main(String args[]) throws Exception &#123;	// 所有异常抛出
+        String str = &quot;www.baidu.cn&quot; ;		// 定义字符串
+        PushbackInputStream push = null ;		// 定义回退流对象
+        ByteArrayInputStream bai = null ;		// 定义内存输入流
+        bai = new ByteArrayInputStream(str.getBytes()) ;	// 实例化内存输入流
+        push = new PushbackInputStream(bai) ;	// 从内存中读取数据
+        System.out.print(&quot;读取之后的数据为：&quot;) ;
+        int temp = 0 ; 
+        while((temp=push.read())!=-1)&#123;	// 读取内容
+            if(temp==&#39;.&#39;)&#123;	// 判断是否读取到了“.”
+                push.unread(temp) ;	// 放回到缓冲区之中
+                temp = push.read() ;	// 再读一遍
+                System.out.print(&quot;（退回&quot;+(char)temp+&quot;）&quot;) ;
+            &#125;else&#123;
+                System.out.print((char)temp) ;	// 输出内容
+            &#125;
+        &#125;
+    &#125;
+&#125;;
+</code></pre>
+<h3 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h3><p>编码：<br>在计算机的世界里，任何的文字都是以指定的编码方式存在的，在JAVA程序的开发中最常见的是以下的几种编码：<br><strong>ISO8859-1、GBK&#x2F;GB2312、unicode、UTF</strong><br>iso-8859-1编码属于单字节编码，最多只能表示0<del>255的字符范围，主要在英文上应用。<br>GBK&#x2F;GB2312：中文的国标编码，专门用来表示汉字，是双字节编码。<br>unicode：Java中就是使用此编码方式，也是最标准的一种编码，是使用16进制表示的编码。但此编码不兼容iso8859-1编码。<br>UTF：由于unicode不支持iso8859-1编码，而且容易占用更多的空间，而且对于英文字母也需要使用两个字节编码，这样使用unicode不便于传输和存储，因此产生了utf编码，utf兼容iso8859-1编码，同时也可以用来表示所有的语言字符，不过utf编码是不定长编码，每一个字符的长度从1</del>6个字节不等，一般在中文网页中使用此编码，因为这样可以节省空间。</p>
+<p><strong>乱码的产生</strong><br>在程序中如果处理不好字符的编码，则就有可能出现乱码问题，如果现在本机的默认编码是GBK，但在程序中使用了iso-8859-1编码，则就会出现字符的乱码情况，就好比两个人交谈，一个人说的是中文，另外一个人说的是其他语言，如果语言不同，则肯定无法沟通。<br>如果没有处理好编码的问题，则肯定在程序中出现乱码。</p>
+<p><strong>得到本机的编码显示：</strong><br>使用System类可以取得与系统有关的信息，那么直接使用此类就可以找到系统的默认编码，使用如下方法：<br>public static Properties getProperty()</p>
+<pre><code class="line-numbers language-java">public class CharSetDemo01&#123;
+    public static void main(String args[])&#123;
+        System.out.println(&quot;系统默认编码：&quot; +
+            System.getProperty(&quot;file.encoding&quot;)) ;	// 获取当前系统编码
+    &#125;
+&#125;
+</code></pre>
+<p>因为现在的本机环境，是中文环境，所以是使用GBK进行编码，很明显如果现在在程序中使用了ISO8859-1编码。如果要编码，则需要使用String类的支持。<br>public byte[]  getBytes(String charsetName) throws UnsupportedEncodingException<br>可以指定使用的字符编码。</p>
+<pre><code class="line-numbers language-java">import java.io.OutputStream ;
+import java.io.FileOutputStream ;
+import java.io.File ;
+public class CharSetDemo02&#123;
+    public static void main(String args[]) throws Exception &#123;
+        File f = new File(&quot;D:&quot; + File.separator + &quot;test.txt&quot;) ;	// 实例化File类
+        OutputStream out = new FileOutputStream(f) ;	// 实例化输出流
+        byte b[] = &quot;中国，你好！&quot;.getBytes(&quot;ISO8859-1&quot;) ;	// 转码操作
+        out.write(b) ;	// 保存
+        out.close() ;	// 关闭
+    &#125;
+&#125;
+</code></pre>
+<h3 id="对象序列化"><a href="#对象序列化" class="headerlink" title="对象序列化"></a>对象序列化</h3><p>对象序列化，就是把一个对象变为二进制的数据流的一种方法，通过对象序列化可以方便的实现对象的传输或存储<br>如果一个类的对象想被序列化，则对象所在的类必须实现java.io.Serializable接口。此接口的定义如下：<br>public interface Serializable{ }<br>一个类不能被无缘无故的被序列化。<br>但是，在此接口中没有任何一个方法，此接口属于一个标示接口，表示具备了某种能力。例如：现在定义一个类，此类可以被序列化。</p>
+<pre><code class="line-numbers language-java">import java.io.Serializable ;
+public class Person implements Serializable&#123;
+    private String name ;	// 声明name属性，但是此属性不被序列化
+    private int age ;		// 声明age属性
+    public Person(String name,int age)&#123;	// 通过构造设置内容
+        this.name = name ;
+        this.age = age ;
+    &#125;
+    public String toString()&#123;	// 覆写toString()方法
+        return &quot;姓名：&quot; + this.name + &quot;；年龄：&quot; + this.age ;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>对象的序列化和反序列化</strong><br>要想完成对象的输入或输出，还必须依靠对象输出流（ObjectOutputStream）和对象输入流（ObjectInputStream）,<br>使用对象输出流输出序列化对象的步骤，有时也称为序列化，而使用对象输入流读入的过程，有时也称为反序列化<br><strong>在对象进行序列化或反序列化操作的时候，要考虑JDK版本的问题，如果序列化的JDK版本和反序列化的JDK版本不统一则就有可能造成异常</strong>。所以在序列化操作中引入了一个serialVersionUID的常量，可以通过此常量来验证版本的一致性，在进行反序列化时，JVM会把传来的字节流中的serialVersionUID与本地相应实体（类）的serialVersionUID进行比较，如果相同就认为是一致的，可以进行反序列化，否则就会出现版本不一致的异常。</p>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.io.IOException ;
+import java.io.FileOutputStream ;
+import java.io.OutputStream ;
+import java.io.ObjectOutputStream ;
+import java.io.FileInputStream ;
+import java.io.InputStream ;
+import java.io.ObjectInputStream ;
+public class SerDemo03&#123;
+    public static void main(String args[]) throws Exception&#123;
+        ser() ;
+        dser() ;
+    &#125;
+    public static void ser() throws Exception &#123;
+        File f = new File(&quot;D:&quot; + File.separator + &quot;test.txt&quot;) ;	// 定义保存路径
+        ObjectOutputStream oos = null ;	// 声明对象输出流
+        OutputStream out = new FileOutputStream(f) ;	// 文件输出流
+        oos = new ObjectOutputStream(out) ;
+        oos.writeObject(new Person(&quot;张三&quot;,30)) ;	// 保存对象
+        oos.close() ;	// 关闭
+    &#125;
+    public static void dser() throws Exception &#123;
+        File f = new File(&quot;D:&quot; + File.separator + &quot;test.txt&quot;) ;	// 定义保存路径
+        ObjectInputStream ois = null ;	// 声明对象输入流
+        InputStream input = new FileInputStream(f) ;	// 文件输入流
+        ois = new ObjectInputStream(input) ;	// 实例化对象输入流
+        Object obj = ois.readObject() ;	// 读取对象
+        ois.close() ;	// 关闭
+        System.out.println(obj) ;
+    &#125;
+&#125;;
+</code></pre>
+<p><strong>Externalizable接口</strong><br>被Serializable接口声明的类其对象的内容都将被序列化，如果现在<strong>用户希望可以自己指定序列化的内容</strong>，则可以让一个类实现Externalizable接口，</p>
+<pre><code class="line-numbers language-java">import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+public class Person implements Externalizable&#123;
+    private static final long serialVersionUID = 1L;
+    private String name ;	// 声明name属性，
+    private int age ;		// 声明age属性
+    public Person(String name,int age)&#123;	// 通过构造设置内容
+        this.name = name ;
+        this.age = age ;
+    &#125;
+    public String toString()&#123;	// 覆写toString()方法
+        return &quot;姓名：&quot; + this.name + &quot;；年龄：&quot; + this.age ;
+    &#125;
+    @Override
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException &#123;
+        // TODO Auto-generated method stub
+          this.name = (String)in.readObject();
+          this.age = in.readInt();
+    &#125;
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException &#123;
+        // TODO Auto-generated method stub
+        out.writeObject(this.name); // 保存姓名属性
+        out.writeInt(this.age);
+    &#125;
+&#125;
+</code></pre>
+<p><strong>transient关键字</strong><br>当使用Serializable接口实现序列化操作时，如果一个对象中的某个属性不希望被序列化的话，则可以使用transient关键字进行声明。</p>
+<pre><code class="line-numbers language-java">import java.io.Serializable ;
+public class Person implements Serializable&#123;
+    private static final long serialVersionUID = 1L;
+    private transient String name ;	// 声明name属性，但是此属性不被序列化
+    private int age ;		// 声明age属性
+    public Person(String name,int age)&#123;	// 通过构造设置内容
+        this.name = name ;
+        this.age = age ;
+    &#125;
+    public String toString()&#123;	// 覆写toString()方法
+        return &quot;姓名：&quot; + this.name + &quot;；年龄：&quot; + this.age ;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">transient+Serializable接口完全可以取代Externalizable接口的功能。
+</code></pre>
+</div><div class="article-licensing box"><div class="licensing-title"><p>JAVA中的IO流</p><p><a href="http://example.com/2013/09/12/javase/JAVASE-IO流-12/">http://example.com/2013/09/12/javase/JAVASE-IO流-12/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2013-09-12</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-06-12</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2013/09/13/javase/JAVASE-JDBC-13/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">JDBC 研磨</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2013/09/11/javase/JAVASE-%E6%B3%9B%E5%9E%8B-11/"><span class="level-item">JAVA中的泛型</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#File类"><span class="level-left"><span class="level-item">1</span><span class="level-item">File类</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#File类提供的构造方法"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">File类提供的构造方法</span></span></a></li><li><a class="level is-mobile" href="#File类提供的常用方法"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">File类提供的常用方法</span></span></a></li><li><a class="level is-mobile" href="#内存操作流"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">内存操作流</span></span></a></li><li><a class="level is-mobile" href="#线程通讯流-管道流"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">线程通讯流-管道流</span></span></a></li><li><a class="level is-mobile" href="#打印流"><span class="level-left"><span class="level-item">1.5</span><span class="level-item">打印流</span></span></a></li><li><a class="level is-mobile" href="#打印流特点"><span class="level-left"><span class="level-item">1.6</span><span class="level-item">打印流特点</span></span></a></li><li><a class="level is-mobile" href="#缓冲流"><span class="level-left"><span class="level-item">1.7</span><span class="level-item">缓冲流</span></span></a></li><li><a class="level is-mobile" href="#数据流"><span class="level-left"><span class="level-item">1.8</span><span class="level-item">数据流</span></span></a></li><li><a class="level is-mobile" href="#合并流"><span class="level-left"><span class="level-item">1.9</span><span class="level-item">合并流</span></span></a></li><li><a class="level is-mobile" href="#压缩流"><span class="level-left"><span class="level-item">1.10</span><span class="level-item">压缩流</span></span></a></li><li><a class="level is-mobile" href="#回退流"><span class="level-left"><span class="level-item">1.11</span><span class="level-item">回退流</span></span></a></li><li><a class="level is-mobile" href="#字符编码"><span class="level-left"><span class="level-item">1.12</span><span class="level-item">字符编码</span></span></a></li><li><a class="level is-mobile" href="#对象序列化"><span class="level-left"><span class="level-item">1.13</span><span class="level-item">对象序列化</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

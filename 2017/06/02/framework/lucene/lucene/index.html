@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>lucene - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="lucene系统架构 特点 灵活的接口函数 分块索引和批量索引 数据源灵活多样 索引字段可以定制 索引文件与平台无关 面向对象的系统架构  lucene基础 数据分类 我们生活中的数据总体分为两种：结构化数据和非结构化数据。 结构化数据：指具有固定格式或有限长度的数据，如数据库，元数据等。 非结构化数据：指不定长或无固定格式的数据，如邮件，word文档等磁盘上的文件 结构化数据搜索 常见的结构化数"><meta property="og:type" content="blog"><meta property="og:title" content="lucene"><meta property="og:url" content="http://example.com/2017/06/02/framework/lucene/lucene/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="lucene系统架构 特点 灵活的接口函数 分块索引和批量索引 数据源灵活多样 索引字段可以定制 索引文件与平台无关 面向对象的系统架构  lucene基础 数据分类 我们生活中的数据总体分为两种：结构化数据和非结构化数据。 结构化数据：指具有固定格式或有限长度的数据，如数据库，元数据等。 非结构化数据：指不定长或无固定格式的数据，如邮件，word文档等磁盘上的文件 结构化数据搜索 常见的结构化数"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/lucene/lucene%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84.png"><meta property="og:image" content="http://example.com/images/lucene/lucene%E4%BD%BF%E7%94%A8.png"><meta property="og:image" content="http://example.com/images/lucene/lukeall.png"><meta property="og:image" content="http://example.com/images/lucene/luckall_doc.png"><meta property="og:image" content="http://example.com/images/lucene/lukeall_search.png"><meta property="article:published_time" content="2017-06-02T13:30:53.000Z"><meta property="article:modified_time" content="2020-06-24T22:47:59.029Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="lucene"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/lucene/lucene%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2017/06/02/framework/lucene/lucene/"},"headline":"lucene","image":["http://example.com/images/lucene/lucene%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84.png","http://example.com/images/lucene/lucene%E4%BD%BF%E7%94%A8.png","http://example.com/images/lucene/lukeall.png","http://example.com/images/lucene/luckall_doc.png","http://example.com/images/lucene/lukeall_search.png"],"datePublished":"2017-06-02T13:30:53.000Z","dateModified":"2020-06-24T22:47:59.029Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"lucene系统架构 特点 灵活的接口函数 分块索引和批量索引 数据源灵活多样 索引字段可以定制 索引文件与平台无关 面向对象的系统架构  lucene基础 数据分类 我们生活中的数据总体分为两种：结构化数据和非结构化数据。 结构化数据：指具有固定格式或有限长度的数据，如数据库，元数据等。 非结构化数据：指不定长或无固定格式的数据，如邮件，word文档等磁盘上的文件 结构化数据搜索 常见的结构化数"}</script><link rel="canonical" href="http://example.com/2017/06/02/framework/lucene/lucene/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2017-06-02T13:30:53.000Z" title="2017/6/2 下午9:30:53">2017-06-02</time>发表</span><span class="level-item"><time dateTime="2020-06-24T22:47:59.029Z" title="2020/6/25 上午6:47:59">2020-06-25</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a><span> / </span><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/">全文检索</a><span> / </span><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/">lucene</a></span><span class="level-item">1 小时读完 (大约7990个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">lucene</h1><div class="content"><h2 id="lucene系统架构"><a href="#lucene系统架构" class="headerlink" title="lucene系统架构"></a>lucene系统架构</h2><p><img src="/images/lucene/lucene%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84.png"></p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>灵活的接口函数</li>
+<li>分块索引和批量索引</li>
+<li>数据源灵活多样</li>
+<li>索引字段可以定制</li>
+<li>索引文件与平台无关</li>
+<li>面向对象的系统架构</li>
+</ul>
+<h2 id="lucene基础"><a href="#lucene基础" class="headerlink" title="lucene基础"></a>lucene基础</h2><ul>
+<li><strong>数据分类</strong><br> 我们生活中的数据总体分为两种：<strong>结构化数据和非结构化数据</strong>。<br> <strong>结构化数据：</strong>指具有固定格式或有限长度的数据，如数据库，元数据等。<br> <strong>非结构化数据：</strong>指不定长或无固定格式的数据，如邮件，word文档等磁盘上的文件</li>
+<li><strong>结构化数据搜索</strong><br> 常见的结构化数据也就是数据库中的数据,有行有列而且数据格式、数据长度都是固定的。在数据库中搜索很容易实现，通常都是使用sql语句进行查询，而且能很快的得到查询结果。</li>
+<li><strong>非结构化数据查询方法</strong></li>
+<li><strong>顺序扫描法(Serial Scanning)</strong><br>  所谓顺序扫描，比如要找内容包含某一个字符串的文件，就是一个文档一个文档的看，对于每一个文档，从头看到尾，如果此文档包含此字符串，则此文档为我们要找的文件，接着看下一个文件，直到扫描完所有的文件。如利用windows的搜索也可以搜索文件内容，只是相当的慢。</li>
+<li><strong>全文检索(Full-text Search)</strong><br>  将非结构化数据中的一部分信息提取出来，重新组织，使其变得有一定结构，然后对此有一定结构的数据进行搜索，从而达到搜索相对较快的目的。<strong>这部分从非结构化数据中提取出的然后重新组织的信息，我们称之索引。</strong><br>  这种先建立索引，再对索引进行搜索的过程就叫全文检索(Full-text Search)。<br>  虽然创建索引的过程也是非常耗时的，但是索引一旦创建就可以多次使用，全文检索主要处理的是查询，所以耗时间创建索引是值得的。<span id="more"></span></li>
+<li><strong>应用场景</strong><br> 对于数据量大、数据结构不固定的数据可采用全文检索方式搜索，比如：<br> 1、搜索引擎百度 搜狗 360 谷歌<br> 2、站内搜索淘宝、 京东、微博、论坛</li>
+<li><strong>Lucene的创新之处</strong><br>大部分的搜索（数据库）引擎都是用B树结构来维护索引，索引的更新会导致大量的IO操作，Lucene在实现中，对此稍微有所改进：不是维护一个索引文件，而是在扩展索引的时候不断创建新的索引文件，然后定期的把这些新的小索引文件合并到原先的大索引中（针对不同的更新策略，批次的大小可以调整），这样在不影响检索的效率的前提下，提高了索引的效率。</li>
+</ul>
+<h3 id="lucene经典应用"><a href="#lucene经典应用" class="headerlink" title="lucene经典应用"></a>lucene经典应用</h3><ul>
+<li>Eclipse-Eclipse 的帮助系统的搜索功能。</li>
+<li>Jive-一个广受欢迎的开放的源码的论坛项目,其目标是建设一个开放结构的、强壮的、易于扩展的基于JSP的论坛。Jive的搜索使用了lucene搜索引擎。</li>
+<li>Cocoon-基于XML的web发布框架，全文检索部分使用了Lucene。</li>
+</ul>
+<h3 id="lucene下载"><a href="#lucene下载" class="headerlink" title="lucene下载"></a>lucene下载</h3><ul>
+<li>Lucene是apache下的一个开放源代码的全文检索引擎工具包。提供了完整的查询引擎和索引引擎，部分文本分析引擎。下载地址:<a target="_blank" rel="noopener" href="https://lucene.apache.org/core/downloads.html">https://lucene.apache.org/core/downloads.html</a></li>
+</ul>
+<h3 id="lucene使用"><a href="#lucene使用" class="headerlink" title="lucene使用"></a>lucene使用</h3><p><strong>在全文索引工具中，都是由这样的三部分组成</strong></p>
+<ul>
+<li><strong>索引部分</strong></li>
+<li><strong>分词部分</strong></li>
+<li><strong>搜索部分</strong></li>
+<li><img src="/images/lucene/lucene%E4%BD%BF%E7%94%A8.png" alt="全文检索流程"></li>
+<li>1、绿色表示索引过程，对要搜索的原始内容进行索引构建一个索引库，索引过程包括：确定原始内容即要搜索的内容采集文档创建文档分析文档索引文档</li>
+<li>2、红色表示搜索过程，从索引库中搜索内容，搜索过程包括：用户通过搜索界面创建查询执行搜索，从索引库搜索渲染搜索结果</li>
+</ul>
+<h4 id="索引建立"><a href="#索引建立" class="headerlink" title="索引建立"></a>索引建立</h4><ul>
+<li>对文档索引的过程，将用户要搜索的文档内容进行索引，索引存储在索引库（index）中。这里我们要搜索的文档是磁盘上的文本文件，根据案例描述：凡是文件名或文件内容包括关键字的文件都要找出来，这里要对文件名和文件内容创建索引。<br><strong>1、获得原始文档</strong></li>
+<li>原始文档是指要索引和搜索的内容。原始内容<strong>包括互联网上的网页、数据库中的数据、磁盘上的文件等。</strong> </li>
+<li>从互联网上(网页)、数据库(SQL)、文件系统(IO)中等获取需要搜索的原始信息，<strong>这个过程就是信息采集</strong>，信息采集的目的是为了对原始内容进行索引。</li>
+<li>在Internet上采集信息的软件通常称为<strong>爬虫或蜘蛛</strong>，也称为网络机器人，爬虫访问互联网上的每一个网页，将获取到的网页内容存储起来。</li>
+<li><strong>Nutch:</strong>(<a target="_blank" rel="noopener" href="http://lucene.apache.org/nutch">http://lucene.apache.org/nutch</a>), Nutch是apache的一个子项目，包括<strong>大规模爬虫工具</strong>，能够抓取和分辨web网站数据。<br><strong>jsoup</strong>（<a target="_blank" rel="noopener" href="http://jsoup.org/">http://jsoup.org/</a> ），jsoup 是一款Java 的HTML解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API，可通过DOM，CSS以及类似于jQuery的操作方法来取出和操作数据。<br><strong>heritrix（<a target="_blank" rel="noopener" href="http://sourceforge.net/projects/archive-crawler/files/%EF%BC%89">http://sourceforge.net/projects/archive-crawler/files/）</a></strong>，Heritrix 是一个由 java 开发的、开源的网络爬虫，用户可以使用它来从网上抓取想要的资源。其最出色之处在于它良好的可扩展性，方便用户实现自己的抓取逻辑。</li>
+</ul>
+<p>  <strong>2、建文档对象</strong></p>
+<ul>
+<li><p>获取原始内容的目的是为了索引，在索引前需要将原始内容创建成文档（Document），文档中包括一个一个的域（Field），域中存储内容。</p>
+</li>
+<li><p>一个Document对象中放的是:一个网页内容、或一个文件内容、或表中的一条数据<br>这里我们可以将磁盘上的一个文件当成一个document，Document中包括一些Field（file_name文件名称、file_path文件路径、file_size文件大小、file_content文件内容）。</p>
+<p><strong>3、分析文档</strong></p>
+</li>
+<li><p>将原始内容创建为包含域（Field）的文档（document），需要再对域中的内容进行分析，分析的过程是经过对原始文档提取单词、将字母转为小写、去除标点符号、去除停用词等过程生成最终的语汇单元，可以将语汇单元理解为一个一个的单词。</p>
+</li>
+<li><p>比如下边的文档经过分析如下：</p>
+</li>
+<li><p>原文档内容：<br>  Lucene is a Java full-text search engine.  Lucene is not a complete<br>  application, but rather a code library and API that can easily be used<br>  to add search capabilities to applications.</p>
+</li>
+<li><p>分析后得到的语汇单元：<br>  lucene、java、full、search、engine。。。。</p>
+</li>
+<li><p>每个单词叫做一个Term，不同的域中拆分出来的相同的单词是不同的term。term中包含两部分一部分是文档的域名，另一部分是单词的内容。例如：文件名中包含apache和文件内容中包含的apache是不同的term。<br>举例:一个文件包含的信息:<br>1、文件名称<br>2、文件大小<br>3、文件路径<br>4、文件内容<br>一个网页包含的信息:<br>1、网络地址URL<br>2、网页标题<br>3、网页内容<br>一个sql数据包含的信息:<br>一条数据每个列的内容</p>
+<p><strong>4、创建索引</strong></p>
+</li>
+<li><p>对所有文档分析得出的语汇单元进行索引，索引的目的是为了搜索，最终要实现只搜索被索引的语汇单元从而找到Document（文档）。</p>
+</li>
+<li><p>注意：创建索引是对语汇单元索引，通过词语找文档，这种索引的结构叫<strong>倒排索引结构。</strong></p>
+</li>
+<li><p>传统方法是根据文件找到该文件的内容，在文件内容中匹配搜索关键字，这种方法是顺序扫描方法，数据量大、搜索慢。</p>
+</li>
+<li><p>倒排索引结构是根据内容（词语）找文档，<strong>倒排索引结构也叫反向索引结构</strong>，包括索引和文档两部分，索引即词汇表，它的规模较小，而文档集合较大</p>
+</li>
+</ul>
+<h4 id="查询索引"><a href="#查询索引" class="headerlink" title="查询索引"></a>查询索引</h4><ul>
+<li><p>查询索引也是<strong>搜索的过程</strong>。搜索就是用户输入关键字，从索引（index）中进行搜索的过程。根据关键字搜索索引，根据索引找到对应的文档，从而找到要搜索的内容。<br><strong>1、用户查询接口</strong></p>
+</li>
+<li><p>全文检索系统提供用户搜索的界面供用户提交搜索的关键字，搜索完成展示搜索结果</p>
+<p><strong>2、创建查询</strong></p>
+</li>
+<li><p>用户输入查询关键字执行搜索之前需要先构建一个查询对象，查询对象中可以指定查询要搜索的Field文档域、查询关键字等，查询对象会生成具体的查询语法，<br>例如：<br>语法 “fileName:lucene”表示要搜索Field域的内容为“lucene”的文档</p>
+<p><strong>3、执行查询</strong></p>
+</li>
+<li><p>搜索索引过程：<br>根据查询语法在<strong>倒排索引词典表中</strong>分别找出对应搜索词的索引，从而找到索引所链接的文档链表。<br>比如搜索语法为“fileName:lucene”表示搜索出fileName域中包含Lucene的文档。<br>搜索过程就是在索引上查找域为fileName，并且关键字为Lucene的term，并根据term找到文档id列表。</p>
+<p><strong>4、渲染结果</strong></p>
+</li>
+<li><p>以一个友好的界面将查询结果展示给用户，用户根据搜索结果找自己想要的信息，为了帮助用户很快找到自己的结果，提供了很多展示的效果，比如搜索结果中将关键字高亮显示，百度提供的快照等。</p>
+</li>
+</ul>
+<h3 id="核心API"><a href="#核心API" class="headerlink" title="核心API"></a>核心API</h3><ul>
+<li><strong>索引过程中的核心类</strong></li>
+<li><strong>Document文档：</strong>他是承载数据的实体（他可以集合信息域Field），是一个抽象的概念，一条记录经过索引之后，就是以一个Document的形式存储在索引文件中的。</li>
+<li><strong>Field：</strong>Field 索引中的每一个Document对象都包含一个或者多个不同的域(Field),域是由域名(name)和域值(value)对组成，每一个域都包含一段相应的数据信息。</li>
+<li><strong>IndexWriter：</strong>索引过程的核心组件。这个类用于创建一个新的索引并且把文档 加到已有的索引中去，也就是写入操作。</li>
+<li><strong>Directroy：</strong>是索引的存放位置，是个抽象类。具体的子类提供特定的存储索引的地址。（FSDirectory 将索引存放在指定的磁盘中，RAMDirectory ·将索引存放在内存中。）</li>
+<li><strong>Analyzer：</strong>分词器，在文本被索引之前，需要经过分词器处理，他负责从将被索引的文档中提取词汇单元，并剔除剩下的无用信息（停止词汇），分词器十分关键，因为不同的分词器，解析相同的文档结果会有很大的不同。Analyzer是一个抽象类，是所有分词器的基类。</li>
+<li><strong>搜索过程中的核心类</strong></li>
+<li><strong>IndexSearcher ：</strong>IndexSearcher 调用它的search方法，用于搜索IndexWriter 所创建的索引。</li>
+<li><strong>Term ：</strong>Term 使用于搜索的一个基本单元。</li>
+<li><strong>Query ：</strong> Query Lucene中含有多种查询（Query）子类。它们用于查询条件的限定其中TermQuery 是Lucene提供的最基本的查询类型，也是最简单的，它主要用来匹配在指定的域（Field）中包含了特定项(Term)的文档。</li>
+<li>**TermQuery :**Query下的一个子类TermQuery（单词条查询） ，Query lucene中有很多类似的子类。</li>
+<li><strong>TopDocs:</strong> 是一个存放有序搜索结果指针的简单容器，在这里搜索的结果是指匹配一个查询条件的一系列的文档。</li>
+</ul>
+<h4 id="入门例子"><a href="#入门例子" class="headerlink" title="入门例子"></a>入门例子</h4><ul>
+<li>核心jar依赖<pre><code class="line-numbers language-xml">&lt;dependency&gt;
+          &lt;groupId&gt;org.apache.lucene&lt;/groupId&gt;
+          &lt;artifactId&gt;lucene-core&lt;/artifactId&gt;
+          &lt;version&gt;5.3.1&lt;/version&gt;
+      &lt;/dependency&gt;
+      &lt;!--一般分词器，适用于英文分词--&gt;
+      &lt;dependency&gt;
+          &lt;groupId&gt;org.apache.lucene&lt;/groupId&gt;
+          &lt;artifactId&gt;lucene-analyzers-common&lt;/artifactId&gt;
+          &lt;version&gt;5.3.1&lt;/version&gt;
+      &lt;/dependency&gt;
+      &lt;dependency&gt;
+          &lt;groupId&gt;org.apache.lucene&lt;/groupId&gt;
+          &lt;artifactId&gt;lucene-queryparser&lt;/artifactId&gt;
+       &lt;version&gt;5.3.1&lt;/version&gt;
+      &lt;/dependency&gt;
+      &lt;dependency&gt;
+          &lt;groupId&gt;commons-io&lt;/groupId&gt;
+          &lt;artifactId&gt;commons-io&lt;/artifactId&gt;
+          &lt;version&gt;2.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+<li>创建索引<pre><code class="line-numbers language-java">@Test
+public void createIndex() throws Exception &#123;
+      //1、创建一个Director对象，指定索引库保存的位置。
+      //把索引库保存在内存中
+      //Directory directory = new RAMDirectory();
+      //把索引库保存在磁盘
+      Directory directory = FSDirectory.open(new File(&quot;/Users/sxm/Downloads/indextest&quot;).toPath());
+      //2、基于Directory对象创建一个IndexWriter对象
+      IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
+      IndexWriter indexWriter = new IndexWriter(directory, config);
+      //3、读取磁盘上的文件，对应每个文件创建一个文档对象。
+      File dir = new File(&quot;/Users/sxm/Downloads/searchsource&quot;);
+      File[] files = dir.listFiles();
+      for (File f :
+              files) &#123;
+          //取文件名
+          String fileName = f.getName();
+          //文件的路径
+          String filePath = f.getPath();
+          //创建Field
+          //参数1：域的名称，参数2：域的内容，参数3：是否存储
+          Field fieldName = new TextField(&quot;name&quot;, fileName, Field.Store.YES);
+          //Field fieldPath = new TextField(&quot;path&quot;, filePath, Field.Store.YES);
+          Field fieldPath = new StoredField(&quot;path&quot;, filePath);
+          //Field fieldContent = new TextField(&quot;content&quot;, FileUtils.readFileToString(f),Field.Store.YES);
+          Field fieldContent = new TextField(&quot;content&quot;, new FileReader(f));
+          Field fieldSize = new TextField(&quot;size&quot;, f.length() + &quot;&quot;, Field.Store.YES);
+          //创建文档对象
+          Document document = new Document();
+          //向文档对象中添加域
+          document.add(fieldName);
+          document.add(fieldPath);
+          document.add(fieldContent);
+          document.add(fieldSize);
+          //5、把文档对象写入索引库
+          indexWriter.addDocument(document);
+      &#125;
+      //6、关闭indexwriter对象
+      indexWriter.close();
+&#125;
+</code></pre>
+</li>
+<li>搜索索引<pre><code class="line-numbers language-java">@Test
+public void searchIndex() throws Exception &#123;
+      //1、创建一个Director对象，指定索引库的位置
+      Directory directory = FSDirectory.open(new File(&quot;/Users/sxm/Downloads/indextest&quot;).toPath());
+      //2、创建一个IndexReader对象
+      IndexReader indexReader = DirectoryReader.open(directory);
+      //3、创建一个IndexSearcher对象，构造方法中的参数indexReader对象。
+      IndexSearcher indexSearcher = new IndexSearcher(indexReader);
+      //4、创建一个Query对象，TermQuery
+      Query query = new TermQuery(new Term(&quot;content&quot;, &quot;java&quot;));
+      //5、执行查询，得到一个TopDocs对象
+      //参数1：查询对象 参数2：查询结果返回的最大记录数
+      TopDocs topDocs = indexSearcher.search(query, 10);
+      //6、取查询结果的总记录数
+      System.out.println(&quot;查询总记录数：&quot; + topDocs.totalHits);
+      //7、取文档列表
+      ScoreDoc[] scoreDocs = topDocs.scoreDocs;
+      //8、打印文档中的内容
+      for (ScoreDoc doc :
+              scoreDocs) &#123;
+          //取文档id
+          int docId = doc.doc;
+          //根据id取文档对象
+          Document document = indexSearcher.doc(docId);
+          System.out.println(document.get(&quot;name&quot;));
+          System.out.println(document.get(&quot;path&quot;));
+          System.out.println(document.get(&quot;size&quot;));
+          System.out.println(&quot;-----------------&quot;);
+      &#125;
+      //9、关闭IndexReader对象
+      indexReader.close();
+&#125;
+</code></pre>
+</li>
+</ul>
+<h4 id="lukeall-查看索引的可视化界面工具"><a href="#lukeall-查看索引的可视化界面工具" class="headerlink" title="lukeall-查看索引的可视化界面工具"></a>lukeall-查看索引的可视化界面工具</h4><p>下载地址：<a target="_blank" rel="noopener" href="https://github.com/DmitryKey/luke/releases">https://github.com/DmitryKey/luke/releases</a></p>
+<pre><code class="line-numbers language-shell">nohup java -jar lukeall.jar &gt; /dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th align="center">lukeall</th>
+<th align="center">lukeall document</th>
+<th align="center">lukeall search</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/lucene/lukeall.png"></td>
+<td align="center"><img src="/images/lucene/luckall_doc.png"></td>
+<td align="center"><img src="/images/lucene/lukeall_search.png"></td>
+</tr>
+</tbody></table>
+<h2 id="分析器"><a href="#分析器" class="headerlink" title="分析器"></a>分析器</h2><ul>
+<li>从一个Reader字符流开始，创建一个基于Reader的Tokenizer分词器，经过三个TokenFilter生成语汇单元Token。要看分析器的分析效果，只需要看Tokenstream中的内容就可以了。每个分析器都有一个方法tokenStream，返回一个tokenStream对象。</li>
+</ul>
+<h3 id="StandardAnalyzer标准分析器"><a href="#StandardAnalyzer标准分析器" class="headerlink" title="StandardAnalyzer标准分析器"></a>StandardAnalyzer标准分析器</h3><pre><code class="line-numbers language-java">public void doStandardAnalyzerToken(String text) throws IOException &#123;
+        Analyzer analyzer = new StandardAnalyzer();
+        TokenStream tokenStream = analyzer.tokenStream(null,text);
+        CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
+        tokenStream.reset();//设置指针
+        while (tokenStream.incrementToken())&#123;
+            System.out.print(charTermAttribute + &quot;|&quot;);
+        &#125;
+        tokenStream.end();
+        tokenStream.close();
+        analyzer.close();
+&#125;
+@Test
+public void testLucene() throws IOException &#123;
+        String englishText = &quot;I&#39;m fine,thanks!&quot;;
+        String chineseText = &quot;中国是一个伟大的国家!&quot;;
+        //标准分析器
+        System.out.print(&quot;英文分词效果:\n&quot; );
+        doStandardAnalyzerToken(englishText);
+        System.out.print(&quot;\n中文分词效果:\n&quot;);
+        doStandardAnalyzerToken(chineseText);
+
+&#125;
+// 输出结果：
+// 英文分词效果:
+// i&#39;m|fine|thanks|
+// 中文分词效果:
+// 中|国|是|一|个|伟|大|的|国|家|   
+</code></pre>
+<h3 id="CJKAnalyzer中日韩分词器"><a href="#CJKAnalyzer中日韩分词器" class="headerlink" title="CJKAnalyzer中日韩分词器"></a>CJKAnalyzer中日韩分词器</h3><p>中文被按两个字，拆分</p>
+<pre><code class="line-numbers language-java">public void doCJKAnalyzerToken(String text) throws IOException &#123;
+        Analyzer analyzer = new CJKAnalyzer();
+        TokenStream tokenStream = analyzer.tokenStream(null,text);
+        CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
+        tokenStream.reset();//设置指针
+        while (tokenStream.incrementToken())&#123;
+            System.out.print(charTermAttribute + &quot;|&quot;);
+        &#125;
+        tokenStream.end();
+        tokenStream.close();
+        analyzer.close();
+&#125;
+@Test
+public void testLucene() throws IOException &#123;
+        String englishText = &quot;I&#39;m fine,thanks!&quot;;
+        String chineseText = &quot;中国是一个伟大的国家!&quot;;
+        //标准分析器
+        System.out.print(&quot;英文分词效果:\n&quot; );
+        doCJKAnalyzerToken(englishText);
+        System.out.print(&quot;\n中文分词效果:\n&quot;);
+        doCJKAnalyzerToken(chineseText);
+
+&#125;
+// 输出结果:
+// 英文分词效果:
+// i&#39;m|fine|thanks|
+// 中文分词效果:
+// 中国|国是|是一|一个|个伟|伟大|大的|的国|国家|
+</code></pre>
+<h3 id="SmartChineseAnalyzer"><a href="#SmartChineseAnalyzer" class="headerlink" title="SmartChineseAnalyzer"></a>SmartChineseAnalyzer</h3><ul>
+<li>上边两个分词器无法满足中文分词需求，SmartChineseAnalyzer对中文支持较好，但扩展性差，扩展词库，禁用词库和同义词库等不好处理,处理英文也容易出现缺字母现象</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;dependency&gt;
+      &lt;groupId&gt;org.apache.lucene&lt;/groupId&gt;
+      &lt;artifactId&gt;lucene-analyzers-smartcn&lt;/artifactId&gt;
+      &lt;version&gt;4.10.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">public void doSmartChineseAnalyzerToken(String text) throws IOException &#123;
+        Analyzer analyzer = new SmartChineseAnalyzer();
+        TokenStream tokenStream = analyzer.tokenStream(null,text);
+        CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
+        tokenStream.reset();//设置指针
+        while (tokenStream.incrementToken())&#123;
+            System.out.print(charTermAttribute + &quot;|&quot;);
+        &#125;
+        tokenStream.end();
+        tokenStream.close();
+        analyzer.close();
+&#125;
+@Test
+public void testLucene() throws IOException &#123;
+        String englishText = &quot;Apache I&#39;m fine,thanks!&quot;;
+        String chineseText = &quot;中国是一个伟大的国家,整个民族自强不屈,艰苦奋斗,屹立于民族之林!&quot;;
+        //标准分析器
+        System.out.print(&quot;英文分词效果:\n&quot; );
+        doSmartChineseAnalyzerToken(englishText);
+        System.out.print(&quot;\n中文分词效果:\n&quot;);
+        doSmartChineseAnalyzerToken(chineseText);
+
+&#125;
+// 输出结果：
+// 英文分词效果:
+// apach|i|m|fine|thank|
+// 中文分词效果:
+// 中国|是|一个|伟大|的|国家|整个|民族|自强|不屈|艰苦奋斗|屹立|于|民族之林|
+</code></pre>
+<h3 id="其它的针对中文的三方分析器jar"><a href="#其它的针对中文的三方分析器jar" class="headerlink" title="其它的针对中文的三方分析器jar"></a>其它的针对中文的三方分析器jar</h3><ul>
+<li><strong>paoding：</strong> 庖丁解牛最新版在 <a target="_blank" rel="noopener" href="https://code.google.com/p/paoding/">https://code.google.com/p/paoding/</a> 中最多支持Lucene 3.0，且最新提交的代码在 2008-06-03，在svn中最新也是2010年提交，<strong>已经过时，不予考虑。</strong></li>
+<li><strong>mmseg4j：</strong>最新版已从 <a target="_blank" rel="noopener" href="https://code.google.com/p/mmseg4j/">https://code.google.com/p/mmseg4j/</a> 移至 <a target="_blank" rel="noopener" href="https://github.com/chenlb/mmseg4j-solr%EF%BC%8C%E6%94%AF%E6%8C%81Lucene">https://github.com/chenlb/mmseg4j-solr，支持Lucene</a> 4.10，且在github中最新提交代码是2014年6月，从09年～14年一共有：18个版本，也就是一年几乎有3个大小版本，有较大的活跃度，用了mmseg算法。</li>
+<li><strong>IK-analyzer：</strong> 最新版在<a target="_blank" rel="noopener" href="https://code.google.com/p/ik-analyzer/%E4%B8%8A%EF%BC%8C%E6%94%AF%E6%8C%81Lucene">https://code.google.com/p/ik-analyzer/上，支持Lucene</a> 4.10从2006年12月推出1.0版开始， IKAnalyzer已经推出了4个大版本。最初，它是以开源项目Luence为应用主体的，结合词典分词和文法分析算法的中文分词组件。从3.0版本开 始，IK发展为面向Java的公用分词组件，独立于Lucene项目，同时提供了对Lucene的默认优化实现。在2012版本中，IK实现了简单的分词 歧义排除算法，<strong>标志着IK分词器从单纯的词典分词向模拟语义分词衍化。</strong> 但是也就是2012年12月后没有在更新。</li>
+<li><strong>ansj_seg：</strong>最新版本在 <a target="_blank" rel="noopener" href="https://github.com/NLPchina/ansj_seg">https://github.com/NLPchina/ansj_seg</a> tags仅有1.1版本，从2012年到2014年更新了大小6次，但是作者本人在2014年10月10日说明：“可能我以后没有精力来维护ansj_seg了”，现在由”nlp_china”管理。2014年11月有更新。并未说明是否支持Lucene，是一个由CRF（条件随机场）算法所做的分词算法。</li>
+<li><strong>imdict-chinese-analyzer：</strong>最新版在 <a target="_blank" rel="noopener" href="https://code.google.com/p/imdict-chinese-analyzer/">https://code.google.com/p/imdict-chinese-analyzer/</a> ， 最新更新也在2009年5月，下载源码，<strong>不支持Lucene 4.10</strong>。是利用HMM（隐马尔科夫链）算法。</li>
+<li><strong>Jcseg：</strong>最新版本在git.oschina.net&#x2F;lionsoul&#x2F;jcseg，支持Lucene 4.10，作者有较高的活跃度。利用mmseg算法。</li>
+</ul>
+<h3 id="IK-analyzer三方流行的中文分词器"><a href="#IK-analyzer三方流行的中文分词器" class="headerlink" title="IK-analyzer三方流行的中文分词器"></a>IK-analyzer三方流行的中文分词器</h3><pre><code class="line-numbers language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.wltea&lt;/groupId&gt;
+  &lt;artifactId&gt;IKAnalyzer&lt;/artifactId&gt;
+  &lt;version&gt;2012FF_hf1&lt;/version&gt;
+  &lt;scope&gt;system&lt;/scope&gt;
+  &lt;systemPath&gt;$&#123;project.basedir&#125;/lib/IKAnalyzer2012FF_u1.jar&lt;/systemPath&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>项目classpath下添加配置文件IKAnalyzer.cfg.xml</p>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE properties SYSTEM &quot;http://java.sun.com/dtd/properties.dtd&quot;&gt;  
+&lt;properties&gt;  
+    &lt;comment&gt;IK Analyzer 扩展配置&lt;/comment&gt;
+    &lt;!--用户可以在这里配置自己的扩展字典 
+    &lt;entry key=&quot;ext_dict&quot;&gt;ext.dic;&lt;/entry&gt; 
+    --&gt;
+    &lt;!--用户可以在这里配置自己的扩展停止词字典--&gt;
+    &lt;entry key=&quot;ext_stopwords&quot;&gt;stopword.dic;&lt;/entry&gt; 
+&lt;/properties&gt;
+</code></pre>
+<p>stopword.dic文件也需要添加到项目classpath下，扩展配置停止字词,这里面配置的不会变成term词语<br>ext.dic 这个可以添加一些专有名词，这样分词器可以解析成term词语</p>
+<pre><code class="line-numbers language-java">public void doIKAnalyzerToken(String text) throws IOException &#123;
+        Analyzer analyzer = new IKAnalyzer();
+        TokenStream tokenStream = analyzer.tokenStream(null,text);
+        CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
+        tokenStream.reset();//设置指针
+        while (tokenStream.incrementToken())&#123;
+            System.out.print(charTermAttribute + &quot;|&quot;);
+        &#125;
+        tokenStream.end();
+        tokenStream.close();
+        analyzer.close();
+&#125;
+@Test
+public void testLucene() throws IOException &#123;
+        String englishText = &quot;Apache I&#39;m fine,thanks!&quot;;
+        String chineseText = &quot;中国是一个伟大的国家,整个民族自强不屈,艰苦奋斗,屹立于民族之林!&quot;;
+        //标准分析器
+        System.out.print(&quot;英文分词效果:\n&quot; );
+        doIKAnalyzerToken(englishText);
+        System.out.print(&quot;\n中文分词效果:\n&quot;);
+        doIKAnalyzerToken(chineseText);
+&#125;
+// 输出结果：
+// 英文分词效果:
+// 加载扩展停止词典：stopword.dic
+// apache|i|m|fine|thanks|
+// 中文分词效果:
+// 中国|国是|一个|一|个|伟大|国家|整个|民族|自强|不屈|艰苦奋斗|艰苦|奋斗|屹立|立于|民族之林|民族|之|林|
+</code></pre>
+<h4 id="分词器的使用时机"><a href="#分词器的使用时机" class="headerlink" title="分词器的使用时机"></a>分词器的使用时机</h4><ul>
+<li>1、需要查询就需要分词</li>
+<li>2、查询时也需要分词</li>
+</ul>
+<h2 id="索引库的维护"><a href="#索引库的维护" class="headerlink" title="索引库的维护"></a>索引库的维护</h2><h3 id="添加文档。"><a href="#添加文档。" class="headerlink" title="添加文档。"></a>添加文档。</h3><p>示例添加：</p>
+<pre><code class="line-numbers language-java">@Test
+public void addDocument() throws Exception &#123;
+        //索引库存放路径
+        Directory directory = FSDirectory.open(new File(&quot;/Users/sxm/indextest&quot;));
+        IndexWriterConfig config = new IndexWriterConfig(Version.LATEST, new IKAnalyzer());
+        //创建一个indexwriter对象
+        IndexWriter indexWriter = new IndexWriter(directory, config);
+        //创建一个Document对象
+        Document document = new Document();
+        //向document对象中添加域。
+        //不同的document可以有不同的域，同一个document可以有相同的域。
+        document.add(new TextField(&quot;filename&quot;, &quot;新添加的文档&quot;, Field.Store.YES));
+        document.add(new TextField(&quot;content&quot;, &quot;新添加的文档的内容&quot;, Field.Store.NO));
+        document.add(new TextField(&quot;content&quot;, &quot;新添加的文档的内容第二个content&quot;, Field.Store.YES));
+        document.add(new TextField(&quot;content1&quot;, &quot;新添加的文档的内容要能看到&quot;, Field.Store.YES));
+        //添加文档到索引库
+        indexWriter.addDocument(document);
+        //关闭indexwriter
+        indexWriter.close();
+&#125;
+</code></pre>
+<h4 id="Field域的属性"><a href="#Field域的属性" class="headerlink" title="Field域的属性"></a>Field域的属性</h4><ul>
+<li><strong>是否分析：</strong>是否对域的内容进行分词处理。前提是我们要对域的内容进行查询。</li>
+<li><strong>是否索引：</strong>将Field分析后的词或整个Field值进行索引，<strong>只有索引方可搜索到。</strong>比如：商品名称、商品简介分析后进行索引，订单号、身份证号不用分析但也要索引，这些将来都要作为查询条件。</li>
+<li><strong>是否存储：</strong>将Field值存储在文档中，<strong>存储在文档中的Field才可以从Document中获取</strong>。比如：商品名称、订单号，凡是将来要从Document中获取的Field都要存储。<br><strong>是否存储的标准：是否要将内容展示给用户</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">Field类</th>
+<th align="center">数据类型</th>
+<th align="center">Analyzed是否分析</th>
+<th align="center">Indexed是否索引</th>
+<th align="center">Stored是否存储</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">StringField(FieldName, FieldValue,Store.YES)</td>
+<td align="center">字符串</td>
+<td align="center">N</td>
+<td align="center">Y</td>
+<td align="center">Y或N</td>
+<td align="center">这个Field用来构建一个字符串Field，但是不会进行分析，会将整个串存储在索引中，比如(订单号,姓名等)是否存储在文档中用Store.YES或Store.NO决定</td>
+</tr>
+<tr>
+<td align="center">LongField(FieldName, FieldValue,Store.YES)</td>
+<td align="center">Long型</td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td align="center">Y或N</td>
+<td align="center">这个Field用来构建一个Long数字型Field，进行分析和索引，比如(价格)是否存储在文档中用Store.YES或Store.NO决定</td>
+</tr>
+<tr>
+<td align="center">StoredField(FieldName, FieldValue)</td>
+<td align="center">重载方法，支持多种类型</td>
+<td align="center">N</td>
+<td align="center">N</td>
+<td align="center">Y</td>
+<td align="center">这个Field用来构建不同类型Field不分析，不索引，但要Field存储在文档中</td>
+</tr>
+<tr>
+<td align="center">TextField(FieldName, FieldValue, Store.NO)或TextField(FieldName, reader)</td>
+<td align="center">字符串或流</td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td align="center">Y或N</td>
+<td align="center">如果是一个Reader, lucene猜测内容比较多,会采用Unstored的策略.</td>
+</tr>
+</tbody></table>
+<h3 id="删除文档。"><a href="#删除文档。" class="headerlink" title="删除文档。"></a>删除文档。</h3><p>示例删除：</p>
+<pre><code class="line-numbers language-java">//删除全部索引
+@Test
+public void deleteAllIndex() throws Exception &#123;
+        IndexWriter indexWriter = getIndexWriter();
+        //删除全部索引
+        indexWriter.deleteAll();
+        //关闭indexwriter
+        indexWriter.close();
+&#125;
+//根据查询条件删除索引
+@Test
+public void deleteIndexByQuery() throws Exception &#123;
+        IndexWriter indexWriter = getIndexWriter();
+        //创建一个查询条件
+        Query query = new TermQuery(new Term(&quot;filename&quot;, &quot;apache&quot;));
+        //根据查询条件删除
+        indexWriter.deleteDocuments(query);
+        //关闭indexwriter
+        indexWriter.close();
+&#125;
+</code></pre>
+<h3 id="修改文档。"><a href="#修改文档。" class="headerlink" title="修改文档。"></a>修改文档。</h3><p>示例修改</p>
+<pre><code class="line-numbers language-java">@Test
+public void updateIndex() throws Exception &#123;
+        IndexWriter indexWriter = getIndexWriter();
+        //创建一个Document对象
+        Document document = new Document();
+        //向document对象中添加域。
+        //不同的document可以有不同的域，同一个document可以有相同的域。
+        document.add(new TextField(&quot;filename&quot;, &quot;要更新的文档&quot;, Store.YES));
+        document.add(new TextField(&quot;content&quot;, &quot;Lucene 简介 Lucene 是一个基于 Java 的全文信息检索工具包,它不是一个完整的搜索应用程序,而是为你的应用程序提供索引和搜索功能。&quot;, Store.YES));
+        indexWriter.updateDocument(new Term(&quot;content&quot;, &quot;java&quot;), document);
+        //关闭indexWriter
+        indexWriter.close();
+&#125;
+</code></pre>
+<h2 id="Lucene的查询"><a href="#Lucene的查询" class="headerlink" title="Lucene的查询"></a>Lucene的查询</h2><ul>
+<li>对要搜索的信息创建Query查询对象，Lucene会根据Query查询对象生成最终的查询语法，类似关系数据库Sql语法一样Lucene也有自己的查询语法，比如：“name:lucene”表示查询Field的name为“lucene”的文档信息。可通过两种方法创建查询对象,第一种是使用Lucene提供Query子类，第二种是使用QueryParse解析查询表达式</li>
+</ul>
+<h3 id="使用-Query的子类查询。"><a href="#使用-Query的子类查询。" class="headerlink" title="使用 Query的子类查询。"></a>使用 Query的子类查询。</h3><ul>
+<li>Query是一个抽象类，lucene提供了很多查询对象，比如TermQuery项精确查询，NumericRangeQuery数字范围查询等。<br> 1)、MatchAllDocsQuery<br> 2)、TermQuery。<br> 3)、NumericRangeQuery<br> 4)、BooleanQuery.<pre><code class="line-numbers language-java">//使用MatchAllDocsQuery查询索引目录中的所有文档
+@Test
+public void testMatchAllDocsQuery() throws Exception &#123;
+      IndexSearcher indexSearcher = getIndexSearcher();
+      //创建查询条件
+      Query query = new MatchAllDocsQuery();
+      //执行查询
+      printResult(query, indexSearcher);
+&#125;
+</code></pre>
+<strong>TermQuery，通过项查询，TermQuery不使用分析器所以建议匹配不分词的Field域查询，</strong>比如订单号、分类ID号等。指定要查询的域和要查询的关键词<pre><code class="line-numbers language-java">//使用Termquery查询
+@Test
+public void testTermQuery() throws Exception &#123;
+      IndexSearcher indexSearcher = getIndexSearcher();
+      //创建查询对象
+      Query query = new TermQuery(new Term(&quot;content&quot;, &quot;lucene&quot;));
+      //执行查询
+      TopDocs topDocs = indexSearcher.search(query, 10);
+      //共查询到的document个数
+      System.out.println(&quot;查询结果总数量：&quot; + topDocs.totalHits);
+      //遍历查询结果
+      for (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;
+          Document document = indexSearcher.doc(scoreDoc.doc);
+          System.out.println(document.get(&quot;filename&quot;));
+          //System.out.println(document.get(&quot;content&quot;));
+          System.out.println(document.get(&quot;path&quot;));
+          System.out.println(document.get(&quot;size&quot;));
+      &#125;
+      //关闭indexreader
+      indexSearcher.getIndexReader().close();
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">//数值范围查询
+Query query = NumericRangeQuery.newLongRange(&quot;size&quot;, 1l, 1000l, true, true);
+</code></pre>
+<pre><code class="line-numbers language-java">//可以组合查询条件,创建一个布尔查询对象
+  BooleanQuery query = new BooleanQuery();
+//创建第一个查询条件
+Query query1 = new TermQuery(new Term(&quot;filename&quot;, &quot;apache&quot;));
+Query query2 = new TermQuery(new Term(&quot;content&quot;, &quot;apache&quot;));
+//组合查询条件
+query.add(query1, Occur.MUST);
+query.add(query2, Occur.MUST);
+// Occur.MUST：必须满足此条件，相当于and
+// Occur.SHOULD：应该满足，但是不满足也可以，相当于or
+// Occur.MUST_NOT：必须不满足。相当于not
+</code></pre>
+</li>
+</ul>
+<h3 id="使用QueryParsers"><a href="#使用QueryParsers" class="headerlink" title="使用QueryParsers"></a>使用QueryParsers</h3><ul>
+<li>QueryParse会将用户输入的查询表达式解析成Query对象实例,通过QueryParser可以创建Query，QueryParser提供一个Parse方法，此方法可以直接根据查询语法来查询。查询需要使用到分析器。建议创建索引时使用的分析器和查询索引时使用的分析器要一致。<br>jar依赖:<pre><code class="line-numbers language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.apache.lucene&lt;/groupId&gt;
+  &lt;artifactId&gt;lucene-queryparser&lt;/artifactId&gt;
+  &lt;version&gt;4.10.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+ 1)、<strong>QueryParser</strong><pre><code class="line-numbers language-java">QueryParser queryParser = new QueryParser(&quot;name&quot;, new IKAnalyzer());
+Query query = queryParser.parse(&quot;name:lucene&quot;);
+//
+QueryParser queryParser2 = new QueryParser(&quot;content&quot;, new IKAnalyzer());
+Query query2 = queryParser2.parse(&quot;Lucene是java开发的&quot;);
+</code></pre>
+ 2)、MulitFieldQueryParser。<pre><code class="line-numbers language-java">@Test
+public void testMultiFiledQueryParser() throws Exception &#123;
+      //可以指定默认搜索的域是多个
+      String[] fields = &#123;&quot;filename&quot;, &quot;content&quot;&#125;;
+      //创建一个MulitFiledQueryParser对象
+      MultiFieldQueryParser queryParser = new MultiFieldQueryParser(fields, new IKAnalyzer());
+      Query query = queryParser.parse(&quot;java and apache&quot;);
+&#125;
+</code></pre>
+</li>
+</ul>
+<h4 id="查询语法"><a href="#查询语法" class="headerlink" title="查询语法"></a>查询语法</h4><ul>
+<li>1、基础的查询语法，关键词查询：<br> 域名+“：”+搜索的关键字，例如：content:java</li>
+<li>2、范围查询<br> 域名+“:”+[最小值 TO 最大值] 例如：size:[1 TO 1000] <strong>范围查询在lucene中不支持数值类型，支持字符串类型。在solr中支持数值类型。</strong></li>
+<li>3、组合条件查询<br> 1）+条件1 +条件2：两个条件之间是并且的关系and 例如：+filename:apache +content:apache<br> 2）+条件1 条件2：必须满足第一个条件，应该满足第二个条件 例如：+filename:apache content:apache<br> 3）条件1 条件2：两个条件满足其一即可。例如：filename:apache content:apache<br> 4）-条件1 条件2：必须不满足条件1，要满足条件2 例如：-filename:apache content:apache</li>
+</ul>
+<h2 id="相关度排序-竞价排序"><a href="#相关度排序-竞价排序" class="headerlink" title="相关度排序(竞价排序)"></a>相关度排序(竞价排序)</h2><ul>
+<li>相关度排序是查询结果按照与查询关键字的相关性进行排序，越相关的越靠前。比如搜索“Lucene”关键字，与该关键字最相关的文章应该排在前边。</li>
+</ul>
+<h3 id="相关度打分"><a href="#相关度打分" class="headerlink" title="相关度打分"></a>相关度打分</h3><ul>
+<li><strong>Lucene对查询关键字和索引文档的相关度进行打分，得分高的就排在前边</strong>。如何打分呢？Lucene是在用户进行检索时实时根据搜索的关键字计算出来的，分两步：<br>  1）计算出词（Term）的权重<br>  2）根据词的权重值，采用空间向量模型算法计算文档相关度得分。</li>
+</ul>
+<h4 id="什么是词的权重？"><a href="#什么是词的权重？" class="headerlink" title="什么是词的权重？"></a>什么是词的权重？</h4><ul>
+<li>通过索引部分的学习<strong>明确索引的最小单位是一个Term(索引词典中的一个词)<strong>，搜索也是要从Term中搜索，再根据Term找到文档，</strong>Term对文档的重要性称为权重</strong>，影响Term权重有两个因素：</li>
+<li>Term Frequency (tf)：<br>  指此Term在此文档中出现了多少次。<strong>tf 越大说明越重要。</strong>词(Term)在文档中出现的次数越多，说明此词(Term)对该文档越重要，如“Lucene”这个词，在文档中出现的次数很多，说明该文档主要就是讲Lucene技术的。</li>
+<li>Document Frequency (df)<br>  <strong>即有多少文档包含次Term。df 越大说明越不重要。</strong><br> 比如，在一篇英语文档中，this出现的次数更多，就说明越重要吗？不是的，有越多的文档包含此词(Term), 说明此词(Term)太普通，不足以区分这些文档，因而重要性越低。</li>
+</ul>
+<h4 id="设置boost影响打分结果"><a href="#设置boost影响打分结果" class="headerlink" title="设置boost影响打分结果"></a>设置boost影响打分结果</h4><ul>
+<li>boost是一个加权值（默认加权值为1.0f），它可以影响权重的计算。<br>  <strong>在索引时对某个文档的Field域设置加权值高，在搜索时匹配到这个Field就可能排在前边</strong>。lucene在执行搜索时对某个域进行加权，在进行组合域查询时，匹配到加权值高的域最后计算的相关度得分就高。<br>  如果希望某些文档更重要，当此文档中包含所要查询的词则应该得分较高，这样相关度排序可以排在前边，可以在创建索引时设定文档中某些域（Field）的boost值来实现，如果不进行设定，则Field Boost默认为1.0f。一旦设定，除非删除此文档，否则无法改变。<br>  代码：field. setBoost(XXXf); XXX即权值。<pre><code class="line-numbers language-java">if(file_name.equals(&quot;springmvc.txt&quot;))&#123;
+//设置比默认值 1.0大的
+field_file_content.setBoost(20.0f);
+&#125;
+if(file_name.equals(&quot;spring_README.txt&quot;))&#123;
+//设置比默认值 1.0大的
+field_file_content.setBoost(30.0f);
+&#125;
+//向文档中添加Field
+document.add(field_file_content);
+</code></pre>
+</li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>lucene</p><p><a href="http://example.com/2017/06/02/framework/lucene/lucene/">http://example.com/2017/06/02/framework/lucene/lucene/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2017-06-02</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-06-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/lucene/">lucene</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/06/03/framework/lucene/solr/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">solr</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/06/01/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-item">微信支付介绍</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#lucene系统架构"><span class="level-left"><span class="level-item">1</span><span class="level-item">lucene系统架构</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#特点"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">特点</span></span></a></li></ul></li><li><a class="level is-mobile" href="#lucene基础"><span class="level-left"><span class="level-item">2</span><span class="level-item">lucene基础</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#lucene经典应用"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">lucene经典应用</span></span></a></li><li><a class="level is-mobile" href="#lucene下载"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">lucene下载</span></span></a></li><li><a class="level is-mobile" href="#lucene使用"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">lucene使用</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#索引建立"><span class="level-left"><span class="level-item">2.3.1</span><span class="level-item">索引建立</span></span></a></li><li><a class="level is-mobile" href="#查询索引"><span class="level-left"><span class="level-item">2.3.2</span><span class="level-item">查询索引</span></span></a></li></ul></li><li><a class="level is-mobile" href="#核心API"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">核心API</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#入门例子"><span class="level-left"><span class="level-item">2.4.1</span><span class="level-item">入门例子</span></span></a></li><li><a class="level is-mobile" href="#lukeall-查看索引的可视化界面工具"><span class="level-left"><span class="level-item">2.4.2</span><span class="level-item">lukeall-查看索引的可视化界面工具</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#分析器"><span class="level-left"><span class="level-item">3</span><span class="level-item">分析器</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#StandardAnalyzer标准分析器"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">StandardAnalyzer标准分析器</span></span></a></li><li><a class="level is-mobile" href="#CJKAnalyzer中日韩分词器"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">CJKAnalyzer中日韩分词器</span></span></a></li><li><a class="level is-mobile" href="#SmartChineseAnalyzer"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">SmartChineseAnalyzer</span></span></a></li><li><a class="level is-mobile" href="#其它的针对中文的三方分析器jar"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">其它的针对中文的三方分析器jar</span></span></a></li><li><a class="level is-mobile" href="#IK-analyzer三方流行的中文分词器"><span class="level-left"><span class="level-item">3.5</span><span class="level-item">IK-analyzer三方流行的中文分词器</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#分词器的使用时机"><span class="level-left"><span class="level-item">3.5.1</span><span class="level-item">分词器的使用时机</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#索引库的维护"><span class="level-left"><span class="level-item">4</span><span class="level-item">索引库的维护</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#添加文档。"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">添加文档。</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Field域的属性"><span class="level-left"><span class="level-item">4.1.1</span><span class="level-item">Field域的属性</span></span></a></li></ul></li><li><a class="level is-mobile" href="#删除文档。"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">删除文档。</span></span></a></li><li><a class="level is-mobile" href="#修改文档。"><span class="level-left"><span class="level-item">4.3</span><span class="level-item">修改文档。</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Lucene的查询"><span class="level-left"><span class="level-item">5</span><span class="level-item">Lucene的查询</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#使用-Query的子类查询。"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">使用 Query的子类查询。</span></span></a></li><li><a class="level is-mobile" href="#使用QueryParsers"><span class="level-left"><span class="level-item">5.2</span><span class="level-item">使用QueryParsers</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#查询语法"><span class="level-left"><span class="level-item">5.2.1</span><span class="level-item">查询语法</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#相关度排序-竞价排序"><span class="level-left"><span class="level-item">6</span><span class="level-item">相关度排序(竞价排序)</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#相关度打分"><span class="level-left"><span class="level-item">6.1</span><span class="level-item">相关度打分</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#什么是词的权重？"><span class="level-left"><span class="level-item">6.1.1</span><span class="level-item">什么是词的权重？</span></span></a></li><li><a class="level is-mobile" href="#设置boost影响打分结果"><span class="level-left"><span class="level-item">6.1.2</span><span class="level-item">设置boost影响打分结果</span></span></a></li></ul></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

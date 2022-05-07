@@ -1,0 +1,1543 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>mybatis框架 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="框架什么是框架 框架(Framework) 是整个或部分系统的可重用设计，表现为一组抽象构件及构件实例间交互的方法;另一种定义认为，框架是可被应用开发者定制的应用骨架。前者是从应用方面而后者是从目的方面给出的定义。简而言之，框架其实就是某种应用的半成品，就是一组组件，供你选用完成你自己的系统。简单说就是使用别人搭好的舞台，你来做表演。而且，框架一般是成熟的，不断升级的软件。框架要解决的问题 框架要"><meta property="og:type" content="blog"><meta property="og:title" content="mybatis框架"><meta property="og:url" content="http://example.com/2013/11/03/framework/%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6/mybatis/mybatis/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="框架什么是框架 框架(Framework) 是整个或部分系统的可重用设计，表现为一组抽象构件及构件实例间交互的方法;另一种定义认为，框架是可被应用开发者定制的应用骨架。前者是从应用方面而后者是从目的方面给出的定义。简而言之，框架其实就是某种应用的半成品，就是一组组件，供你选用完成你自己的系统。简单说就是使用别人搭好的舞台，你来做表演。而且，框架一般是成熟的，不断升级的软件。框架要解决的问题 框架要"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/database/mybatis/mybatis%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84.png"><meta property="og:image" content="http://example.com/images/javase/mybatis%E8%B5%84%E6%BA%90%E7%9B%AE%E5%BD%95.png"><meta property="og:image" content="http://example.com/images/database/mybatis/mybatis_settings.png"><meta property="og:image" content="http://example.com/images/database/mybatis/mapper-xml.png"><meta property="og:image" content="http://example.com/images/database/mybatis/sql%E7%89%87%E6%AE%B5.png"><meta property="og:image" content="http://example.com/images/database/mybatis/%E8%B7%A8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E7%94%A8sql%E7%89%87%E6%AE%B5.png"><meta property="og:image" content="http://example.com/images/database/mybatis/%E5%8A%A8%E6%80%81SQL.png"><meta property="og:image" content="http://example.com/images/database/mybatis/choose.png"><meta property="og:image" content="http://example.com/images/javase/user%E8%A1%A8%E6%95%B0%E6%8D%AE.png"><meta property="og:image" content="http://example.com/images/javase/account%E8%A1%A8%E6%95%B0%E6%8D%AE.png"><meta property="og:image" content="http://example.com/images/javase/user%E8%A1%A8%E6%95%B0%E6%8D%AE.png"><meta property="og:image" content="http://example.com/images/javase/user_role%E8%A1%A8%E6%95%B0%E6%8D%AE.png"><meta property="og:image" content="http://example.com/images/javase/role%E6%95%B0%E6%8D%AE.png"><meta property="og:image" content="http://example.com/images/javase/%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD.png"><meta property="og:image" content="http://example.com/images/javase/%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD2.png"><meta property="og:image" content="http://example.com/images/javase/%E6%87%92%E5%8A%A0%E8%BD%BD3.png"><meta property="og:image" content="http://example.com/images/javase/%E6%87%92%E5%8A%A0%E8%BD%BD4.png"><meta property="og:image" content="http://example.com/images/javase/%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98.png"><meta property="article:published_time" content="2013-11-03T12:52:41.000Z"><meta property="article:modified_time" content="2020-07-29T17:58:59.681Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="持久层"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/database/mybatis/mybatis%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2013/11/03/framework/%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6/mybatis/mybatis/"},"headline":"mybatis框架","image":["http://example.com/images/database/mybatis/mybatis%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84.png","http://example.com/images/javase/mybatis%E8%B5%84%E6%BA%90%E7%9B%AE%E5%BD%95.png","http://example.com/images/database/mybatis/mybatis_settings.png","http://example.com/images/database/mybatis/mapper-xml.png","http://example.com/images/database/mybatis/sql%E7%89%87%E6%AE%B5.png","http://example.com/images/database/mybatis/%E8%B7%A8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E7%94%A8sql%E7%89%87%E6%AE%B5.png","http://example.com/images/database/mybatis/%E5%8A%A8%E6%80%81SQL.png","http://example.com/images/database/mybatis/choose.png","http://example.com/images/javase/user%E8%A1%A8%E6%95%B0%E6%8D%AE.png","http://example.com/images/javase/account%E8%A1%A8%E6%95%B0%E6%8D%AE.png","http://example.com/images/javase/user%E8%A1%A8%E6%95%B0%E6%8D%AE.png","http://example.com/images/javase/user_role%E8%A1%A8%E6%95%B0%E6%8D%AE.png","http://example.com/images/javase/role%E6%95%B0%E6%8D%AE.png","http://example.com/images/javase/%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD.png","http://example.com/images/javase/%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD2.png","http://example.com/images/javase/%E6%87%92%E5%8A%A0%E8%BD%BD3.png","http://example.com/images/javase/%E6%87%92%E5%8A%A0%E8%BD%BD4.png","http://example.com/images/javase/%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98.png"],"datePublished":"2013-11-03T12:52:41.000Z","dateModified":"2020-07-29T17:58:59.681Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"框架什么是框架 框架(Framework) 是整个或部分系统的可重用设计，表现为一组抽象构件及构件实例间交互的方法;另一种定义认为，框架是可被应用开发者定制的应用骨架。前者是从应用方面而后者是从目的方面给出的定义。简而言之，框架其实就是某种应用的半成品，就是一组组件，供你选用完成你自己的系统。简单说就是使用别人搭好的舞台，你来做表演。而且，框架一般是成熟的，不断升级的软件。框架要解决的问题 框架要"}</script><link rel="canonical" href="http://example.com/2013/11/03/framework/%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6/mybatis/mybatis/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2013-11-03T12:52:41.000Z" title="2013/11/3 下午8:52:41">2013-11-03</time>发表</span><span class="level-item"><time dateTime="2020-07-29T17:58:59.681Z" title="2020/7/30 上午1:58:59">2020-07-30</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a><span> / </span><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/">数据持久层</a><span> / </span><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/">mybatis框架</a></span><span class="level-item">1 小时读完 (大约10015个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">mybatis框架</h1><div class="content"><h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><h3 id="什么是框架"><a href="#什么是框架" class="headerlink" title="什么是框架"></a>什么是框架</h3><ul>
+<li><strong>框架(Framework) 是整个或部分系统的可重用设计</strong>，表现为一组抽象构件及构件实例间交互的方法;另一种定义认为，框架是可被应用开发者定制的应用骨架。前者是从应用方面而后者是从目的方面给出的定义。<strong>简而言之，框架其实就是某种应用的半成品，就是一组组件，供你选用完成你自己的系统</strong>。简单说就是使用别人搭好的舞台，你来做表演。而且，框架一般是成熟的，不断升级的软件。<h3 id="框架要解决的问题"><a href="#框架要解决的问题" class="headerlink" title="框架要解决的问题"></a>框架要解决的问题</h3></li>
+<li>框架要解决的最重要的一个问题是技术整合的问题，框架一般处在低层应用平台(如J2EE)和高层业务逻辑之间的中间层。<h2 id="mybatis框架"><a href="#mybatis框架" class="headerlink" title="mybatis框架"></a>mybatis框架</h2></li>
+<li>mybatis框架是一种解决数据的持久化问题的框架，mybatis本是apache的一个开源项目iBatis, 2010年这个项目由apache software foundation迁移到了google code,并且改名为mybatis。2013年11月迁移到Github。<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3></li>
+<li>mybatis是一个优秀的基于java的持久层框架，它内部封装了jdbc,使开发者只需要关注sq|语句本身，而不需要花费精力去处理加载驱动、创建连接、创建statement等繁杂的过程。</li>
+<li>mybatis通过xml或注解的方式将要执行的各种statement配置起来,并通过java对象和statement中sqI的动态参数进行映射生成最终执行的sq|语句，最后由mybatis框架执行sql并将结果映射为java对象并返回。</li>
+<li>采用ORM思想解决了实体和数据库映射的问题，对jdbc进行了封装，屏蔽了jdbc api底层访问细节，使我们不用与jdbc api打交道，就可以完成对数据库的持久化操作。<span id="more"></span>
+<h3 id="mybatis架构"><a href="#mybatis架构" class="headerlink" title="mybatis架构"></a>mybatis架构</h3><img src="/images/database/mybatis/mybatis%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84.png"></li>
+<li><strong>总结</strong><br>1、 mybatis的配置文件有2类<br>  a）mybatisconfig.xml，，配置文件的名称不是固定的，配置了全局的参数的配置，全局只能有一个配置文件<br>  b） Mapper.xml配置多个 statemement，也就是多个sql，整个 mybatis框架中可以有多个 Mappe.xml配置文件。<br>2、通过 mybatis配置文件得到 Sqlsessionfactory(有Spring容器跟无Spring容器获取的方法)<br>3、通过 Sqlsessionfactory得到 Sqlsession，，得到 Sqlsession就可以操作数据了。<br>4、 Sqlsession通过底层的 Executor（执行器），执行器有2类实现<br>  a）基本实现<br>  b）带有缓存功能的实现<br>5、 Mappedstatement是通过 Mapper.xml中定义 statement生成的对象<br>6、参数输入，无需手动判断参数类型和参数下标位置<br>  a） Hashmap，KV格式的数据类型<br>  b）Java的基本数据类型<br>  c）POO，java的对象<br>7、结果集输出，自动将查询的结果集映射为java对象（Poo）<br>  a） Hashmap，Kv格式的数据类型<br>  b）Java的基本数据类型<br>  c）POJO，java的对象</li>
+</ul>
+<h3 id="mybatis快速搭建"><a href="#mybatis快速搭建" class="headerlink" title="mybatis快速搭建"></a>mybatis快速搭建</h3><h4 id="XML方式的快速搭建"><a href="#XML方式的快速搭建" class="headerlink" title="XML方式的快速搭建"></a>XML方式的快速搭建</h4><ul>
+<li>创建简单maven工程，引入依赖<pre><code class="line-numbers language-xml">      &lt;dependency&gt;
+          &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+          &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+          &lt;version&gt;3.4.6&lt;/version&gt;
+      &lt;/dependency&gt;
+      &lt;dependency&gt;
+          &lt;groupId&gt;mysql&lt;/groupId&gt;
+          &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+          &lt;version&gt;5.1.6&lt;/version&gt;
+      &lt;/dependency&gt;
+</code></pre>
+</li>
+<li>编写domain实体对象和dao接口<pre><code class="line-numbers language-java">package com.ecit.domain;
+import java.io.Serializable;
+public class User implements Serializable&#123;
+  private Long id;
+  private String username;
+  private Integer age;
+  public Long getId() &#123;
+      return id;
+  &#125;
+  public void setId(Long id) &#123;
+      this.id = id;
+  &#125;
+  public String getUsername() &#123;
+      return username;
+  &#125;
+  public void setUsername(String username) &#123;
+      this.username = username;
+  &#125;
+  public Integer getAge() &#123;
+      return age;
+  &#125;
+  public void setAge(Integer age) &#123;
+      this.age = age;
+  &#125;
+&#125;
+package com.ecit.dao;
+import com.ecit.domain.User;
+import java.util.List;
+public interface IUserDao &#123;
+  /**
+   * 查询所有用户
+   */
+  List&lt;User&gt; findAll();
+&#125;
+</code></pre>
+</li>
+<li>编写持久层接口的映射文件IUserDao.xml,在resources资源目录下创建和dao接口一样的目录结构，将xml文件放到下面<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+      PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+      &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+ &lt;mapper namespace=&quot;com.ecit.dao.IUserDao&quot;&gt;
+  &lt;!--查询所有用户--&gt;
+  &lt;select id=&quot;findAll&quot; resultType=&quot;com.ecit.domain.User&quot;&gt;
+      SELECT * from user
+  &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+<img src="/images/javase/mybatis%E8%B5%84%E6%BA%90%E7%9B%AE%E5%BD%95.png"></li>
+<li>编写SqlMapConfig.xml配置文件<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;!DOCTYPE configuration
+      PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+  &lt;!-- 配置 mybatis 的环境 --&gt;
+  &lt;environments default=&quot;mysql&quot;&gt;
+      &lt;!-- 配置 mysql 的环境 --&gt;
+      &lt;environment id=&quot;mysql&quot;&gt; &lt;!-- 配置事务的类型 --&gt;
+          &lt;transactionManager type=&quot;JDBC&quot;&gt;&lt;/transactionManager&gt; &lt;!-- 配置连接数据库的信息:用的是数据源(连接池) --&gt;
+          &lt;dataSource type=&quot;POOLED&quot;&gt;
+              &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
+              &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/testDB?charset=utf8mb4&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;useSSL=false&amp;amp;serverTimezone=Asia/Shanghai&quot;/&gt;
+              &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
+              &lt;property name=&quot;password&quot; value=&quot;root&quot;/&gt;
+          &lt;/dataSource&gt;
+      &lt;/environment&gt;
+  &lt;/environments&gt;
+  &lt;!-- 告知 mybatis 映射配置的位置 --&gt;
+  &lt;mappers&gt;
+      &lt;mapper resource=&quot;com/ecit/dao/IUserDao.xml&quot;/&gt;
+  &lt;/mappers&gt;
+&lt;/configuration&gt;
+</code></pre>
+</li>
+<li>测试<pre><code class="line-numbers language-java">public class DemoTest &#123;
+  public static void main(String[] args) throws Exception&#123;
+        //1.读取配置文件
+      InputStream in = Resources.getResourceAsStream(&quot;SqlMapConfig.xml&quot;);
+         //2.创建 SqlSessionFactory 的构建者对象
+      SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+         //3.使用构建者创建工厂对象SqlSessionFactory
+      SqlSessionFactory factory = builder.build(in);
+         //4.使用 SqlSessionFactory 生产 SqlSession 对象
+       SqlSession session = factory.openSession();
+         //5.使用 SqlSession 创建 dao 接口的代理对象
+      IUserDao userDao = session.getMapper(IUserDao.class);
+        //6.使用代理对象执行查询所有方法
+      List&lt;User&gt; users = userDao.findAll();
+      for (User user : users) &#123;
+          System.out.println(user);
+      &#125;
+        //7.释放资源
+      session.close();
+      in.close();
+  &#125;
+&#125;
+</code></pre>
+</li>
+<li>总结<br>环境搭建的注意事项:</li>
+<li>第一:创建IUserDao. xml和IUserDao. java时名称是为了和我们之前的知识保持一致。在Mybatis中它把持久层的操作接口名称和映射文件也叫做: Mapper所以: IUserDao 和IUserMapper是一样的</li>
+<li>第二: mybatis的映射配置文件位置必须和dao接口的包结构相同</li>
+<li>第三:映射配置文件的mapper标签namespace属性的取值必须是dao接口的全限定类名</li>
+<li>第四:映射配置文件的操作配置(select) ，id属 性的取值必须是dao接口的方法名</li>
+</ul>
+<h4 id="基于注解方式改写上面的例子"><a href="#基于注解方式改写上面的例子" class="headerlink" title="基于注解方式改写上面的例子"></a>基于注解方式改写上面的例子</h4><ul>
+<li>修改 SqlMapConfig.xml<pre><code class="line-numbers language-xml">  &lt;!-- 告知 mybatis 映射配置的位置 --&gt;
+  &lt;mappers&gt;
+      &lt;mapper class=&quot;com.ecit.dao.IUserDao&quot;/&gt;
+  &lt;/mappers&gt;
+</code></pre>
+</li>
+<li>在持久层接口中添加注解<pre><code class="line-numbers language-java">package com.ecit.dao;
+import com.ecit.domain.User;
+import org.apache.ibatis.annotations.Select;
+import java.util.List;
+public interface IUserDao &#123;
+  /**
+   * 查询所有用户
+   */
+  @Select(&quot;select * from user&quot;)
+  List&lt;User&gt; findAll();
+&#125;
+</code></pre>
+</li>
+<li>在使用基于注解的 Mybatis 配置时，移除 xml 的映射配置(IUserDao.xml)。</li>
+</ul>
+<h3 id="mybatis的CRUD-基于XML方式"><a href="#mybatis的CRUD-基于XML方式" class="headerlink" title="mybatis的CRUD(基于XML方式)"></a>mybatis的CRUD(基于XML方式)</h3><pre><code class="line-numbers language-java">package com.ecit.dao;
+import com.ecit.domain.User;
+import java.util.List;
+public interface IUserDao &#123;
+    /**
+     * 查询所有用户
+     */
+    List&lt;User&gt; findAll();
+    /**
+     * 查询用户总数
+     */
+    int findTotal();
+    /**
+     * 根据UID查找用户
+     */
+    User findUserById(Long id);
+    /**
+     * 模糊查询
+     */
+    List&lt;User&gt; findUserByName(String name);
+    /**
+     * 删除用户
+     */
+    int deleteById(Long id);
+    /**
+     * 增加用户
+     */
+    void insert(User user);
+    /**
+     * 修改用户信息
+     */
+    int  updateByName(User user);
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IUserDao&quot;&gt;
+    &lt;!--查询所有用户--&gt;
+    &lt;select id=&quot;findAll&quot; resultType=&quot;com.ecit.domain.User&quot;&gt;
+        SELECT * from user
+    &lt;/select&gt;
+    &lt;!--聚合查询--&gt;
+    &lt;select id=&quot;findTotal&quot; resultType=&quot;int&quot;&gt;
+        SELECT count(*) from user
+    &lt;/select&gt;
+    &lt;!--查询具体的用户信息--&gt;
+    &lt;select id=&quot;findUserById&quot;  parameterType=&quot;long&quot; resultType=&quot;com.ecit.domain.User&quot;&gt;
+        SELECT * from user WHERE id = #&#123;uid&#125;
+    &lt;/select&gt;
+    &lt;!--模糊查询--&gt;
+    &lt;select id=&quot;findUserByName&quot; resultType=&quot;com.ecit.domain.User&quot;&gt;
+        SELECT * from user WHERE username like #&#123;name&#125;
+    &lt;/select&gt;
+    &lt;!-- 根据名称模糊查询2 这个相当于SQL拼接，上面的相当于预编译SQL--&gt;
+     &lt;!-- &lt;select id=&quot;findByName&quot; parameterType=&quot;string&quot; resultType=&quot;ccom.ecit.domain.User&quot;&gt;
+          select * from user where username like &#39;%$&#123;value&#125;%&#39;
+    &lt;/select&gt; --&gt;
+    &lt;!--新增用户--&gt;
+    &lt;insert id=&quot;insert&quot; parameterType=&quot;com.ecit.domain.User&quot; &gt;
+        &lt;!-- 配置保存时获取插入的 id --&gt;
+        &lt;selectKey keyColumn=&quot;id&quot; keyProperty=&quot;id&quot; order=&quot;AFTER&quot; resultType=&quot;long&quot;&gt;
+          SELECT last_insert_id();
+        &lt;/selectKey&gt;
+        insert into user(username,age) values(#&#123;username&#125;,#&#123;age&#125;)
+    &lt;/insert&gt;
+    &lt;!--删除用户--&gt;
+    &lt;delete id=&quot;deleteById&quot; parameterType=&quot;long&quot;&gt;
+        DELETE FROM user WHERE id = #&#123;uid&#125;
+    &lt;/delete&gt;
+    &lt;!--修改用户信息--&gt;
+    &lt;update id=&quot;updateByName&quot; parameterType=&quot;com.ecit.domain.User&quot;&gt;
+        update user set username=#&#123;username&#125;,age=#&#123;age&#125; WHERE id = #&#123;id&#125;
+    &lt;/update&gt;
+&lt;/mapper&gt;
+</code></pre>
+<p>测试数据:</p>
+<pre><code class="line-numbers language-java">import com.ecit.domain.User;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import java.io.InputStream;
+import java.util.List;
+public class IUserDaoTest &#123;
+    SqlSession session;
+    InputStream in;
+    IUserDao userDao;
+    @Before
+    public void setUp() throws Exception &#123;
+        //1.读取配置文件
+        in = Resources.getResourceAsStream(&quot;SqlMapConfig.xml&quot;);
+        //2.创建 SqlSessionFactory 的构建者对象
+        SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+        //3.使用构建者创建工厂对象SqlSessionFactory
+        SqlSessionFactory factory = builder.build(in);
+        //4.使用 SqlSessionFactory 生产 SqlSession 对象
+        session = factory.openSession();
+        //5.使用 SqlSession 创建 dao 接口的代理对象
+        userDao = session.getMapper(IUserDao.class);
+    &#125;
+    @After
+    public void tearDown() throws Exception &#123;
+        session.commit();
+        //7.释放资源
+        session.close();
+        in.close();
+    &#125;
+    @Test
+    public void findAll() throws Exception &#123;
+        List&lt;User&gt; list = userDao.findAll();
+        System.out.println(&quot;全部用户信息:&quot; +list.toString());
+    &#125;
+    @Test
+    public void findTotal() throws Exception &#123;
+         int total =    userDao.findTotal();
+        System.out.println(&quot;目前有&quot; + total +&quot;条用户数据&quot;);
+    &#125;
+    @Test
+    public void findUserById() throws Exception &#123;
+        User user = userDao.findUserById(2L);
+        System.out.println(&quot;id是2的用户:&quot; + user);
+    &#125;
+     //通过SqlSession操作数据库
+     //第一个参数:映射文件中statement的id,等于=namespace+&quot;. &quot;+statement的id
+     //第二个参数:指定和映射文件中所匹配的parameterType类型的参数
+     //sqlSession. selectOne结果是与映射文件中所匹的resultType类型的对象
+    @Test
+    public void findUserById2() throws Exception &#123;
+        User user =  session.selectOne(&quot;com.ecit.dao.IUserDao.findUserById&quot;,2L);
+        System.out.println(&quot;id2是2的用户:&quot; + user);
+    &#125;
+    @Test
+    public void deleteById() throws Exception &#123;
+        int res = userDao.deleteById(8L);
+        System.out.println(&quot;删除结果:&quot; + res);
+    &#125;
+    // 通过SqlSession操作数据库，删除数据
+    @Test
+    public void deleteById2() throws Exception &#123;
+        int res = session.delete(&quot;com.ecit.dao.IUserDao.deleteById&quot;,10L);
+        System.out.println(&quot;删除结果:&quot; + res);
+    &#125;
+    @Test
+    public void insert() throws Exception &#123;
+        User user = new User(&quot;王其&quot;, 22);
+        userDao.insert(user);
+        System.out.println(&quot;新增的用户的id:&quot; + user.getId());
+    &#125;
+    @Test
+    public void findUserByName() throws Exception &#123;
+        List&lt;User&gt; list = userDao.findUserByName(&quot;%王%&quot;);
+        System.out.println(&quot;姓王的用户:&quot; + list);
+    &#125;
+    @Test
+    public void updateByName() throws Exception &#123;
+        User user = new User(&quot;李琦&quot;, 22);
+        user.setId(2L);
+        int res = userDao.updateByName(user);
+        System.out.println(&quot;更新结果:&quot; + res);
+    &#125;
+&#125;
+</code></pre>
+<ul>
+<li><strong>注意上面模糊查询#{}与${}的区别</strong><pre><code class="line-numbers language-text">#&#123;&#125;表示一个占位符号
+通过#&#123;&#125;可以实现 preparedStatement 向占位符中设置值，自动进行 java 类型和 jdbc 类型转换，
+#&#123;&#125;可以有效防止 sql 注入。 #&#123;&#125;可以接收简单类型值或 pojo 属性值。 如果 parameterType 传输单个简单类 型值，#&#123;&#125;括号中可以是 value 或其它名称。
+$&#123;&#125;表示拼接 sql 串
+通过$&#123;&#125;可以将parameterType 传入的内容拼接在sql中且不进行jdbc类型转换， $&#123;&#125;可以接收简 单类型值或 pojo 属性值，如果 parameterType 传输单个简单类型值，$&#123;&#125;括号中只能是 value。
+TextSqlNode类源码可以看出，指定了读取的 key 的名字就是”value”，所以我们在绑定参数时就只能叫 value 的名字 了。
+</code></pre>
+<h4 id="补充非自增主键UUID获取"><a href="#补充非自增主键UUID获取" class="headerlink" title="补充非自增主键UUID获取"></a>补充非自增主键UUID获取</h4></li>
+<li>使用mysql的uuid()函数生成主键，需要修改表中id字段类型为string，长度设置成36位。order&#x3D;BEFORE</li>
+<li>执行思路：</li>
+<li>先通过uuid()查询到主键，将主键输入 到sql语句中。</li>
+<li>执行uuid()语句顺序相对于insert语句之前执行。<pre><code class="line-numbers language-xml"> &lt;!--新增用户--&gt;
+ &lt;insert id=&quot;insert&quot; parameterType=&quot;com.ecit.domain.User&quot; &gt;
+     &lt;!-- 配置保存时获取插入的 id --&gt;
+     &lt;selectKey keyColumn=&quot;id&quot; keyProperty=&quot;id&quot; order=&quot;BEFORE&quot; resultType=&quot;java.lang.String&quot;&gt;
+       SELECT uuid();
+     &lt;/selectKey&gt;
+     insert into user(id,username,age) values(#&#123;id&#125;,#&#123;username&#125;,#&#123;age&#125;)
+ &lt;/insert&gt;
+</code></pre>
+<strong>通过oracle的序列生成主键:</strong><pre><code class="line-numbers language-xml">&lt;insert id=&quot;insert&quot; parameterType=&quot;com.ecit.domain.User&quot; &gt;
+    &lt;selectKey keyProperty=&quot;id&quot; order=&quot;BEFORE&quot; resultType=&quot;java.lang.String&quot;&gt;←
+         SELECT 序列名.nextval( )
+    &lt;/selectKey&gt;
+     insert into user(id,username,age) values(#&#123;id&#125;,#&#123;username&#125;,#&#123;age&#125;)
+&lt;/insert&gt;
+</code></pre>
+</li>
+</ul>
+<h3 id="mybatis中SqlMapConfig-xml参数详解"><a href="#mybatis中SqlMapConfig-xml参数详解" class="headerlink" title="mybatis中SqlMapConfig.xml参数详解"></a>mybatis中SqlMapConfig.xml参数详解</h3><p><em>mybatis的全局配置文件SqlMapConfig.xml，配置内容如下：</em></p>
+<pre><code class="line-numbers language-xml">-properties (属性)
+   -- property
+-settings (全局配置参数)
+   -- setting
+-typeAliases (类型别名)
+   -- typeAliase
+   -- package
+-typeHandlers (类型处理器)
+-objectFactory (对象工厂)
+-plugins (插件)
+-environments (环境集合属性对象)
+  --environment (环境子属性对象)
+      ---trans actionManager (事务管理)
+      ---dataSource ( 数据源)
+-mappers (映射器)
+   -- mapper
+   -- package
+</code></pre>
+<h4 id="properties属性"><a href="#properties属性" class="headerlink" title="properties属性"></a>properties属性</h4><ul>
+<li>需求：</li>
+<li>将数据库连接参数单独配置在db.properties中，只需要在SqlMapConfig.xml中加载db.properties的属性值。</li>
+<li>在SqlMapConfig.xml中就不需要对数据库连接参数硬编码。</li>
+<li>将数据库连接参数只配置在db.properties中，原因：方便对参数进行统一管理，其它xml可以引用该db.properties。  </li>
+<li>properties特性：</li>
+<li>注意： MyBatis 将按照下面的顺序来加载属性：<ul>
+<li>在 properties 元素体内定义的属性首先被读取。 </li>
+<li>然后会读取properties 元素中resource或 url 加载的属性，它会覆盖已读取的同名属性。 </li>
+<li>最后读取parameterType传递的属性，它会覆盖已读取的同名属性<h5 id="在使用properties可以采用两种方式指定属性配置"><a href="#在使用properties可以采用两种方式指定属性配置" class="headerlink" title="在使用properties可以采用两种方式指定属性配置"></a>在使用properties可以采用两种方式指定属性配置</h5></li>
+</ul>
+</li>
+<li>第一种<pre><code class="line-numbers language-xml">&lt;properties&gt;
+&lt;property name=&quot;jdbc.driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt; &lt;property name=&quot;jdbc.url&quot; value=&quot;jdbc:mysql://localhost:3306/testDB&quot;/&gt;
+&lt;property name=&quot;jdbc.username&quot; value=&quot;root&quot;/&gt;
+&lt;property name=&quot;jdbc.password&quot; value=&quot;root&quot;/&gt; 
+&lt;/properties&gt;
+</code></pre>
+</li>
+<li>第二种<br>在 classpath 下定义 db.properties 文件<pre><code class="line-numbers language-text">jdbc.driver=com.mysql.jdbc.Driver 
+jdbc.url=jdbc:mysql://localhost:3306/testDB
+jdbc.username=root
+jdbc.password=root
+</code></pre>
+再在SqlMapConfig.xml引入<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;!DOCTYPE configuration
+      PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+  &lt;!--加载属性文件--&gt;
+  &lt;properties resource=&quot;db.properties&quot;&gt;&lt;/properties&gt;
+  &lt;!-- 配置 mybatis 的环境 --&gt;
+  &lt;environments default=&quot;mysql&quot;&gt;
+      &lt;!-- 配置 mysql 的环境 --&gt;
+      &lt;environment id=&quot;mysql&quot;&gt; &lt;!-- 配置事务的类型 --&gt;
+          &lt;transactionManager type=&quot;JDBC&quot;&gt;&lt;/transactionManager&gt; &lt;!-- 配置连接数据库的信息:用的是数据源(连接池) --&gt;
+          &lt;dataSource type=&quot;POOLED&quot;&gt;
+              &lt;property name=&quot;driver&quot; value=&quot;$&#123;jdbc.driver&#125;&quot;/&gt;
+              &lt;property name=&quot;url&quot; value=&quot;$&#123;jdbc.url&#125;&quot;/&gt;
+              &lt;property name=&quot;username&quot; value=&quot;$&#123;jdbc.username&#125;&quot;/&gt;
+              &lt;property name=&quot;password&quot; value=&quot;$&#123;jdbc.password&#125;&quot;/&gt;
+          &lt;/dataSource&gt;
+      &lt;/environment&gt;
+  &lt;/environments&gt;
+  &lt;!-- 告知 mybatis 映射配置的位置 --&gt;
+  &lt;mappers&gt;
+      &lt;mapper resource=&quot;com/ecit/dao/IUserDao.xml&quot;/&gt;
+  &lt;/mappers&gt;
+&lt;/configuration&gt;
+</code></pre>
+<h5 id="properties的url属性使用"><a href="#properties的url属性使用" class="headerlink" title="properties的url属性使用"></a>properties的url属性使用</h5><pre><code class="line-numbers language-xml">&lt;!-- 配置连接数据库的信息
+resource 属性:用于指定 properties 配置文件的位置，要求配置文件必须在类路径下
+resource=&quot;jdbcConfig.properties&quot; 
+url 属性:
+URL: Uniform Resource Locator 统一资源定位符 http://localhost:8080/mystroe/CategoryServlet URL
+协议 主机 端口 URI URI:Uniform Resource Identifier 统一资源标识符
+/mystroe/CategoryServlet
+它是可以在 web 应用中唯一定位一个资源的路径
+ --&gt;
+&lt;properties url=&quot;file:///D:/Projects/mybatisCRUD/src/main/resources/db.properties&quot;&gt;&lt;/properties&gt;
+</code></pre>
+</li>
+</ul>
+<h4 id="settings全局参数配置"><a href="#settings全局参数配置" class="headerlink" title="settings全局参数配置"></a>settings全局参数配置</h4><ul>
+<li>mybatis框架在运行时可以调整一些运行参数。比如：开启二级缓存、开启延迟加载。<br><img src="/images/database/mybatis/mybatis_settings.png"></li>
+</ul>
+<h4 id="typeAliases（别名）"><a href="#typeAliases（别名）" class="headerlink" title="typeAliases（别名）"></a>typeAliases（别名）</h4><ul>
+<li>在mapper.xml中，定义很多的statement，statement需要parameterType指定输入参数的类型、需要resultType指定输出结果的映射类型。如果在指定类型时输入类型全路径，不方便进行开发，可以针对parameterType或resultType指定的类型定义一些别名，在mapper.xml中通过别名定义，方便开发。</li>
+<li>自定义别名<pre><code class="line-numbers language-xml">&lt;!-- 单个别名定义 --&gt;
+&lt;typeAlias alias=&quot;user&quot; type=&quot;com.ecit.domain.User&quot;/&gt;
+&lt;!-- 批量别名定义，扫描整个包下的类，别名为类名(首字母大写或小写都可以) --&gt;
+&lt;package name=&quot;com.ecit.domain&quot;/&gt; 
+&lt;package name=&quot;其它包&quot;/&gt;
+&lt;/typeAliases&gt;
+</code></pre>
+</li>
+</ul>
+<h4 id="mappers-映射器"><a href="#mappers-映射器" class="headerlink" title="mappers(映射器)"></a>mappers(映射器)</h4><ul>
+<li>第一种：通过resource加载单个映射文件<pre><code class="line-numbers language-xml">&lt;mapper resource=&quot;&quot;/&gt;
+如：
+&lt;mapper resource=&quot;com/ecit/dao/IUserDao.xml&quot;/&gt;
+</code></pre>
+</li>
+<li>第二种 通过mapper接口加载单个mapper<pre><code class="line-numbers language-xml">&lt;mapper class=&quot;&quot;/&gt;
+如：
+&lt;mapper class=&quot;com.ecit.dao.IUserDao&quot;/&gt;
+</code></pre>
+</li>
+<li>第三种 批量加载mapper(推荐使用)<pre><code class="line-numbers language-xml">注册指定包下的所有 mapper 接口
+如:&lt;package name=&quot;com.ecit.dao&quot;/&gt;
+注意:此种方法要求 mapper 接口名称和 mapper 映射文件名称相同，且放在同一个目录中。
+</code></pre>
+</li>
+</ul>
+<h3 id="mapper-xml"><a href="#mapper-xml" class="headerlink" title="mapper-xml"></a>mapper-xml</h3><p><img src="/images/database/mybatis/mapper-xml.png"></p>
+<h4 id="parameterType指定输入参数类型"><a href="#parameterType指定输入参数类型" class="headerlink" title="parameterType指定输入参数类型"></a>parameterType指定输入参数类型</h4><ul>
+<li>通过parameterType指定输入参数的类型，类型可以是简单类型、hashmap、pojo的包装类型</li>
+<li>基本数据类型：#{参数} 获取参数中的值</li>
+<li>复杂数据类型：#{属性名} ,map中则是#{key}<h4 id="resultType指定输出结果的类型"><a href="#resultType指定输出结果的类型" class="headerlink" title="resultType指定输出结果的类型"></a>resultType指定输出结果的类型</h4></li>
+<li>使用resultType进行输出映射，只有查询出来的列名和pojo中的属性名一致，该列才可以映射成功。</li>
+<li>如果查询出来的列名和pojo中的属性名全部不一致，没有创建pojo对象。</li>
+<li>只要查询出来的列名和pojo中的属性有一个一致，就会创建pojo对象。<h4 id="resultMap完成高级输出结果映射"><a href="#resultMap完成高级输出结果映射" class="headerlink" title="resultMap完成高级输出结果映射"></a>resultMap完成高级输出结果映射</h4></li>
+<li>如果查询出来的<strong>列名和pojo的属性名不一致</strong>，通过定义一个resultMap对列名和pojo属性名之间作一个映射关系。</li>
+<li>定义resultMap</li>
+<li>使用resultMap作为statement的输出映射类型<br><strong>使用resultType进行输出映射，只有查询出来的列名和pojo中的属性名一致，该列才可以映射成功。如果查询出来的列名和pojo的属性名不一致，通过定义一个resultMap对列名和pojo属性名之间作一个映射关系。</strong></li>
+</ul>
+<h3 id="mybatis高级特性"><a href="#mybatis高级特性" class="headerlink" title="mybatis高级特性"></a>mybatis高级特性</h3><h4 id="SQL片段"><a href="#SQL片段" class="headerlink" title="SQL片段"></a>SQL片段</h4><p><img src="/images/database/mybatis/sql%E7%89%87%E6%AE%B5.png"><br><img src="/images/database/mybatis/%E8%B7%A8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E7%94%A8sql%E7%89%87%E6%AE%B5.png"></p>
+<h4 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h4><p>mybatis核心 对sql语句进行灵活操作，通过表达式进行判断，对sql进行灵活拼接、组装。<br><img src="/images/database/mybatis/%E5%8A%A8%E6%80%81SQL.png"></p>
+<h4 id="动态if"><a href="#动态if" class="headerlink" title="动态if"></a>动态if</h4><pre><code class="line-numbers language-java">List&lt;User&gt; findByUser(User user);
+</code></pre>
+<pre><code class="line-numbers language-xml">&lt;select id=&quot;findByUser&quot; resultType=&quot;user&quot; parameterType=&quot;user&quot;&gt;
+    select * from user where 1=1
+       &lt;if test=&quot;username!=null and username != &#39;&#39; &quot;&gt;
+     and username like #&#123;username&#125;
+         &lt;/if&gt;
+      &lt;if test=&quot;address != null&quot;&gt;
+     and address like #&#123;address&#125;
+     &lt;/if&gt; 
+&lt;/select&gt;
+注意:&lt;if&gt;标签的 test 属性中写的是对象的属性名，如果是包装类的对象要使用 OGNL 表达式的写法。 另外要注意 where 1=1 的作用~!
+</code></pre>
+<h4 id="where标签"><a href="#where标签" class="headerlink" title="where标签"></a>where标签</h4><p><strong>为了简化上面where 1&#x3D;1的条件拼装，我们可以采用<where>标签来简化开发。</strong></p>
+<pre><code class="line-numbers language-xml">&lt;select id=&quot;findByUser&quot; resultType=&quot;user&quot; parameterType=&quot;user&quot;&gt;
+    select * from user 
+        &lt;where&gt;
+       &lt;if test=&quot;username!=null and username != &#39;&#39; &quot;&gt;
+     and username like #&#123;username&#125;
+         &lt;/if&gt;
+      &lt;if test=&quot;address != null&quot;&gt;
+     and address like #&#123;address&#125;
+     &lt;/if&gt; 
+     &lt;/where&gt;
+&lt;/select&gt;
+</code></pre>
+<h4 id="choose-when-otherwise-相当于JAVA的switch"><a href="#choose-when-otherwise-相当于JAVA的switch" class="headerlink" title="choose when otherwise  相当于JAVA的switch"></a>choose when otherwise  相当于JAVA的switch</h4><p><img src="/images/database/mybatis/choose.png"></p>
+<h4 id="foreach-in查询或者批量删除"><a href="#foreach-in查询或者批量删除" class="headerlink" title="foreach in查询或者批量删除"></a>foreach in查询或者批量删除</h4><p>传入多个 id 查询用户信息，用下边两个 sql 实现:</p>
+<pre><code class="line-numbers language-sql">SELECT * FROM USER WHERE username LIKE &#39;%张%&#39; AND (id =10 OR id =9 OR id=12) 
+SELECT * FROM USER WHERE username LIKE &#39;%张%&#39; AND id IN (10,9,12)
+</code></pre>
+<p>这样我们在进行范围查询时，就要将一个集合中的值，作为参数动态添加进来。 这样我们将如何进行参数的传递?在 QueryVo 中加入一个 List 集合用于封装参数</p>
+<pre><code class="line-numbers language-java">public class QueryVo implements Serializable &#123;
+       private List&lt;Integer&gt; ids;
+      public List&lt;Integer&gt; getIds() &#123; return ids;
+      &#125;
+      public void setIds(List&lt;Integer&gt; ids) &#123;
+     this.ids = ids;
+      &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-xml">&lt;!-- 查询所有用户在 id 的集合之中 --&gt;
+&lt;select id=&quot;findInIds&quot; resultType=&quot;user&quot; parameterType=&quot;queryvo&quot;&gt; &lt;!-- select * from user where id in (1,2,3,4,5); --&gt;
+        &lt;include refid=&quot;defaultSql&quot;&gt;&lt;/include&gt;
+       &lt;where&gt;
+             &lt;if test=&quot;ids != null and ids.size() &gt; 0&quot;&gt;
+                     &lt;foreach collection=&quot;ids&quot; open=&quot;id in ( &quot; close=&quot;)&quot; item=&quot;uid&quot; separator=&quot;,&quot;&gt;
+                       #&#123;uid&#125;
+                     &lt;/foreach&gt;
+             &lt;/if&gt;
+       &lt;/where&gt;
+&lt;/select&gt;
+</code></pre>
+<h3 id="mybatis多表查询"><a href="#mybatis多表查询" class="headerlink" title="mybatis多表查询"></a>mybatis多表查询</h3><h4 id="表之间的关系"><a href="#表之间的关系" class="headerlink" title="表之间的关系"></a>表之间的关系</h4><ul>
+<li><strong>一对多</strong>  用户和订单</li>
+<li>一个用户可以下多个订单，多个订单属于同一个用户</li>
+<li><strong>一对一</strong>  人和身份证</li>
+<li>一个人只能有一个身份证号,一个身份证号只能属于一个人</li>
+<li><strong>多对多</strong>  老师和学生   </li>
+<li>一个学生可以被多个老师教过,一个老师可以交多个学生</li>
+</ul>
+<h4 id="mybatis一对多案例用户和账户"><a href="#mybatis一对多案例用户和账户" class="headerlink" title="mybatis一对多案例用户和账户"></a>mybatis一对多案例用户和账户</h4><p>   一个用户可以有多个账户，一个账户只能属于一个用户(多个账户也可以属于同一个用户)  </p>
+<ul>
+<li>步骤:</li>
+<li>建立两张表:用户表,账户表 ，让用户表和账户表之间具备一对多的关系:需要使用外键在账户表中添加      </li>
+<li>建立两个实体类:用户实体类和账户实体类，让用户和账户的实体类能体现出一对多的关系</li>
+<li>建立两个配置文件:用户的配置文件、账户的配置文件</li>
+<li>实现配置:当我们查询用户时,可以同时得到用户下所包含的账户信息;当我们查询账户时,可以同时得到账户的所属用户信息</li>
+</ul>
+<p> SQL准备：</p>
+<pre><code class="line-numbers language-sql">CREATE TABLE `user` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `username` varchar(32) NOT NULL COMMENT &#39;用户名称&#39;,
+ `birthday` datetime DEFAULT NULL COMMENT &#39;生日&#39;,
+ `sex` char(1) DEFAULT NULL COMMENT &#39;性别&#39;,
+ `address` varchar(256) DEFAULT NULL COMMENT &#39;地址&#39;,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+CREATE TABLE `account` (
+ `id` int(11) NOT NULL COMMENT &#39;编号&#39;,
+ `uid` int(11) DEFAULT NULL COMMENT &#39;用户编号&#39;,
+ `money` double DEFAULT NULL COMMENT &#39;金额&#39;,
+ PRIMARY KEY (`id`),
+ KEY `FK_Reference_8` (`uid`),
+ CONSTRAINT `FK_Reference_8` FOREIGN KEY (`uid`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th align="center">user表数据</th>
+<th align="center">account表数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/javase/user%E8%A1%A8%E6%95%B0%E6%8D%AE.png"></td>
+<td align="center"><img src="/images/javase/account%E8%A1%A8%E6%95%B0%E6%8D%AE.png"></td>
+</tr>
+</tbody></table>
+<p> mybatis环境搭建,sqlMapConfig.xml</p>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;!DOCTYPE configuration
+       PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+   &lt;!--加载属性文件--&gt;
+   &lt;properties resource=&quot;db.properties&quot;&gt;&lt;/properties&gt;
+   &lt;typeAliases&gt;
+       &lt;package name=&quot;com.ecit.domain&quot;&gt;&lt;/package&gt;
+   &lt;/typeAliases&gt;
+   &lt;!-- 配置 mybatis 的环境 --&gt;
+   &lt;environments default=&quot;mysql&quot;&gt;
+       &lt;!-- 配置 mysql 的环境 --&gt;
+       &lt;environment id=&quot;mysql&quot;&gt; &lt;!-- 配置事务的类型 --&gt;
+           &lt;transactionManager type=&quot;JDBC&quot;&gt;&lt;/transactionManager&gt; &lt;!-- 配置连接数据库的信息:用的是数据源(连接池) --&gt;
+           &lt;dataSource type=&quot;POOLED&quot;&gt;
+               &lt;property name=&quot;driver&quot; value=&quot;$&#123;jdbc.driver&#125;&quot;/&gt;
+               &lt;property name=&quot;url&quot; value=&quot;$&#123;jdbc.url&#125;&quot;/&gt;
+               &lt;property name=&quot;username&quot; value=&quot;$&#123;jdbc.username&#125;&quot;/&gt;
+               &lt;property name=&quot;password&quot; value=&quot;$&#123;jdbc.password&#125;&quot;/&gt;
+           &lt;/dataSource&gt;
+       &lt;/environment&gt;
+   &lt;/environments&gt;
+   &lt;!-- 告知 mybatis 映射配置的位置 --&gt;
+   &lt;mappers&gt;
+       &lt;package name=&quot;com.ecit.dao&quot;&gt;&lt;/package&gt;
+   &lt;/mappers&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>user,account实体对象</p>
+<pre><code class="line-numbers language-java">package com.ecit.domain;
+import lombok.Data;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+@Data
+public class User implements Serializable &#123;
+    private Integer id;
+    private String username;
+    private String address;
+    private String sex;
+    private Date birthday;
+    //一对多关系映射：主表实体应该包含从表实体的集合引用
+    private List&lt;Account&gt; accounts;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import lombok.Data;
+import java.io.Serializable;
+@Data
+public class Account implements Serializable &#123;
+    private Integer id;
+    private Integer uid;
+    private Double money;
+    //从表实体应该包含一个主表实体的对象引用
+    private User user;
+&#125;
+</code></pre>
+<p>user表接口层</p>
+<pre><code class="line-numbers language-java">import com.ecit.domain.User;
+import java.util.List;
+/**
+ * 用户的持久层接口
+ */
+public interface IUserDao &#123;
+    /**
+     * 查询所有用户，同时获取到用户下所有账户的信息
+     * @return
+     */
+    List&lt;User&gt; findAll();
+    /**
+     * 根据id查询用户信息
+     * @param userId
+     * @return
+     */
+    User findById(Integer userId);
+&#125;
+</code></pre>
+<h5 id="IUserDAO示例一个用户有多个账户"><a href="#IUserDAO示例一个用户有多个账户" class="headerlink" title="IUserDAO示例一个用户有多个账户"></a>IUserDAO示例一个用户有多个账户</h5><pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IUserDao&quot;&gt;
+    &lt;!-- 定义User的resultMap--&gt;
+     &lt;resultMap id=&quot;userAccountMap&quot; type=&quot;user&quot;&gt;    &lt;!--  等同,前者配置了别名,可简写 &lt;resultMap id=&quot;userAccountMap&quot; type=&quot;com.ecit.domain.User&quot;&gt;--&gt;
+        &lt;id property=&quot;id&quot; column=&quot;id&quot;&gt;&lt;/id&gt;
+        &lt;result property=&quot;username&quot; column=&quot;username&quot;&gt;&lt;/result&gt;
+        &lt;result property=&quot;address&quot; column=&quot;address&quot;&gt;&lt;/result&gt;
+        &lt;result property=&quot;sex&quot; column=&quot;sex&quot;&gt;&lt;/result&gt;
+        &lt;result property=&quot;birthday&quot; column=&quot;birthday&quot;&gt;&lt;/result&gt;
+        &lt;!-- 配置user对象中accounts集合的映射 --&gt;
+        &lt;collection property=&quot;accounts&quot; ofType=&quot;account&quot;&gt;  &lt;!-- 等同,用了别名可简写account &lt;collection property=&quot;accounts&quot; ofType=&quot;com.ecit.domain.Account&quot;&gt;--&gt;
+            &lt;id column=&quot;aid&quot; property=&quot;id&quot;&gt;&lt;/id&gt;
+            &lt;result column=&quot;uid&quot; property=&quot;uid&quot;&gt;&lt;/result&gt;
+            &lt;result column=&quot;money&quot; property=&quot;money&quot;&gt;&lt;/result&gt;
+        &lt;/collection&gt;
+    &lt;/resultMap&gt;
+    &lt;!-- 查询所有，一对多的示例 --&gt;
+    &lt;select id=&quot;findAll&quot; resultMap=&quot;userAccountMap&quot;&gt;
+         select u.*,a.id as aid,a.uid,a.money	from user u left outer join account a on u.id = a.uid
+    &lt;/select&gt;
+    &lt;!-- 根据id查询用户 --&gt;
+    &lt;select id=&quot;findById&quot; parameterType=&quot;INT&quot; resultType=&quot;user&quot;&gt;
+        select * from user where id = #&#123;uid&#125;
+    &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+<p>测试结果:</p>
+<pre><code class="line-numbers language-java">package com.ecit.dao;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.After;
+import org.junit.Before;
+import java.io.InputStream;
+public class BaseTest &#123;
+    SqlSession session;
+    InputStream in;
+    IUserDao userDao;
+    IAccountDao accountDao;
+    @Before
+    public void setUp() throws Exception &#123;
+        //1.读取配置文件
+        in = Resources.getResourceAsStream(&quot;SqlMapConfig.xml&quot;);
+        //2.创建 SqlSessionFactory 的构建者对象
+        SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+        //3.使用构建者创建工厂对象SqlSessionFactory
+        SqlSessionFactory factory = builder.build(in);
+        //4.使用 SqlSessionFactory 生产 SqlSession 对象
+        session = factory.openSession();
+        //5.使用 SqlSession 创建 dao 接口的代理对象
+        userDao = session.getMapper(IUserDao.class);
+        accountDao = session.getMapper(IAccountDao.class);
+    &#125;
+    @After
+    public void tearDown() throws Exception &#123;
+        session.commit();
+        //7.释放资源
+        session.close();
+        in.close();
+    &#125;
+&#125;
+import org.junit.Test;
+public class IUserDaoTest extends BaseTest&#123;
+    @Test
+    public void findAll() throws Exception &#123;
+        userDao.findAll().stream().forEach(item-&gt; System.out.println(item));
+    &#125;
+&#125;
+输出结果:
+// User(id=46, username=小张, address=重庆, sex=男, birthday=Tue Mar 07 17:37:26 CST 2000, accounts=[Account(id=1, uid=46, money=1000.0, user=null), Account(id=3, uid=46, money=2000.0, user=null)])
+// User(id=45, username=老张, address=绍兴, sex=男, birthday=Sun Mar 04 12:04:06 CST 1923, accounts=[Account(id=2, uid=45, money=1000.0, user=null)])
+// User(id=41, username=老王, address=北京, sex=男, birthday=Sat Feb 27 17:47:08 CST 1965, accounts=[])
+// User(id=42, username=小王, address=上海, sex=女, birthday=Wed Mar 02 15:09:37 CST 1955, accounts=[])
+// User(id=43, username=小二王, address=杭州, sex=女, birthday=Thu Mar 04 11:34:34 CST 2010, accounts=[])
+// User(id=48, username=小马, address=天津, sex=女, birthday=Sat Mar 08 11:44:00 CST 2008, accounts=[])
+</code></pre>
+<h5 id="IAccountDao示例一对一"><a href="#IAccountDao示例一对一" class="headerlink" title="IAccountDao示例一对一"></a>IAccountDao示例一对一</h5><pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IAccountDao&quot;&gt;
+    &lt;!-- 定义封装account和user的resultMap --&gt;
+    &lt;resultMap id=&quot;accountUserMap&quot; type=&quot;account&quot;&gt;
+        &lt;id property=&quot;id&quot; column=&quot;aid&quot;&gt;&lt;/id&gt;
+        &lt;result property=&quot;uid&quot; column=&quot;uid&quot;&gt;&lt;/result&gt;
+        &lt;result property=&quot;money&quot; column=&quot;money&quot;&gt;&lt;/result&gt;
+        &lt;!-- 一对一的关系映射：配置封装user的内容--&gt;
+        &lt;association property=&quot;user&quot; column=&quot;uid&quot; javaType=&quot;user&quot;&gt;
+            &lt;id property=&quot;id&quot; column=&quot;id&quot;&gt;&lt;/id&gt;
+            &lt;result column=&quot;username&quot; property=&quot;username&quot;&gt;&lt;/result&gt;
+            &lt;result column=&quot;address&quot; property=&quot;address&quot;&gt;&lt;/result&gt;
+            &lt;result column=&quot;sex&quot; property=&quot;sex&quot;&gt;&lt;/result&gt;
+            &lt;result column=&quot;birthday&quot; property=&quot;birthday&quot;&gt;&lt;/result&gt;
+        &lt;/association&gt;
+    &lt;/resultMap&gt;
+    &lt;!-- 查询所有 --&gt;
+    &lt;select id=&quot;findAll&quot; resultMap=&quot;accountUserMap&quot;&gt;
+        select u.*,a.id as aid,a.uid,a.money from account a , user u where u.id = a.uid;
+    &lt;/select&gt;
+    &lt;!--查询所有账户同时包含用户名和地址信息--&gt;
+    &lt;select id=&quot;findAllAccount&quot; resultType=&quot;accountuser&quot;&gt;
+        select a.*,u.username,u.address from account a , user u where u.id = a.uid;
+    &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+<p>测试结果：</p>
+<pre><code class="line-numbers language-java">package com.ecit.dao;
+import org.junit.Test;
+public class IUserDaoTest extends BaseTest&#123;
+    @Test
+    public void findAll() throws Exception &#123;
+        userDao.findAll().stream().forEach(item-&gt; System.out.println(item));
+    &#125;
+&#125;
+输出结果：
+Account(id=1, uid=46, money=1000.0, user=User(id=46, username=小张, address=重庆, sex=男, birthday=Tue Mar 07 17:37:26 CST 2000, accounts=null))
+Account(id=2, uid=45, money=1000.0, user=User(id=45, username=老张, address=绍兴, sex=男, birthday=Sun Mar 04 12:04:06 CST 1923, accounts=null))
+Account(id=3, uid=46, money=2000.0, user=User(id=46, username=小张, address=重庆, sex=男, birthday=Tue Mar 07 17:37:26 CST 2000, accounts=null))
+</code></pre>
+<h4 id="mybatis多对多查询案例"><a href="#mybatis多对多查询案例" class="headerlink" title="mybatis多对多查询案例"></a>mybatis多对多查询案例</h4><ul>
+<li>用户和角色，一个用户可以有多个角色，一个角色可以赋予多个用户</li>
+<li>步骤:</li>
+<li>1、建立两张表:用户表，角色表，让用户表和角色表具有多对多的关系。需要使用中间表，中间表中包含各自的主键在中间表中是外键。</li>
+<li>2、建立两个实体类:用户实体类和角色实体类，让用户和角色的实体类能体现出来多对多的关系，各自包含对方一个集合引用</li>
+<li>3、建立两个配置文件，用户的配置文件，角色的配置文件</li>
+<li>4、实现配置:当我们查询用户时，可以同时得到用户所包含的角色信息，当我们查询角色时，可以同时得到角色的所赋予的用户信息</li>
+</ul>
+<p>sql准备</p>
+<pre><code class="line-numbers language-sql">CREATE TABLE `role` (
+  `ID` int(11) NOT NULL COMMENT &#39;编号&#39;,
+  `ROLE_NAME` varchar(30) DEFAULT NULL COMMENT &#39;角色名称&#39;,
+  `ROLE_DESC` varchar(60) DEFAULT NULL COMMENT &#39;角色描述&#39;,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `user_role` (
+  `UID` int(11) NOT NULL COMMENT &#39;用户编号&#39;,
+  `RID` int(11) NOT NULL COMMENT &#39;角色编号&#39;,
+  PRIMARY KEY (`UID`,`RID`),
+  KEY `FK_Reference_10` (`RID`),
+  CONSTRAINT `FK_Reference_10` FOREIGN KEY (`RID`) REFERENCES `role` (`ID`),
+  CONSTRAINT `FK_Reference_9` FOREIGN KEY (`UID`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th align="center">user表数据</th>
+<th align="center">user_role表数据</th>
+<th align="center">role表数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/javase/user%E8%A1%A8%E6%95%B0%E6%8D%AE.png"></td>
+<td align="center"><img src="/images/javase/user_role%E8%A1%A8%E6%95%B0%E6%8D%AE.png"></td>
+<td align="center"><img src="/images/javase/role%E6%95%B0%E6%8D%AE.png"></td>
+</tr>
+</tbody></table>
+<p>实体类关系</p>
+<pre><code class="line-numbers language-java">import lombok.Data;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+@Data
+public class User implements Serializable &#123;
+    private Integer id;
+    private String username;
+    private String address;
+    private String sex;
+    private Date birthday;
+    //多对多的关系映射：一个用户可以具备多个角色
+    private List&lt;Role&gt; roles;
+&#125;
+import lombok.Data;
+import java.io.Serializable;
+import java.util.List;
+@Data
+public class Role implements Serializable &#123;
+    private Integer roleId;
+    private String roleName;
+    private String roleDesc;
+    //多对多的关系映射：一个角色可以赋予多个用户
+    private List&lt;User&gt; users;
+&#125;
+</code></pre>
+<p>接口层配置,IUserDao.xml</p>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IUserDao&quot;&gt;
+    &lt;!-- 定义User的resultMap--&gt;
+    &lt;resultMap id=&quot;userMap&quot; type=&quot;user&quot;&gt;
+        &lt;id property=&quot;id&quot; column=&quot;id&quot;&gt;&lt;/id&gt;
+        &lt;result property=&quot;username&quot; column=&quot;username&quot;&gt;&lt;/result&gt;
+        &lt;result property=&quot;address&quot; column=&quot;address&quot;&gt;&lt;/result&gt;
+        &lt;result property=&quot;sex&quot; column=&quot;sex&quot;&gt;&lt;/result&gt;
+        &lt;result property=&quot;birthday&quot; column=&quot;birthday&quot;&gt;&lt;/result&gt;
+        &lt;!-- 配置角色集合的映射 --&gt;
+        &lt;collection property=&quot;roles&quot; ofType=&quot;role&quot;&gt;
+            &lt;id property=&quot;roleId&quot; column=&quot;rid&quot;&gt;&lt;/id&gt;
+            &lt;result property=&quot;roleName&quot; column=&quot;role_name&quot;&gt;&lt;/result&gt;
+            &lt;result property=&quot;roleDesc&quot; column=&quot;role_desc&quot;&gt;&lt;/result&gt;
+        &lt;/collection&gt;
+    &lt;/resultMap&gt;
+    &lt;!-- 查询所有 --&gt;
+    &lt;select id=&quot;findAll&quot; resultMap=&quot;userMap&quot;&gt;
+        select u.*,r.id as rid,r.role_name,r.role_desc from user u
+        left outer join user_role ur  on u.id = ur.uid
+        left outer join role r on r.id = ur.rid
+    &lt;/select&gt;
+    &lt;!-- 根据id查询用户 --&gt;
+    &lt;select id=&quot;findById&quot; parameterType=&quot;INT&quot; resultType=&quot;user&quot;&gt;
+        select * from user where id = #&#123;uid&#125;
+    &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+<p>接口层配置,IRoleDao.xml</p>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IRoleDao&quot;&gt;
+    &lt;!--定义role表的ResultMap--&gt;
+    &lt;resultMap id=&quot;roleMap&quot; type=&quot;role&quot;&gt;
+        &lt;id property=&quot;roleId&quot; column=&quot;rid&quot;&gt;&lt;/id&gt;
+        &lt;result property=&quot;roleName&quot; column=&quot;role_name&quot;&gt;&lt;/result&gt;
+        &lt;result property=&quot;roleDesc&quot; column=&quot;role_desc&quot;&gt;&lt;/result&gt;
+        &lt;collection property=&quot;users&quot; ofType=&quot;user&quot;&gt;
+            &lt;id column=&quot;id&quot; property=&quot;id&quot;&gt;&lt;/id&gt;
+            &lt;result column=&quot;username&quot; property=&quot;username&quot;&gt;&lt;/result&gt;
+            &lt;result column=&quot;address&quot; property=&quot;address&quot;&gt;&lt;/result&gt;
+            &lt;result column=&quot;sex&quot; property=&quot;sex&quot;&gt;&lt;/result&gt;
+            &lt;result column=&quot;birthday&quot; property=&quot;birthday&quot;&gt;&lt;/result&gt;
+        &lt;/collection&gt;
+    &lt;/resultMap&gt;
+    &lt;!--查询所有--&gt;
+    &lt;select id=&quot;findAll&quot; resultMap=&quot;roleMap&quot;&gt;
+       select u.*,r.id as rid,r.role_name,r.role_desc from role r
+        left outer join user_role ur  on r.id = ur.rid
+        left outer join user u on u.id = ur.uid
+    &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+<p>测试结果：</p>
+<pre><code class="line-numbers language-java">public class IUserDaoTest extends BaseTest&#123;
+    @Test
+    public void findAll() throws Exception &#123;
+        userDao.findAll().stream().forEach(item-&gt; System.out.println(item));
+    &#125;
+&#125;
+// 输出结果：
+// User(id=41, username=老王, address=北京, sex=男, birthday=Sat Feb 27 17:47:08 CST 1965, roles=[Role(roleId=1, roleName=院长, roleDesc=管理整个学院, users=null), Role(roleId=2, roleName=总裁, roleDesc=管理整个公司, users=null)])
+// User(id=45, username=老张, address=绍兴, sex=男, birthday=Sun Mar 04 12:04:06 CST 1923, roles=[Role(roleId=1, roleName=院长, roleDesc=管理整个学院, users=null)])
+// User(id=42, username=小王, address=上海, sex=女, birthday=Wed Mar 02 15:09:37 CST 1955, roles=[])
+// User(id=43, username=小二王, address=杭州, sex=女, birthday=Thu Mar 04 11:34:34 CST 2010, roles=[])
+// User(id=46, username=小张, address=重庆, sex=男, birthday=Tue Mar 07 17:37:26 CST 2000, roles=[])
+// User(id=48, username=小马, address=天津, sex=女, birthday=Sat Mar 08 11:44:00 CST 2008, roles=[])
+</code></pre>
+<pre><code class="line-numbers language-java">import org.junit.Test;
+public class IRoleDaoTest extends BaseTest &#123;
+    @Test
+    public void findAll() throws Exception &#123;
+     iRoleDao.findAll().stream().forEach(item-&gt; System.out.println(item));
+    &#125;
+&#125;
+// 输出结果：
+// Role(roleId=1, roleName=院长, roleDesc=管理整个学院, users=[User(id=41, username=老王, address=北京, sex=男, birthday=Sat Feb 27 17:47:08 CST 1965, roles=null), User(id=45, username=老张, address=绍兴, sex=男, birthday=Sun Mar 04 12:04:06 CST 1923, roles=null)])
+// Role(roleId=2, roleName=总裁, roleDesc=管理整个公司, users=[User(id=41, username=老王, address=北京, sex=男, birthday=Sat Feb 27 17:47:08 CST 1965, roles=null)])
+// Role(roleId=3, roleName=校长, roleDesc=管理整个学校, users=[])
+</code></pre>
+<h3 id="mybatis中的延迟加载"><a href="#mybatis中的延迟加载" class="headerlink" title="mybatis中的延迟加载"></a>mybatis中的延迟加载</h3><ul>
+<li>问题:在一对多中，当我们有一个用户，它有100个账户。</li>
+<li>在查询用户的时候，要不要把关联的账户查出来?</li>
+<li>在查询账户的时候，要不要把关联的用户查出来?<br> <strong>在查询用户时，用户下的账户信息应该是，什么时候使用，什么时候查询的。</strong><br> <strong>在查询账户时，账户的所属用户信息应该是随着账户查询时-起查询出来。</strong></li>
+</ul>
+<h4 id="什么是延迟加载"><a href="#什么是延迟加载" class="headerlink" title="什么是延迟加载"></a>什么是延迟加载</h4><ul>
+<li>在真正使用数据时才发起查询，不用的时候不查询。按需加载(懒加载)</li>
+</ul>
+<h4 id="什么是立即加载"><a href="#什么是立即加载" class="headerlink" title="什么是立即加载"></a>什么是立即加载</h4><ul>
+<li>不管用不用，只要一调用方法，马上发起查询。<br>在对应的四种表关系中: 一对多，多对一，一对一，多对多<br><strong>一对多，多对多:通常情况下我们都是采用延迟加载。</strong><br><strong>多对一，一对一:通常情况下我们都是采用立即加载。</strong></li>
+</ul>
+<h4 id="使用-assocation-实现延迟加载"><a href="#使用-assocation-实现延迟加载" class="headerlink" title="使用 assocation 实现延迟加载"></a>使用 assocation 实现延迟加载</h4><ul>
+<li>需求:查询账户信息同时查询用户信息。</li>
+<li>账户的持久层DAO接口<pre><code class="line-numbers language-java">public interface IAccountDao &#123;
+  /**
+   * 查询所有账户，同时还要获取到当前账户的所属用户信息
+   * @return
+   */
+  List&lt;Account&gt; findAll();
+&#125;
+</code></pre>
+</li>
+<li>账户的持久层映射文件<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+      PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+      &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IAccountDao&quot;&gt;
+  &lt;!-- 定义封装account和user的resultMap --&gt;
+  &lt;resultMap id=&quot;accountUserMap&quot; type=&quot;account&quot;&gt;
+      &lt;id property=&quot;id&quot; column=&quot;aid&quot;&gt;&lt;/id&gt;
+      &lt;result property=&quot;uid&quot; column=&quot;uid&quot;&gt;&lt;/result&gt;
+      &lt;result property=&quot;money&quot; column=&quot;money&quot;&gt;&lt;/result&gt;
+      &lt;!-- 一对一的关系映射：配置封装user的内容--&gt;
+      &lt;association property=&quot;user&quot; column=&quot;uid&quot; javaType=&quot;user&quot; select=&quot;com.ecit.dao.IUserDao.findById&quot;&gt; &lt;!--select: 填写我们要调用的 select 映射的 id ;column : 填写我们要传递给 select 映射的参数--&gt;
+      &lt;/association&gt;
+  &lt;/resultMap&gt;
+  &lt;!-- 查询所有 --&gt;
+  &lt;select id=&quot;findAll&quot; resultMap=&quot;accountUserMap&quot;&gt;
+      select * from account
+  &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+</li>
+<li>用户的持久层接口和映射文件<br>&#96;&#96;&#96;java<br>import com.ecit.domain.User;<br>&#x2F;**</li>
+</ul>
+<ul>
+<li>用户的持久层接口<br> <em>&#x2F;<br>public interface IUserDao {<br> &#x2F;</em>*<ul>
+<li>根据id查询用户信息</li>
+<li>@param userId</li>
+<li>@return<br>  *&#x2F;<br> User findById(Integer userId);<br>}<pre><code>```xml
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+ PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+ &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IUserDao&quot;&gt;
+ &lt;!-- 根据id查询用户 --&gt;
+ &lt;select id=&quot;findById&quot; parameterType=&quot;INT&quot; resultType=&quot;user&quot;&gt;
+ select * from user where id = #&#123;uid&#125;
+ &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>开启Mybatis的延迟加载策略<br>我们需要在 Mybatis 的配置文件 SqlMapConfig.xml 文件中添加延迟加载的配置。<pre><code class="line-numbers language-xml">&lt;settings&gt;
+   &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;
+   &lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
+&lt;/settings&gt;
+</code></pre>
+</li>
+<li>测试结果<pre><code class="line-numbers language-java">  @Test
+  public void findAll() throws Exception &#123;
+      accountDao.findAll();
+  &#125;
+</code></pre>
+<img src="/images/javase/%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD.png"><pre><code class="line-numbers language-java">  //用户信息按需加载
+  @Test
+  public void findAll2() throws Exception &#123;
+          accountDao.findAll().stream().forEach((item)-&gt;&#123;System.out.println(item);&#125;);
+  &#125;
+</code></pre>
+<img src="/images/javase/%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD2.png"></li>
+</ul>
+<h4 id="使用-Collection-实现延迟加载"><a href="#使用-Collection-实现延迟加载" class="headerlink" title="使用 Collection 实现延迟加载"></a>使用 Collection 实现延迟加载</h4><ul>
+<li>同样我们也可以在一对多关系配置的&lt;collection&gt;结点中配置延迟加载策略。 &lt;collection&gt;结点中也有 select 属性，column 属性。</li>
+<li>需求:<br>完成加载用户对象时，查询该用户所拥有的账户信息。</li>
+<li>在User实体类中加入List&lt;Account&gt;属性<pre><code class="line-numbers language-java">import lombok.Data;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+@Data
+public class User implements Serializable &#123;
+  private Integer id;
+  private String username;
+  private String address;
+  private String sex;
+  private Date birthday;
+  private List&lt;Account&gt; accounts;
+&#125;
+</code></pre>
+</li>
+<li>编写用户和账户持久层接口的方法<br>&#96;&#96;&#96;java<br>import com.ecit.domain.User;<br>import java.util.List;<br>&#x2F;**</li>
+</ul>
+<ul>
+<li>用户的持久层接口<br> <em>&#x2F;<br>public interface IUserDao {<br> List<User> findAll();<br>}<br>public interface IAccountDao {<br> &#x2F;</em>*<ul>
+<li>查询所有账户，同时还要获取到当前账户的所属用户信息</li>
+<li>@return<br>  *&#x2F;<br> List<Account> findByUid(Integer uid);<br>}<br>&#96;&#96;&#96;</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>编写用户持久层映射配置<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+      PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+      &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IUserDao&quot;&gt;
+  &lt;resultMap type=&quot;user&quot; id=&quot;userMap&quot;&gt;
+      &lt;id column=&quot;id&quot; property=&quot;id&quot;&gt;&lt;/id&gt;
+      &lt;result column=&quot;username&quot; property=&quot;username&quot;/&gt;
+      &lt;result column=&quot;address&quot; property=&quot;address&quot;/&gt;
+      &lt;result column=&quot;sex&quot; property=&quot;sex&quot;/&gt;
+  &lt;result column=&quot;birthday&quot; property=&quot;birthday&quot;/&gt;
+      &lt;!-- collection是用于建立一对多中集合属性的对应关系
+             ofType 用于指定集合元素的数据类型
+             select 是用于指定查询账户的唯一标识(账户的 dao 全限定类名加上方法名称)
+             column 是用于指定使用哪个字段的值作为条件查询 --&gt;
+  &lt;collection property=&quot;accounts&quot; ofType=&quot;account&quot; select=&quot;com.ecit.dao.IAccountDao.findByUid&quot; column=&quot;id&quot;&gt;
+  &lt;/collection&gt;
+&lt;/resultMap&gt;
+      &lt;!-- 配置查询所有操作 --&gt;
+&lt;select id=&quot;findAll&quot; resultMap=&quot;userMap&quot;&gt;
+select * from user
+&lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+</li>
+<li>编写账户持久层配置<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+      PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+      &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IAccountDao&quot;&gt;
+  &lt;!-- 根据用户 id 查询账户信息 --&gt;
+  &lt;select id=&quot;findByUid&quot; resultType=&quot;account&quot; parameterType=&quot;int&quot;&gt;
+      select * from account where uid = #&#123;uid&#125;
+  &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+</li>
+<li>SqlMapConfig.xml懒加载机制配置<pre><code class="line-numbers language-xml">&lt;settings&gt;
+   &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;
+   &lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot;/&gt;
+&lt;/settings&gt;
+</code></pre>
+</li>
+<li>测试效果<pre><code class="line-numbers language-java">  @Test
+  public void findAll() throws Exception &#123;
+     userDao.findAll();
+  &#125;
+</code></pre>
+<img src="/images/javase/%E6%87%92%E5%8A%A0%E8%BD%BD3.png"><pre><code class="line-numbers language-java">  @Test
+  public void findAll2() throws Exception &#123;
+      userDao.findAll().stream().forEach(item-&gt; System.out.println(item));
+  &#125;
+</code></pre>
+<img src="/images/javase/%E6%87%92%E5%8A%A0%E8%BD%BD4.png"></li>
+</ul>
+<h3 id="mybatis中的缓存"><a href="#mybatis中的缓存" class="headerlink" title="mybatis中的缓存"></a>mybatis中的缓存</h3><ul>
+<li>什么是缓存<br>存在于内存中的临时数据。</li>
+<li>为什么使用缓存<br>减少和数据库的交互次数，提高执行效率。</li>
+<li>什么样的数据能使用缓存，什么样的数据不能使用</li>
+<li>适用于缓存:<br>经常查询并且不经常改变的。<br>数据的正确与否对最终结果影响不大的。</li>
+<li>不适用于缓存:<br>经常改变的数据<br>数据的正确与否对最终结果影响很大的。<br>例如: 商品的库存，银行的汇率，股市的牌价。</li>
+</ul>
+<h4 id="mybatis中的一级缓存sqlsession"><a href="#mybatis中的一级缓存sqlsession" class="headerlink" title="mybatis中的一级缓存sqlsession"></a>mybatis中的一级缓存sqlsession</h4><ul>
+<li>一级缓存是 SqlSession 级别的缓存，只要 SqlSession 没有 flush 或 close，它就存在。<pre><code class="line-numbers language-java">  @Test
+  public void findAll2() throws Exception &#123;
+      List&lt;User&gt; list1 = userDao.findAll();
+      List&lt;User&gt; list2 = userDao.findAll();
+      System.out.println(list1==list2?&quot;list1==list2?--&gt;一级缓存中同一份数据对象&quot;:&quot;ist1==list2?--&gt;不是一级缓存中的对象&quot;);
+      session.clearCache();
+      List&lt;User&gt; list3 = userDao.findAll();
+      System.out.println(list3==list1?&quot;list3==list1?--&gt;一级缓存中同一份数据对象&quot;:&quot;list3==list1?--&gt;不是一级缓存中的对象&quot;);
+      session.close();
+      session = factory.openSession();
+      userDao = session.getMapper(IUserDao.class);
+      List&lt;User&gt; list5 = userDao.findAll();
+      System.out.println(list5==list1?&quot;list5==list1?--&gt;一级缓存中同一份数据对象&quot;:&quot;list5==list1?不是一级缓存中的对象&quot;);
+      User user = new User();
+      user.setId(48);
+      user.setUsername(&quot;小马哥&quot;);
+      userDao.update(user);
+      List&lt;User&gt; list6 =  userDao.findAll();
+      System.out.println(list6==list5?&quot;list6==list5?--&gt;一级缓存中同一份数据对象&quot;:&quot;list6==list5?不是一级缓存中的对象&quot;);
+  &#125;
+// 输出结果：
+// list1==list2?--&gt;一级缓存中同一份数据对象
+// list3==list1?--&gt;不是一级缓存中的对象
+// list5==list1?不是一级缓存中的对象
+// list6==list5?不是一级缓存中的对象
+</code></pre>
+一级缓存是 SqlSession 范围的缓存，当调用 SqlSession 的修改，添加，删除，commit()，close()等方法时，就会清空一级缓存。<br>测试效果：<pre><code class="line-numbers language-java">list1==list2?--&gt;一级缓存中同一份数据对象
+list3==list1?--&gt;不是一级缓存中的对象
+list5==list1?不是一级缓存中的对象
+list6==list5?不是一级缓存中的对象
+</code></pre>
+</li>
+</ul>
+<h4 id="mybatis中的二级缓存mapper-namespace"><a href="#mybatis中的二级缓存mapper-namespace" class="headerlink" title="mybatis中的二级缓存mapper(namespace)"></a>mybatis中的二级缓存mapper(namespace)</h4><ul>
+<li>二级缓存是 mapper 映射级别的缓存，多个 SqlSession 去操作同一个 Mapper 映射的 sql 语句，多个SqlSession 可以共用二级缓存，二级缓存是跨 SqlSession 的。</li>
+<li>二级缓存的开启与关闭<pre><code class="line-numbers language-xml">&lt;settings&gt;
+  &lt;!-- 开启二级缓存的支持 --&gt;
+   &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;
+&lt;/settings&gt;
+&lt;!--   因为 cacheEnabled 的取值默认就为 true，所以这一步可以省略不配置。为 true 代表开启二级缓存;为 false 代表不开启二级缓存。--&gt;
+</code></pre>
+</li>
+<li>配置相关的 Mapper 映射文件<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+      PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+      &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IUserDao&quot;&gt;
+  &lt;!--开启二级缓存--&gt;
+  &lt;cache/&gt;
+  &lt;resultMap type=&quot;user&quot; id=&quot;userMap&quot;&gt;
+      &lt;id column=&quot;id&quot; property=&quot;id&quot;&gt;&lt;/id&gt;
+      &lt;result column=&quot;username&quot; property=&quot;username&quot;/&gt;
+      &lt;result column=&quot;address&quot; property=&quot;address&quot;/&gt;
+      &lt;result column=&quot;sex&quot; property=&quot;sex&quot;/&gt;
+      &lt;result column=&quot;birthday&quot; property=&quot;birthday&quot;/&gt;
+      &lt;!-- collection是用于建立一对多中集合属性的对应关系
+             ofType 用于指定集合元素的数据类型
+             select 是用于指定查询账户的唯一标识(账户的 dao 全限定类名加上方法名称)
+             column 是用于指定使用哪个字段的值作为条件查询 --&gt;
+      &lt;collection property=&quot;accounts&quot; ofType=&quot;account&quot; select=&quot;com.ecit.dao.IAccountDao.findByUid&quot; column=&quot;id&quot;&gt;
+      &lt;/collection&gt;
+  &lt;/resultMap&gt;
+  &lt;!-- 配置查询所有操作 --&gt;
+  &lt;select id=&quot;findAll&quot; resultMap=&quot;userMap&quot; useCache=&quot;true&quot;&gt;  &lt;!--指定语句使用二级缓存--&gt;
+             select * from user
+  &lt;/select&gt;
+      &lt;select id=&quot;findUserById&quot; parameterType=&quot;int&quot; resultType=&quot;user&quot; useCache=&quot;true&quot;&gt;
+      select * from user WHERE id = #&#123;id&#125;
+  &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+将 UserDao.xml 映射文件中的&lt;select&gt;标签中设置 useCache&#x3D;”true”代表当前这个 statement 要使用二级缓存，如果不使用二级缓存可以设置为 false。<br>注意:针对每次查询都需要最新的数据 sql，要设置成 useCache&#x3D;false，禁用二级缓存。<pre><code class="line-numbers language-java">  @Test
+  public void findUserById() throws Exception &#123;
+     User user1 = userDao.findUserById(48);
+      System.out.println(user1);
+      session.close();
+      session = factory.openSession();
+      userDao = session.getMapper(IUserDao.class);
+      User user2 = userDao.findUserById(48);
+      System.out.println(user2);
+  &#125;
+</code></pre>
+<img src="/images/javase/%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98.png"><br><strong>注意二级缓存缓存的是散列内容，而非对象，缓存查询时，会根据存在的内容，重新序列化一个新对象</strong></li>
+</ul>
+<h4 id="ehcache二级缓存"><a href="#ehcache二级缓存" class="headerlink" title="ehcache二级缓存"></a>ehcache二级缓存</h4><ul>
+<li>mybatis的特长是SQL操作，缓存数据管理不是其特长，为了提高缓存的性能，myBatis允许使用第三方缓存产品。ehcache就是其中的一种。</li>
+<li>导入依赖库<pre><code class="line-numbers language-xml"> &lt;dependency&gt;
+   &lt;groupId&gt;org.mybatis.caches&lt;/groupId&gt;
+   &lt;artifactId&gt;mybatis-ehcache&lt;/artifactId&gt;
+    &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+<li>在classpath下配置ehcache.xml<pre><code class="line-numbers language-xml">&lt;ehcache xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:noNamespaceSchemaLocation=&quot;http://ehcache.org/ehcache.xsd&quot;&gt;
+  &lt;diskStore path=&quot;java.io.tmpdir&quot;/&gt;
+  &lt;defaultCache
+          maxElementsInMemory=&quot;10000&quot;
+          eternal=&quot;false&quot;
+          timeToIdleSeconds=&quot;120&quot;
+          timeToLiveSeconds=&quot;120&quot;
+          maxElementsOnDisk=&quot;10000000&quot;
+          diskExpiryThreadIntervalSeconds=&quot;120&quot;
+          memoryStoreEvictionPolicy=&quot;LRU&quot;&gt;
+      &lt;persistence strategy=&quot;localTempSwap&quot;/&gt;
+  &lt;/defaultCache&gt;
+&lt;/ehcache&gt;
+</code></pre>
+</li>
+<li>SqlMapConfig.xml开启二级缓存开关<pre><code class="line-numbers language-xml">  &lt;settings&gt;
+      &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;
+  &lt;/settings&gt;
+</code></pre>
+</li>
+<li>dao接口映射文件配置实现类<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper
+      PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+      &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ecit.dao.IUserDao&quot;&gt;
+  &lt;!--开启二级缓存,使用ehcache实现类--&gt;
+  &lt;cache type=&quot;org.mybatis.caches.ehcache.EhcacheCache&quot;/&gt;
+  &lt;resultMap type=&quot;user&quot; id=&quot;userMap&quot;&gt;
+      &lt;id column=&quot;id&quot; property=&quot;id&quot;&gt;&lt;/id&gt;
+      &lt;result column=&quot;username&quot; property=&quot;username&quot;/&gt;
+      &lt;result column=&quot;address&quot; property=&quot;address&quot;/&gt;
+      &lt;result column=&quot;sex&quot; property=&quot;sex&quot;/&gt;
+      &lt;result column=&quot;birthday&quot; property=&quot;birthday&quot;/&gt;
+      &lt;!-- collection是用于建立一对多中集合属性的对应关系
+             ofType 用于指定集合元素的数据类型
+             select 是用于指定查询账户的唯一标识(账户的 dao 全限定类名加上方法名称)
+             column 是用于指定使用哪个字段的值作为条件查询 --&gt;
+      &lt;collection property=&quot;accounts&quot; ofType=&quot;account&quot; select=&quot;com.ecit.dao.IAccountDao.findByUid&quot; column=&quot;id&quot;&gt;
+      &lt;/collection&gt;
+  &lt;/resultMap&gt;
+  &lt;!-- 配置查询所有操作 --&gt;
+  &lt;select id=&quot;findAll&quot; resultMap=&quot;userMap&quot; useCache=&quot;true&quot;&gt;  &lt;!--指定语句使用二级缓存--&gt;
+      select * from user
+  &lt;/select&gt;
+  &lt;select id=&quot;findUserById&quot; parameterType=&quot;int&quot; resultType=&quot;user&quot; useCache=&quot;true&quot;&gt;&lt;!--指定语句使用二级缓存--&gt;
+      select * from user WHERE id = #&#123;id&#125;
+  &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+</li>
+<li>测试<pre><code class="line-numbers language-java">  @Test
+  public void findUserById() throws Exception &#123;
+      User user1 = userDao.findUserById(48);
+      System.out.println(user1);
+      session.close();
+      session = factory.openSession();
+      userDao = session.getMapper(IUserDao.class);
+      User user2 = userDao.findUserById(48);
+      System.out.println(user2);
+      System.out.println(System.getProperty(&quot;java.io.tmpdir&quot;));
+  &#125;
+  //注意查看   com.ecit.dao.IUserDao  - Cache Hit Ratio [com.ecit.dao.IUserDao]: 0.5，说明生效了
+</code></pre>
+</li>
+</ul>
+<h2 id="mybatis和hibernate本质区别和应用场景←"><a href="#mybatis和hibernate本质区别和应用场景←" class="headerlink" title="mybatis和hibernate本质区别和应用场景←"></a>mybatis和hibernate本质区别和应用场景←</h2><ul>
+<li><strong>hibernate:是一个标准ORM框架(对象关系映射)。入门门槛较高的，不需要程序写sql，sql 语句自动生成了。</strong>对sql语句进行优化、修改比较困难的。</li>
+<li>应用场景:<br>  <strong>适用与需求变化不多的中小型项目，比如:后台管理系统，erp、 orm、oa</strong></li>
+<li><strong>mybatis:专注是sgl本身，需要程序员自己编写sg!语句，sgl 修改、优化比较方便</strong>。mybatis是一个不完全的ORM框架，虽然程序员自己写sgl，mybatis 也可以实现映射(输入映射、输出映射)。</li>
+<li>应用场景:<br>  <strong>适用与需求变化较多的项目，比如:互联网项目。</strong><br>企业进行技术选型，以低成本高回报作为技术选型的原则，根据项目组的技术力量进行选择。</li>
+</ul>
+<h2 id="使用Mybatis批量新增数据的三种具体实现"><a href="#使用Mybatis批量新增数据的三种具体实现" class="headerlink" title="使用Mybatis批量新增数据的三种具体实现"></a>使用Mybatis批量新增数据的三种具体实现</h2><ul>
+<li><p>MySQL数据库对于批量插入的支持(<strong>适用于几十条和几百条数据插入的情景</strong>)</p>
+</li>
+<li><p>方式:</p>
+</li>
+<li><p>1 )借助foreach标签使用insert into table values() ，<strong>sql语句只编译一次</strong></p>
+<pre><code class="line-numbers language-xml">&lt;insert id=&quot;addPersons&quot;&gt;
+    insert into user(username,password) VALUES
+    &lt;foreach collection=&quot;users&quot; item=&quot;user&quot; separator=&quot;,&quot;&gt;
+        (#&#123;user.username&#125;,#&#123;user.password&#125;)
+    &lt;/foreach&gt;
+&lt;/insert&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">public int addPersons(@Param(&quot;users&quot;) List&lt;User&gt; persons);
+</code></pre>
+<pre><code class="line-numbers language-java">List&lt;User&gt; persons=new ArrayList&lt;User&gt;();
+for (int i = 0; i &lt;1000 ; i++)
+&#123;
+User person=new User(&quot;jerry&quot;+i,&quot;email@&quot;+i);
+persons.add(person);
+&#125;
+personMapper.addPersons(persons);
+</code></pre>
+</li>
+<li><p>2 )借助<strong>MySQL数据库连接属性allowMultiQueries&#x3D;true,拼接在jdbc.url后面</strong>(<strong>不推荐，编译引擎多次编译sql语句</strong>)</p>
+<pre><code class="line-numbers language-xml">&lt;insert id=&quot;addPersons&quot;&gt;
+   &lt;foreach collection=&quot;users&quot; item=&quot;person&quot; separator=&quot;;&quot;&gt;
+      insert into user(username,password) VALUES
+     (#&#123;person.username&#125;,#&#123;person.password&#125;)
+    &lt;/foreach&gt;
+&lt;/insert&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">public int addPersons(@Param(&quot;users&quot;) List&lt;User&gt; persons);
+</code></pre>
+</li>
+<li><p>可借助Executor的Batch批量添加,可与Spring框架整合,不要配置在全局的SqlMapConfig.xml里，会影响所有的插入语句，单独获取session,针对特殊的mapper(<strong>适用于几千条上万条数据需要批量插入的情景</strong>)</p>
+<pre><code class="line-numbers language-xml">&lt;insert id=&quot;addPerson&quot; parameterType=&quot;user&quot;&gt;
+  insert into user(username,password) VALUES (#&#123;username&#125;,#&#123;password&#125;)
+&lt;/insert&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">public int addPerson(User user);
+</code></pre>
+<pre><code class="line-numbers language-java">@Test 
+public void testBatchaddUsers() &#123;
+    //如果自动提交设置为true,将无法控制提交的条数，改为最后统一提交，可能导致内存溢出
+    SqlSession sqlSession = factory.openSession(ExecutorType.BATCH, false);
+    PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
+    try &#123;
+        for (int i = 0; i &lt; 10020; i++) &#123;
+            personMapper.addPerson(new User(&quot;jerry&quot; + i, &quot;bj&quot; + i));
+            if (i % 5000 == 0 &amp;&amp; i &gt; 0) &#123;
+                //手动每5000条提交一次，提交后无法回滚
+                sqlSession.commit();
+                //清理缓存，防止溢出
+                sqlSession.clearCache();
+            &#125;
+        &#125;
+        sqlSession.commit();
+        sqlSession.clearCache();
+    &#125; catch (Exception e) &#123;
+        sqlSession.rollback();
+    &#125;finally &#123;
+        sqlSession.close();
+    &#125;
+&#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="Mybatis四大对象及插件原理"><a href="#Mybatis四大对象及插件原理" class="headerlink" title="Mybatis四大对象及插件原理"></a>Mybatis四大对象及插件原理</h2><ul>
+<li>Mybatis核心对象</li>
+<li>ParameterHandler:处理SQL 的参数对象<br> &#96;&#96;&#96;java<br> public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {<br> ParameterHandler parameterHandler &#x3D; mappedStatement.getLang().createParameterHandler(mappedStatement, parameterObject, boundSql);<br> parameterHandler &#x3D; (ParameterHandler)this.interceptorChain.pluginAll(parameterHandler); &#x2F;&#x2F;被拦截器层层代理加强，返回一个ParameterHandler代理对象<br> return parameterHandler;<br> }<br> public Object pluginAll(Object target) {<br> Interceptor interceptor;<br> for(Iterator var2 &#x3D; this.interceptors.iterator(); var2.hasNext(); target &#x3D; interceptor.plugin(target)) { &#x2F;&#x2F;层层拦截器，加强代理对象<br>     interceptor &#x3D; (Interceptor)var2.next();<br> }<br><br> return target;</li>
+</ul>
+<p> }</p>
+<pre><code>- ResultSetHandler :处理SQL的返回结果集
+- StatementHandler:数据库的处理对象,用于执行SQL语句
+- Executor:Mybatis的执行器 ,用于执行增删改查操作
+
+- Mybatis插件原理及接口
+- Mybatis的插件借助于责任链的模式进行对拦截的处理
+- 使用动态代理对目标对象进行包装，达到拦截的目的
+- 作用于Mybatis的作用域对象之上
+- Mybatis插件接口-Interceptor
+- Intercept方法,插件的核心方法
+- 使plugin方法,生成target的代理对象
+- setProperties方法 ,配置所需参数 
+
+### 插件的开发过程
+- 确定拦截的签名
+- 实现拦截方法
+- 配置和运行
+- 插件实例
+**创建代理对象时,按照插件配置的顺序进行包装**,*执行目标方法后,是按照代理的逆向进行执行*
+```xml
+&lt;plugins&gt;
+   &lt;plugin interceptor=&quot;com.ecit.interceptor.FirstInterceptor&quot;&gt;
+           &lt;property name=&quot;hello&quot; value=&quot;world&quot;&gt;&lt;/property&gt;
+   &lt;/plugin&gt;
+   &lt;plugin interceptor=&quot;com.ecit.interceptor.SecondInterceptor&quot;&gt;
+   &lt;/plugin&gt;
+&lt;/plugins&gt;
+</code></pre>
+<pre><code class="line-numbers language-java">import org.apache.ibatis.executor.resultset.ResultSetHandler;
+import org.apache.ibatis.plugin.*;
+import java.sql.Statement;
+import java.util.Properties;
+@Intercepts(&#123;
+@Signature(type = ResultSetHandler.class,method = &quot;handleResultSets&quot;,args = Statement.class)
+&#125;)
+public class FirstInterceptor implements Interceptor &#123;
+    @Override
+    public Object intercept(Invocation invocation) throws Throwable &#123;
+        System.out.println(&quot;拦截的目标对象1:&quot;+invocation.getTarget());
+        System.out.println(&quot;拦截的目标对象1 方法:&quot;+invocation. getMethod());
+        System.out.println(&quot;拦截的目标对象1 参数:&quot;+invocation. getArgs());
+        Object object=invocation.proceed();
+        return object;
+    &#125;
+    @Override
+    public Object plugin(Object o) &#123;
+        System. out. println(&quot;将要包装的目标对象1&quot;+o);
+        return Plugin. wrap(o,this);
+    &#125;
+    @Override
+    public void setProperties(Properties properties) &#123;
+        System.out.println(&quot;插件配置的初始化参数1&quot;+properties);
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">import org.apache.ibatis.executor.resultset.ResultSetHandler;
+import org.apache.ibatis.plugin.*;
+import java.sql.Statement;
+import java.util.Properties;
+@Intercepts(&#123;
+        @Signature(type = ResultSetHandler.class,method = &quot;handleResultSets&quot;,args = Statement.class)
+&#125;)
+public class SecondInterceptor implements Interceptor &#123;
+    @Override
+    public Object intercept(Invocation invocation) throws Throwable &#123;
+        System.out.println(&quot;拦截的目标对象2&quot;+invocation.getTarget());
+        Object object=invocation.proceed();
+        return object;
+    &#125;
+    @Override
+    public Object plugin(Object o) &#123;
+        System. out. println(&quot;将要包装的目标对象2&quot;+o);
+        return Plugin.wrap(o,this);
+    &#125;
+    @Override
+    public void setProperties(Properties properties) &#123;
+        System.out.println(&quot;插件配置的初始化参数2&quot;+properties);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="使用拦截器PageHelper进行分页"><a href="#使用拦截器PageHelper进行分页" class="headerlink" title="使用拦截器PageHelper进行分页"></a>使用拦截器PageHelper进行分页</h3><ul>
+<li>分页原理总结<pre><code class="line-numbers language-text">分页原理-规律
+开始记录索引的规律 (当前页-1) * 每页的条数
+一共有多少页:总记录%条数==0 ?总记录%条数: +1
+</code></pre>
+</li>
+<li>PageHelper分页插件的使用</li>
+<li>用到的分页插件库<pre><code class="line-numbers language-xml">&lt;dependency&gt;
+&lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;
+&lt;artifactId&gt;pagehelper&lt;/artifactId&gt;
+&lt;version&gt;5.0.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+<li>SqlMapConfig.xml配置分页插件<br> 特别注意,新版拦截器是com.github.pagehelper.PageInterceptor。com.github.pagehelper.PageHelper现在是一个特殊的dialect实现类,是分页插件的默认实现类,提供了和以前相同的用法。<pre><code class="line-numbers language-xml">&lt;plugin interceptor=&quot;com.github.pagehelper.PageInterceptor&quot;&gt;
+&lt;/plugin&gt;
+</code></pre>
+</li>
+<li>拿一种使用示例，其它方式使用可参看官网详细介绍<pre><code class="line-numbers language-java">@Test
+public void testFindUserById() &#123;
+    Page&lt;User&gt; page = PageHelper.startPage(1,10);
+    List&lt;User&gt; users = userDao.findAll();
+    for (User user:users
+         ) &#123;
+        System.out.println(user.getId() + user.getUsername() + user.getPassword());
+    &#125;
+    System.out.println(page.getPageNum()) ;//current page
+    System.out.println(page.getTotal());//total
+    System.out.println(page.getPageSize());
+    PageHelper.startPage(2,10);
+    List&lt;User&gt; user2 = userDao.findAll();
+    System.out.println(user2);
+    System.out.println(page.getPageNum()) ;//current page
+    System.out.println(page.getTotal());//total
+    System.out.println(page.getPageSize());
+&#125;
+</code></pre>
+</li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>mybatis框架</p><p><a href="http://example.com/2013/11/03/framework/持久层框架/mybatis/mybatis/">http://example.com/2013/11/03/framework/持久层框架/mybatis/mybatis/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2013-11-03</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-07-30</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/">持久层</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2013/11/05/framework/%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6/mybatis/mybatis%E5%85%A8%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">mybatis框架-全注解开发</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2013/11/01/framework/%E6%8C%81%E4%B9%85%E5%B1%82%E6%A1%86%E6%9E%B6/DB-Utils/DBUtils/"><span class="level-item">Apache的commons-dbutils</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#框架"><span class="level-left"><span class="level-item">1</span><span class="level-item">框架</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#什么是框架"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">什么是框架</span></span></a></li><li><a class="level is-mobile" href="#框架要解决的问题"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">框架要解决的问题</span></span></a></li></ul></li><li><a class="level is-mobile" href="#mybatis框架"><span class="level-left"><span class="level-item">2</span><span class="level-item">mybatis框架</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#概述"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">概述</span></span></a></li><li><a class="level is-mobile" href="#mybatis架构"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">mybatis架构</span></span></a></li><li><a class="level is-mobile" href="#mybatis快速搭建"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">mybatis快速搭建</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#XML方式的快速搭建"><span class="level-left"><span class="level-item">2.3.1</span><span class="level-item">XML方式的快速搭建</span></span></a></li><li><a class="level is-mobile" href="#基于注解方式改写上面的例子"><span class="level-left"><span class="level-item">2.3.2</span><span class="level-item">基于注解方式改写上面的例子</span></span></a></li></ul></li><li><a class="level is-mobile" href="#mybatis的CRUD-基于XML方式"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">mybatis的CRUD(基于XML方式)</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#补充非自增主键UUID获取"><span class="level-left"><span class="level-item">2.4.1</span><span class="level-item">补充非自增主键UUID获取</span></span></a></li></ul></li><li><a class="level is-mobile" href="#mybatis中SqlMapConfig-xml参数详解"><span class="level-left"><span class="level-item">2.5</span><span class="level-item">mybatis中SqlMapConfig.xml参数详解</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#properties属性"><span class="level-left"><span class="level-item">2.5.1</span><span class="level-item">properties属性</span></span></a></li><li><a class="level is-mobile" href="#settings全局参数配置"><span class="level-left"><span class="level-item">2.5.2</span><span class="level-item">settings全局参数配置</span></span></a></li><li><a class="level is-mobile" href="#typeAliases（别名）"><span class="level-left"><span class="level-item">2.5.3</span><span class="level-item">typeAliases（别名）</span></span></a></li><li><a class="level is-mobile" href="#mappers-映射器"><span class="level-left"><span class="level-item">2.5.4</span><span class="level-item">mappers(映射器)</span></span></a></li></ul></li><li><a class="level is-mobile" href="#mapper-xml"><span class="level-left"><span class="level-item">2.6</span><span class="level-item">mapper-xml</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#parameterType指定输入参数类型"><span class="level-left"><span class="level-item">2.6.1</span><span class="level-item">parameterType指定输入参数类型</span></span></a></li><li><a class="level is-mobile" href="#resultType指定输出结果的类型"><span class="level-left"><span class="level-item">2.6.2</span><span class="level-item">resultType指定输出结果的类型</span></span></a></li><li><a class="level is-mobile" href="#resultMap完成高级输出结果映射"><span class="level-left"><span class="level-item">2.6.3</span><span class="level-item">resultMap完成高级输出结果映射</span></span></a></li></ul></li><li><a class="level is-mobile" href="#mybatis高级特性"><span class="level-left"><span class="level-item">2.7</span><span class="level-item">mybatis高级特性</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#SQL片段"><span class="level-left"><span class="level-item">2.7.1</span><span class="level-item">SQL片段</span></span></a></li><li><a class="level is-mobile" href="#动态SQL"><span class="level-left"><span class="level-item">2.7.2</span><span class="level-item">动态SQL</span></span></a></li><li><a class="level is-mobile" href="#动态if"><span class="level-left"><span class="level-item">2.7.3</span><span class="level-item">动态if</span></span></a></li><li><a class="level is-mobile" href="#where标签"><span class="level-left"><span class="level-item">2.7.4</span><span class="level-item">where标签</span></span></a></li><li><a class="level is-mobile" href="#choose-when-otherwise-相当于JAVA的switch"><span class="level-left"><span class="level-item">2.7.5</span><span class="level-item">choose when otherwise  相当于JAVA的switch</span></span></a></li><li><a class="level is-mobile" href="#foreach-in查询或者批量删除"><span class="level-left"><span class="level-item">2.7.6</span><span class="level-item">foreach in查询或者批量删除</span></span></a></li></ul></li><li><a class="level is-mobile" href="#mybatis多表查询"><span class="level-left"><span class="level-item">2.8</span><span class="level-item">mybatis多表查询</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#表之间的关系"><span class="level-left"><span class="level-item">2.8.1</span><span class="level-item">表之间的关系</span></span></a></li><li><a class="level is-mobile" href="#mybatis一对多案例用户和账户"><span class="level-left"><span class="level-item">2.8.2</span><span class="level-item">mybatis一对多案例用户和账户</span></span></a></li><li><a class="level is-mobile" href="#mybatis多对多查询案例"><span class="level-left"><span class="level-item">2.8.3</span><span class="level-item">mybatis多对多查询案例</span></span></a></li></ul></li><li><a class="level is-mobile" href="#mybatis中的延迟加载"><span class="level-left"><span class="level-item">2.9</span><span class="level-item">mybatis中的延迟加载</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#什么是延迟加载"><span class="level-left"><span class="level-item">2.9.1</span><span class="level-item">什么是延迟加载</span></span></a></li><li><a class="level is-mobile" href="#什么是立即加载"><span class="level-left"><span class="level-item">2.9.2</span><span class="level-item">什么是立即加载</span></span></a></li><li><a class="level is-mobile" href="#使用-assocation-实现延迟加载"><span class="level-left"><span class="level-item">2.9.3</span><span class="level-item">使用 assocation 实现延迟加载</span></span></a></li><li><a class="level is-mobile" href="#使用-Collection-实现延迟加载"><span class="level-left"><span class="level-item">2.9.4</span><span class="level-item">使用 Collection 实现延迟加载</span></span></a></li></ul></li><li><a class="level is-mobile" href="#mybatis中的缓存"><span class="level-left"><span class="level-item">2.10</span><span class="level-item">mybatis中的缓存</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#mybatis中的一级缓存sqlsession"><span class="level-left"><span class="level-item">2.10.1</span><span class="level-item">mybatis中的一级缓存sqlsession</span></span></a></li><li><a class="level is-mobile" href="#mybatis中的二级缓存mapper-namespace"><span class="level-left"><span class="level-item">2.10.2</span><span class="level-item">mybatis中的二级缓存mapper(namespace)</span></span></a></li><li><a class="level is-mobile" href="#ehcache二级缓存"><span class="level-left"><span class="level-item">2.10.3</span><span class="level-item">ehcache二级缓存</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#mybatis和hibernate本质区别和应用场景←"><span class="level-left"><span class="level-item">3</span><span class="level-item">mybatis和hibernate本质区别和应用场景←</span></span></a></li><li><a class="level is-mobile" href="#使用Mybatis批量新增数据的三种具体实现"><span class="level-left"><span class="level-item">4</span><span class="level-item">使用Mybatis批量新增数据的三种具体实现</span></span></a></li><li><a class="level is-mobile" href="#Mybatis四大对象及插件原理"><span class="level-left"><span class="level-item">5</span><span class="level-item">Mybatis四大对象及插件原理</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#使用拦截器PageHelper进行分页"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">使用拦截器PageHelper进行分页</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

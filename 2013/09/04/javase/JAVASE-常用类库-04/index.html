@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>JAVA常用类库-Runtime类，Process类，System类,Arrays类，Timer类定时器使用，Comparable接口和Comparator接口使用 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Runtime类(单例设计模式) Runtime运行时，是一个封装了JVM进程的类，每一个Java程序实际上都是启动了一个JVM进程，那么每一个JVM进程都是对应这一个Runtime实例。此实例是由JVM为其实例化的。  Runtime类常用方法"><meta property="og:type" content="blog"><meta property="og:title" content="JAVA常用类库-Runtime类，Process类，System类,Arrays类，Timer类定时器使用，Comparable接口和Comparator接口使用"><meta property="og:url" content="http://example.com/2013/09/04/javase/JAVASE-%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93-04/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="Runtime类(单例设计模式) Runtime运行时，是一个封装了JVM进程的类，每一个Java程序实际上都是启动了一个JVM进程，那么每一个JVM进程都是对应这一个Runtime实例。此实例是由JVM为其实例化的。  Runtime类常用方法"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/javase/basic/Runtime%E7%B1%BB%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95.png"><meta property="og:image" content="http://example.com/images/javase/basic/cmatrix.gif"><meta property="og:image" content="http://example.com/images/javase/basic/System%E7%B1%BB%E6%96%B9%E6%B3%95.png"><meta property="og:image" content="http://example.com/images/javase/basic/System%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%E8%A1%A8.png"><meta property="og:image" content="http://example.com/images/javase/basic/%E5%AF%B9%E8%B1%A1%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2.png"><meta property="og:image" content="http://example.com/images/javase/basic/Arrays.png"><meta property="og:image" content="http://example.com/images/javase/basic/Arrays%E5%A2%9E%E5%BC%BA.png"><meta property="og:image" content="http://example.com/images/javase/basic/%E4%BA%8C%E5%8F%89%E6%A0%91.png"><meta property="og:image" content="http://example.com/images/javase/basic/timer.png"><meta property="og:image" content="http://example.com/images/javase/basic/timertask.png"><meta property="article:published_time" content="2013-09-04T08:42:34.000Z"><meta property="article:modified_time" content="2020-10-08T12:27:15.895Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="’Developer,Programmer,Coder,Book,History,culture,science and technology‘"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/javase/basic/Runtime%E7%B1%BB%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2013/09/04/javase/JAVASE-%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93-04/"},"headline":"JAVA常用类库-Runtime类，Process类，System类,Arrays类，Timer类定时器使用，Comparable接口和Comparator接口使用","image":["http://example.com/images/javase/basic/Runtime%E7%B1%BB%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95.png","http://example.com/images/javase/basic/cmatrix.gif","http://example.com/images/javase/basic/System%E7%B1%BB%E6%96%B9%E6%B3%95.png","http://example.com/images/javase/basic/System%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%E8%A1%A8.png","http://example.com/images/javase/basic/%E5%AF%B9%E8%B1%A1%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2.png","http://example.com/images/javase/basic/Arrays.png","http://example.com/images/javase/basic/Arrays%E5%A2%9E%E5%BC%BA.png","http://example.com/images/javase/basic/%E4%BA%8C%E5%8F%89%E6%A0%91.png","http://example.com/images/javase/basic/timer.png","http://example.com/images/javase/basic/timertask.png"],"datePublished":"2013-09-04T08:42:34.000Z","dateModified":"2020-10-08T12:27:15.895Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"Runtime类(单例设计模式) Runtime运行时，是一个封装了JVM进程的类，每一个Java程序实际上都是启动了一个JVM进程，那么每一个JVM进程都是对应这一个Runtime实例。此实例是由JVM为其实例化的。  Runtime类常用方法"}</script><link rel="canonical" href="http://example.com/2013/09/04/javase/JAVASE-%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93-04/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2013-09-04T08:42:34.000Z" title="2013/9/4 下午4:42:34">2013-09-04</time>发表</span><span class="level-item"><time dateTime="2020-10-08T12:27:15.895Z" title="2020/10/8 下午8:27:15">2020-10-08</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JAVASE/">JAVASE</a><span> / </span><a class="link-muted" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/">常用类库</a></span><span class="level-item">24 分钟读完 (大约3602个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">JAVA常用类库-Runtime类，Process类，System类,Arrays类，Timer类定时器使用，Comparable接口和Comparator接口使用</h1><div class="content"><h2 id="Runtime类-单例设计模式"><a href="#Runtime类-单例设计模式" class="headerlink" title="Runtime类(单例设计模式)"></a>Runtime类(单例设计模式)</h2><blockquote>
+<p>Runtime运行时，是一个封装了JVM进程的类，每一个Java程序实际上都是启动了一个JVM进程，那么每一个JVM进程都是对应这一个Runtime实例。此实例是由JVM为其实例化的。</p>
+</blockquote>
+<h3 id="Runtime类常用方法"><a href="#Runtime类常用方法" class="headerlink" title="Runtime类常用方法"></a>Runtime类常用方法</h3><p><img src="/images/javase/basic/Runtime%E7%B1%BB%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95.png" alt="Runtime类常用方法"></p>
+<span id="more"></span>
+<h3 id="得到JVM信息"><a href="#得到JVM信息" class="headerlink" title="得到JVM信息"></a>得到JVM信息</h3><pre><code class="line-numbers language-java">public class Test&#123;
+    public static void main(String args[])&#123;
+        Runtime runtime = Runtime.getRuntime();
+        System.out.println(&quot;JVM最大内存值: &quot; + runtime.maxMemory());
+        System.out.println(&quot;JVM空闲内存值: &quot; + runtime.freeMemory());
+        String str = &quot;Hello China,have a nice day!&quot;;
+        for(int i=0;i&lt;1000;i++)&#123;
+            str+=i;        //产生1000次垃圾对象，JVM空闲内存量会变化
+        &#125;
+        System.out.println(&quot;操作1000次String之后，JVM空闲内存值: \t &quot; + runtime.freeMemory());
+        System.gc();    //通知系统进行资源回收
+        System.runFinalization(); // 强制垃圾回收机制调用可恢复对象的finalize()方法
+        System.out.println(&quot;垃圾回收后JVM空闲内存值: \t &quot; + runtime.freeMemory());
+    &#125;
+&#125;
+// 输出结果：
+// JVM最大内存值: 3817865216
+// JVM空闲内存值: 254741016
+// 操作1000次String之后，JVM空闲内存值: 	 242661432
+// 垃圾回收后JVM空闲内存值: 	 255750976
+</code></pre>
+<h3 id="Runtime类与Process类"><a href="#Runtime类与Process类" class="headerlink" title="Runtime类与Process类"></a>Runtime类与Process类</h3><pre><code class="line-numbers language-java">import java.io.InputStreamReader;
+import java.io.BufferedReader;
+public class Test&#123;
+    public static void main(String args[]) throws Exception&#123;
+         Runtime runtime = Runtime.getRuntime();
+         Process process = runtime.exec(&quot;cmatrix&quot;); //黑客帝国画面
+         long start = System.currentTimeMillis();
+         long end = 0;
+         long stopTime = 10_000; //暂定10s退出进程
+        try( 
+            BufferedReader br =new BufferedReader(new InputStreamReader(process.getInputStream()));  )&#123;
+              String line=null;  
+              while((line=br.readLine())!=null)&#123;  
+                  end = System.currentTimeMillis();
+              //判断指定的进程是否在运行  
+              System.out.println(line);
+                 if((end-start)&gt;=stopTime)&#123;
+                      System.out.println(&quot;计划运行&quot; + stopTime + &quot;ms,实际已经运行:  &quot; + (end-start) + &quot;ms，进程即将退出&quot;);
+                        break;
+                 &#125;
+              &#125;
+        &#125;catch(Exception e)&#123;
+            e.printStackTrace();
+            System.err.println(&quot;程序出现异常&quot; );
+        &#125;finally&#123;
+            int exitVal = process.waitFor();
+            System.out.println(&quot;process exit value is &quot; + exitVal);  
+            if(process!=null)&#123;
+                 process.destroy();
+             &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/basic/cmatrix.gif" alt="cmatrix"></p>
+<h2 id="System类"><a href="#System类" class="headerlink" title="System类"></a>System类</h2><blockquote>
+<p>System类是一些与系统相关的属性和方法的集合，而且在System类所有属性都是静态的，要想引用这些属性和方法，直接使用System类调用即可。<br><img src="/images/javase/basic/System%E7%B1%BB%E6%96%B9%E6%B3%95.png" alt="System类方法"></p>
+</blockquote>
+<h3 id="currentTimeMillis——返回毫秒数"><a href="#currentTimeMillis——返回毫秒数" class="headerlink" title="currentTimeMillis——返回毫秒数"></a>currentTimeMillis——返回毫秒数</h3><pre><code class="line-numbers language-java">public class SystemDemo&#123;
+    public static void main(String args[])&#123;
+        long startTime = System.currentTimeMillis() ;	// 取得开始计算之前的时间
+        int sum = 0 ;			// 声明变量
+        for(int i=0;i&lt;30000000;i++)&#123;	// 执行累加操作
+            sum += i ;
+        &#125;
+        long endTime = System.currentTimeMillis() ;	// 取得计算之后的时间
+        // 结束时间减去开始时间
+        System.out.println(&quot;计算所花费的时间：&quot; + (endTime-startTime) +&quot;毫秒&quot;) ;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="getProperty——获取指定的系统属性"><a href="#getProperty——获取指定的系统属性" class="headerlink" title="getProperty——获取指定的系统属性"></a>getProperty——获取指定的系统属性</h3><pre><code class="line-numbers language-java">public class Test&#123;
+    public static void main(String args[])&#123;
+        String dirPath = System.getProperty(&quot;user.dir&quot;);
+        System.out.println(dirPath);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="getProperties获取全部系统属性"><a href="#getProperties获取全部系统属性" class="headerlink" title="getProperties获取全部系统属性"></a>getProperties获取全部系统属性</h3><pre><code class="line-numbers language-java">public class Test&#123;
+    public static void main(String args[])&#123;
+        System.getProperties().list(System.out) ;	// 列出系统的全部属性
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/basic/System%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7%E8%A1%A8.png" alt="System系统属性表"></p>
+<h3 id="arraycopy——数组拷贝"><a href="#arraycopy——数组拷贝" class="headerlink" title="arraycopy——数组拷贝"></a>arraycopy——数组拷贝</h3><pre><code class="line-numbers language-java">import java.util.Arrays;
+public class ArraysDemo&#123;
+    public static void main(String args[])&#123;
+        int[] srcArr = &#123;0,1,2,3,4,5&#125;;
+        int[] desArr = new int[srcArr.length];
+        System.arraycopy(srcArr,0,desArr,0,3); //拷贝前三个元素
+        System.out.println(&quot;原数组:&quot; + Arrays.toString(srcArr));
+        System.out.println(&quot;拷贝后:&quot; + Arrays.toString(desArr));
+    &#125;
+&#125;
+//输出结果:
+//原数组:[0, 1, 2, 3, 4, 5]
+//拷贝后:[0, 1, 2, 0, 0, 0]
+</code></pre>
+<h3 id="gc——运行垃圾回收器"><a href="#gc——运行垃圾回收器" class="headerlink" title="gc——运行垃圾回收器"></a>gc——运行垃圾回收器</h3><blockquote>
+<p>调用 gc 方法暗示着 Java 虚拟机做了一些努力来回收未用对象或失去了所有引用的对象，以便能够快速地重用这些对象当前占用的内存。当控制权从方法调用中返回时，虚拟机已经尽最大努力从所有丢弃的对象中回收了空间。System类的gc()方法不是一个新的操作，而是间接调用了Runtime类中的gc()方法。</p>
+</blockquote>
+<pre><code class="line-numbers language-java">class Person&#123;
+    private String name ;
+    private int age ;
+    public Person(String name,int age)&#123;
+        this.name = name ;
+        this.age = age;
+        System.out.println(&quot;对象初始化中 --&gt; &quot; + this) ;
+    &#125;
+    public String toString()&#123;	// 覆写toString()方法
+        return &quot;姓名：&quot; + this.name + &quot;，年龄：&quot; + this.age ;
+    &#125;
+    public void finalize() throws Throwable&#123;	// 对象释放空间时默认调用此方法
+        System.out.println(&quot;对象被释放 --&gt; &quot; + this) ;
+    &#125;
+&#125;
+public class SystemDemo&#123;
+    public static void main(String args[])&#123;
+        Person per = new Person(&quot;张三&quot;,30) ;
+        per = null ;	// 断开引用
+         System.gc();
+         System.runFinalization(); //强制回收
+    &#125;
+&#125;
+// 输出结果：
+// 对象初始化中 --&gt; 姓名：张三，年龄：30
+// 对象被释放 --&gt; 姓名：张三，年龄：30
+</code></pre>
+<p><strong>对象从创建到回收状态转换</strong><br><img src="/images/javase/basic/%E5%AF%B9%E8%B1%A1%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2.png"></p>
+<blockquote>
+<p><strong>2011年7月发布的Java7提供了 G1 垃圾回收器</strong>来代替原有的并行标记&#x2F;清除垃圾回收器(简称CMS)。<br><strong>2014年3月发布的Java8 删除了HotSpot JVM中的永生代内存(PermGen,永生代内存主要用于存储一些需要常驻内存，通常不会被回收的信息),而是改为使用本地内存来存储类的元数据信息，并将之称为：元空间(Metaspace)，</strong>这意味着以后不会再遇到java.lang.OutOfMemoryError:PermGen错误</p>
+</blockquote>
+<h4 id="final、finally、finalize的区别"><a href="#final、finally、finalize的区别" class="headerlink" title="final、finally、finalize的区别"></a>final、finally、finalize的区别</h4><p><strong>final表示终结器</strong>，用于定义不能被继承的父类，不能被覆写的方法，常量；<br><strong>finally</strong>是异常处理出口；<br>**finalize()**是Object类定义的一个方法，用于执行对象回收前的收尾操作。</p>
+<h3 id="exit——退出虚拟机"><a href="#exit——退出虚拟机" class="headerlink" title="exit——退出虚拟机"></a>exit——退出虚拟机</h3><blockquote>
+<p>exit(int)方法终止当前正在运行的 Java 虚拟机，参数解释为状态码。根据惯例，<strong>非 0 的状态码表示异常终止。</strong> 而且，该方法永远不会正常返回。 这是唯一一个能够退出程序并不执行finally的情况。</p>
+</blockquote>
+<pre><code class="line-numbers language-java">public class SystemDemo&#123;
+    public static void main(String args[])&#123;
+try &#123;
+            System.out.println(&quot;this is try&quot;);
+            System.exit(0);
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+        &#125; finally &#123;
+            System.out.println(&quot;this is finally&quot;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>这段程序最后只会输出 this is try 这一句话，而不会输出 this is finally 。退出虚拟机会直接杀死整个程序，已经不是从代码的层面来终止程序了，所以finally不会执行。</p>
+</blockquote>
+<h2 id="Arrays类"><a href="#Arrays类" class="headerlink" title="Arrays类"></a>Arrays类</h2><p><img src="/images/javase/basic/Arrays.png" alt="Arrays方法"></p>
+<pre><code class="line-numbers language-java">import java.util.* ;
+public class ArraysDemo&#123;
+    public static void main(String arg[])&#123;
+        int temp[] = &#123;3,4,5,7,9,1,2,6,8&#125; ;	// 声明一个整型数组
+        Arrays.sort(temp) ;		// 进行排序的操作
+        System.out.print(&quot;排序后的数组************：&quot; + temp + &quot;\t&quot;) ;
+        System.out.println(Arrays.toString(temp)) ;	// 以字符串输出数组
+        // 如果要想使用二分法查询的话，则必须是排序之后的数组
+        int point = Arrays.binarySearch(temp,3) ;	// 检索位置
+        System.out.println(&quot;元素‘3’的位置在：&quot; + point) ;
+        Arrays.fill(temp,3)	;// 填充数组
+        System.out.print(&quot;数组填充：&quot;) ;
+        System.out.println(Arrays.toString(temp)) ;
+    &#125;
+&#125;
+// 输出结果：
+// 排序后的数组:[1, 2, 3, 4, 5, 6, 7, 8, 9]
+// 元素‘3’的位置在：2
+// 数组填充：[3, 3, 3, 3, 3, 3, 3, 3, 3]
+</code></pre>
+<h3 id="Arrays增强"><a href="#Arrays增强" class="headerlink" title="Arrays增强"></a>Arrays增强</h3><ul>
+<li><strong>asList方法,使用该方法可以返回一个固定大小的List</strong> (1.7出现)<pre><code class="line-numbers language-java">    List&lt;String&gt; list = Arrays.asList(&quot;hello&quot;,&quot;world!&quot;);
+    List&lt;Integer&gt; numList = Arrays.asList(100,200,300);
+</code></pre>
+</li>
+<li><strong>copyOf及copyOfRange方法</strong> <pre><code class="line-numbers language-java">String[] names2 = &#123; &quot;Eric&quot;, &quot;John&quot;, &quot;Alan&quot;, &quot;Liz&quot; &#125;;
+//[Eric, John, Alan]
+String[] copy = Arrays.copyOf(names2, 3);
+//[Alan, Liz]
+String[] rangeCopy = Arrays.copyOfRange(names2, 2,names2.length);
+</code></pre>
+</li>
+<li><strong>sort方法</strong> <pre><code class="line-numbers language-java">String[] names = &#123; &quot;Liz&quot;, &quot;John&quot;, &quot;Eric&quot;, &quot;Alan&quot; &#125;;
+//只排序前两个
+//[John, Liz, Eric, Alan]
+Arrays.sort(names, 0, 2);
+//全部排序
+//[Alan, Eric, John, Liz]
+Arrays.sort(names);
+</code></pre>
+</li>
+<li><strong>equals方法 判断一维数组内容值是否相等</strong> <pre><code class="line-numbers language-java">String[] names1 = &#123; &quot;Eric&quot;, &quot;John&quot;, &quot;Alan&quot;, &quot;Liz&quot; &#125;;
+String[] names2 = &#123; &quot;Eric&quot;, &quot;John&quot;, &quot;Alan&quot;, &quot;Liz&quot; &#125;;
+System.out.println(Arrays.equals(names1, names2));
+</code></pre>
+</li>
+<li><strong>deepEquals方法 二维数组判断</strong> <pre><code class="line-numbers language-java">int[][] stuGrades1 = &#123; &#123; 80, 81, 82 &#125;, &#123; 84, 85, 86 &#125;, &#123; 87, 88, 89 &#125; &#125;;
+int[][] stuGrades2 = &#123; &#123; 80, 81, 82 &#125;, &#123; 84, 85, 86 &#125;, &#123; 87, 88, 89 &#125; &#125;;
+System.out.println(Arrays.deepEquals(stuGrades1, stuGrades2));
+</code></pre>
+<strong>Java8增强了Arrays类的功能，为Arrays类增加了一些工具方法，这些工具方法可以充分利用多CPU并行的能力来提高设置、排序的性能。下面是Java8为Arrays类增加的工具类方法。</strong><br><img src="/images/javase/basic/Arrays%E5%A2%9E%E5%BC%BA.png" alt="Arrays增强"></li>
+</ul>
+<h2 id="Comparable接口和Comparator接口"><a href="#Comparable接口和Comparator接口" class="headerlink" title="Comparable接口和Comparator接口"></a>Comparable接口和Comparator接口</h2><h3 id="Comparable接口"><a href="#Comparable接口" class="headerlink" title="Comparable接口"></a>Comparable接口</h3><ul>
+<li>可以直接使用java.util.Arrays类进行数组的排序操作，但对象所在的类必须实现Comparable接口，用于指定排序接口，<pre><code class="line-numbers language-java">//Comparable接口定义如下：
+    public interface Comparable&lt;T&gt;&#123;
+         public int compareTo(T o) ;
+    &#125;
+//此方法返回一个int类型的数据，但是此int的值只能是以下三种：
+//  1：表示大于 
+//  -1：表示小于 
+//  0：表示相等
+</code></pre>
+示例：<pre><code class="line-numbers language-java">package com.ecit;
+public class ComparableDemo01 &#123;
+  public static void main(String[] args) &#123;
+      Student stu[] = &#123; new Student(&quot;张三&quot;, 20, 90.0f),
+      new Student(&quot;李四&quot;, 22, 90.0f), new Student(&quot;王五&quot;, 20, 99.0f),
+      new Student(&quot;赵六&quot;, 20, 70.0f), new Student(&quot;孙七&quot;, 22, 100.0f) &#125;;
+      java.util.Arrays.sort(stu);		// 进行排序操作
+      for (int i = 0; i &lt; stu.length; i++) &#123;	// 输出数组中的内容
+          System.out.println(stu[i]);
+      &#125;
+  &#125;
+&#125;
+class Student implements Comparable&lt;Student&gt; &#123; // 指定类型为Student
+  private String name;
+  private int age;
+  private float score;
+  public Student(String name, int age, float score) &#123;
+      this.name = name;
+      this.age = age;
+      this.score = score;
+  &#125;
+  @Override
+  public String toString() &#123;
+      return name + &quot;\t\t&quot; + age + &quot;\t\t&quot; + score;
+  &#125;
+  @Override
+  public int compareTo(Student stu) &#123;	// 覆写compareTo()方法，实现排序规则的应用
+      if (this.score &gt; stu.score) &#123;
+          return -1;
+      &#125; else if (this.score &lt; stu.score) &#123;
+          return 1;
+      &#125; else &#123;
+          if (this.age &gt; stu.age) &#123;
+              return 1;
+          &#125; else if (this.age &lt; stu.age) &#123;
+              return -1;
+          &#125; else &#123;
+              return 0;
+          &#125;
+      &#125;
+  &#125;
+&#125;;
+/** 输出结果：
+孙七		22		100.0
+王五		20		99.0
+张三		20		90.0
+李四		22		90.0
+赵六		20		70.0
+**/
+</code></pre>
+</li>
+</ul>
+<h4 id="分析比较器的排序原理"><a href="#分析比较器的排序原理" class="headerlink" title="分析比较器的排序原理"></a>分析比较器的排序原理</h4><ul>
+<li>实际上之前所讲解的排序过程，也就是经常听到数据结构中的二叉树的排序方法，通过二叉树进行排序，之后利用中序遍历的方式把内容依次读取出来。</li>
+<li>二叉树排序的基本原理就是，将第一个内容作为根节点保存，之后如果后面的值比根节点的值小，则放在根节点的左子树，如果后面的值比根节点的值大，则放在根节点的右子树。<br><img src="/images/javase/basic/%E4%BA%8C%E5%8F%89%E6%A0%91.png"><br>二叉树排序示例：<pre><code class="line-numbers language-java">package com.ecit;
+class BinaryTree&#123;
+  class Node&#123;			// 声明一个节点类
+      private Comparable data ;	// 保存具体的内容
+      private Node left ;			// 保存左子树
+      private Node right ;		// 保存右子树
+      public Node(Comparable data)&#123;
+          this.data = data ;
+      &#125;
+      public void addNode(Node newNode)&#123;
+          // 确定是放在左子树还是右子树
+          if(newNode.data.compareTo(this.data)&lt;0)&#123;	// 内容小，放在左子树
+              if(this.left==null)&#123;
+                  this.left = newNode ;	// 直接将新的节点设置成左子树
+              &#125;else&#123;
+                  this.left.addNode(newNode) ;	// 继续向下判断
+              &#125;
+          &#125;
+          if(newNode.data.compareTo(this.data)&gt;=0)&#123;	// 放在右子树
+              if(this.right==null)&#123;
+                  this.right = newNode ;	// 没有右子树则将此节点设置成右子树
+              &#125;else&#123;
+                  this.right.addNode(newNode) ;	// 继续向下判断
+              &#125;
+          &#125;
+      &#125;
+      public void printNode()&#123;	// 输出的时候采用中序遍历
+          if(this.left!=null)&#123;
+              this.left.printNode() ;	// 输出左子树
+          &#125;
+          System.out.print(this.data + &quot;\t&quot;) ;
+          if(this.right!=null)&#123;
+              this.right.printNode() ;
+          &#125;
+      &#125;
+  &#125;;
+  private Node root ;		// 根元素
+  public void add(Comparable data)&#123;	// 加入元素
+      Node newNode = new Node(data) ;	// 定义新的节点
+      if(root==null)&#123;	// 没有根节点
+          root = newNode ;	// 第一个元素作为根节点
+      &#125;else&#123;
+          root.addNode(newNode) ; // 确定是放在左子树还是放在右子树
+      &#125;
+  &#125;
+  public void print()&#123;
+      this.root.printNode() ;	// 通过根节点输出
+  &#125;
+&#125;;
+public class ComparableDemo03&#123;
+  public static void main(String args[])&#123;
+      BinaryTree bt = new BinaryTree() ;
+      bt.add(8) ;
+      bt.add(3) ;
+      bt.add(10) ;
+      bt.add(9) ;
+      bt.add(1) ;
+      bt.add(5) ;
+      System.out.println(&quot;排序之后的结果：&quot;) ;
+      bt.print() ;
+  &#125;
+&#125;
+/** 输出结果：
+排序之后的结果：
+1	3	5	8	9	10	
+**/
+</code></pre>
+</li>
+</ul>
+<h3 id="另一种比较器：Comparator"><a href="#另一种比较器：Comparator" class="headerlink" title="另一种比较器：Comparator"></a>另一种比较器：Comparator</h3><ul>
+<li>如果一个类已经开发完成，但是在此类建立的初期并没有实现Comparable接口，此时肯定是无法进行对象排序操作的，所以为了解决这样的问题，java又定义了另一个比较器的操作接口 —— Comparator。此接口定义在java.util包中，接口定义如下：<pre><code class="line-numbers language-java">public interface Comparator&lt;T&gt;&#123;
+      public int compare(T o1,T o2) ;
+      boolean equals(Object obj) ;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">package com.ecit;
+import java.util.* ;
+class Student&#123;	// 指定类型为Student
+  private String name ;
+  private int age ;
+  public Student(String name,int age)&#123;
+      this.name = name ;
+      this.age = age ;
+  &#125;
+  public boolean equals(Object obj)&#123;	// 覆写equals方法
+      if(this==obj)&#123;
+          return true ;
+      &#125;
+      if(!(obj instanceof Student))&#123;
+          return false ;
+      &#125;
+      Student stu = (Student) obj ;
+      if(stu.name.equals(this.name)&amp;&amp;stu.age==this.age)&#123;
+          return true ;
+      &#125;else&#123;
+          return false ;
+      &#125;
+  &#125;
+  public void setName(String name)&#123;
+      this.name = name ;
+  &#125;
+  public void setAge(int age)&#123;
+      this.age = age ;
+  &#125;
+  public String getName()&#123;
+      return this.name ;
+  &#125;
+  public int getAge()&#123;
+      return this.age ;
+  &#125;
+  public String toString()&#123;
+      return name + &quot;\t\t&quot; + this.age  ;
+  &#125;
+&#125;;
+class StudentComparator implements Comparator&lt;Student&gt;&#123;	// 实现比较器
+  // 因为Object类中本身已经有了equals()方法
+  public int compare(Student s1,Student s2)&#123;
+      if(s1.equals(s2))&#123;
+          return 0 ;
+      &#125;else if(s1.getAge()&lt;s2.getAge())&#123;	// 按年龄比较
+          return 1 ;
+      &#125;else&#123;
+          return -1 ;
+      &#125;
+  &#125;
+&#125;;
+public class ComparatorDemo&#123;
+  public static void main(String args[])&#123;
+      Student stu[] = &#123;new Student(&quot;张三&quot;,20),
+          new Student(&quot;李四&quot;,22),new Student(&quot;王五&quot;,20),
+          new Student(&quot;赵六&quot;,20),new Student(&quot;孙七&quot;,22)&#125; ;
+      java.util.Arrays.sort(stu,new StudentComparator()) ;	// 进行排序操作
+      for(int i=0;i&lt;stu.length;i++)&#123;	// 循环输出数组中的内容
+          System.out.println(stu[i]) ;
+      &#125;
+  &#125;
+&#125;;
+</code></pre>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>在使用中<strong>尽可能还是使用Comnparable 在需要排序的类上实现好此接口</strong>，而Comparator需要单独建立-个排序的类，这样如果有很多的话，则排序的规则类也就会非常的多，操作起来比较麻烦。<br>掌握一点:只要是对象排序，则在java中永远是以Comparable接口为准的。</li>
+</ul>
+<h2 id="Timer类"><a href="#Timer类" class="headerlink" title="Timer类"></a>Timer类</h2><ul>
+<li>Timer类是一种线程设施，可以用来实现在某一个时间或某一段时间后，安排某一个任务执行一次，或定期重复执行。该功能要与TimerTask配合使用。TimerTask类用来实现由Timer安排的一次或重复执行的某一个任务。 <strong>每一个Timer对象对应的是一个线程，</strong>因此计时器所执行的任务应该迅速完成，否则可能会延迟后续任务的执行，而这些后续的任务就有可能堆在一起，等到该任务完成后才能快速连续执行。<br><img src="/images/javase/basic/timer.png"></li>
+</ul>
+<h3 id="schedule-与scheduleAtFixedRate-方法的区别"><a href="#schedule-与scheduleAtFixedRate-方法的区别" class="headerlink" title="schedule()与scheduleAtFixedRate()方法的区别"></a>schedule()与scheduleAtFixedRate()方法的区别</h3><ul>
+<li>两者的区别在与重复执行任务时，对于时间间隔出现延迟的情况处理：</li>
+<li>schedule()方法的执行时间间隔永远是固定的，如果之前出现了延迟的情况，之后也会继续按照设定好的的间隔时间来执行 </li>
+<li>scheduleAtFixedRate()方法可以根据出现的延迟时间自动调整下一次间隔的执行时间</li>
+</ul>
+<h3 id="TimerTask类"><a href="#TimerTask类" class="headerlink" title="TimerTask类"></a>TimerTask类</h3><ul>
+<li>要想执行具体的任务，则必须使用TimerTask类。TimerTask类是一个抽象类，如果要使用该类，需要自己建立一个类来继承此类，并实现其中的抽象方法。<br><img src="/images/javase/basic/timertask.png"></li>
+</ul>
+<h3 id="示例定时器"><a href="#示例定时器" class="headerlink" title="示例定时器"></a>示例定时器</h3><pre><code class="line-numbers language-java">package com.ecit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+public class TestTimer &#123;
+    public static void main(String[] args)&#123;
+        Timer t = new Timer();			// 建立Timer类对象
+        MyTask mytask = new MyTask();	// 定义任务
+        t.schedule(mytask, 1000, 2000);	// 设置任务的执行，1秒后开始，每2秒重复
+    &#125;
+&#125;
+class MyTask extends TimerTask &#123; // 任务调度类要继承TimerTask
+    @Override
+    public void run() &#123;
+        SimpleDateFormat sdf = null;
+        sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss:SSS&quot;);
+        System.out.println(&quot;当前系统时间为：&quot; + sdf.format(new Date()));
+    &#125;
+&#125;
+/** 输出结果：
+当前系统时间为：2013-09-04 19:17:26:573
+当前系统时间为：2013-09-04 19:17:28:542
+当前系统时间为：2013-09-04 19:17:30:545
+...
+**/
+</code></pre>
+</div><div class="article-licensing box"><div class="licensing-title"><p>JAVA常用类库-Runtime类，Process类，System类,Arrays类，Timer类定时器使用，Comparable接口和Comparator接口使用</p><p><a href="http://example.com/2013/09/04/javase/JAVASE-常用类库-04/">http://example.com/2013/09/04/javase/JAVASE-常用类库-04/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2013-09-04</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-10-08</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2013/09/05/javase/JAVASE-%E6%B7%B1%E6%B5%85%E5%85%8B%E9%9A%86-05/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">JAVA深浅克隆</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2013/09/03/javase/JAVASE-%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93-03/"><span class="level-item">JAVA常用类库-String类，正则表达式,StringBuffer类(线程安全的)</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#Runtime类-单例设计模式"><span class="level-left"><span class="level-item">1</span><span class="level-item">Runtime类(单例设计模式)</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Runtime类常用方法"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">Runtime类常用方法</span></span></a></li><li><a class="level is-mobile" href="#得到JVM信息"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">得到JVM信息</span></span></a></li><li><a class="level is-mobile" href="#Runtime类与Process类"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">Runtime类与Process类</span></span></a></li></ul></li><li><a class="level is-mobile" href="#System类"><span class="level-left"><span class="level-item">2</span><span class="level-item">System类</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#currentTimeMillis——返回毫秒数"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">currentTimeMillis——返回毫秒数</span></span></a></li><li><a class="level is-mobile" href="#getProperty——获取指定的系统属性"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">getProperty——获取指定的系统属性</span></span></a></li><li><a class="level is-mobile" href="#getProperties获取全部系统属性"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">getProperties获取全部系统属性</span></span></a></li><li><a class="level is-mobile" href="#arraycopy——数组拷贝"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">arraycopy——数组拷贝</span></span></a></li><li><a class="level is-mobile" href="#gc——运行垃圾回收器"><span class="level-left"><span class="level-item">2.5</span><span class="level-item">gc——运行垃圾回收器</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#final、finally、finalize的区别"><span class="level-left"><span class="level-item">2.5.1</span><span class="level-item">final、finally、finalize的区别</span></span></a></li></ul></li><li><a class="level is-mobile" href="#exit——退出虚拟机"><span class="level-left"><span class="level-item">2.6</span><span class="level-item">exit——退出虚拟机</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Arrays类"><span class="level-left"><span class="level-item">3</span><span class="level-item">Arrays类</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Arrays增强"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">Arrays增强</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Comparable接口和Comparator接口"><span class="level-left"><span class="level-item">4</span><span class="level-item">Comparable接口和Comparator接口</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Comparable接口"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">Comparable接口</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#分析比较器的排序原理"><span class="level-left"><span class="level-item">4.1.1</span><span class="level-item">分析比较器的排序原理</span></span></a></li></ul></li><li><a class="level is-mobile" href="#另一种比较器：Comparator"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">另一种比较器：Comparator</span></span></a></li><li><a class="level is-mobile" href="#总结"><span class="level-left"><span class="level-item">4.3</span><span class="level-item">总结</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Timer类"><span class="level-left"><span class="level-item">5</span><span class="level-item">Timer类</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#schedule-与scheduleAtFixedRate-方法的区别"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">schedule()与scheduleAtFixedRate()方法的区别</span></span></a></li><li><a class="level is-mobile" href="#TimerTask类"><span class="level-left"><span class="level-item">5.2</span><span class="level-item">TimerTask类</span></span></a></li><li><a class="level is-mobile" href="#示例定时器"><span class="level-left"><span class="level-item">5.3</span><span class="level-item">示例定时器</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

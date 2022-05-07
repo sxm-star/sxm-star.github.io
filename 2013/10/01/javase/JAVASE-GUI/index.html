@@ -1,0 +1,1657 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>JAVA-GUI图形界面 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="AWTAWT (Abstract Windowing Toolkit），抽象窗口工具包，是 SUN 公司在发布 JDK1.0 的时一个重要组成部分，是 Java 提供的用来建立和设置 Java 的图形用户界面的基本工具。AWT 中的所有工具类都保存在java.awt 包中，此包中的所有操作类可用来建立与平台无关的图形用户界面（GUI）的类，这些类又被称为组件（components）。 AWT包组成"><meta property="og:type" content="blog"><meta property="og:title" content="JAVA-GUI图形界面"><meta property="og:url" content="http://example.com/2013/10/01/javase/JAVASE-GUI/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="AWTAWT (Abstract Windowing Toolkit），抽象窗口工具包，是 SUN 公司在发布 JDK1.0 的时一个重要组成部分，是 Java 提供的用来建立和设置 Java 的图形用户界面的基本工具。AWT 中的所有工具类都保存在java.awt 包中，此包中的所有操作类可用来建立与平台无关的图形用户界面（GUI）的类，这些类又被称为组件（components）。 AWT包组成"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/javase/gui/awt.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E7%BB%84%E4%BB%B6.png"><meta property="og:image" content="http://example.com/images/javase/gui/Component.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%AE%B9%E5%99%A8.png"><meta property="og:image" content="http://example.com/images/javase/gui/LayoutManager.png"><meta property="og:image" content="http://example.com/images/javase/gui/JComponent.png"><meta property="og:image" content="http://example.com/images/javase/gui/JComponent%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6.png"><meta property="og:image" content="http://example.com/images/javase/gui/JFrame.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E7%AC%AC%E4%B8%80%E4%B8%AAswing%E7%AA%97%E4%BD%93.png"><meta property="og:image" content="http://example.com/images/javase/gui/Jlabel.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E6%9B%B4%E6%94%B9%E5%AD%97%E4%BD%93.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E6%A0%87%E7%AD%BE%E5%9B%BE%E7%89%87.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E6%8C%89%E9%92%AE.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E6%B5%81%E5%BC%8F%E5%B1%85%E4%B8%AD.png"><meta property="og:image" content="http://example.com/images/javase/gui/LEADING.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%8F%B3%E5%AF%B9%E9%BD%90.png"><meta property="og:image" content="http://example.com/images/javase/gui/BorderLayout.png"><meta property="og:image" content="http://example.com/images/javase/gui/GridLayout%E7%BD%91%E6%A0%BC.png"><meta property="og:image" content="http://example.com/images/javase/gui/Jpanel.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%88%86%E5%89%B2%E9%9D%A2%E6%9D%BF.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%88%86%E5%89%B2%E9%9D%A2%E6%9D%BF%E7%A4%BA%E4%BE%8B.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E9%80%89%E9%A1%B9%E5%8D%A1%E9%9D%A2%E6%9D%BF.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E6%BB%9A%E5%8A%A8%E6%9D%A1.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E6%BB%9A%E5%8A%A8%E6%9D%A1%E7%A4%BA%E4%BE%8B.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%86%85%E9%83%A8%E7%AA%97%E4%BD%93.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%BC%80%E5%85%B3%E6%8C%89%E9%92%AE.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%8D%95%E8%A1%8C%E6%96%87%E6%9C%AC.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%AF%86%E7%A0%81%E6%A1%86.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%A4%9A%E8%A1%8C%E6%96%87%E6%9C%AC.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%8D%95%E9%80%89%E6%8C%89%E9%92%AE.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%A4%8D%E9%80%89%E6%A1%86.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E5%88%97%E8%A1%A8.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E6%96%87%E4%BB%B6%E9%80%89%E6%8B%A9%E6%A1%86.png"><meta property="og:image" content="http://example.com/images/javase/gui/%E8%A1%A8%E6%A0%BC.png"><meta property="article:published_time" content="2013-10-01T08:42:34.000Z"><meta property="article:modified_time" content="2020-06-12T18:46:31.174Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="’Developer,Programmer,Coder,Book,History,culture,science and technology‘"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/javase/gui/awt.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2013/10/01/javase/JAVASE-GUI/"},"headline":"JAVA-GUI图形界面","image":["http://example.com/images/javase/gui/awt.png","http://example.com/images/javase/gui/%E7%BB%84%E4%BB%B6.png","http://example.com/images/javase/gui/Component.png","http://example.com/images/javase/gui/%E5%AE%B9%E5%99%A8.png","http://example.com/images/javase/gui/LayoutManager.png","http://example.com/images/javase/gui/JComponent.png","http://example.com/images/javase/gui/JComponent%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6.png","http://example.com/images/javase/gui/JFrame.png","http://example.com/images/javase/gui/%E7%AC%AC%E4%B8%80%E4%B8%AAswing%E7%AA%97%E4%BD%93.png","http://example.com/images/javase/gui/Jlabel.png","http://example.com/images/javase/gui/%E6%9B%B4%E6%94%B9%E5%AD%97%E4%BD%93.png","http://example.com/images/javase/gui/%E6%A0%87%E7%AD%BE%E5%9B%BE%E7%89%87.png","http://example.com/images/javase/gui/%E6%8C%89%E9%92%AE.png","http://example.com/images/javase/gui/%E6%B5%81%E5%BC%8F%E5%B1%85%E4%B8%AD.png","http://example.com/images/javase/gui/LEADING.png","http://example.com/images/javase/gui/%E5%8F%B3%E5%AF%B9%E9%BD%90.png","http://example.com/images/javase/gui/BorderLayout.png","http://example.com/images/javase/gui/GridLayout%E7%BD%91%E6%A0%BC.png","http://example.com/images/javase/gui/Jpanel.png","http://example.com/images/javase/gui/%E5%88%86%E5%89%B2%E9%9D%A2%E6%9D%BF.png","http://example.com/images/javase/gui/%E5%88%86%E5%89%B2%E9%9D%A2%E6%9D%BF%E7%A4%BA%E4%BE%8B.png","http://example.com/images/javase/gui/%E9%80%89%E9%A1%B9%E5%8D%A1%E9%9D%A2%E6%9D%BF.png","http://example.com/images/javase/gui/%E6%BB%9A%E5%8A%A8%E6%9D%A1.png","http://example.com/images/javase/gui/%E6%BB%9A%E5%8A%A8%E6%9D%A1%E7%A4%BA%E4%BE%8B.png","http://example.com/images/javase/gui/%E5%86%85%E9%83%A8%E7%AA%97%E4%BD%93.png","http://example.com/images/javase/gui/%E5%BC%80%E5%85%B3%E6%8C%89%E9%92%AE.png","http://example.com/images/javase/gui/%E5%8D%95%E8%A1%8C%E6%96%87%E6%9C%AC.png","http://example.com/images/javase/gui/%E5%AF%86%E7%A0%81%E6%A1%86.png","http://example.com/images/javase/gui/%E5%A4%9A%E8%A1%8C%E6%96%87%E6%9C%AC.png","http://example.com/images/javase/gui/%E5%8D%95%E9%80%89%E6%8C%89%E9%92%AE.png","http://example.com/images/javase/gui/%E5%A4%8D%E9%80%89%E6%A1%86.png","http://example.com/images/javase/gui/%E5%88%97%E8%A1%A8.png","http://example.com/images/javase/gui/%E6%96%87%E4%BB%B6%E9%80%89%E6%8B%A9%E6%A1%86.png","http://example.com/images/javase/gui/%E8%A1%A8%E6%A0%BC.png"],"datePublished":"2013-10-01T08:42:34.000Z","dateModified":"2020-06-12T18:46:31.174Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"AWTAWT (Abstract Windowing Toolkit），抽象窗口工具包，是 SUN 公司在发布 JDK1.0 的时一个重要组成部分，是 Java 提供的用来建立和设置 Java 的图形用户界面的基本工具。AWT 中的所有工具类都保存在java.awt 包中，此包中的所有操作类可用来建立与平台无关的图形用户界面（GUI）的类，这些类又被称为组件（components）。 AWT包组成"}</script><link rel="canonical" href="http://example.com/2013/10/01/javase/JAVASE-GUI/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2013-10-01T08:42:34.000Z" title="2013/10/1 下午4:42:34">2013-10-01</time>发表</span><span class="level-item"><time dateTime="2020-06-12T18:46:31.174Z" title="2020/6/13 上午2:46:31">2020-06-13</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JAVASE/">JAVASE</a><span> / </span><a class="link-muted" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/">图形界面</a></span><span class="level-item">28 分钟读完 (大约4162个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">JAVA-GUI图形界面</h1><div class="content"><h2 id="AWT"><a href="#AWT" class="headerlink" title="AWT"></a>AWT</h2><p>AWT (Abstract Windowing Toolkit），抽象窗口工具包，是 SUN 公司在发布 JDK1.0 的时一个重要组成部分，是 Java 提供的用来建立和设置 Java 的图形用户界面的基本工具。AWT 中的所有工具类都保存在java.awt 包中，此包中的所有操作类可用来建立与平台无关的图形用户界面（GUI）的类，这些类又被称为组件（components）。</p>
+<h3 id="AWT包组成"><a href="#AWT包组成" class="headerlink" title="AWT包组成"></a>AWT包组成</h3><p>在整个AWT包中提供的所有工具类，主要分为以下三种:<br>◆组件: Component<br>◆容器: Container<br>◆布局管理器: LayoutManager<br><img src="/images/javase/gui/awt.png"></p>
+<span id="more"></span>
+<h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><ul>
+<li>在图形界面中，用户经常会看到一个个的<strong>按钮、标签、菜单等</strong>，那么这些<strong>实际上就是一个个的组件</strong>。这些组件都会在一个窗体上显示。<br><img src="/images/javase/gui/%E7%BB%84%E4%BB%B6.png" alt="组件"><h4 id="Component"><a href="#Component" class="headerlink" title="Component"></a>Component</h4></li>
+<li>在整个AWT包中，所有的组件类(例如:按钮、文本框等)都是从Component和MenuComponent扩展而来的，这些类会继承这两个类的公共操作。<br><img src="/images/javase/gui/Component.png"><br><strong>图形界面最麻烦的实际上就在于类的继承关系，一定要记住Componenet是所有组件的最大父类。</strong></li>
+</ul>
+<h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><ul>
+<li>所有的AWT组件都应该放到容器之中。在容器之中，所有的组件都可以设置在容器中的位置、大小等等，所有的容器都是Component的子类，在AWT中包含以下几种容器。<br><img src="/images/javase/gui/%E5%AE%B9%E5%99%A8.png" alt="容器"><br><strong>容器本身也是一种组件。</strong></li>
+</ul>
+<h3 id="布局管理器"><a href="#布局管理器" class="headerlink" title="布局管理器"></a>布局管理器</h3><ul>
+<li>使用布局管理器可以使容器中的组件按照指定的位置进行摆放，另外的一个好处是，即使容器改变了大小，布局管理器也可以准确的把组件放到指定的位置，这样就可以有效的保证版面不会混乱。在AWT中所有的布局管理器都是LayoutManager的子类。<br><img src="/images/javase/gui/LayoutManager.png" alt="布局管理器"></li>
+</ul>
+<h2 id="Swing简介"><a href="#Swing简介" class="headerlink" title="Swing简介"></a>Swing简介</h2><ul>
+<li><strong>AWT大量的引入了Windows函数，所以经常被称为重量级组件</strong>，在Java2中提供了轻量级的图形界面组件–Swing， Swing使用Java语言实<br>现，是以AWT平台为基础构建起来的新组件，直接使用Swing可以更加轻松的构建用户界面。</li>
+<li>在Java中所 有的Swing都保存在javax.swing包中，从包的名称中(javax)就可以清楚的发现此包是一个扩展包，所有的组件是从JComponent扩展出来的。<br><img src="/images/javase/gui/JComponent.png"></li>
+</ul>
+<h3 id="JComponent的常用子类"><a href="#JComponent的常用子类" class="headerlink" title="JComponent的常用子类"></a>JComponent的常用子类</h3><p><img src="/images/javase/gui/JComponent%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6.png"></p>
+<h3 id="JFrame"><a href="#JFrame" class="headerlink" title="JFrame"></a>JFrame</h3><ul>
+<li>如果现在要使用Swing创建一个窗口，则直接使用JFrame类即可，此类是Component的子类<br><img src="/images/javase/gui/JFrame.png"><h3 id="JFrame类的常用操作方法"><a href="#JFrame类的常用操作方法" class="headerlink" title="JFrame类的常用操作方法"></a>JFrame类的常用操作方法</h3></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public JFrame() throws HeadlessException</td>
+<td align="center">构造</td>
+<td align="center">创建-个普通的窗体对象</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public JFrame(String title) throws HeadlessException</td>
+<td align="center">构造</td>
+<td align="center">创建-一个窗体对象，并指定标题</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public void setSize(int width, int height)</td>
+<td align="center">普通</td>
+<td align="center">设置窗体大小</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public void setSize(Dimension d)</td>
+<td align="center">普通</td>
+<td align="center">通过Dimension设置窗体大小</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public void setBackground(Color c)</td>
+<td align="center">普通</td>
+<td align="center">设置窗体的背景颜色</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">public void setLocation(int x,int y)</td>
+<td align="center">普通</td>
+<td align="center">设置组件的显示位置</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">public void setLocation(Point p)</td>
+<td align="center">普通</td>
+<td align="center">通过Point来设置组件的显示位置</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">public void setVisible(booleanb)</td>
+<td align="center">普通</td>
+<td align="center">显示或隐藏组件</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">public Component add(Component comp)</td>
+<td align="center">普通</td>
+<td align="center">向容器中增加组件</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">public void setLayout(LayoutManager mgr)</td>
+<td align="center">普通</td>
+<td align="center">设置布局管理器，如果设置为null表示不使用</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">public void pack()</td>
+<td align="center">普通</td>
+<td align="center">调整窗口大小，以适合其子组件的首选大小和布局</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">public Container getContentPane()</td>
+<td align="center">普通</td>
+<td align="center">返回此窗体的容器对象</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-java">import javax.swing.JFrame ;
+import java.awt.Color ;
+public class JFrameDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame f = new JFrame(&quot;第一个Swing窗体&quot;) ;
+        f.setSize(500,180) ;	// 设置组件的大小
+        f.setBackground(Color.WHITE) ;	// 将背景设置成白色
+        f.setLocation(300,200) ;	// 设置组件的显示位置
+        f.setVisible(true) ;	// 让组件可见
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E7%AC%AC%E4%B8%80%E4%B8%AAswing%E7%AA%97%E4%BD%93.png" alt="第一个窗体"></p>
+<h4 id="Dimension类"><a href="#Dimension类" class="headerlink" title="Dimension类"></a>Dimension类</h4><ul>
+<li>在JFrame中设置窗体的大小，也可以使用Dimension类完成，此类封装的就是组件的显示宽度和高度，此类的常用操作方法如下：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public Dimension()</td>
+<td align="center">构造</td>
+<td align="center">创建- -个Dimension实例</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public void setSize(double width,double height)</td>
+<td align="center">普通</td>
+<td align="center">设置显示的宽和高</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public void setSize( int width,int height)</td>
+<td align="center">普通</td>
+<td align="center">设置显示的宽和高</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public double getWidth()</td>
+<td align="center">普通</td>
+<td align="center">返回组件的宽</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public double getHeight()</td>
+<td align="center">普通</td>
+<td align="center">返回组件的高</td>
+</tr>
+</tbody></table>
+<h4 id="Point类"><a href="#Point类" class="headerlink" title="Point类"></a>Point类</h4><ul>
+<li>组件的显示位置也可以使用Point类指定，此类封装的是显示位置的X、Y坐标，此类的常用操作方法如下：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public Point()</td>
+<td align="center">构造</td>
+<td align="center">在坐标原点创建对象</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public Point(int x,int y)</td>
+<td align="center">构造</td>
+<td align="center">在指定的坐标点创建对象</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public void setLocation(double x,double y)</td>
+<td align="center">普邇</td>
+<td align="center">设置X、Y坐标</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public void setLocation(int xint y)</td>
+<td align="center">普通</td>
+<td align="center">设置X、Y坐标</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public void move(int x,int y)</td>
+<td align="center">普通</td>
+<td align="center">将此组件移动到指定坐标位置，此方法与setLocation(int,  int)相同.</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">public void translate(int ax,int dy)</td>
+<td align="center">普通</td>
+<td align="center">平移(x,y)位置的点，沿x轴平移dx,沿y轴平移dy,移动 后得到点(x+ dx,y+ dy)</td>
+</tr>
+</tbody></table>
+<h3 id="JLabel类"><a href="#JLabel类" class="headerlink" title="JLabel类"></a>JLabel类</h3><ul>
+<li>JLabel表示一个标签，标签及时只用于显示信息的一个组件。<h4 id="JLabel类的常用方法和常量"><a href="#JLabel类的常用方法和常量" class="headerlink" title="JLabel类的常用方法和常量"></a>JLabel类的常用方法和常量</h4></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th align="center">方法及常量</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public static final int LEFT</td>
+<td align="center">常量</td>
+<td align="center">标签文本左对齐</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public static final int CENTER</td>
+<td align="center">常量</td>
+<td align="center">标签文本居中对齐</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public static final int RIGHT</td>
+<td align="center">常量</td>
+<td align="center">标签文本右对齐</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public JLabel() throws HeadlessException</td>
+<td align="center">构造</td>
+<td align="center">创建一个JILabel对象</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public JLabel(String text) throws HeadlessException</td>
+<td align="center">构造</td>
+<td align="center">创建-个标签并指定文本内容，默认为左对齐</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">public Label(String text,int alignment) throws HeadlessException</td>
+<td align="center">构造</td>
+<td align="center">创建一个标签并指定文本内容以及对齐方式，可以使用JLabel.LEFT、JLabel.RIGHT、JLabel.CENTER三个值</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">public JILabel(String text,Icon icon,int horizontalAlignment)</td>
+<td align="center">构造</td>
+<td align="center">创建具有指定文本、图像和水平对齐方式的JILabel对象</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">public JLabelTcon image,int horizontalAlignment)</td>
+<td align="center">构造</td>
+<td align="center">创建具有指定图像和水平对齐方式的JLabel实例</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">public void setText(String text)</td>
+<td align="center">普通</td>
+<td align="center">设置标签的文本</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">public String getText()</td>
+<td align="center">普通</td>
+<td align="center">取得标签的文本</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">public void setAligment(int alignment)</td>
+<td align="center">普通</td>
+<td align="center">设置标签的对齐方式</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">public void setIcon(Icon icon)</td>
+<td align="center">普通</td>
+<td align="center">设置指定的图象</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-java">import java.awt.Dimension ;
+import java.awt.Color ;
+import java.awt.Point ;
+import javax.swing.JLabel ;
+import javax.swing.JFrame ;
+public class JLabelDemo01&#123;
+    public static void main(String args[])&#123;
+    JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;
+        JLabel lab = new JLabel(&quot;中国&quot;,JLabel.CENTER) ;	// 实例化标签对象
+        frame.add(lab) ;	// 将组件件入到面板之中
+        Dimension dim = new Dimension() ;
+        frame.setBackground(Color.WHITE) ;//设置窗体的背景颜色
+        dim.setSize(500,180) ;
+        frame.setSize(dim) ;
+        Point point = new Point(300,200) ;	// 设置坐标
+        frame.setLocation(point) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/Jlabel.png"></p>
+<h4 id="更改JLabel的文字样式"><a href="#更改JLabel的文字样式" class="headerlink" title="更改JLabel的文字样式"></a>更改JLabel的文字样式</h4><ul>
+<li>如果现在要想更改使用的字体，则可以直接使用Component类中定义的以下方法:<br><em>public void setFont(Font f)</em><br>◆在设置的时候使用了java.awt.Font类来表示字体，Font类的常用操作方法及常量如下</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th align="center">方法及常量</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public static final int BOLD</td>
+<td align="center">常量</td>
+<td align="center">文字显示为粗体</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public static final int ITALIC</td>
+<td align="center">常量</td>
+<td align="center">文字显示风格为斜体</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public static fimal int PLAIN</td>
+<td align="center">常量</td>
+<td align="center">文字显示风格为普通祥式</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public Font(String name .int style,int size)</td>
+<td align="center">构造</td>
+<td align="center">实例化对象，指定显示风格及大小</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public String getFontName()</td>
+<td align="center">普通</td>
+<td align="center">得到字体的名称</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-java">import java.awt.Dimension ;
+import java.awt.Color ;
+import java.awt.Font ;
+import java.awt.Point ;
+import javax.swing.JLabel ;
+import javax.swing.JFrame ;
+public class JLabelDemo02&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;
+        JLabel lab = new JLabel(&quot;China is very great!&quot;,JLabel.CENTER) ;	// 实例化标签对象
+        Font fnt = new Font(&quot;Serief&quot;,Font.ITALIC + Font.BOLD,28) ;
+        lab.setFont(fnt) ;
+        frame.add(lab) ;	// 将组件件入到面板之中
+        Dimension dim = new Dimension() ;
+        frame.setBackground(Color.WHITE) ;//设置窗体的背景颜色
+        dim.setSize(500,170) ;
+        frame.setSize(dim) ;
+        Point point = new Point(300,200) ;	// 设置坐标
+        frame.setLocation(point) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E6%9B%B4%E6%94%B9%E5%AD%97%E4%BD%93.png"></p>
+<h4 id="得到全部可用字体"><a href="#得到全部可用字体" class="headerlink" title="得到全部可用字体"></a>得到全部可用字体</h4><pre><code class="line-numbers language-java">import java.awt.GraphicsEnvironment  ;
+public class GetAllFonts&#123;
+    public static void main(String args[])&#123;
+        GraphicsEnvironment eq = GraphicsEnvironment.getLocalGraphicsEnvironment() ;
+        String fontNames[] = eq.getAvailableFontFamilyNames() ;
+        for(int x=0;x&lt;fontNames.length;x++)&#123;
+            System.out.println(fontNames[x]) ;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="Jlabel设置显示图片"><a href="#Jlabel设置显示图片" class="headerlink" title="Jlabel设置显示图片"></a>Jlabel设置显示图片</h4><pre><code class="line-numbers language-java">import java.awt.Dimension ;
+import java.awt.Color ;
+import java.awt.Font ;
+import java.awt.Point ;
+import java.io.File ;
+import javax.swing.JLabel ;
+import javax.swing.JFrame ;
+import javax.swing.Icon ;
+import javax.swing.ImageIcon ;
+public class JLabelDemo04&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;
+        String picPath = &quot;/Users/sxm/Downloads/app/images/icon_268.png&quot; ;
+        Icon icon = new ImageIcon(picPath) ;
+        JLabel lab = new JLabel(&quot;中国&quot;,icon,JLabel.CENTER) ;	// 实例化标签对象
+        Font fnt = new Font(&quot;Serief&quot;,Font.ITALIC + Font.BOLD,28) ;
+        lab.setFont(fnt) ;
+        lab.setForeground(Color.RED) ;
+        lab.setBackground(Color.YELLOW) ;//设置窗体的背景颜色
+        frame.add(lab) ;	// 将组件件入到面板之中
+        Dimension dim = new Dimension() ;
+        frame.setBackground(Color.WHITE) ;//设置窗体的背景颜色
+        dim.setSize(300,160) ;
+        frame.setSize(dim) ;
+        Point point = new Point(300,200) ;	// 设置坐标
+        frame.setLocation(point) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E6%A0%87%E7%AD%BE%E5%9B%BE%E7%89%87.png"></p>
+<h3 id="JButton组件"><a href="#JButton组件" class="headerlink" title="JButton组件"></a>JButton组件</h3><ul>
+<li>JButton组件表示一个普通的按钮，直接使用此类就可以直接在窗体中增加一个按钮。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public JButton() throws HeadlessException</td>
+<td align="center">构造</td>
+<td align="center">创建一个Button对象</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public JButton(String label) throws  HeadlessException</td>
+<td align="center">构造</td>
+<td align="center">创建一个Button对象， 同时指定其显示内容</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public JButton(Icon icon)</td>
+<td align="center">构造</td>
+<td align="center">创建一个带图片的按钮</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public JButton(String text,Icon icom)</td>
+<td align="center">构造</td>
+<td align="center">创建一个带图片和文字的按钮</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public void setLabel(String label)</td>
+<td align="center">普通</td>
+<td align="center">设置Button的显示内容</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">public String getLabel()</td>
+<td align="center">普通</td>
+<td align="center">得到Button的显示内容</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">public void setBounds(int x,int y,int width,int height)</td>
+<td align="center">普通</td>
+<td align="center">设置组件的大小及显示方式</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">public void setMnemonic(int mnemonic)</td>
+<td align="center">普通</td>
+<td align="center">设置按钮的快捷键</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-java">import javax.swing.JFrame ;
+import javax.swing.JButton ;
+import javax.swing.Icon ;
+import javax.swing.ImageIcon ;
+import java.io.File ;
+import java.awt.Font ;
+public class JButtonDemo02&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;	
+        String picPath = &quot;/Users/sxm/Downloads/APP网站html模板/images/ysfx_1.jpg&quot; ;
+        Icon icon = new ImageIcon(picPath) ;
+        JButton but = new JButton(&quot;按钮点击&quot;,icon) ;	 
+        frame.add(but) ;
+        frame.setSize(300,160) ;
+        frame.setLocation(300,200) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E6%8C%89%E9%92%AE.png"></p>
+<h3 id="布局管理器-1"><a href="#布局管理器-1" class="headerlink" title="布局管理器"></a>布局管理器</h3><h4 id="FlowLayout"><a href="#FlowLayout" class="headerlink" title="FlowLayout"></a>FlowLayout</h4><ul>
+<li>FlowLayout属于流式布局管理器，使用此种布局方式，所有的组件会像流水一样依次进行排列，FlowLayout类的常用方法及常量如下。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No</th>
+<th align="center">方法及常量</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public static final int CENTER</td>
+<td align="center">常量</td>
+<td align="center">居中对齐</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public static final int LEADING</td>
+<td align="center">常量</td>
+<td align="center">与容器的开始端对齐方式一样</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public static final int LEFT</td>
+<td align="center">常量</td>
+<td align="center">左对齐</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public static final int RIGHT</td>
+<td align="center">常量</td>
+<td align="center">右对齐</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public static final int TRAILING</td>
+<td align="center">常量</td>
+<td align="center">与容器的结束端对齐方式一样</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">public FlowLayout()</td>
+<td align="center">构造</td>
+<td align="center">构造一个新的FlowLayout,居中对齐，默认的水平和垂直间距是5个单位</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">public FlowLayout(int aligm)</td>
+<td align="center">构造</td>
+<td align="center">构造一个FlowLayout,并指定对齐方式</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">public FlowLayout(int align,int hgap,int vgap)</td>
+<td align="center">构造</td>
+<td align="center">指定对齐方式、水平、垂直间距</td>
+</tr>
+</tbody></table>
+<p><strong>流式布局居中样式</strong></p>
+<pre><code class="line-numbers language-java">import java.awt.FlowLayout ;
+import javax.swing.JFrame ;
+import javax.swing.JButton ;
+public class FlowLayoutDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ; 
+        frame.setLayout(new FlowLayout(FlowLayout.CENTER,3,3)) ;
+        JButton but = null ;
+        for(int i=0;i&lt;9;i++)&#123;
+            but = new JButton(&quot;按钮_&quot;+ i) ;
+            frame.add(but) ;
+        &#125;
+        frame.setSize(280,123) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E6%B5%81%E5%BC%8F%E5%B1%85%E4%B8%AD.png"></p>
+<p><strong>容器开始端对齐</strong></p>
+<pre><code class="line-numbers language-java">import java.awt.FlowLayout ;
+import javax.swing.JFrame ;
+import javax.swing.JButton ;
+public class FlowLayoutDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ; 
+        frame.setLayout(new FlowLayout(FlowLayout.LEADING,0,0)) ;
+        JButton but = null ;
+        for(int i=0;i&lt;9;i++)&#123;
+            but = new JButton(&quot;按钮_&quot;+ i) ;
+            frame.add(but) ;
+        &#125;
+        frame.setSize(680,150) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/LEADING.png"></p>
+<p><strong>流式布局右对齐</strong></p>
+<pre><code class="line-numbers language-java">import java.awt.FlowLayout ;
+import javax.swing.JFrame ;
+import javax.swing.JButton ;
+public class FlowLayoutDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ; 
+        frame.setLayout(new FlowLayout(FlowLayout.RIGHT,0,0)) ;
+        JButton but = null ;
+        for(int i=0;i&lt;9;i++)&#123;
+            but = new JButton(&quot;按钮_&quot;+ i) ;
+            frame.add(but) ;
+        &#125;
+        frame.setSize(680,150) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;;
+</code></pre>
+<p><img src="/images/javase/gui/%E5%8F%B3%E5%AF%B9%E9%BD%90.png"></p>
+<h4 id="BorderLayout"><a href="#BorderLayout" class="headerlink" title="BorderLayout"></a>BorderLayout</h4><ul>
+<li>BorderLayout将一个窗体的版面划分成东、西、南、北、中五个区域，可以直接将需要的组件放到这五个区域中即可。<pre><code class="line-numbers language-java">import java.awt.BorderLayout ;
+import javax.swing.JFrame ;
+import javax.swing.JButton ;
+public class BorderLayoutDemo01&#123;
+  public static void main(String args[])&#123;
+      JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ; 
+      frame.setLayout(new BorderLayout(3,3)) ;
+      frame.add(new JButton(&quot;东（EAST）&quot;),BorderLayout.EAST) ;
+      frame.add(new JButton(&quot;西（WEST）&quot;),BorderLayout.WEST) ;
+      frame.add(new JButton(&quot;南（SOUTH）&quot;),BorderLayout.SOUTH) ;
+      frame.add(new JButton(&quot;北（NORTH）&quot;),BorderLayout.NORTH) ;
+      frame.add(new JButton(&quot;中（CENTER）&quot;),BorderLayout.CENTER) ;
+      frame.setSize(280,123) ;
+      frame.setVisible(true) ;
+  &#125;
+&#125;
+</code></pre>
+<img src="/images/javase/gui/BorderLayout.png"></li>
+</ul>
+<h4 id="GridLayout"><a href="#GridLayout" class="headerlink" title="GridLayout"></a>GridLayout</h4><ul>
+<li>GridLayout布局管理器是以表格的形式进行管理的，在使用此布局管理器的时候必须设置显示的行数和列数，常用的方法如下所示。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public GridLayout(int rows,int cols)</td>
+<td align="center">构造</td>
+<td align="center">构造一个指定行和列的布局管理器</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public GridLayout(int rows,int cols,int hgap,int vgap)</td>
+<td align="center">构造</td>
+<td align="center">构造时指定行和列、水平和垂直间距</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-java">import java.awt.GridLayout ;
+import javax.swing.JFrame ;
+import javax.swing.JButton ;
+
+public class GridLayoutDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ; 
+        frame.setLayout(new GridLayout(3,5,3,3)) ; //3行5列 间距3
+        JButton but = null ;
+        for(int i=0;i&lt;13;i++)&#123;
+            but = new JButton(&quot;按钮-&quot;+ i) ;
+            frame.add(but) ;
+        &#125;
+        frame.pack() ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/GridLayout%E7%BD%91%E6%A0%BC.png"></p>
+<h4 id="CardLayout卡片式布局"><a href="#CardLayout卡片式布局" class="headerlink" title="CardLayout卡片式布局"></a>CardLayout卡片式布局</h4><ul>
+<li>CardLayout就 是将一组 组件彼此重叠的进行布局，就像- -张张卡片一样，这样每次只会展现一个界面。<br>&#96;&#96;&#96;java<br>import java.awt.CardLayout ;<br>import java.awt.Container ;<br>import javax.swing.JFrame ;<br>import javax.swing.JLabel ;<br>public class CardLayoutDemo01{<br>  public static void main(String args[]){<br>  JFrame frame &#x3D; new JFrame(“Welcome To ECIT”) ;<br>  CardLayout card &#x3D; new CardLayout() ;<br>  frame.setLayout(card) ;<br>  Container con &#x3D; frame.getContentPane() ;<br>  con.add(new JLabel(“标签-A”,JLabel.CENTER),”first”) ;<br>  con.add(new JLabel(“标签-B”,JLabel.CENTER),”second”) ;<br>  con.add(new JLabel(“标签-C”,JLabel.CENTER),”thrid”) ;<br>  con.add(new JLabel(“标签-D”,JLabel.CENTER),”fourth”) ;<br>  con.add(new JLabel(“标签-E”,JLabel.CENTER),”fifth”) ;<br>  frame.pack() ;<br>  frame.setVisible(true) ;<br>  card.show(con,”thrid”) ;<br>  while(true){<br>      try{<br>          Thread.sleep(3000) ;<br>      }catch(InterruptedException e){}<br>      card.next(con) ;<br>  }<br><br>  }</li>
+</ul>
+<p>}</p>
+<pre><code>
+### JPanel
+- 最早是直接向Jframe中加入各个组件，但是现在改变,现在的组件可以加入到Jpanel 之中，在Jpanel完成各个组见的排列，之后再将所有的独立的Jpanel直接放在Jframe之中，以完成复杂的图形显示。
+```java
+import javax.swing.JPanel ;
+import javax.swing.JButton ;
+import javax.swing.JLabel ;
+import javax.swing.JFrame ;
+public class JPanelDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome TO ECIT&quot;) ; // 实例化窗体对象
+        JPanel pan = new JPanel() ;	// 准备好了一个面板
+        // 现在所有的内容都加入到了JPanel之中
+        pan.add(new JLabel(&quot;标签-A&quot;)) ;
+        pan.add(new JLabel(&quot;标签-B&quot;)) ;
+        pan.add(new JLabel(&quot;标签-C&quot;)) ;
+        pan.add(new JButton(&quot;按钮-X&quot;)) ;
+        pan.add(new JButton(&quot;按钮-Y&quot;)) ;
+        pan.add(new JButton(&quot;按钮-Z&quot;)) ;
+        frame.add(pan) ;// 将面板加入到窗体之上
+        frame.pack() ;// 根据组件自动调整大小
+        frame.setLocation(300,200) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/Jpanel.png"></p>
+<h3 id="JSplitPane"><a href="#JSplitPane" class="headerlink" title="JSplitPane"></a>JSplitPane</h3><ul>
+<li>JSplitPane主要功能是分割面板，可以将一个窗体分为两个 子窗体，可以是水平排列也可以是垂直排列<br><img src="/images/javase/gui/%E5%88%86%E5%89%B2%E9%9D%A2%E6%9D%BF.png"></li>
+</ul>
+<h4 id="JSplitPane类的主要方法及常量"><a href="#JSplitPane类的主要方法及常量" class="headerlink" title="JSplitPane类的主要方法及常量"></a>JSplitPane类的主要方法及常量</h4><table>
+<thead>
+<tr>
+<th align="center">No</th>
+<th align="center">方法及常量</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public static final int HORIZONTAL_SPLIT</td>
+<td align="center">常量</td>
+<td align="center">表示水平分割</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public static final int VERTICAL_SPLIT</td>
+<td align="center">常量</td>
+<td align="center">表示垂直分割</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public JSplitPane(int newOrientation)</td>
+<td align="center">构造</td>
+<td align="center">创建对象，并指明分割方式</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public JSplitPane(int newOrientation, boolean newContinuousLayout, Component newLeftComponent, Component newRightComponent)</td>
+<td align="center">构造</td>
+<td align="center">创建对象、指明分割方式、分割条改变是否重绘图象以及两端的显示组件</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public void setDividerLocation(double  proportionalLocation)</td>
+<td align="center">普通</td>
+<td align="center">设置分割条的位置，按百分比</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">public void setOneTouchExpandable(boolean  newValue)</td>
+<td align="center">普通</td>
+<td align="center">设置是否提供快速展开&#x2F;折叠的功能</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">public void setDividerSize(int newSize)</td>
+<td align="center">普通</td>
+<td align="center">设置分割条大小</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-java">import javax.swing.JPanel ;
+import javax.swing.JButton ;
+import javax.swing.JLabel ;
+import javax.swing.JFrame ;
+import java.awt.Container ;
+import javax.swing.JSplitPane ;
+public class JSplitPaneDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome TO ECIT&quot;) ; // 实例化窗体对象
+        Container cont = frame.getContentPane() ;
+        JPanel pan = new JPanel() ;	// 准备好了一个面板
+        JSplitPane lfsplit = null ;	// 左右分割
+        JSplitPane tpsplit = null ;	// 上下分割
+        lfsplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JButton(&quot;左按钮&quot;),new JButton(&quot;右按钮&quot;)) ;
+        lfsplit.setDividerSize(10) ;	// 设置左右分割条的分割线大小
+        lfsplit.setOneTouchExpandable(true) ;
+        tpsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT,lfsplit,new JLabel(&quot;下标签&quot;)) ;
+        tpsplit.setDividerSize(10) ;	// 设置上下分割条的分割线大小
+        tpsplit.setOneTouchExpandable(true) ;
+        cont.add(tpsplit) ;
+        frame.pack() ;// 根据组件自动调整大小
+        frame.setLocation(300,200) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E5%88%86%E5%89%B2%E9%9D%A2%E6%9D%BF%E7%A4%BA%E4%BE%8B.png"></p>
+<h3 id="JTabbedPane选项卡面板"><a href="#JTabbedPane选项卡面板" class="headerlink" title="JTabbedPane选项卡面板"></a>JTabbedPane选项卡面板</h3><ul>
+<li>选项卡面板是一个很常用的Swing组件，在window下，右击我的电脑，查看属性，就是一个典型的选修卡面板。当然还有最经典的谷歌浏览器，也是选项卡的一个典型。Swing中的选项卡使用JTabbedPane类来实现，下面就来介绍JTabbedPane的使用</li>
+</ul>
+<p>|No|      方法及常量|      类型 |     描述|<br>|1  |    static final int TOP | 常量 |  表示指向框项部位置|<br>|2  |    static final int BOTTOM  |常量 | 表示指向框底部位置|<br>|3  |    static final int LEFT  |常量 |表示指向框左部位置|<br>|4  |    static final int RIGHT  |常量 | 表示指向框右部位置|<br>|5  |    public JTabbedPane(int tabPlacerment)  |构造|  创建对象，并指定选项卡布局|<br>|6  |    public void addTab(String title,Component component) | 普通|  添加一个有标题，没有图标的组件|<br>|7  |    public void addTab(String title,Icon icon,Component component)  | 普通 |     添加一个有标题，有图标的组件|<br>|8  |    public void addTab(String title,Icon icon,Component component, String tip) |普通 |     掭加一个有标题，有图标，有提示信息的组件|</p>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.awt.Container ;
+import javax.swing.JPanel ;
+import javax.swing.JButton ;
+import javax.swing.ImageIcon ;
+import javax.swing.JLabel ;
+import javax.swing.JFrame ;
+import javax.swing.JTabbedPane ;
+public class JTabbedPaneDemo01 &#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome TO ECIT&quot;) ; // 实例化窗体对象
+        Container cont = frame.getContentPane() ;
+        JTabbedPane tab = null ;
+        tab = new JTabbedPane(JTabbedPane.TOP) ;// 设置标签在顶部显示
+        JPanel pan1 = new JPanel() ;
+        JPanel pan2 = new JPanel() ;
+        JButton but = new JButton(&quot;按钮&quot;) ;
+        JLabel lab = new JLabel(&quot;标签&quot;) ;
+        pan1.add(but) ;
+        pan2.add(lab) ;
+        String picPath = &quot;/Users/sxm/Desktop/icon.png&quot; ;
+        tab.addTab(&quot;图片选项&quot;,new ImageIcon(picPath),pan1,&quot;图象&quot;) ;
+        tab.addTab(&quot;文字选项&quot;,pan2) ;	
+        cont.add(tab) ;
+        frame.setSize(330,120) ;// 根据组件自动调整大小
+        frame.setLocation(300,200) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E9%80%89%E9%A1%B9%E5%8D%A1%E9%9D%A2%E6%9D%BF.png"></p>
+<h3 id="JScrollPane滚动条面板"><a href="#JScrollPane滚动条面板" class="headerlink" title="JScrollPane滚动条面板"></a>JScrollPane滚动条面板</h3><ul>
+<li>在一般的图形界面中如果显示的区域不够大了，往往会出现滚动条以方便用户浏览，在Swing中JScrollPane的 主要功能就是为显示的内容加入水平滚动条。JScrollPane 主要由JViewport和JScrollBar两部分组成，前者主要是显示–个矩形的区域让用户浏览，而后者主要是形成水平或垂直的滚动条<br><img src="/images/javase/gui/%E6%BB%9A%E5%8A%A8%E6%9D%A1.png"></li>
+</ul>
+<pre><code class="line-numbers language-java">import java.io.File ;
+import java.awt.Container ;
+import javax.swing.JPanel ;
+import javax.swing.JButton ;
+import javax.swing.ImageIcon ;
+import javax.swing.Icon ;
+import javax.swing.JLabel ;
+import javax.swing.JFrame ;
+import javax.swing.JScrollPane ;
+public class JScrollPaneDemo01 &#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome TO ECIT&quot;) ; // 实例化窗体对象
+        Container cont = frame.getContentPane() ;
+        String picPath = &quot;/Users/sxm/Desktop/icon.png&quot; ;
+        Icon icon = new ImageIcon(picPath) ;	// 实例化Icon对象
+        JPanel pan = new JPanel() ;
+        JLabel lab = new JLabel(icon) ;
+        JScrollPane scr1 = null ;
+        // 设置垂直和水平的滚动条一直显示
+        scr1 = new JScrollPane(pan,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS) ;
+        pan.add(lab) ;
+        cont.add(scr1) ;
+        frame.setSize(230,120) ;// 根据组件自动调整大小
+        frame.setLocation(300,200) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E6%BB%9A%E5%8A%A8%E6%9D%A1%E7%A4%BA%E4%BE%8B.png"></p>
+<h3 id="JInternalFrame内部窗体"><a href="#JInternalFrame内部窗体" class="headerlink" title="JInternalFrame内部窗体"></a>JInternalFrame内部窗体</h3><ul>
+<li>JInternalFrame 支持在 JFrame 窗口内部显示一个完整的子窗口，并提供了许多本机窗体功能的轻量级对象，包括拖动、关闭、变成图标、调整大小、标题显示和支持菜单栏等。</li>
+<li>在实际使用中，通常将 JInternalFrame 添加到 JDesktopPane 中，由其来维护和显示 JInternalFrame。</li>
+<li>JInternalFrame 的实例创建后，其具体使用方法和 JFrame 类似。<pre><code class="line-numbers language-java">import java.io.File ;
+import java.awt.Container ;
+import javax.swing.JPanel ;
+import javax.swing.JButton ;
+import javax.swing.ImageIcon ;
+import javax.swing.Icon ;
+import javax.swing.JLabel ;
+import javax.swing.JFrame ;
+import javax.swing.JDesktopPane ;
+import javax.swing.JInternalFrame ;
+import javax.swing.JScrollPane ;
+import java.awt.BorderLayout ;
+public class JInternalFrameDemo01 &#123;
+  public static void main(String args[])&#123;
+      JFrame frame = new JFrame(&quot;Welcome TO ECIT&quot;) ; // 实例化窗体对象
+      Container cont = frame.getContentPane() ;
+      JDesktopPane desk = new JDesktopPane() ;	// 定义窗体的容器
+      cont.add(desk,BorderLayout.CENTER) ;	// 设置显示样式
+      cont.add(new JLabel(&quot;内部窗体&quot;),BorderLayout.SOUTH) ;
+      JInternalFrame jif = null ;
+      String picPath = &quot;/Users/sxm/Desktop/icon.png&quot; ;
+      Icon icon = new ImageIcon(picPath) ;	// 实例化Icon对象
+      JPanel pan = null ;
+      for(int i=0;i&lt;3;i++)&#123;
+          jif = new JInternalFrame(&quot;ECIT-&quot; + i,true,true,true,true) ;
+          pan = new JPanel() ;
+          pan.add(new JLabel(icon)) ;	// 加入标签
+          jif.setLocation(35 - i * 10 , 35 - i * 10) ; // 设置显示位置
+          jif.add(pan) ;
+          jif.pack() ;
+          jif.setVisible(true) ;
+          desk.add(jif) ;
+      &#125;
+      frame.setSize(230,120) ;// 根据组件自动调整大小
+      frame.setLocation(300,200) ;
+      frame.setVisible(true) ;
+  &#125;
+&#125;
+</code></pre>
+<img src="/images/javase/gui/%E5%86%85%E9%83%A8%E7%AA%97%E4%BD%93.png"></li>
+</ul>
+<h3 id="JToggleButton不弹起的按钮组件-开关按钮"><a href="#JToggleButton不弹起的按钮组件-开关按钮" class="headerlink" title="JToggleButton不弹起的按钮组件(开关按钮)"></a>JToggleButton不弹起的按钮组件(开关按钮)</h3><ul>
+<li>JButton提供了- -个按钮的基本实现，但是此按钮每次单击之后都会恢复自动弹起，如果现在希望点中-一个按钮之后不在自动弹起，而是在第二次点此按钮的时候弹起，则就必须使用JToggleButton类。<pre><code class="line-numbers language-java">import javax.swing.JFrame ;
+import javax.swing.JToggleButton ;
+import java.awt.GridLayout ;
+public class JToggleButtonDemo01&#123;
+  public static void main(String args[])&#123;
+      JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;
+      JToggleButton but1 = new JToggleButton(&quot;已选中&quot;,true) ;	 // 默认选中
+      JToggleButton but2 = new JToggleButton(&quot;未选中&quot;) ;
+      JToggleButton but3 = new JToggleButton(&quot;按我&quot;) ;
+      frame.setLayout(new GridLayout(3,1)) ;	// 设置排版样式
+      frame.add(but1) ;
+      frame.add(but2) ;
+      frame.add(but3) ;
+      frame.setSize(200,100) ;
+      frame.setLocation(300,200) ;
+      frame.setVisible(true) ;
+  &#125;
+&#125;
+</code></pre>
+<img src="/images/javase/gui/%E5%BC%80%E5%85%B3%E6%8C%89%E9%92%AE.png"></li>
+</ul>
+<h3 id="JTextComponent文本组件"><a href="#JTextComponent文本组件" class="headerlink" title="JTextComponent文本组件"></a>JTextComponent文本组件</h3><h4 id="JTextField单行文本输入框"><a href="#JTextField单行文本输入框" class="headerlink" title="JTextField单行文本输入框"></a>JTextField单行文本输入框</h4><pre><code class="line-numbers language-java">import java.awt.GridLayout ;
+import javax.swing.JFrame ;
+import javax.swing.JTextField ;
+import javax.swing.JLabel ;
+public class JTextDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To MLDN&quot;) ;
+        JTextField name = new JTextField(30) ;
+        JTextField noed = new JTextField(&quot;ECIT&quot;,10) ;
+        JLabel nameLab = new JLabel(&quot;输入用户姓名：&quot;) ;
+        JLabel noedLab = new JLabel(&quot;不可编辑文本：&quot;) ;
+        name.setColumns(30) ;
+        noed.setColumns(10) ;
+        noed.setEnabled(false) ;	// 表示不可编辑
+        frame.setLayout(new GridLayout(2,2)) ;
+        frame.add(nameLab) ;
+        frame.add(name) ;
+        frame.add(noedLab) ;
+        frame.add(noed) ;
+        frame.setSize(300,100) ;
+        frame.setLocation(300,200) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E5%8D%95%E8%A1%8C%E6%96%87%E6%9C%AC.png"></p>
+<h4 id="JPasswordField密码框"><a href="#JPasswordField密码框" class="headerlink" title="JPasswordField密码框"></a>JPasswordField密码框</h4><pre><code class="line-numbers language-java">import java.awt.GridLayout ;
+import javax.swing.JFrame ;
+import javax.swing.JPasswordField ;
+import javax.swing.JLabel ;
+public class JPasswordDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;
+        JPasswordField jpf1 = new JPasswordField() ;
+        JPasswordField jpf2 = new JPasswordField() ;
+        jpf2.setEchoChar(&#39;#&#39;) ;	// 设置回显
+        JLabel lab1 = new JLabel(&quot;默认的回显：&quot;) ;
+        JLabel lab2 = new JLabel(&quot;回显设置“#”：&quot;) ;
+        lab1.setBounds(10,10,100,20) ;
+        lab2.setBounds(10,40,100,20) ;
+        jpf1.setBounds(110,10,80,20) ;
+        jpf2.setBounds(110,40,50,20) ;
+        frame.setLayout(null) ;
+        frame.add(lab1) ;
+        frame.add(jpf1) ;
+        frame.add(lab2) ;
+        frame.add(jpf2) ;
+        frame.setSize(300,100) ;
+        frame.setLocation(300,200) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E5%AF%86%E7%A0%81%E6%A1%86.png"></p>
+<h4 id="JTextArea多行文本"><a href="#JTextArea多行文本" class="headerlink" title="JTextArea多行文本"></a>JTextArea多行文本</h4><pre><code class="line-numbers language-java">import java.awt.GridLayout ;
+import javax.swing.JFrame ;
+import javax.swing.JTextArea ;
+import javax.swing.JScrollPane ;
+import javax.swing.JLabel ;
+public class JTextAreaDemo02&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;
+        JTextArea jta = new JTextArea(3,10) ;	// 设置大小
+        JLabel lab = new JLabel(&quot;多行文本域：&quot;) ;
+        JScrollPane scr = new JScrollPane(jta,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS ,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ) ;
+        frame.setLayout(new GridLayout(2,1)) ;	
+        frame.add(lab) ;
+        frame.add(scr) ;
+        frame.setSize(300,150) ;
+        frame.setLocation(300,200) ;
+        frame.setVisible(true) ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E5%A4%9A%E8%A1%8C%E6%96%87%E6%9C%AC.png"></p>
+<h3 id="JRadioButton单选按钮"><a href="#JRadioButton单选按钮" class="headerlink" title="JRadioButton单选按钮"></a>JRadioButton单选按钮</h3><ul>
+<li>单选钮就是在给出的多个显示信息中指定选择一个， 在Swing中可以使用JRadionButton完成一组 单选钮的操作，JRadionButton类的 常用方法如下。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public JRadioButton(Icon icon)</td>
+<td align="center">构造</td>
+<td align="center">建立一个单选钮，并指定图片</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public JRadioButton(Icon icon,boolean selected)</td>
+<td align="center">构造</td>
+<td align="center">建立一个单选钮，并指定图片和其是否选定</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public JRadioButton(String text)</td>
+<td align="center">构造</td>
+<td align="center">建立一个单选钮，并指定其文字，默认为不选定</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public JRadioButton(String text,boolean selected)</td>
+<td align="center">构造</td>
+<td align="center">建立一个单选钮，并指定文字和其是否选定</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public JRadioButton(String text,Icon icon,boolean  selected)</td>
+<td align="center">构造</td>
+<td align="center">建立一个单选钮，并指定图片、文字和其是否选定</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">public void setSelected(boolean b)</td>
+<td align="center">普通</td>
+<td align="center">设置是否选中</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">public boolean isSelectedO</td>
+<td align="center">普通</td>
+<td align="center">返回是否被选中</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">public void setText(String text)</td>
+<td align="center">普通</td>
+<td align="center">设置显示文本</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">public void setIcon(Icon defaultIcon)</td>
+<td align="center">普通</td>
+<td align="center">设置图片</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-java">import java.awt.Container ;
+import java.awt.GridLayout ;
+import java.awt.event.WindowAdapter ;
+import java.awt.event.WindowEvent ;
+import javax.swing.JFrame ;
+import javax.swing.JPanel ;
+import javax.swing.JRadioButton ;
+import javax.swing.ButtonGroup ;
+import javax.swing.BorderFactory ;
+class MyRadio&#123;
+    private JFrame frame = new JFrame(&quot;Welcome TO ECIT&quot;) ;
+    private Container cont = frame.getContentPane() ;
+    private JRadioButton jrb1 = new JRadioButton(&quot;游戏&quot;) ;
+    private JRadioButton jrb2 = new JRadioButton(&quot;跑步&quot;) ;
+    private JRadioButton jrb3 = new JRadioButton(&quot;赛车&quot;) ;
+    private JPanel pan = new JPanel() ;
+    public MyRadio()&#123;
+        pan.setBorder(BorderFactory.createTitledBorder(&quot;请选择最喜爱的爱好&quot;)) ;	// 设置一个边框的显示条
+        pan.setLayout(new GridLayout(1,3)) ;
+        pan.add(this.jrb1) ;
+        pan.add(this.jrb2) ;
+        pan.add(this.jrb3) ;
+        ButtonGroup group = new ButtonGroup() ;
+        group.add(this.jrb1) ;
+        group.add(this.jrb2) ;
+        group.add(this.jrb3) ;
+        cont.add(pan) ;
+        this.frame.setSize(300,80) ;
+        this.frame.setVisible(true) ;
+        this.frame.addWindowListener(new WindowAdapter()&#123;
+            public void windowClosing(WindowEvent obj)&#123;
+                System.exit(1) ;
+            &#125;
+        &#125;) ;
+    &#125;
+&#125;;
+public class JRadioButtonDemo02&#123;
+    public static void main(String args[])&#123;
+        new MyRadio() ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E5%8D%95%E9%80%89%E6%8C%89%E9%92%AE.png"></p>
+<h3 id="JCheckBox复选框"><a href="#JCheckBox复选框" class="headerlink" title="JCheckBox复选框"></a>JCheckBox复选框</h3><pre><code class="line-numbers language-java">import java.awt.Container ;
+import java.awt.GridLayout ;
+import java.awt.event.WindowAdapter ;
+import java.awt.event.WindowEvent ;
+import javax.swing.JFrame ;
+import javax.swing.JPanel ;
+import javax.swing.JCheckBox ;
+import javax.swing.BorderFactory ;
+class MyCheckBox&#123;
+    private JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;	// 定义窗体
+    private Container cont = frame.getContentPane() ;	// 得到窗体容器
+    private JCheckBox jcb1 = new JCheckBox(&quot;游戏&quot;) ;	// 定义一个复选框
+    private JCheckBox jcb2 = new JCheckBox(&quot;游泳&quot;) ;	// 定义一个复选框
+    private JCheckBox jcb3 = new JCheckBox(&quot;跑步&quot;) ;	// 定义一个复选框
+    private JPanel pan = new JPanel() ;
+    public MyCheckBox()&#123;
+        pan.setBorder(BorderFactory.createTitledBorder(&quot;请选择最喜爱的运动&quot;)) ;
+        pan.setLayout(new GridLayout(1,3)) ;	// 设置组件的排版 
+        pan.add(this.jcb1) ;	// 增加组件
+        pan.add(this.jcb2) ;	// 增加组件
+        pan.add(this.jcb3) ;	// 增加组件
+        cont.add(pan) ;	// 将面板加入到容器之中
+        this.frame.setSize(330,80) ;
+        this.frame.setVisible(true) ;	// 设置可显示
+        this.frame.addWindowListener(new WindowAdapter()&#123;
+            public void windowClosing(WindowEvent arg)&#123;
+                System.exit(1) ;
+            &#125;
+        &#125;) ;
+    &#125;
+
+&#125;
+public class JCheckBoxDemo01&#123;
+    public static void main(String args[])&#123;
+        new MyCheckBox() ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E5%A4%8D%E9%80%89%E6%A1%86.png"></p>
+<h3 id="JList列表框"><a href="#JList列表框" class="headerlink" title="JList列表框"></a>JList列表框</h3><ul>
+<li>列表框可以同时将多个选项信息以列表的方式展现给用户，使用JList可以构建一个列表框</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public JList(ListModel dataModel)</td>
+<td align="center">构造</td>
+<td align="center">根据ListModel构造JList</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public JList(Object[] listData)</td>
+<td align="center">构造</td>
+<td align="center">根据对象数组构造JList</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public JList(Vector&lt;?&gt; listData)</td>
+<td align="center">构造</td>
+<td align="center">根据一个Vector构造JList</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public void setSelectionMode(int selectionMode)</td>
+<td align="center">普通</td>
+<td align="center">设置选择模式，是多选还是单选</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">public ListModel getModel()</td>
+<td align="center">普通</td>
+<td align="center">返回列表框的列表模型</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">public int[] getSelectedIndices()  普通  返回所选择的全部数组</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>List是可以进行多选或单选的，如果要想设置则使用,对于列表框是多选还是单选可以通过<strong>ListSelectionModel</strong>接口完成</p>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th align="center">常量</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">static final int MULTIPLE INTERVAL SELECTION</td>
+<td align="center">常量</td>
+<td align="center">一次选择一个或多个连续的索引范围</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">static final int SINGLE INTERVAL SELECTION</td>
+<td align="center">常量</td>
+<td align="center">一次选择一个连续范围的值</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">static final int SINGLE SELECTION</td>
+<td align="center">常量</td>
+<td align="center">一次选择一个值</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-java">import javax.swing.JFrame ;
+import javax.swing.JList ;
+import java.util.Vector ;
+import javax.swing.BorderFactory ;
+import javax.swing.ListSelectionModel ;
+import javax.swing.JScrollPane ;
+import java.awt.Container ;
+import java.awt.GridLayout ;
+import java.awt.event.WindowAdapter ;
+import java.awt.event.WindowEvent ;
+class MyList&#123;
+    private JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;
+    private Container cont = frame.getContentPane() ;	// 得到窗体容器
+    private JList list1 = null ;
+    private JList list2 = null ;
+    public MyList()&#123;
+        this.frame.setLayout(new GridLayout(1,3)) ;	// 定义排版
+        String nations[] = &#123;&quot;中国&quot;,&quot;巴西&quot;,&quot;美国&quot;,&quot;韩国&quot;,&quot;意大利&quot;,&quot;法国&quot;&#125; ;
+        Vector&lt;String&gt; v = new Vector&lt;String&gt;() ;
+        v.add(&quot;百度&quot;) ;
+        v.add(&quot;雅虎&quot;) ;
+        v.add(&quot;谷歌&quot;) ;
+        this.list1 = new JList(nations) ;
+        this.list2 = new JList(v) ;
+        this.list1.setBorder(BorderFactory.createTitledBorder(&quot;你喜欢去那个国家旅游？&quot;)) ;
+        this.list2.setBorder(BorderFactory.createTitledBorder(&quot;你喜欢网站？&quot;)) ;
+        this.list1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION) ;// 多选
+        this.list2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION) ;// 单选
+        this.cont.add(new JScrollPane(this.list1)) ;
+        this.cont.add(this.list2) ;
+        this.frame.setSize(330,180) ;
+        this.frame.setVisible(true) ;
+        this.frame.addWindowListener(new WindowAdapter()&#123;
+            public void windowClosing(WindowEvent a)&#123;
+                System.exit(1) ;
+            &#125;
+        &#125;) ;
+    &#125;
+&#125;
+public class JListDemo01&#123;
+    public static void main(String args[])&#123;
+        new MyList() ;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E5%88%97%E8%A1%A8.png"></p>
+<h3 id="JComboBox下拉列表框"><a href="#JComboBox下拉列表框" class="headerlink" title="JComboBox下拉列表框"></a>JComboBox下拉列表框</h3><p>之前学习过了JList, JList, 本身只是一个列表框，如果要想完成一个下拉的列表框，则就需要使用JComboBox完成。</p>
+<pre><code class="line-numbers language-java">import javax.swing.JFrame ;
+import java.awt.Container ;
+import java.awt.event.WindowEvent ;
+import java.awt.event.WindowAdapter ;
+import java.awt.GridLayout ;
+import javax.swing.JComboBox ;
+import javax.swing.JLabel ;
+import javax.swing.BorderFactory ;
+import java.util.Vector ;
+class MyComboBox&#123;
+    private JFrame frame = new JFrame(&quot;Welcome TO ECIT&quot;) ;
+    private Container cont = frame.getContentPane() ;	// 得到容器
+    private JComboBox jcb1 = null ;
+    private JComboBox jcb2 = null ;
+    public MyComboBox()&#123;
+        this.frame.setLayout(new GridLayout(2,2)) ;	// 定义排版
+        String nations[] = &#123;&quot;中国&quot;,&quot;巴西&quot;,&quot;美国&quot;,&quot;韩国&quot;,&quot;意大利&quot;,&quot;法国&quot;&#125; ;
+        Vector&lt;String&gt; v = new Vector&lt;String&gt;() ;
+        v.add(&quot;Java&quot;) ;	// 增加内容
+        v.add(&quot;C#&quot;) ;	// 增加内容
+        v.add(&quot;C++&quot;) ;	// 增加内容
+        this.jcb1 = new JComboBox(nations) ;	// 实例化下拉列表框
+        this.jcb2 = new JComboBox(v) ;	// 实例化下拉列表框
+        // 为每一个下拉框增加一个边框
+        this.jcb1.setBorder(BorderFactory.createTitledBorder(&quot;你喜欢去那个国家旅游？&quot;)) ;
+        this.jcb2.setBorder(BorderFactory.createTitledBorder(&quot;你喜欢的网站？&quot;)) ;
+        cont.add(this.jcb1) ;
+        cont.add(this.jcb2) ;
+        cont.add(new JLabel(&quot;下拉列表框&quot;)) ;
+        this.frame.setSize(300,150) ;
+        this.frame.setVisible(true) ;
+        this.frame.addWindowListener(new WindowAdapter()&#123;
+            public void windowClosing(WindowEvent e)&#123;
+                System.exit(1) ;
+            &#125;
+        &#125;) ;
+    &#125;
+&#125;
+public class JComboBoxDemo01&#123;
+    public static void main(String args[])&#123;
+        new MyComboBox() ;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="菜单组件JMenu、JMenuBar、JMenuItem"><a href="#菜单组件JMenu、JMenuBar、JMenuItem" class="headerlink" title="菜单组件JMenu、JMenuBar、JMenuItem"></a>菜单组件JMenu、JMenuBar、JMenuItem</h3><p>若在Java中实现菜单，则可以使用JMenu组件，当然，如果要使用JMenu则首先要了解JMenuBar组件，JMenuBar组 件的功能是用来摆放JMenu组件，当建立完许多的JMenu组件之后，需要通过JMenuBar组件来将JMenu组件加入到窗口中</p>
+<pre><code class="line-numbers language-java">import java.awt.event.WindowAdapter ;
+import java.awt.event.WindowEvent ;
+import java.awt.event.ActionListener ;
+import java.awt.event.ActionEvent ;
+import java.awt.Container ;
+import java.io.File ;
+import javax.swing.JFrame ;
+import javax.swing.ImageIcon ;
+import javax.swing.JTextArea ;
+import javax.swing.JScrollPane ;
+import javax.swing.JMenu ;
+import javax.swing.KeyStroke ;
+import javax.swing.JMenuBar ;
+import javax.swing.JMenuItem ;
+public class JMenuDemo03&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To ECIT&quot;) ;
+        final JTextArea text = new JTextArea() ;
+        text.setEditable(true) ;	// 可编辑
+        frame.getContentPane().add(new JScrollPane(text)) ;	// 加入滚动条
+        JMenu menuFile = new JMenu(&quot;文件&quot;) ;
+        menuFile.setIcon(new ImageIcon(&quot;d:&quot;+File.separator+&quot;icons&quot;+File.separator+&quot;file.gif&quot;)) ;
+        JMenuBar menuBar = new JMenuBar() ;
+        menuBar.add(menuFile) ;
+        JMenuItem newItem = new JMenuItem(&quot;新建&quot;,new ImageIcon(&quot;d:&quot;+File.separator+&quot;icons&quot;+File.separator+&quot;new.gif&quot;)) ;
+        JMenuItem openItem = new JMenuItem(&quot;打开&quot;,new ImageIcon(&quot;d:&quot;+File.separator+&quot;icons&quot;+File.separator+&quot;open.gif&quot;)) ;
+        JMenuItem closeItem = new JMenuItem(&quot;关闭&quot;,new ImageIcon(&quot;d:&quot;+File.separator+&quot;icons&quot;+File.separator+&quot;close.gif&quot;)) ;
+        JMenuItem exitItem = new JMenuItem(&quot;退出&quot;,new ImageIcon(&quot;d:&quot;+File.separator+&quot;icons&quot;+File.separator+&quot;exit.gif&quot;)) ;
+        // 此时定义完了四个菜单的选项，定义完成之后，增加快捷键
+        newItem.setMnemonic(&#39;N&#39;) ;
+        openItem.setMnemonic(&#39;O&#39;) ;
+        closeItem.setMnemonic(&#39;C&#39;) ;
+        exitItem.setMnemonic(&#39;E&#39;) ;
+        newItem.setAccelerator(KeyStroke.getKeyStroke(&#39;N&#39;,java.awt.Event.CTRL_MASK)) ;
+        openItem.setAccelerator(KeyStroke.getKeyStroke(&#39;O&#39;,java.awt.Event.CTRL_MASK)) ;
+        closeItem.setAccelerator(KeyStroke.getKeyStroke(&#39;C&#39;,java.awt.Event.ALT_MASK)) ;
+        exitItem.setAccelerator(KeyStroke.getKeyStroke(&#39;E&#39;,java.awt.Event.ALT_MASK)) ;
+        newItem.addActionListener(new ActionListener()&#123;
+            public void actionPerformed(ActionEvent e)&#123;
+                text.append(&quot;=== 选择了“新建”菜单项\n&quot;) ;
+            &#125;
+        &#125;) ;
+        openItem.addActionListener(new ActionListener()&#123;
+            public void actionPerformed(ActionEvent e)&#123;
+                text.append(&quot;=== 选择了“打开”菜单项\n&quot;) ;
+            &#125;
+        &#125;) ;
+        closeItem.addActionListener(new ActionListener()&#123;
+            public void actionPerformed(ActionEvent e)&#123;
+                text.append(&quot;=== 选择了“关闭”菜单项\n&quot;) ;
+            &#125;
+        &#125;) ;
+        exitItem.addActionListener(new ActionListener()&#123;
+            public void actionPerformed(ActionEvent e)&#123;
+                text.append(&quot;=== 选择了“退出”菜单项\n&quot;) ;
+            &#125;
+        &#125;) ;
+        menuFile.add(newItem) ;
+        menuFile.add(openItem) ;
+        menuFile.add(closeItem) ;
+        menuFile.add(exitItem) ;
+        frame.setJMenuBar(menuBar) ;	// 菜单是需要通过此方法增加的
+        frame.addWindowListener(new WindowAdapter()&#123;
+            public void windowClosing(WindowEvent e)&#123;
+                System.exit(1) ;
+            &#125;
+        &#125;) ;
+        frame.setVisible(true) ;
+        frame.setSize(300,100) ;
+        frame.setLocation(300,200) ;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="JFileChooser文件选择框"><a href="#JFileChooser文件选择框" class="headerlink" title="JFileChooser文件选择框"></a>JFileChooser文件选择框</h3><ul>
+<li>在使用记事本或者word的时候，可以通过文件选择框选择要打开或保存的文件，在Swing中可以使用JFileChooser组件实现此功能<br><img src="/images/javase/gui/%E6%96%87%E4%BB%B6%E9%80%89%E6%8B%A9%E6%A1%86.png"><pre><code class="line-numbers language-java">import java.io.File ;
+import java.io.FileInputStream ;
+import java.io.FileOutputStream ;
+import java.io.PrintStream ;
+import java.util.Scanner ;
+import java.awt.BorderLayout ;
+import java.awt.event.WindowAdapter ;
+import java.awt.event.WindowEvent ;
+import java.awt.event.ActionEvent ;
+import java.awt.event.ActionListener ;
+import javax.swing.JFrame  ;
+import javax.swing.JTextArea ;
+import javax.swing.JLabel ;
+import javax.swing.JButton ;
+import javax.swing.JPanel ;
+import javax.swing.JFileChooser ;
+import javax.swing.JScrollPane ;
+class Note implements ActionListener&#123;
+  private JTextArea area = new JTextArea(8,10) ;	// 定义文本区
+  private JFrame frame = new JFrame(&quot;Welcome To MLDN&quot;) ;
+  private JButton open = new JButton(&quot;打开文件&quot;) ;
+  private JButton save = new JButton(&quot;保存文件&quot;) ;
+  private JLabel label = new JLabel(&quot;现在没有打开的文件&quot;) ;
+  private JPanel butPan = new JPanel() ;
+  public Note()&#123;
+      this.butPan.add(open) ;	// 在面板中加入按钮
+      this.butPan.add(save) ;	// 在面板中加入按钮
+      this.frame.setLayout(new BorderLayout(3,3)) ;
+      this.frame.add(this.label,BorderLayout.NORTH) ;
+      this.frame.add(this.butPan,BorderLayout.SOUTH) ;
+      this.frame.add(new JScrollPane(this.area),BorderLayout.CENTER) ;
+      this.frame.setSize(330,180) ;
+      this.frame.setVisible(true) ;
+      this.frame.addWindowListener(
+          new WindowAdapter()	&#123;
+              public void windowClosing(WindowEvent e)&#123;
+                  System.exit(1) ;
+              &#125;
+          &#125;
+      ) ;
+      this.open.addActionListener(this) ;
+      this.save.addActionListener(this) ;
+  &#125;
+  public void actionPerformed(ActionEvent e)&#123;
+      File file = null ;	// 接收文件
+      int result = 0 ;	// 接收操作状态
+      JFileChooser fileChooser = new JFileChooser() ;	// 文件选择框
+      if(e.getSource()==this.open)&#123;	// 表示执行的是打开操作
+          this.area.setText(&quot;&quot;) ;	// 打开将文字区域的内容清空
+          fileChooser.setApproveButtonText(&quot;确定&quot;) ;
+          fileChooser.setDialogTitle(&quot;打开文件&quot;) ;
+          result = fileChooser.showOpenDialog(this.frame) ;
+          if(result==JFileChooser.APPROVE_OPTION)&#123;	// 选择的是确定按钮
+              file = fileChooser.getSelectedFile() ;	// 得到选择的文件
+              this.label.setText(&quot;打开的文件名称为：&quot; + file.getName()) ;
+          &#125;else if(result==JFileChooser.CANCEL_OPTION)&#123;
+              this.label.setText(&quot;没有选择任何文件&quot;) ;
+          &#125;else&#123;
+              this.label.setText(&quot;操作出现错误&quot;) ;
+          &#125;
+          if(file!=null)&#123;
+              try&#123;
+                  Scanner scan = new Scanner(new FileInputStream(file)) ;
+                  scan.useDelimiter(&quot;\n&quot;) ;
+                  while(scan.hasNext())&#123;
+                      this.area.append(scan.next()) ;
+                      this.area.append(&quot;\n&quot;) ;
+                  &#125;
+                  scan.close() ;
+              &#125;catch(Exception e1)&#123;&#125;
+          &#125;
+      &#125;
+      if(e.getSource()==this.save)&#123;	// 判断是否是保存操作
+          result = fileChooser.showSaveDialog(this.frame) ;	// 显示保存框
+          if(result==JFileChooser.APPROVE_OPTION)&#123;	// 选择的是确定按钮
+              file = fileChooser.getSelectedFile() ;	// 得到选择的文件
+              this.label.setText(&quot;选择的存储文件名称为：&quot; + file.getName()) ;
+          &#125;else if(result==JFileChooser.CANCEL_OPTION)&#123;
+              this.label.setText(&quot;没有选择任何文件&quot;) ;
+          &#125;else&#123;
+              this.label.setText(&quot;操作出现错误&quot;) ;
+          &#125;
+          if(file!=null)&#123;
+              try&#123;
+                  PrintStream out = new PrintStream(new FileOutputStream(file)) ;
+                  out.print(this.area.getText()) ;
+                  out.close() ;
+              &#125;catch(Exception e1)&#123;&#125;
+          &#125;
+      &#125;
+  &#125;
+&#125;
+public class JFileChooserDemo&#123;
+  public static void main(String args[])&#123;
+      new Note() ;
+  &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="表格JTable"><a href="#表格JTable" class="headerlink" title="表格JTable"></a>表格JTable</h3><ul>
+<li>表格组件提供了以行和列的形式显示数据的视图。在程序开发中是一个非常重要的组件，尤其在需要将-堆数据有条理的展现给用户的时候，表格设计更能显示出它的重要性。</li>
+<li>在Swing中 可以通过JTable组件非常轻松的构造出所需要的表格，并且也提供了一些方法来管理这些表格的内容。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th align="center">方法</th>
+<th align="center">类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">public JTable(Object[][] rowData,Object[] columnNames)</td>
+<td align="center">构造</td>
+<td align="center">创建一个JTable对象，设置显示数据和表格的标题</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">public JTable(Vector rowData,Vector  columnNames)</td>
+<td align="center">构造</td>
+<td align="center">创建一个JTable对象，通过Vector设置显示数据和显示的标题</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">public JTable(TableModel dm)</td>
+<td align="center">构造</td>
+<td align="center">使用TableModel创建表格</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">public TableColumnModel getColumnModel()</td>
+<td align="center">普通</td>
+<td align="center">返回TableColumModel对象</td>
+</tr>
+</tbody></table>
+<pre><code class="line-numbers language-java">import java.awt.event.WindowAdapter ;
+import java.awt.event.WindowEvent ;
+import javax.swing.JTable ;
+import javax.swing.JScrollPane ;
+import javax.swing.JFrame ;
+public class JTableDemo01&#123;
+    public static void main(String args[])&#123;
+        JFrame frame = new JFrame(&quot;Welcome To MLDN&quot;) ;
+        String[] titles = &#123;&quot;姓名&quot;,&quot;年龄&quot;,&quot;性别&quot;,&quot;数学成绩&quot;,&quot;英语成绩&quot;,&quot;总分&quot;,&quot;是否及格&quot;&#125; ;
+        Object [][] userInfo = &#123;
+            &#123;&quot;李华&quot;,30,&quot;男&quot;,89,97,186,true&#125; ,
+            &#123;&quot;李康&quot;,23,&quot;女&quot;,90,93,183,false&#125; 
+        &#125; ;	// 定义数据
+        JTable table = new JTable(userInfo,titles) ;	// 建立表格
+        JScrollPane scr = new JScrollPane(table) ;
+        frame.add(scr) ;
+        frame.setSize(370,90) ;
+        frame.setVisible(true) ;
+        frame.addWindowListener(new WindowAdapter()&#123;
+            public void windowClosing(WindowEvent e)&#123;
+                System.exit(1) ;
+            &#125;
+        &#125;);
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/images/javase/gui/%E8%A1%A8%E6%A0%BC.png"></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>JAVA-GUI图形界面</p><p><a href="http://example.com/2013/10/01/javase/JAVASE-GUI/">http://example.com/2013/10/01/javase/JAVASE-GUI/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2013-10-01</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-06-13</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2013/10/02/javase/JAVASE-GUI%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">JAVA-GUI事件机制</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2013/09/16/javase/JAVASE-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6-16/"><span class="level-item">Java的类加载机制与反射机制</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#AWT"><span class="level-left"><span class="level-item">1</span><span class="level-item">AWT</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#AWT包组成"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">AWT包组成</span></span></a></li><li><a class="level is-mobile" href="#组件"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">组件</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Component"><span class="level-left"><span class="level-item">1.2.1</span><span class="level-item">Component</span></span></a></li></ul></li><li><a class="level is-mobile" href="#容器"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">容器</span></span></a></li><li><a class="level is-mobile" href="#布局管理器"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">布局管理器</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Swing简介"><span class="level-left"><span class="level-item">2</span><span class="level-item">Swing简介</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#JComponent的常用子类"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">JComponent的常用子类</span></span></a></li><li><a class="level is-mobile" href="#JFrame"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">JFrame</span></span></a></li><li><a class="level is-mobile" href="#JFrame类的常用操作方法"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">JFrame类的常用操作方法</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Dimension类"><span class="level-left"><span class="level-item">2.3.1</span><span class="level-item">Dimension类</span></span></a></li><li><a class="level is-mobile" href="#Point类"><span class="level-left"><span class="level-item">2.3.2</span><span class="level-item">Point类</span></span></a></li></ul></li><li><a class="level is-mobile" href="#JLabel类"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">JLabel类</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#JLabel类的常用方法和常量"><span class="level-left"><span class="level-item">2.4.1</span><span class="level-item">JLabel类的常用方法和常量</span></span></a></li><li><a class="level is-mobile" href="#更改JLabel的文字样式"><span class="level-left"><span class="level-item">2.4.2</span><span class="level-item">更改JLabel的文字样式</span></span></a></li><li><a class="level is-mobile" href="#得到全部可用字体"><span class="level-left"><span class="level-item">2.4.3</span><span class="level-item">得到全部可用字体</span></span></a></li><li><a class="level is-mobile" href="#Jlabel设置显示图片"><span class="level-left"><span class="level-item">2.4.4</span><span class="level-item">Jlabel设置显示图片</span></span></a></li></ul></li><li><a class="level is-mobile" href="#JButton组件"><span class="level-left"><span class="level-item">2.5</span><span class="level-item">JButton组件</span></span></a></li><li><a class="level is-mobile" href="#布局管理器-1"><span class="level-left"><span class="level-item">2.6</span><span class="level-item">布局管理器</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#FlowLayout"><span class="level-left"><span class="level-item">2.6.1</span><span class="level-item">FlowLayout</span></span></a></li><li><a class="level is-mobile" href="#BorderLayout"><span class="level-left"><span class="level-item">2.6.2</span><span class="level-item">BorderLayout</span></span></a></li><li><a class="level is-mobile" href="#GridLayout"><span class="level-left"><span class="level-item">2.6.3</span><span class="level-item">GridLayout</span></span></a></li><li><a class="level is-mobile" href="#CardLayout卡片式布局"><span class="level-left"><span class="level-item">2.6.4</span><span class="level-item">CardLayout卡片式布局</span></span></a></li></ul></li><li><a class="level is-mobile" href="#JSplitPane"><span class="level-left"><span class="level-item">2.7</span><span class="level-item">JSplitPane</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#JSplitPane类的主要方法及常量"><span class="level-left"><span class="level-item">2.7.1</span><span class="level-item">JSplitPane类的主要方法及常量</span></span></a></li></ul></li><li><a class="level is-mobile" href="#JTabbedPane选项卡面板"><span class="level-left"><span class="level-item">2.8</span><span class="level-item">JTabbedPane选项卡面板</span></span></a></li><li><a class="level is-mobile" href="#JScrollPane滚动条面板"><span class="level-left"><span class="level-item">2.9</span><span class="level-item">JScrollPane滚动条面板</span></span></a></li><li><a class="level is-mobile" href="#JInternalFrame内部窗体"><span class="level-left"><span class="level-item">2.10</span><span class="level-item">JInternalFrame内部窗体</span></span></a></li><li><a class="level is-mobile" href="#JToggleButton不弹起的按钮组件-开关按钮"><span class="level-left"><span class="level-item">2.11</span><span class="level-item">JToggleButton不弹起的按钮组件(开关按钮)</span></span></a></li><li><a class="level is-mobile" href="#JTextComponent文本组件"><span class="level-left"><span class="level-item">2.12</span><span class="level-item">JTextComponent文本组件</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#JTextField单行文本输入框"><span class="level-left"><span class="level-item">2.12.1</span><span class="level-item">JTextField单行文本输入框</span></span></a></li><li><a class="level is-mobile" href="#JPasswordField密码框"><span class="level-left"><span class="level-item">2.12.2</span><span class="level-item">JPasswordField密码框</span></span></a></li><li><a class="level is-mobile" href="#JTextArea多行文本"><span class="level-left"><span class="level-item">2.12.3</span><span class="level-item">JTextArea多行文本</span></span></a></li></ul></li><li><a class="level is-mobile" href="#JRadioButton单选按钮"><span class="level-left"><span class="level-item">2.13</span><span class="level-item">JRadioButton单选按钮</span></span></a></li><li><a class="level is-mobile" href="#JCheckBox复选框"><span class="level-left"><span class="level-item">2.14</span><span class="level-item">JCheckBox复选框</span></span></a></li><li><a class="level is-mobile" href="#JList列表框"><span class="level-left"><span class="level-item">2.15</span><span class="level-item">JList列表框</span></span></a></li><li><a class="level is-mobile" href="#JComboBox下拉列表框"><span class="level-left"><span class="level-item">2.16</span><span class="level-item">JComboBox下拉列表框</span></span></a></li><li><a class="level is-mobile" href="#菜单组件JMenu、JMenuBar、JMenuItem"><span class="level-left"><span class="level-item">2.17</span><span class="level-item">菜单组件JMenu、JMenuBar、JMenuItem</span></span></a></li><li><a class="level is-mobile" href="#JFileChooser文件选择框"><span class="level-left"><span class="level-item">2.18</span><span class="level-item">JFileChooser文件选择框</span></span></a></li><li><a class="level is-mobile" href="#表格JTable"><span class="level-left"><span class="level-item">2.19</span><span class="level-item">表格JTable</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

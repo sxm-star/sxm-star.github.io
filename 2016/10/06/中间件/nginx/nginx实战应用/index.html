@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>nginx实战应用 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="nginx简介 Nginx (“ engine x”)是一个高性能的HTTP和反向代理服务器，也是一个IMAP&amp;#x2F;POP3&amp;#x2F;SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名"><meta property="og:type" content="blog"><meta property="og:title" content="nginx实战应用"><meta property="og:url" content="http://example.com/2016/10/06/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/nginx%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="nginx简介 Nginx (“ engine x”)是一个高性能的HTTP和反向代理服务器，也是一个IMAP&amp;#x2F;POP3&amp;#x2F;SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/nginx/nginx%E9%9B%86%E7%BE%A4%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1.png"><meta property="og:image" content="http://example.com/images/nginx/%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA.png"><meta property="article:published_time" content="2016-10-05T16:04:00.000Z"><meta property="article:modified_time" content="2020-06-25T10:59:12.644Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="nginx"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/nginx/nginx%E9%9B%86%E7%BE%A4%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2016/10/06/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/nginx%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/"},"headline":"nginx实战应用","image":["http://example.com/images/nginx/nginx%E9%9B%86%E7%BE%A4%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1.png","http://example.com/images/nginx/%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA.png"],"datePublished":"2016-10-05T16:04:00.000Z","dateModified":"2020-06-25T10:59:12.644Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"nginx简介 Nginx (“ engine x”)是一个高性能的HTTP和反向代理服务器，也是一个IMAP&#x2F;POP3&#x2F;SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名"}</script><link rel="canonical" href="http://example.com/2016/10/06/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/nginx%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2016-10-05T16:04:00.000Z" title="2016/10/6 上午12:04:00">2016-10-06</time>发表</span><span class="level-item"><time dateTime="2020-06-25T10:59:12.644Z" title="2020/6/25 下午6:59:12">2020-06-25</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span> / </span><a class="link-muted" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/">nginx</a></span><span class="level-item">26 分钟读完 (大约3945个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">nginx实战应用</h1><div class="content"><h2 id="nginx简介"><a href="#nginx简介" class="headerlink" title="nginx简介"></a>nginx简介</h2><ul>
+<li>Nginx (“ engine x”)是一个高性能的HTTP和反向代理服务器，也是一个IMAP&#x2F;POP3&#x2F;SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日, nginx1.0.4发布。</li>
+<li>其特点是占有内存少,并发能力强,事实上nginx的并发能力确实在同类型的网页服务器中表现较好,中国大陆使用nginx网站用户有:百度、京东、新浪、网易、腾讯、淘宝等。</li>
+<li><strong>nginx最大特点是可以进行多模块的整合</strong>,整合其它的开发模块实现更加复杂的功能。<span id="more"></span>
+<h2 id="nginx与tomcat整合"><a href="#nginx与tomcat整合" class="headerlink" title="nginx与tomcat整合"></a>nginx与tomcat整合</h2><h3 id="nginx反向代理功能"><a href="#nginx反向代理功能" class="headerlink" title="nginx反向代理功能"></a>nginx反向代理功能</h3>示例 nginx与一台tomcat服务器整合示例，实现nginx代理功能</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">服务器ip</th>
+<th align="center">应用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">192.168.1.110</td>
+<td align="center">nginx-server-01</td>
+</tr>
+<tr>
+<td align="center">192.168.1.101</td>
+<td align="center">tomcat-server-01</td>
+</tr>
+</tbody></table>
+<p><strong>1)【tomcat-server-01】配置一个虚拟目录:</strong></p>
+<ul>
+<li>1.建立一个tomcat工作目录<pre><code class="line-numbers language-shell">mkdir -p /usr/data/tomcat-web/ecit-web
+</code></pre>
+</li>
+<li>2.将Tomcat软件下的 webapps&#x2F;ROOT&#x2F;WEB-INF拷贝到ecit-web此目录之中</li>
+<li>3.编辑tomcat软件下conf&#x2F;server.xml，在Host节点里添加虚拟目录<pre><code class="line-numbers language-xml">&lt;content path=&quot;/&quot; docBase=&quot;/usr/data/tomcat-web/ecit-web&quot; /&gt;
+</code></pre>
+</li>
+<li>4.打开浏览器输入 <a target="_blank" rel="noopener" href="http://192.168.1.101:8080/">http://192.168.1.101:8080/</a> 正常访问</li>
+</ul>
+<p><strong>2)【nginx-server-01】代理配置</strong></p>
+<ul>
+<li>1.修改nginx配置文件,在location节点添加代理<pre><code class="line-numbers language-shell">vim /usr/local/nginx/conf/nginx.conf
+</code></pre>
+<pre><code class="line-numbers language-shell">1ocation / &#123;  
+proxy_pass http://192.168.1.101:8080/
+&#125;
+</code></pre>
+</li>
+</ul>
+<p><strong>3)核心参数</strong></p>
+<ul>
+<li><strong>proxy_pass</strong>:设置代理的服务器的路径;</li>
+<li><strong>proxy_redirect</strong>:表示该请求是否要配置转发,这样可以避免端口与路径映射的问题;</li>
+<li><strong>proxy_set_header Host</strong> :代理头信息,转发发送过来的HTTP头信息;</li>
+<li><strong>proxy_set_header X-Real-IP</strong> :代理头信息,转发发送过来的客户端IP地址,如果不配置则将接收nginx服务器的IP地址;</li>
+<li><strong>proxy_set_header X-Forwarded-For</strong> :表示该次请求是由谁发起的，一般要与proxy_set_header一起使用;<pre><code class="line-numbers language-shell">location / &#123;  
+proxy_pass http://192.168.1.101:8080/;
+proxy_redirect off;
+proxy_set_header Host $host;
+proxy_set_header X-Rea1-IP $remote_ addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+&#125;
+</code></pre>
+检测配置是否正确：<pre><code class="line-numbers language-shell">/usr/local/nginx/sbin/nginx -t
+</code></pre>
+显示下面信息，表示配置无语法错误<br>nginx : the configuration file &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf syntax is ok<br>nginx: configuration fi1e &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf test is successful<br>重载配置文件生效：<pre><code class="line-numbers language-shell">/usr/local/nginx/sbin/nginx -s reload
+</code></pre>
+</li>
+</ul>
+<h3 id="nginx实现负载均衡"><a href="#nginx实现负载均衡" class="headerlink" title="nginx实现负载均衡"></a>nginx实现负载均衡</h3><ul>
+<li>所谓的负载均衡的<strong>本质就是一个nginx将可以代理多个Tomcat服务器,形成Tomcat集群存在</strong>，每台Tomcat主机都可能称为nginx的服务主机。<br><img src="/images/nginx/nginx%E9%9B%86%E7%BE%A4%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1.png"></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">服务器ip</th>
+<th align="center">应用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">192.168.1.110</td>
+<td align="center">nginx-server-01</td>
+</tr>
+<tr>
+<td align="center">192.168.1.101</td>
+<td align="center">tomcat-server-01</td>
+</tr>
+<tr>
+<td align="center">192.168.1.102</td>
+<td align="center">tomcat-server-02</td>
+</tr>
+</tbody></table>
+<p><strong>同理【tomcat-server-02】也配置一个web虚拟目录，正常访问 <a target="_blank" rel="noopener" href="http://192.168.1.102:8080/">http://192.168.1.102:8080/</a></strong></p>
+<p><strong>1)【nginx-server-01】负载均衡配置</strong><br>修改nginx配置文件,在server节点上边并排添加负载服务列表</p>
+<pre><code class="line-numbers language-shell">upstream appserver &#123;
+server 192.168.1.101:8080;
+server 192.168.1.102:8080;
+&#125;
+或者添加权重
+upstream appserver &#123;
+server 192.168.1.101:8080 weight=1;
+server 192.168.1.102:8080 weight=2;
+&#125;
+还可以手动指定宕机和备机
+upstream appserver &#123;
+server 192.168.1.101:8080 down;
+server 192.168.1.102:8080;
+&#125;
+或
+upstream appserver &#123;
+server 192.168.1.101:8080 down;
+server 192.168.1.102:8080 backup;
+&#125;
+</code></pre>
+<p><strong>2)修改代理配置项</strong></p>
+<pre><code class="line-numbers language-shell">location / &#123;  
+  proxy_pass http://appserver;
+  proxy_redirect off;
+  proxy_set_header Host $host;
+  proxy_set_header X-Rea1-IP $remote_ addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+&#125;
+</code></pre>
+<p>检测配置是否正确：</p>
+<pre><code class="line-numbers language-shell">/usr/local/nginx/sbin/nginx -t
+</code></pre>
+<p>重新加载配置</p>
+<pre><code class="line-numbers language-shell">/usr/local/nginx/sbin/nginx -s reload
+</code></pre>
+<h3 id="nginx缓存配置"><a href="#nginx缓存配置" class="headerlink" title="nginx缓存配置"></a>nginx缓存配置</h3><ul>
+<li>以上的nginx配置严格来讲只是做了一个中间的路由操作。 没有考虑静态资源的缓存问题，浪费网络资源。</li>
+<li>缓存需要确定缓存模块已经添加，参考Nginx安装的文章<br><strong>1)【nginx-server-01】 服务器建立缓存目录:</strong><pre><code class="line-numbers language-shell">mkdir -p /usr/data/nginx/ &#123; temp,cache &#125;
+</code></pre>
+<strong>2)【nginx-server-01】配置文件修改，有如下几项信息注意：</strong><pre><code class="line-numbers language-shell">http &#123;
+include  mime .types;
+default type application/ octet-stream;
+proxy_temp_path /usr/data/nginx/temp;     #设置代理的临时保存目录。
+proxy_cache_path /usr/data/nginx/cache levels=1:2 
+keys_zone=cache_one:200m inactive=1d max_size=30g; #配置所有的缓存路径，其中“cache one”就是在缓存中使用的名字，在服务器的配置上会使用到这个名字，200m:在内存中的空间是200M，inactive=1d表示1天清空一次缓存
+proxy_connect_timeout 5;
+proxy_read_timeout 60;
+proxy_send_timeout 5;
+proxy_buffer_size 16k; #设置缓冲区大小
+proxy_buffers 4 64k;
+proxy_busy_buffers_size 128k; #用来控制同时传输到客户端的buffer数量的
+proxy_temp_file_write_size 128k; #设定缓存文件夹大小,大于这个值将从upstream服务器传输
+gzip on;
+gzip_min_length 1k ;
+gzip_buffers  48k;
+gzip_http_version 1.1;
+gzip_types text/plain application/x-JavaScript text/css application/xml;      
+gzip_disable &quot;MSIE [1-6] \.&quot;; I
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-shell">#清空缓存配置，注意必须放在最上边，当在请求的url前加/purge/时将此url的缓存清空
+location ~ /purge(/.*) &#123;   # 进行清空
+#安全设置，指定请求客户端的IP或IP段才可以清除URL缓存，这里为了方便测试设置为all
+allow 127 .0.0.1;
+allow 192.168.1.0/24;
+allow all;
+#指定清空缓存的区域名称cache_one(要和上边proxy_cache_path缓存配置中指定的缓存区域名称一致)
+  #指定缓存的key规则$host$1$is_args$args，要和下边设置缓存的key一致$host$uri$is_args$args
+  #注意$host$1$is_args$args中的$1表示当前请求的uri,$host$1$is_args$args=$host$uri$is_args$args
+proxy_cache_purge cache_one  $host$1$is_args$args;   
+&#125;
+location / &#123;
+ proxy_pass http://appserver;
+ proxy_redirect off;
+ proxy_set_header Host $host:$server_port;
+ proxy_cache cache_one;           #表示启用缓存cache_one，上面配置的名字
+ proxy_cache_key $host$uri$is_args$args ;
+ proxy_cache_valid 200 302 1h ;
+ proxy_cache_valid 301 1d;
+&#125;
+location ~ .*\. (gif|jpg|png|htm|html|css|js|flv|ico|swf) (.*) &#123;
+ proxy_pass http://appserver;
+ proxy_redirect off;
+ proxy_set_header Host $host:$server_port;
+ proxy_cache cache_one;
+ proxy_cache_key $host$uri$is_args$args;
+ proxy_cache_valid 200 302 1h;        #对不同的HTTP状态码设置不同的缓存时间
+ proxy_cache_valid 301 1d;
+ proxy_cache_valid any 1m;
+ expires 30d;  
+</code></pre>
+</li>
+</ul>
+<h4 id="proxy-cache缓存过程："><a href="#proxy-cache缓存过程：" class="headerlink" title="proxy_cache缓存过程："></a>proxy_cache缓存过程：</h4><p>-1、客户端第一次请求url，比如请求aaa.ecit.com&#x2F;index.html</p>
+<ul>
+<li>2、nginx计算url的哈希值<br>  md5(url)<br>  即：MD5(‘ccc.test.com&#x2F;index.html’)，得到b5ac8d82f6ef789fe7081ef4a43f9230</li>
+<li>3、创建缓存目录，写入缓存数据<br>如果缓存目录的规则设置为<strong>levels&#x3D;1:2,<strong>创建目录如下：<br>取出b5ac8d82f6ef789fe7081ef4a43f9230的最后一位0作为目录名创建目录，再取出0前边的两位23作为目录名在0目录下边创建目录，即一级目录为0，二级目录名为23，最后将代理获得的http响应数据存储在缓存数据文件中，</strong>缓存文件命名为b5ac8d82f6ef789fe7081ef4a43f9230写入0&#x2F;23目录下。</strong></li>
+<li>4、客户端再次请求相同的url，对url进行哈希得到缓存数据文件的地址，如果找到缓存数据则直接返回给客户端不再请求web服务器。</li>
+</ul>
+<h3 id="集群session管理-五种方式比较"><a href="#集群session管理-五种方式比较" class="headerlink" title="集群session管理-五种方式比较"></a>集群session管理-五种方式比较</h3><ul>
+<li>配置负载均衡比较简单,但是最关键的一个问题是怎么实现多台服务器之间session的共享?<br><strong>1)ip_hash方式</strong><pre><code class="line-numbers language-shell">upstream appserver &#123;
+ip_hash; #session 具有粘滞性
+server 192.168.1.101:8080 weight=1;
+server 192.168.1.102:8080 weight=2;
+&#125;
+</code></pre>
+</li>
+<li>**优点:**每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</li>
+<li>**缺点:**这存在单点风险，倘若我已经在192.168.1.101:8080端口登录后，过段时间发现这台服务器挂了（session时间未过期），那么这时候会访问到192.168.1.102服务器，那这时候需要重新登录，因为在拿192.168.1.101服务器上的JsessionId去192.168.1.102服务器请求发现不存在。</li>
+</ul>
+<p><strong>2)session 复制</strong></p>
+<ul>
+<li>可以通过tomcat的server.xml文件进行配置，这样每个tomcat都会同步对应的session，那么此时即使某个tomcat被宕机了，也不影响服务。<br> 具体的tomcat可以参见如下 ，<a target="_blank" rel="noopener" href="http://tomcat.apache.org/tomcat-9.0-doc/cluster-howto.html">http://tomcat.apache.org/tomcat-9.0-doc/cluster-howto.html</a><pre><code class="line-numbers language-xml">&lt;Cluster className=&quot;org.apache.catalina.ha.tcp.SimpleTcpCluster&quot; channelSendOptions=&quot;8&quot;&gt;
+        &lt;Manager className=&quot;org.apache.catalina.ha.session.DeltaManager&quot;
+                 expireSessionsOnShutdown=&quot;false&quot;
+                 notifyListenersOnReplication=&quot;true&quot;/&gt;
+        &lt;Channel className=&quot;org.apache.catalina.tribes.group.GroupChannel&quot;&gt;
+          &lt;Membership className=&quot;org.apache.catalina.tribes.membership.McastService&quot;
+                      address=&quot;228.0.0.4&quot;
+                      port=&quot;45564&quot;
+                      frequency=&quot;500&quot;
+                      dropTime=&quot;3000&quot;/&gt;
+          &lt;Receiver className=&quot;org.apache.catalina.tribes.transport.nio.NioReceiver&quot;
+                    address=&quot;auto&quot;
+                    port=&quot;4000&quot;
+                    autoBind=&quot;100&quot;
+                    selectorTimeout=&quot;5000&quot;
+                    maxThreads=&quot;6&quot;/&gt;
+          &lt;Sender className=&quot;org.apache.catalina.tribes.transport.ReplicationTransmitter&quot;&gt;
+            &lt;Transport className=&quot;org.apache.catalina.tribes.transport.nio.PooledParallelSender&quot;/&gt;
+          &lt;/Sender&gt;
+          &lt;Interceptor className=&quot;org.apache.catalina.tribes.group.interceptors.TcpFailureDetector&quot;/&gt;
+          &lt;Interceptor className=&quot;org.apache.catalina.tribes.group.interceptors.MessageDispatchInterceptor&quot;/&gt;
+        &lt;/Channel&gt;
+        &lt;Valve className=&quot;org.apache.catalina.ha.tcp.ReplicationValve&quot;
+               filter=&quot;&quot;/&gt;
+        &lt;Valve className=&quot;org.apache.catalina.ha.session.JvmRouteBinderValve&quot;/&gt;
+        &lt;Deployer className=&quot;org.apache.catalina.ha.deploy.FarmWarDeployer&quot;
+                  tempDir=&quot;/tmp/war-temp/&quot;
+                  deployDir=&quot;/tmp/war-deploy/&quot;
+                  watchDir=&quot;/tmp/war-listen/&quot;
+                  watchEnabled=&quot;false&quot;/&gt;
+        &lt;ClusterListener className=&quot;org.apache.catalina.ha.session.ClusterSessionListener&quot;/&gt;
+&lt;/Cluster&gt;
+</code></pre>
+</li>
+</ul>
+<p><strong>3)每台toncat配置session同步</strong></p>
+<ul>
+<li>准备tomcat与redis进行session管理的开发包<br>commons-pool2-2.4.2.jar、jedis-2.9.0.jar、tomcat-redis-session-8.5.5.0.jar</li>
+<li>将三个jar包拷贝到 tomcat软件下的lib目录下</li>
+<li>修改tomcat的server.xml,追加session管理机制,假设redis服务器地址是192.168.122.183<pre><code class="line-numbers language-xml">&lt;context path=&quot;/&quot; docBase= &quot;/usr/data/tomcat/ecit-web&quot;&gt;
+   &lt;Manager className=&quot;ru.zinin.redis.session.RedisManager&quot; redisHostname=&quot;192.168.122.183&quot; redisPassword=&quot;ecit@2016&quot; redisPort=&quot;6379&quot; redisTimeout=&quot;1000&quot;/&gt; 
+&lt;/context&gt;
+</code></pre>
+</li>
+<li>同理其余的tomcat都要添加设置，至此配置完成，访问服务</li>
+</ul>
+<p><strong>4)session 共享（springboot）</strong></p>
+<ul>
+<li>对应的项目中pom文件添加<pre><code class="line-numbers language-xml">&lt;dependency&gt;  
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;  
+      &lt;artifactId&gt;spring-boot-starter-redis&lt;/artifactId&gt;  
+&lt;/dependency&gt;  
+&lt;dependency&gt;  
+      &lt;groupId&gt;org.springframework.session&lt;/groupId&gt;  
+      &lt;artifactId&gt;spring-session-data-redis&lt;/artifactId&gt;  
+&lt;/dependency&gt;
+</code></pre>
+</li>
+<li>在对应的application.properties中配置redis信息<pre><code class="line-numbers language-xml">spring.redis.host=localhost  
+spring.redis.port=6379
+</code></pre>
+</li>
+<li>添加开启spring session支持的注解@EnableRedisHttpSession<pre><code class="line-numbers language-java">@Configuration  
+@EnableRedisHttpSession  
+public class RedisSessionConfig &#123;  
+&#125; 
+</code></pre>
+</li>
+<li>添加验证的接口<pre><code class="line-numbers language-java">@Value(&quot;$&#123;server.port&#125;&quot;)
+String port;
+@GetMapping(&quot;/session&quot;)
+public Object getSession(HttpServletRequest request)&#123;
+      Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
+      map.put(&quot;SessionId&quot;, request.getSession().getId());
+      map.put(&quot;ServerPort&quot;, &quot;服务端口号为 &quot;+port);
+      return map;
+&#125;
+</code></pre>
+<strong>结果中的SessionId是一致的，却是由两个不同项目工程来提供服务。这样子，SpringSession 利用拦截器 Filter 帮我们在每个请求前进行了同步设置，达到了分布式系统中 session 共享。</strong></li>
+</ul>
+<p><strong>5)session 共享（springmvc 版本）</strong></p>
+<ul>
+<li>首先在pom.xml文件中添加对应的jar<pre><code class="line-numbers language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.session&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-session-data-redis&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+   &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+   &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+    &lt;version&gt;2.8.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+<li>在对应springmvc-context.xml文件中配置<pre><code class="line-numbers language-xml">&lt;bean id=&quot;redisHttpSessionConfiguration&quot;
+        class=&quot;org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration&quot;&gt;
+      &lt;property name=&quot;maxInactiveIntervalInSeconds&quot; value=&quot;600&quot;/&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;
+      &lt;property name=&quot;maxTotal&quot; value=&quot;100&quot; /&gt;
+      &lt;property name=&quot;maxIdle&quot; value=&quot;10&quot; /&gt;
+      &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot; /&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;connectionFactory&quot;  class=&quot;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&quot; &gt;
+      &lt;property name=&quot;poolConfig&quot; ref=&quot;jedisPoolConfig&quot; /&gt;
+      &lt;property name=&quot;port&quot; value=&quot;6379&quot; /&gt;
+      &lt;property name=&quot;hostName&quot; value=&quot;192.168.1.11&quot; /&gt;
+      &lt;property name=&quot;password&quot; value=&quot;xxx&quot; /&gt;
+      &lt;property name=&quot;timeout&quot; value=&quot;30000&quot; &gt;&lt;/property&gt;
+&lt;/bean &gt;
+&lt;bean id=&quot;redisTemplate&quot; class=&quot;org.springframework.data.redis.core.RedisTemplate&quot; &gt;
+      &lt;property name=&quot;connectionFactory&quot; ref=&quot;connectionFactory&quot; /&gt;
+      &lt;property name=&quot;keySerializer&quot;&gt;
+          &lt;bean  class=&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot; /&gt;
+      &lt;/property&gt;
+      &lt;property name=&quot;valueSerializer&quot;&gt;
+          &lt;bean class=&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot; /&gt;
+      &lt;/property&gt;
+&lt;/bean &gt;
+&lt;bean id=&quot;redisUtil&quot; class=&quot;com.isea533.mybatis.service.RedisUtil&quot; &gt;
+      &lt;property name=&quot;redisTemplate&quot; ref=&quot;redisTemplate&quot; /&gt;
+&lt;/bean &gt;
+</code></pre>
+</li>
+<li>其次在web.xml中配置（非常重要，filter的名字必须是springSessionRepositoryFilter）<pre><code class="line-numbers language-xml">&lt;filter&gt;
+  &lt;filter-name&gt;springSessionRepositoryFilter&lt;/filter-name&gt;
+  &lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+  &lt;filter-name&gt;springSessionRepositoryFilter&lt;/filter-name&gt;
+  &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre>
+结果中的SessionId是一致的.</li>
+</ul>
+<h2 id="nginx的虚拟主机功能"><a href="#nginx的虚拟主机功能" class="headerlink" title="nginx的虚拟主机功能"></a>nginx的虚拟主机功能</h2><ul>
+<li>虚拟主机是一种特殊的软硬件技术，<strong>它可以将网络上的每一台计算机分成多个虚拟主机，每个虚拟主机可以独立对外提供www服务，这样就可以实现一台主机对外提供多个web服务</strong>，每个虚拟主机之间是<strong>独立的，互不影响的</strong>。<br><img src="/images/nginx/%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA.png"><br>通过nginx可以实现虚拟主机的配置，<strong>nginx支持三种类型的虚拟主机配置，1、基于ip的虚拟主机， 2、基于域名的虚拟主机 3、基于端口的虚拟主机</strong></li>
+</ul>
+<h3 id="基于ip的虚拟主机"><a href="#基于ip的虚拟主机" class="headerlink" title="基于ip的虚拟主机"></a>基于ip的虚拟主机</h3><ul>
+<li>Linux操作系统允许添加IP别名，<strong>IP别名就是在一块物理网卡上绑定多个IP地址</strong>。这样就能够在使用单一网卡的同一个服务器上运行多个基于IP的虚拟主机。</li>
+</ul>
+<h4 id="一个物理网卡配置多个IP"><a href="#一个物理网卡配置多个IP" class="headerlink" title="一个物理网卡配置多个IP"></a>一个物理网卡配置多个IP</h4><p><strong>1)需求</strong><br>一台nginx服务器绑定两个ip：192.168.1.110、192.168.1.109<br>访问不同的ip请求不同的html目录，即：<br>访问<a target="_blank" rel="noopener" href="http://192.168.1.110/">http://192.168.1.110</a> 将访问“html110”目录下的html网页<br>访问<a target="_blank" rel="noopener" href="http://192.168.1.109/">http://192.168.1.109</a> 将访问“html109”目录下的html网页<br><strong>2)准备环境</strong><br>创建192.168.1.110虚拟机，保证本地电脑和虚拟网络通畅。在192.168.1.110上安装nginx。<br>将原来nginx的html目录拷贝两个目录 “html110”和“html109”，为了方便测试需要修改每个目录下的index.html内容使之个性化。<br><strong>3)绑定多ip</strong><br> <strong>方法一：</strong><br>使用标准的网络配置工具（比如ifconfig和route命令）添加iP别名：<br>当前ip配置情况查看 ifconfig,并找出当前的广播地址， 在eth0网卡现在是：192.168.1.110，现在在eth0网卡再绑定一个ip：192.168.1.109</p>
+<pre><code class="line-numbers language-shell">/sbin/ifconfig eth0:1 192.168.1.109 broadcast 192.168.1.255 netmask 255.255.255.0 up
+/sbin/route add -host 192.168.1.109 dev eth0:1
+</code></pre>
+<p>以上就完成了。<br> <strong>方法二</strong><br>将&#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth0文件复制一份，命名为ifcfg-eth0:1<br>修改其中内容：</p>
+<pre><code class="line-numbers language-shell">DEVICE=eth0:1
+IPADDR=192.168.1.103
+</code></pre>
+<p>其他项不用修改,重启系统</p>
+<h4 id="配置虚拟主机"><a href="#配置虚拟主机" class="headerlink" title="配置虚拟主机"></a>配置虚拟主机</h4><p>修改&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf文件，添加两个虚拟主机，如下</p>
+<pre><code class="line-numbers language-shell">#user  nobody;
+worker_processes  1;
+events &#123;
+    worker_connections  1024;
+&#125;
+http &#123;
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    #配置虚拟主机192.168.1.110
+    server &#123;
+    #监听的ip和端口，配置192.168.1.110:80
+        listen       192.168.1.110:80;
+    #虚拟主机名称这里配置ip地址
+        server_name  192.168.1.110;
+    #所有的请求都以/开始，所有的请求都可以匹配此location
+        location / &#123;
+        #使用root指令指定虚拟主机目录即网页存放目录
+        #比如访问http://ip/test.html将找到/usr/local/html110/test.html
+        #比如访问http://ip/item/test.html将找到/usr/local/html110/item/test.html
+            root   /usr/local/nginx/html110;
+        #指定欢迎页面，按从左到右顺序查找
+            index  index.html index.htm;
+        &#125;
+    &#125;
+    #配置虚拟主机192.168.1.109
+    server &#123;
+        listen       192.168.1.109:80;
+        server_name  192.168.1.109;
+
+        location / &#123;
+            root   /usr/local/nginx/html109;
+            index  index.html index.htm;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>启动nginx测试，<a target="_blank" rel="noopener" href="http://192.168.1.110/">http://192.168.1.110</a>, <a target="_blank" rel="noopener" href="http://192.168.1.109/">http://192.168.1.109</a></p>
+<h4 id="nginx配置文件的结构"><a href="#nginx配置文件的结构" class="headerlink" title="nginx配置文件的结构"></a>nginx配置文件的结构</h4><pre><code class="line-numbers language-shell">......
+events &#123;
+    .......
+&#125;
+http&#123;
+   .......
+   server&#123;
+    .......
+    &#125;
+   server&#123;
+    .......
+    &#125;
+
+&#125;
+#每个server就是一个虚拟主机。
+</code></pre>
+<h3 id="基于域名的虚拟主机"><a href="#基于域名的虚拟主机" class="headerlink" title="基于域名的虚拟主机"></a>基于域名的虚拟主机</h3><p><strong>1)需求</strong></p>
+<ul>
+<li>两个域名指向同一台nginx服务器，用户访问不同的域名显示不同的网页内容。假设两个域名是aaa.ecit.com 和 bbb.ecit.com,nginx服务器使用虚拟机192.168.1.110<br><strong>2)准备环境</strong></li>
+<li>创建192.168.1.110虚拟机，保证本地电脑和虚拟网络通畅。在192.168.1.110上安装nginx。<br>模拟的话可以修改host文件使得两个域名解析到同一个ip<br><strong>3)html目录创建</strong><br>在192.168.1.110上创建&#x2F;usr&#x2F;local&#x2F;aaa_html，此目录为aaa.ecit.com域名访问的目录<br>在192.168.1.110上创建&#x2F;usr&#x2F;local&#x2F;bbb_html，此目录为bbb.ecit.com域名访问的目录</li>
+</ul>
+<h4 id="配置虚拟主机-1"><a href="#配置虚拟主机-1" class="headerlink" title="配置虚拟主机"></a>配置虚拟主机</h4><p>修改&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf文件，添加两个虚拟主机，如下：</p>
+<pre><code class="line-numbers language-shell">server &#123;
+            #监听的ip和端口，配置本机ip和端口
+        listen 192.168.1.110:80;		
+        	#虚拟主机名称是aaa.ecit.com，请求域名aaa.ecit.com的url将由此server配置解析
+        server_name aaa.ecit.com;	 
+        	#所有的请求都以/开始，所有的请求都可以匹配此location
+        location / &#123;
+            #使用root指令指定虚拟主机目录即网页存放目录
+         	#比如访问http://ip/test.html将找到/usr/local/aaa_html/test.html
+         	#比如访问http://ip/item/test.html将找到/usr/local/aaa_html/item/test.html
+            root /usr/local/aaa_html;	
+                #指定欢迎页面，按从左到右顺序查找
+            index index.html index.htm;	
+        &#125;
+&#125;
+#配置虚拟主机bbb.ecitt.com
+    server &#123;
+        listen 192.168.1.110:80;
+        server_name bbb.ecit.com;
+        location / &#123;
+             root /usr/local/bbb_html;
+              index index.html index.htm;
+        &#125;
+&#125;
+</code></pre>
+<p>启动，测试:<a target="_blank" rel="noopener" href="http://aaa.ecit.com/">http://aaa.ecit.com</a>, <a target="_blank" rel="noopener" href="http://bbb.ecit.com/">http://bbb.ecit.com</a> </p>
+<h3 id="基于端口的虚拟主机"><a href="#基于端口的虚拟主机" class="headerlink" title="基于端口的虚拟主机"></a>基于端口的虚拟主机</h3><p><strong>1)需求</strong></p>
+<ul>
+<li>nginx对外提供80和8080两个端口监听服务。请求80端口则请求html80目录下的html,请求8080端口则请求html8080目录下的html<br><strong>2)准备环境</strong></li>
+<li>创建192.168.1.110虚拟机，保证本地电脑和虚拟网络通畅。在192.168.1.110上安装nginx。<br><strong>3)html目录创建</strong></li>
+<li>将原来nginx的html目录拷贝两个目录 “html80”和“html8080”，为了方便测试需要修改每个目录下的index.html内容使之个性化。</li>
+</ul>
+<h4 id="配置虚拟主机-2"><a href="#配置虚拟主机-2" class="headerlink" title="配置虚拟主机"></a>配置虚拟主机</h4><p>修改&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf文件，添加两个虚拟主机，如下：</p>
+<pre><code class="line-numbers language-shell">#user  nobody;
+worker_processes  1;
+events &#123;
+    worker_connections  1024;
+&#125;
+http &#123;
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+      #配置虚拟主机
+    server &#123;
+          #监听的ip和端口，配置80
+        listen       80;
+           #虚拟主机名称这里配置ip地址
+        server_name  192.168.1.110;
+             #所有的请求都以/开始，所有的请求都可以匹配此location
+        location / &#123;
+              #使用root指令指定虚拟主机目录即网页存放目录
+              #比如访问http://ip/test.html将找到/usr/local/html3/test.html
+             #比如访问http://ip/item/test.html将找到/usr/local/html3/item/test.html
+            root   /usr/local/nginx/html80;
+        #指定欢迎页面，按从左到右顺序查找
+            index  index.html index.htm;
+        &#125;
+    &#125;
+    #配置虚拟主机
+    server &#123;
+        listen       8080;
+        server_name  192.168.1.110;
+        location / &#123;
+            root   /usr/local/nginx/html8080;
+            index  index.html index.htm;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>重启测试：<a target="_blank" rel="noopener" href="http://192.168.1.110/">http://192.168.1.110</a>, <a target="_blank" rel="noopener" href="http://192.168.1.110:8080/">http://192.168.1.110:8080</a></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>nginx实战应用</p><p><a href="http://example.com/2016/10/06/中间件/nginx/nginx实战应用/">http://example.com/2016/10/06/中间件/nginx/nginx实战应用/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2016-10-06</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-06-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/nginx/">nginx</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2016/10/07/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/nginx%E7%9A%84HA%E9%AB%98%E5%8F%AF%E7%94%A8/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">nginx高可用(HA)</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2016/10/05/mac/MAC-Homebrew-2016-07-01/"><span class="level-item">MAC-Homebrew神器命令工具</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#nginx简介"><span class="level-left"><span class="level-item">1</span><span class="level-item">nginx简介</span></span></a></li><li><a class="level is-mobile" href="#nginx与tomcat整合"><span class="level-left"><span class="level-item">2</span><span class="level-item">nginx与tomcat整合</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#nginx反向代理功能"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">nginx反向代理功能</span></span></a></li><li><a class="level is-mobile" href="#nginx实现负载均衡"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">nginx实现负载均衡</span></span></a></li><li><a class="level is-mobile" href="#nginx缓存配置"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">nginx缓存配置</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#proxy-cache缓存过程："><span class="level-left"><span class="level-item">2.3.1</span><span class="level-item">proxy_cache缓存过程：</span></span></a></li></ul></li><li><a class="level is-mobile" href="#集群session管理-五种方式比较"><span class="level-left"><span class="level-item">2.4</span><span class="level-item">集群session管理-五种方式比较</span></span></a></li></ul></li><li><a class="level is-mobile" href="#nginx的虚拟主机功能"><span class="level-left"><span class="level-item">3</span><span class="level-item">nginx的虚拟主机功能</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#基于ip的虚拟主机"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">基于ip的虚拟主机</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#一个物理网卡配置多个IP"><span class="level-left"><span class="level-item">3.1.1</span><span class="level-item">一个物理网卡配置多个IP</span></span></a></li><li><a class="level is-mobile" href="#配置虚拟主机"><span class="level-left"><span class="level-item">3.1.2</span><span class="level-item">配置虚拟主机</span></span></a></li><li><a class="level is-mobile" href="#nginx配置文件的结构"><span class="level-left"><span class="level-item">3.1.3</span><span class="level-item">nginx配置文件的结构</span></span></a></li></ul></li><li><a class="level is-mobile" href="#基于域名的虚拟主机"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">基于域名的虚拟主机</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#配置虚拟主机-1"><span class="level-left"><span class="level-item">3.2.1</span><span class="level-item">配置虚拟主机</span></span></a></li></ul></li><li><a class="level is-mobile" href="#基于端口的虚拟主机"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">基于端口的虚拟主机</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#配置虚拟主机-2"><span class="level-left"><span class="level-item">3.3.1</span><span class="level-item">配置虚拟主机</span></span></a></li></ul></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

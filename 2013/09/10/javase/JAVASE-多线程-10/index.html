@@ -1,0 +1,1589 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>多线程 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="多线程的基本概念线程指的是进程中的一个执行场景,也就是执行流程，那么进程和线程有什么区别？  每个进程是一个应用程序，都有独立的内存空间 同一个进程中的线程共享其进程中的内存和资源(共享的内存是堆内存和方法区内存，栈内存不共享，每个线程有自己的栈)"><meta property="og:type" content="blog"><meta property="og:title" content="多线程"><meta property="og:url" content="http://example.com/2013/09/10/javase/JAVASE-%E5%A4%9A%E7%BA%BF%E7%A8%8B-10/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="多线程的基本概念线程指的是进程中的一个执行场景,也就是执行流程，那么进程和线程有什么区别？  每个进程是一个应用程序，都有独立的内存空间 同一个进程中的线程共享其进程中的内存和资源(共享的内存是堆内存和方法区内存，栈内存不共享，每个线程有自己的栈)"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/javase/Future.png"><meta property="og:image" content="http://example.com/images/javaee/thread_cycle.png"><meta property="og:image" content="http://example.com/images/javase/await.png"><meta property="og:image" content="http://example.com/images/javase/BlockingQueue.png"><meta property="og:image" content="http://example.com/images/javase/java8%E6%89%A9%E5%B1%95ForkJoinPool.png"><meta property="article:published_time" content="2013-09-10T08:52:17.000Z"><meta property="article:modified_time" content="2020-06-11T10:30:08.795Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="’Developer,Programmer,Coder,Book,History,culture,science and technology‘"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/javase/Future.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2013/09/10/javase/JAVASE-%E5%A4%9A%E7%BA%BF%E7%A8%8B-10/"},"headline":"多线程","image":["http://example.com/images/javase/Future.png","http://example.com/images/javaee/thread_cycle.png","http://example.com/images/javase/await.png","http://example.com/images/javase/BlockingQueue.png","http://example.com/images/javase/java8%E6%89%A9%E5%B1%95ForkJoinPool.png"],"datePublished":"2013-09-10T08:52:17.000Z","dateModified":"2020-06-11T10:30:08.795Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"多线程的基本概念线程指的是进程中的一个执行场景,也就是执行流程，那么进程和线程有什么区别？  每个进程是一个应用程序，都有独立的内存空间 同一个进程中的线程共享其进程中的内存和资源(共享的内存是堆内存和方法区内存，栈内存不共享，每个线程有自己的栈)"}</script><link rel="canonical" href="http://example.com/2013/09/10/javase/JAVASE-%E5%A4%9A%E7%BA%BF%E7%A8%8B-10/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2013-09-10T08:52:17.000Z" title="2013/9/10 下午4:52:17">2013-09-10</time>发表</span><span class="level-item"><time dateTime="2020-06-11T10:30:08.795Z" title="2020/6/11 下午6:30:08">2020-06-11</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JAVASE/">JAVASE</a><span> / </span><a class="link-muted" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></span><span class="level-item">1 小时读完 (大约10923个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">多线程</h1><div class="content"><h2 id="多线程的基本概念"><a href="#多线程的基本概念" class="headerlink" title="多线程的基本概念"></a>多线程的基本概念</h2><p>线程指的是进程中的一个<strong>执行场景</strong>,也就是执行流程，那么进程和线程有什么区别？</p>
+<ul>
+<li>每个进程是一个应用程序，都有独立的内存空间</li>
+<li>同一个进程中的线程<strong>共享</strong>其进程中的内存和资源<br>(<strong>共享的内存是堆内存和方法区内存，栈内存不共享，每个线程有自己的栈</strong>)<span id="more"></span>
+<h2 id="什么是进程"><a href="#什么是进程" class="headerlink" title="什么是进程"></a>什么是进程</h2><strong>一个进程对应一个应用程序</strong>，例如:在Windows操作系统启动Word就表示启动一个进程，在JAVA的开发环境下启动JVM，就表示启动一个进程。现代的计算机都是支持多进程的，在同一个操作系统中，可以同时启动多个进程。<h2 id="多进程有什么作用"><a href="#多进程有什么作用" class="headerlink" title="多进程有什么作用"></a>多进程有什么作用</h2>单进程计算机只能做一件事。<br>玩电脑，一边玩游戏(游戏进程)，一边听音乐(音乐进程)<br><strong>对于单核计算机来讲，在同一个时间点上</strong>，游戏进程和音乐进程是同时在运行吗？不是，因为计算机的CPU只能在某个时间点上做一件事。由于计算机将在”游戏进程”和“音乐进程”之间<strong>频繁的切换执行</strong>，切换速度极高，人类感觉游戏和音乐同时在进行。<blockquote>
+<p>多进程的作用不是提高执行速度，而是<strong>提高CPU的使用率</strong>。<br>进程和进程之间的内存是<strong>独立</strong>的。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><p>线程是一个进程中执行场景，一个进程可以启动多个线程。<br>多线程不是为了提高执行速度，而是为了<strong>提高应用程序的使用率</strong></p>
+<h2 id="并发性-concurrency-和-并行性-parallel"><a href="#并发性-concurrency-和-并行性-parallel" class="headerlink" title="并发性(concurrency) 和 并行性(parallel)"></a>并发性(concurrency) 和 并行性(parallel)</h2><blockquote>
+<p>并发性(concurrency) 和 并行性(parallel)是两个概念，并行指在同一时刻，有多条指令在多个处理器上同时执行；并发指在同一时刻只能有一条指令执行，但多个进程指令被快速轮换执行,使得在宏观上具有多个进程同时执行的效果。</p>
+</blockquote>
+<h2 id="Java程序的运行原理"><a href="#Java程序的运行原理" class="headerlink" title="Java程序的运行原理"></a>Java程序的运行原理</h2><p>Java命令会启动JAVA虚拟机，启动JVM，等于启动了一个应用程序，表示启动了一个进程。该进程会自动启动一个“主线程”，然后主线程去调用某个类的main方法。所以main方法运行在主线程中，在此之前的所有程序都是单线程的。</p>
+<h2 id="Java多线程实现的三种方式"><a href="#Java多线程实现的三种方式" class="headerlink" title="Java多线程实现的三种方式"></a>Java多线程实现的三种方式</h2><h3 id="继承java-lang-Thread"><a href="#继承java-lang-Thread" class="headerlink" title="继承java.lang.Thread"></a>继承java.lang.Thread</h3><pre><code class="line-numbers language-java">public class ThreadTest &#123;
+    public static void main(String[] args) &#123;
+        // 创建线程
+        Processor t = new Processor();
+        // 启动，这段代码执行瞬间结束，告诉jvm再分配一个新的栈给 t线程。
+        // run()方法不需要程序员手动调用，系统线程启动之后自动调用run方法
+        t.start();
+
+        // 这段代码在主线程中运行
+        for (int i = 0; i &lt; 3; i++) &#123;
+            System.out.println(&quot;main---&gt;&quot; + i);
+        &#125;
+        
+        //有了多线程之后，main方法结束，只是主线程栈中没有方法栈帧了。
+        //但是其他线程或者其他栈中还有栈帧。
+        // main 方法结束，程序可能还在运行
+    &#125;
+&#125;
+// 定义一个线程
+class Processor extends Thread &#123;
+    // 重写run方法
+    @Override
+    public void run() &#123;
+
+        System.out.println(&quot;新启动线程的执行场景....&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="实现-java-lang-Runnable-推荐方式"><a href="#实现-java-lang-Runnable-推荐方式" class="headerlink" title="实现 java.lang.Runnable(推荐方式)"></a>实现 java.lang.Runnable(推荐方式)</h3><pre><code class="line-numbers language-java">public class ThreadTest &#123;
+    public static void main(String[] args) &#123;
+        // 创建线程
+        Thread t = new Thread(new Processor());
+        // 启动，这段代码执行瞬间结束，告诉jvm再分配一个新的栈给 t线程。
+        // run()方法不需要程序员手动调用，系统线程启动之后自动调用run方法
+        t.start();
+
+        // 这段代码在主线程中运行
+        for (int i = 0; i &lt; 3; i++) &#123;
+            System.out.println(&quot;main---&gt;&quot; + i);
+        &#125;
+
+        // 有了多线程之后，main方法结束，只是主线程栈中没有方法栈帧了。
+        // 但是其他线程或者其他栈中还有栈帧。
+        // main 方法结束，程序可能还在运行
+    &#125;
+&#125;
+// 定义一个线程
+class Processor implements Runnable &#123;
+    // 重写run方法
+    @Override
+    public void run() &#123;
+        System.out.println(&quot;新启动线程的执行场景....&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="使用Callable和-Future创建线程"><a href="#使用Callable和-Future创建线程" class="headerlink" title="使用Callable和 Future创建线程"></a>使用Callable和 Future创建线程</h3><blockquote>
+<p>从JDK5开始，Java提供了Callable接口，看上去像Runnable增强版，Callable接口提供了一个call()方法可以作为线程执行体，但call()方法比run()方法功能更强大。call()方法可以有返回值。<br>JDK5提供了Future接口来代表Callable接口里call()方法的返回值，并为Future接口提供了一个FutureTask实现类，它也实现了Runnable接口。<br><img src="/images/javase/Future.png"></p>
+</blockquote>
+<pre><code class="line-numbers language-java">import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+public class CallableTask &#123;
+    public static void main(String[] args) throws ExecutionException, InterruptedException &#123;
+        FutureTask &lt;Integer&gt; futureTask = new FutureTask &lt;&gt;((Callable &lt;Integer&gt;) () -&gt; &#123;
+            int i = 0;
+            for (; i &lt; 100; i++) &#123;
+               // System.out.println(Thread.currentThread().getName() + i);
+            &#125;
+//        作为Callable的返回值i
+            return i;
+        &#125;);
+        for (int i = 0; i &lt; 5; i++) &#123;
+            System.out.println(i);
+            if (i==2) &#123;
+                //利用Callable和FutureTask作为目标对象启动线程
+                new Thread(futureTask,&quot;有返回值的线程&quot;).start();
+            &#125;
+        &#125;
+//        接收FutureTask的返回值
+        System.out.println(&quot;子线程的返回值:&quot; + futureTask.get());
+    &#125;
+&#125;
+// 输出结果:
+// 0
+// 1
+// 2
+// 3
+// 4
+// 子线程的返回值:100
+</code></pre>
+<h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><p><img src="/images/javaee/thread_cycle.png"></p>
+<ul>
+<li>新建: 采用new语句创建完成</li>
+<li>就绪: 执行start后</li>
+<li>运行: 占用CPU时间,run方法执行</li>
+<li>阻塞: 执行了wait语句，执行了sleep语句和等待某个对象锁，等待输入的场合</li>
+<li>终止: 退出run方法。<h2 id="线程的调度与控制"><a href="#线程的调度与控制" class="headerlink" title="线程的调度与控制"></a>线程的调度与控制</h2>通常我们的计算机只有一个CPU，CPU在某一个时刻只能执行一条指令，线程只有得到CPU时间片，也就是使用权，才可以执行指令。<strong>在单CPU的机器上线程不是并行运行的，只有在多个CPU上线程才可以并行运行</strong>。<strong>Java虚拟机要负责线程的调度，取得CPU的使用权目前有两种调度模型:分时调度模型和抢占式调度模型，Java使用抢占式调度模型</strong></li>
+<li><strong>分时调度模型</strong>:所有线程轮流使用CPU的使用权，平均分配每个线程占用CPU的时间片</li>
+<li><strong>抢占式调度模型</strong>:优先让优先级高的线程使用CPU，如果线程的优先级相同，那么回随机选择一个</li>
+</ul>
+<h3 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h3><p>调度程序改默认优先级5，把特急的设置成高优先级10，目前就三种优先级，如果改的话，只能改成最低，最高。<br><strong>线程优先级主要分三种: MAX_PRIORITY，NORM_PRIORITY，MIN_PRIORITY</strong><br>按道理高优先级的线程会先执行，但是还是不一定，有时低优先级也开始运行。<br>    public final static int MIN_PRIORITY &#x3D; 1; &#x2F;&#x2F;最低优先级<br>    public final static int NORM_PRIORITY &#x3D; 5;&#x2F;&#x2F;干活线程建立默认优先级<br>    public final static int MAX_PRIORITY &#x3D; 10;&#x2F;&#x2F;hhhh<br>所以对于设置优先级，只是本地记号，一切由操作系统决定</p>
+<h3 id="线程调度与控制–Thread-sleep方法详解-用的多"><a href="#线程调度与控制–Thread-sleep方法详解-用的多" class="headerlink" title="线程调度与控制–Thread.sleep方法详解(用的多)"></a>线程调度与控制–Thread.sleep方法详解(用的多)</h3><ol>
+<li>Thread.sleep(毫秒)    </li>
+<li>sleep方法是一个静态方法</li>
+<li>该方法的作用:阻塞当前线程，腾出CPU，让给其它线程。</li>
+</ol>
+<blockquote>
+<p>sleep设置休眠的时间，单位毫秒，当一个线程遇到 sleep的时候，就会睡眠，进入到阻塞状态，放弃CPU腾出cpu时间片，给其他线程用，所以在开发中通常我们会这样做，使其他的线程能够取得CPU时间片，当睡眠时间到达了，线程会进入可运行状态，得到CPU时间片继续执行，如果线程在睡眠状态被中断了，将会抛出  Iterruptedexception</p>
+</blockquote>
+<p>如果一个线程休眠时间很长，想要打断它的休眠，可以调用 interrupt()方法，以下方法靠的是异常处理机制</p>
+<pre><code class="line-numbers language-java">public class ThreadTest &#123;
+    public static void main(String[] args) &#123;
+        // 创建线程
+        Thread t = new Thread(new Processor());
+        // 启动，这段代码执行瞬间结束，告诉jvm再分配一个新的栈给 t线程。
+        // run()方法不需要程序员手动调用，系统线程启动之后自动调用run方法
+        t.start();
+        t.interrupt(); // 打断t线程的休眠，t线程采用异常捕获机制，进入就绪状态
+        // 这段代码在主线程中运行
+        for (int i = 0; i &lt; 3; i++) &#123;
+            System.out.println(&quot;main---&gt;&quot; + i);
+        &#125;
+
+        // 有了多线程之后，main方法结束，只是主线程栈中没有方法栈帧了。
+        // 但是其他线程或者其他栈中还有栈帧。
+        // main 方法结束，程序可能还在运行
+    &#125;
+&#125;
+// 定义一个线程
+class Processor implements Runnable &#123;
+    // 重写run方法
+    @Override
+    public void run() &#123;
+        try &#123;
+            Thread.sleep(100000000000000l);
+        &#125; catch (InterruptedException e) &#123;
+            System.out.println(&quot;t线程打断休眠状态，由阻塞状态到就绪状态&quot;);
+        &#125;
+        System.out.println(&quot;新启动线程的执行场景....&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="如何正确的终止一个线程"><a href="#如何正确的终止一个线程" class="headerlink" title="如何正确的终止一个线程"></a>如何正确的终止一个线程</h3><p>通常定义一个标记，来判断标记的状态，停止线程的执行</p>
+<pre><code class="line-numbers language-java">// 启动5s 就终止线程
+public class ThreadTest &#123;
+    public static void main(String[] args) throws InterruptedException &#123;
+        Processor p = new Processor();
+        // 创建线程
+        Thread t = new Thread(p);
+        // 启动，这段代码执行瞬间结束，告诉jvm再分配一个新的栈给 t线程。
+        t.start();
+        Thread.sleep(5000);// 启动5s 就终止线程
+        p.flag = false;    //改变标记
+    &#125;
+&#125;
+// 定义一个线程
+class Processor implements Runnable &#123;
+    boolean flag = true;
+    // 重写run方法
+    @Override
+    public void run() &#123;
+        for (int i = 0; i &lt; 10; i++) &#123;
+            if(flag) &#123;
+                try &#123;
+                    Thread.sleep(1000l);
+                &#125; catch (InterruptedException e) &#123;
+                    
+                &#125;
+                System.out.println(Thread.currentThread().getName()+&quot;  &quot;+i);
+            &#125;else &#123;
+                return;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+输出:
+Thread-0  0
+Thread-0  1
+Thread-0  2
+Thread-0  3
+Thread-0  4
+</code></pre>
+<h3 id="线程调度与控制–Thread-yield方法详解"><a href="#线程调度与控制–Thread-yield方法详解" class="headerlink" title="线程调度与控制–Thread.yield方法详解"></a>线程调度与控制–Thread.yield方法详解</h3><ol>
+<li>只让位给同优先级的线程</li>
+<li>让位的时间不固定</li>
+<li>静态的 static<blockquote>
+<p>它与 sleep()方法类似,只是不能由用户指定暂停多长时间,<strong>并且 yield()方法只能让同优先级的线程有执行的机会</strong></p>
+</blockquote>
+</li>
+</ol>
+<pre><code class="line-numbers language-java">public class ThreadTest &#123;
+    public static void main(String[] args) throws InterruptedException &#123;
+        Processor p = new Processor();
+        // 创建线程
+        Thread t = new Thread(p);
+        // 启动，这段代码执行瞬间结束，告诉jvm再分配一个新的栈给 t线程。
+        t.start();
+        t.setName(&quot;t&quot;);
+        for(int i=1;i&lt;=10;i++) &#123;
+            System.out.println(Thread.currentThread().getName() +&quot;  &quot;+i);
+        &#125;
+    &#125;
+&#125;
+// 定义一个线程
+class Processor implements Runnable &#123;
+    @Override
+    public void run() &#123;
+        for (int i = 0; i &lt; 10; i++) &#123;
+            System.out.println(Thread.currentThread().getName() +&quot;  &quot;+ i);
+            if(i%2==0) &#123;
+                Thread.yield();
+            &#125;
+        &#125;
+    &#125;
+&#125;
+输出:
+main  1
+main  2
+main  3
+main  4
+main  5
+main  6
+main  7
+main  8
+t  0        //  0 让位给同级线程
+main  9
+t  1
+t  2        //  2 让位给同级线程
+main  10
+t  3
+t  4
+t  5
+t  6
+t  7
+t  8
+t  9
+</code></pre>
+<h3 id="线程调度与控制–join方法详解"><a href="#线程调度与控制–join方法详解" class="headerlink" title="线程调度与控制–join方法详解"></a>线程调度与控制–join方法详解</h3><ol>
+<li>成员方法</li>
+</ol>
+<blockquote>
+<p>当前线程可以调用另一个线程的join方法,调用后当前线程会被阻塞不再执行,直到被调用的线程执行完毕,当前线程才会执行</p>
+</blockquote>
+<pre><code class="line-numbers language-java">public class ThreadTest &#123;
+    public static void main(String[] args) throws InterruptedException &#123;
+        Processor p = new Processor();
+        // 创建线程
+        Thread t = new Thread(p);
+        // 启动，这段代码执行瞬间结束，告诉jvm再分配一个新的栈给 t线程。
+        t.start();
+        t.setName(&quot;t&quot;);
+        t.join();  //当前线程主线程 调用了另一个线程t的 join方法，主线程阻塞不再执行，直到t线程执行完毕
+        for(int i=1;i&lt;=10;i++) &#123;
+            System.out.println(Thread.currentThread().getName() +&quot;  &quot;+i);
+        &#125;
+    &#125;
+&#125;
+// 定义一个线程
+class Processor implements Runnable &#123;
+    @Override
+    public void run() &#123;
+        for (int i = 0; i &lt; 10; i++) &#123;
+            System.out.println(Thread.currentThread().getName() +&quot;  &quot;+ i);
+        &#125;
+    &#125;
+&#125;
+输出:
+t  0
+t  1
+t  2
+t  3
+t  4
+t  5
+t  6
+t  7
+t  8
+t  9
+main  1
+main  2
+main  3
+main  4
+main  5
+main  6
+main  7
+main  8
+main  9
+main  10
+</code></pre>
+<h2 id="线程的同步-加锁"><a href="#线程的同步-加锁" class="headerlink" title="线程的同步(加锁)"></a>线程的同步(加锁)</h2><blockquote>
+<p><strong>异步编程模型:<strong>t1线程执行t1的，t2线程执行t2的，两个线程之间谁也不等谁<br><strong>同步编程模型:<strong>t1线程和t2线程执行，当t1线程必须等t2线程执行结束之后，t1线程才能执行，这是同步编程模型什么时候要同步呢？<br>为什么要引入线程同步呢？<br>为了数据的安全。尽管应用程序的使用率降低，但是为了保证数据是安全的，</strong>必须加入线程同步机制</strong>线程同步机制使程序</strong>变成了（等同）单线程</strong></p>
+</blockquote>
+<h3 id="什么条件下要使用线程同步"><a href="#什么条件下要使用线程同步" class="headerlink" title="什么条件下要使用线程同步"></a>什么条件下要使用线程同步</h3><ul>
+<li>必须是多线程环境</li>
+<li>多线程环境共享同一个数据</li>
+<li>共享的数据涉及到修改操作</li>
+</ul>
+<h3 id="示例爸爸和孩子对同一个银行卡取款"><a href="#示例爸爸和孩子对同一个银行卡取款" class="headerlink" title="示例爸爸和孩子对同一个银行卡取款"></a>示例爸爸和孩子对同一个银行卡取款</h3><ol>
+<li>在没有用线程同步的情况，提现出现错误数据，示例</li>
+</ol>
+<pre><code class="line-numbers language-java"> public class ThreadTest &#123;
+    public static void main(String[] args) throws InterruptedException &#123;
+        Account mun = new Account(80001,5000); //编号80001的客户账号里有5000存款
+
+        Thread parent = new Thread(new ATM(mun), &quot;爸爸来取钱&quot;);
+        Thread child = new Thread(new ATM(mun), &quot;孩子也来取钱&quot;);
+        parent.start();
+        child.start();
+    &#125;
+&#125;
+class ATM implements Runnable&#123;
+    Account account;
+    public ATM(Account account) &#123;
+        this.account = account;
+    &#125;
+    @Override
+    public void run() &#123;
+      account.withdraw(1000); //提现1000
+      System.out.println(Thread.currentThread().getName() + &quot;取完钱账户还剩 :&quot; + account.getBalance());
+    &#125;
+    
+&#125;
+// 定义账户
+class Account &#123;
+    int userId;
+    double balance;
+
+    public Account(int userId, double balance) &#123;
+        super();
+        this.userId = userId;
+        this.balance = balance;
+    &#125;
+    public int getUserId() &#123;
+        return userId;
+    &#125;
+    public void setUserId(int userId) &#123;
+        this.userId = userId;
+    &#125;
+    public double getBalance() &#123;
+        return balance;
+    &#125;
+    public void setBalance(double balance) &#123;
+        this.balance = balance;
+    &#125;
+    public void withdraw(double money) &#123;
+             double after = balance - money;
+             try &#123;
+                Thread.sleep(1000);
+            &#125; catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+             this.setBalance(after);
+    &#125;
+&#125;
+输出结果:
+爸爸来取钱取完钱账户还剩 :4000.0
+孩子也来取钱取完钱账户还剩 :4000.0
+</code></pre>
+<ol start="2">
+<li>使用synchronized同步对象锁，使数据修改安全</li>
+</ol>
+<pre><code class="line-numbers language-java">public class ThreadTest &#123;
+    public static void main(String[] args) throws InterruptedException &#123;
+        Account mun = new Account(80001,5000); //编号80001的客户账号里有5000存款
+        Thread parent = new Thread(new ATM(mun), &quot;爸爸来取钱&quot;);
+        Thread child = new Thread(new ATM(mun), &quot;孩子也来取钱&quot;);
+        parent.start();
+        child.start();
+    &#125;
+&#125;
+class ATM implements Runnable&#123;
+    Account account;
+    public ATM(Account account) &#123;
+        this.account = account;
+    &#125;
+    @Override
+    public void run() &#123;
+      account.withdraw(1000); //提现1000
+      System.out.println(Thread.currentThread().getName() + &quot;取完钱账户还剩 :&quot; + account.getBalance());
+    &#125;
+&#125;
+// 定义账户
+class Account &#123;
+    int userId;
+    double balance;
+    public Account(int userId, double balance) &#123;
+        super();
+        this.userId = userId;
+        this.balance = balance;
+    &#125;
+    public int getUserId() &#123;
+        return userId;
+    &#125;
+    public void setUserId(int userId) &#123;
+        this.userId = userId;
+    &#125;
+    public double getBalance() &#123;
+        return balance;
+    &#125;
+    public void setBalance(double balance) &#123;
+        this.balance = balance;
+    &#125;
+    public void withdraw(double money) &#123;
+        synchronized (this) &#123;
+             double after = balance - money;
+             try &#123;
+                Thread.sleep(1000);
+            &#125; catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+             this.setBalance(after);
+        &#125;
+    &#125;
+&#125;
+// 结果输出:
+// 爸爸来取钱取完钱账户还剩 :4000.0
+// 孩子也来取钱取完钱账户还剩 :3000.0
+</code></pre>
+<ol start="3">
+<li>两个线程分别持有不同对象，对象锁就是不一样的，不存在两个线程竞争对象锁</li>
+</ol>
+<pre><code class="line-numbers language-java">public class ThreadTest16
+&#123;
+    public static void main(String[] args) throws Exception&#123;
+        MyClass mc1 = new MyClass();
+        MyClass mc2 = new MyClass();
+        Processor p1 = new Processor(mc1); //两个线程分别持有不同对象，对象锁就是不一样的，不存在两个线程竞争对象锁
+        Processor p2 = new Processor(mc2);
+
+        Thread t1 = new Thread(p1);
+        t1.setName(&quot;t1&quot;);
+        Thread t2 = new Thread(p2);
+        t2.setName(&quot;t2&quot;);
+        //启动线程
+        t1.start();
+        //延迟(保证t1线程先启动，并执行run)
+        Thread.sleep(1000);
+        t2.start();
+    &#125;
+&#125;
+class Processor implements Runnable
+&#123;
+    MyClass mc;
+    Processor(MyClass mc)&#123;
+        this.mc = mc;
+    &#125;
+    public void run()&#123;
+        if(Thread.currentThread().getName().equals(&quot;t1&quot;))&#123;
+            mc.m1();
+        &#125;
+        if(Thread.currentThread().getName().equals(&quot;t2&quot;))&#123;
+            mc.m2();
+        &#125;
+    &#125;
+&#125;
+class MyClass
+&#123;
+    public synchronized void m1()&#123;
+        //休眠
+        try&#123;
+            Thread.sleep(10000);
+        &#125;catch(Exception e)&#123;&#125;
+        System.out.println(&quot;m1....&quot;);
+    &#125;
+    //m2方法不会等m1方法结束，t1,t2不共享同一个mc
+    public synchronized void m2()&#123;
+        System.out.println(&quot;m2....&quot;);
+    &#125;
+&#125;
+</code></pre>
+<ol start="4">
+<li>类锁(synchronized修饰的方法出现static),类只有一个，所以锁是类级别的，只有一个.存在锁竞争</li>
+</ol>
+<pre><code class="line-numbers language-java">/*
+    类锁,类只有一个，所以锁是类级别的，只有一个.
+*/
+public class ThreadTest17
+&#123;
+    public static void main(String[] args) throws Exception&#123;
+        Thread t1 = new Thread(new Processor());
+        Thread t2 = new Thread(new Processor());
+        t1.setName(&quot;t1&quot;);
+        t2.setName(&quot;t2&quot;);
+        t1.start();
+        //延迟，保证t1先执行
+        Thread.sleep(1000);
+        t2.start();
+    &#125;
+&#125;
+
+class Processor implements Runnable
+&#123;
+    public void run()&#123;
+        if(&quot;t1&quot;.equals(Thread.currentThread().getName()))&#123;
+            MyClass.m1();
+        &#125;
+        if(&quot;t2&quot;.equals(Thread.currentThread().getName()))&#123;
+            MyClass.m2();
+        &#125;
+    &#125;
+&#125;
+class MyClass
+&#123;
+    //synchronized添加到静态方法上，线程执行此方法的时候会找类锁。
+    public synchronized static void m1()&#123;
+        try&#123;Thread.sleep(10000);&#125;catch(Exception e)&#123;&#125;
+        System.out.println(&quot;m1....&quot;);
+    &#125;
+    //不会等m1结束，因为该方法没有被synchronized修饰
+    /*
+    public static void m2()&#123;
+        System.out.println(&quot;m2...&quot;);
+    &#125;
+    */
+    //m2方法等m1结束之后才能执行，该方法有synchronized
+    //线程执行该代码需要“类锁”，而类锁只有一个。
+    public synchronized static void m2()&#123;
+        System.out.println(&quot;m2...&quot;);
+    &#125;
+&#125;
+</code></pre>
+<p>误区示例:</p>
+<pre><code class="line-numbers language-java">/*
+    类锁,类只有一个，所以锁是类级别的，只有一个.
+*/
+public class ThreadTest18
+&#123;
+    public static void main(String[] args) throws Exception&#123;
+        MyClass mc1 = new MyClass();
+        MyClass mc2 = new MyClass();
+        Thread t1 = new Thread(new Processor(mc1));
+        Thread t2 = new Thread(new Processor(mc2));
+        t1.setName(&quot;t1&quot;);
+        t2.setName(&quot;t2&quot;);
+        t1.start();
+        //延迟，保证t1先执行
+        Thread.sleep(1000);
+        t2.start();
+    &#125;
+&#125;
+class Processor implements Runnable
+&#123;
+    MyClass mc;
+    Processor(MyClass mc)&#123;
+        this.mc = mc;
+    &#125;
+    public void run()&#123;
+        if(&quot;t1&quot;.equals(Thread.currentThread().getName()))&#123;
+            mc.m1(); //用的还是类锁。和对象锁无关.
+        &#125;
+        if(&quot;t2&quot;.equals(Thread.currentThread().getName()))&#123;
+            mc.m2();
+        &#125;
+    &#125;
+&#125;
+class MyClass
+&#123;
+    //synchronized添加到静态方法上，线程执行此方法的时候会找类锁。
+    public synchronized static void m1()&#123;
+        
+        try&#123;Thread.sleep(10000);&#125;catch(Exception e)&#123;&#125;
+
+        System.out.println(&quot;m1....&quot;);
+    &#125;
+    //m2方法等m1结束之后才能执行，该方法有synchronized
+    //线程执行该代码需要“类锁”，而类锁只有一个。
+    public synchronized static void m2()&#123;
+        System.out.println(&quot;m2...&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="同步锁（Lock）"><a href="#同步锁（Lock）" class="headerlink" title="同步锁（Lock）"></a>同步锁（Lock）</h3><blockquote>
+<p>从Java5开始，Java提供了一种功能更强大的线程同步机制–通过显示定义同步锁对象来实现同步，在这种机制下，同步锁由Lock对象充当。<br>Lock提供了比 synchronized方法和 synchronized代码块更广泛的锁定操作，Lock允许实现更灵活结构，可以具有差别很大的属性，并且支持多个相关的 Condition对象。<br><strong>Lock、 ReadWriteLock是Java5提供的两个根接口</strong>，并为Lock提供了 ReentrantLock（可重入锁）实现类，<strong>为ReadWriteLock提供了ReentrantReadWriteLock实现类</strong>。<br><strong>Java8新增了新型的 StampedLock类，在大多数场景中它可以替代传统的 ReentrantReadWriteLock</strong>，ReentrantReadWriteLock为读写操作提供了三种锁模式: Writing、 ReadingOptimistic、 Reading<br>在实现线程安全的控制中，比较常用的是 ReentrantLock（可重入锁）。使用该Lock对象可以显式地加锁、释放锁，通常使用 ReentrantLock的代码格式如下:</p>
+</blockquote>
+<pre><code class="line-numbers language-java">public class Test &#123;
+    //定义锁对象
+    private final ReentrantLock lock = new ReentrantLock();
+    //...
+    //定义需要保证线程安全的方法
+    public void business()&#123;
+        //加锁
+        lock.lock();
+        try&#123;
+            //需要保证线程安全的代码
+            //...
+        &#125;
+        //使用finally块来保证释放锁
+        finally&#123;
+            lock.unlock();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>改写父子取款的例子:</strong></p>
+<pre><code class="line-numbers language-java">import java.util.concurrent.locks.ReentrantLock;
+public class ThreadTest &#123;
+    public static void main(String[] args) throws InterruptedException &#123;
+        Account mun = new Account(80001,5000); //编号80001的客户账号里有5000存款
+        Thread parent = new Thread(new ATM(mun), &quot;爸爸来取钱&quot;);
+        Thread child = new Thread(new ATM(mun), &quot;孩子也来取钱&quot;);
+        parent.start();
+        child.start();
+    &#125;
+&#125;
+class ATM implements Runnable&#123;
+    Account account;
+    public ATM(Account account) &#123;
+        this.account = account;
+    &#125;
+    @Override
+    public void run() &#123;
+        account.withdraw(1000); //提现1000
+        System.out.println(Thread.currentThread().getName() + &quot;取完钱账户还剩 :&quot; + account.getBalance());
+    &#125;
+&#125;
+// 定义账户
+class Account &#123;
+    //定义锁对象
+    private final ReentrantLock lock = new ReentrantLock();
+    int userId;
+    double balance;
+    public Account(int userId, double balance) &#123;
+        super();
+        this.userId = userId;
+        this.balance = balance;
+    &#125;
+    public int getUserId() &#123;
+        return userId;
+    &#125;
+    public void setUserId(int userId) &#123;
+        this.userId = userId;
+    &#125;
+    public double getBalance() &#123;
+        return balance;
+    &#125;
+    public void setBalance(double balance) &#123;
+        this.balance = balance;
+    &#125;
+    public void withdraw(double money) &#123;
+        lock.lock();
+        try &#123;
+            double after = balance - money;
+            try &#123;
+                Thread.sleep(1000);
+            &#125; catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            this.setBalance(after);
+        &#125;finally&#123;
+            lock.unlock();
+        &#125;
+    &#125;
+&#125;
+// 输出结果:
+// 爸爸来取钱取完钱账户还剩 :4000.0
+// 孩子也来取钱取完钱账户还剩 :3000.0
+</code></pre>
+<h2 id="线程通信"><a href="#线程通信" class="headerlink" title="线程通信"></a>线程通信</h2><blockquote>
+<p>假设现在系统中有两个线程，这两个线程分别代表存款者和取钱者—现在假设系统有一种特殊的要求，系统要求存款者和取钱者不断地重复存款、取钱的动作，而且要求每当存款者将钱存入指定账户后，取钱者就立即取出该笔钱。不允许存款者连续两次存钱，也不允许取钱者连续两次取钱。为了实现这种功能，可以借助于Object类提供的 wait、 notify和 notify Al0三个方法，这三个方法并不属于 Thread类，而是属于Object类。<strong>但这三个方法必须由同步监视器对象来调用</strong>，这可分成以下两种情况。<br><strong>对于使用synchronized修饰的同步方法，因为该类的默认实例（this）就是同步监视器，所以可以在同步方法中直接调用这三个方法。</strong><br><strong>对于使用synchronized修饰的同步代码块</strong>，同步监视器是 synchronized后括号里的对象，所以必须使用该对象调用这三个方法。<br>关于这三个方法的解释如下。<br><strong>wait:<strong>导致当前线程等待，直到其他线程调用该同步监视器的 notify()方法或 notifyAll()方法来唤醒该线程。该 wait方法有三种形式———</strong>无时间参数的wait（一直等待，直到其他线程通知）、</strong>带毫秒参数的 wait和带毫秒、毫微秒参数的 wait()（这两种方法都是等待指定时间后自动苏醒）。<strong>调用 wait()方法的当前线程会释放对该同步监视器的锁定。</strong><br><strong>notify()</strong>:唤醒在此同步监视器上等待的单个线程。<strong>如果所有线程都在此同步监视器上等待，则会选择唤醒其中一个线程。选择是任意性的</strong>。只有当前线程放弃对该同步监视器的锁定后（使用 wait方法），才可以执行被唤醒的线程。<br><strong>notifyAll()</strong>:唤醒在此同步监视器上等待的所有线程。只有当前线程放弃对该同步监视器的锁定后，才可以执行被唤醒的线程。<br>程序中可以通过一个旗标来标识账户中是否已有存款，当旗标为 false时，表明账户中没有存款，存款者线程可以向下执行，当存款者把钱存入账户后，将旗标设为true，并调用 notify()或 notifyAll()方法来唤醒其他线程；当存款者线程进入线程体后，如果旗标为true就调用 wait()方法让该线程等待。当旗标为true时，表明账户中已经存入了存款，则取钱者线程可以向下执行，当取钱者把钱从账户中取出后，将旗标设为false，并调用 notify()或 notifyAll()方法来唤醒其他线程；当取钱者线程进入线程体后，如果旗标为false就调用 wait方法让该线程等待。本程序为 Account类提供 draw和 deposit（两个方法，分别对应该账户的取钱、存款等操作，因为这两个方法可能需要并发修改 Account类的 balance成员变量的值，所以这两个方法都使synchronized修饰成同步方法。除此之外，这两个方法还使用了 wait、 notifyAll来控制线程的协作。</p>
+</blockquote>
+<pre><code class="line-numbers language-java">public class Account
+&#123;
+    // 封装账户编号、账户余额两个Field
+    private String accountNo;
+    private double balance;
+    //标识账户中是否已有存款的旗标
+    private boolean flag = false;
+
+    public Account()&#123;&#125;
+    // 构造器
+    public Account(String accountNo , double balance)
+    &#123;
+        this.accountNo = accountNo;
+        this.balance = balance;
+    &#125;
+
+    // accountNo的setter和getter方法
+    public void setAccountNo(String accountNo)
+    &#123;
+        this.accountNo = accountNo;
+    &#125;
+    public String getAccountNo()
+    &#123;
+        return this.accountNo;
+    &#125;
+    // 因此账户余额不允许随便修改，所以只为balance提供getter方法，
+    public double getBalance()
+    &#123;
+        return this.balance;
+    &#125;
+
+    public synchronized void draw(double drawAmount)
+    &#123;
+        try
+        &#123;
+            // 如果flag为假，表明账户中还没有人存钱进去，取钱方法阻塞
+            if (!flag)
+            &#123;
+                wait();
+            &#125;
+            else
+            &#123;
+                // 执行取钱
+                System.out.println(Thread.currentThread().getName() 
+                    + &quot; 取钱:&quot; +  drawAmount);
+                balance -= drawAmount;
+                System.out.println(&quot;账户余额为：&quot; + balance);
+                // 将标识账户是否已有存款的旗标设为false。
+                flag = false;
+                // 唤醒其他线程
+                notifyAll();
+            &#125;
+        &#125;
+        catch (InterruptedException ex)
+        &#123;
+            ex.printStackTrace();
+        &#125;
+    &#125;
+    public synchronized void deposit(double depositAmount)
+    &#123;
+        try
+        &#123;
+            // 如果flag为真，表明账户中已有人存钱进去，则存钱方法阻塞
+            if (flag)             //①
+            &#123;
+                wait();
+            &#125;
+            else
+            &#123;
+                // 执行存款
+                System.out.println(Thread.currentThread().getName()
+                    + &quot; 存款:&quot; +  depositAmount);
+                balance += depositAmount;
+                System.out.println(&quot;账户余额为：&quot; + balance);
+                // 将表示账户是否已有存款的旗标设为true
+                flag = true;
+                // 唤醒其他线程
+                notifyAll();
+            &#125;
+        &#125;
+        catch (InterruptedException ex)
+        &#123;
+            ex.printStackTrace();
+        &#125;
+    &#125;
+
+    // 下面两个方法根据accountNo来重写hashCode()和equals()方法
+    public int hashCode()
+    &#123;
+        return accountNo.hashCode();
+    &#125;
+    public boolean equals(Object obj)
+    &#123;
+        if(this == obj)
+            return true;
+        if (obj !=null
+            &amp;&amp; obj.getClass() == Account.class)
+        &#123;
+            Account target = (Account)obj;
+            return target.getAccountNo().equals(accountNo);
+        &#125;
+        return false;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">public class DrawThread extends Thread
+&#123;
+    // 模拟用户账户
+    private Account account;
+    // 当前取钱线程所希望取的钱数
+    private double drawAmount;
+    public DrawThread(String name , Account account 
+        , double drawAmount)
+    &#123;
+        super(name);
+        this.account = account;
+        this.drawAmount = drawAmount;
+    &#125;
+    // 重复100次执行取钱操作
+    public void run()
+    &#123;
+        for (int i = 0 ; i &lt; 100 ; i++ )
+        &#123;
+            account.draw(drawAmount);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">public class DepositThread extends Thread
+&#123;
+    // 模拟用户账户
+    private Account account;
+    // 当前取钱线程所希望存款的钱数
+    private double depositAmount;
+    public DepositThread(String name , Account account 
+        , double depositAmount)
+    &#123;
+        super(name);
+        this.account = account;
+        this.depositAmount = depositAmount;
+    &#125;
+    // 重复100次执行存款操作
+    public void run()
+    &#123;
+        for (int i = 0 ; i &lt; 100 ; i++ )
+        &#123;
+            account.deposit(depositAmount);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="line-numbers language-java">public class DrawTest
+&#123;
+    public static void main(String[] args) 
+    &#123;
+        // 创建一个账户
+        Account acct = new Account(&quot;1234567&quot; , 0);
+        new DrawThread(&quot;取钱者&quot; , acct , 800).start();
+        new DepositThread(&quot;存款者甲&quot; , acct , 800).start();
+        new DepositThread(&quot;存款者乙&quot; , acct , 800).start();
+        new DepositThread(&quot;存款者丙&quot; , acct , 800).start();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="两个线程交替输出–使用synchronized-wait-notifyAll实现交替输出"><a href="#两个线程交替输出–使用synchronized-wait-notifyAll实现交替输出" class="headerlink" title="两个线程交替输出–使用synchronized_wait_notifyAll实现交替输出"></a>两个线程交替输出–使用synchronized_wait_notifyAll实现交替输出</h3><blockquote>
+<p>printOdd线程执行该方法,拿走num对象的对象锁,并且输出printOdd–&gt;1,唤醒printEven线程,虽然printEven线程被唤醒,printEven线程并不会马上执行,因为printEven线程无法获取到num对象锁。当 printOdd方法执行this.wait(),printOdd线程无期限的等待, printOdd方法结束,释放对象锁,printEven线程获取到对象锁，开始printEven()方法</p>
+</blockquote>
+<pre><code class="line-numbers language-java">public class ThreadTest &#123;
+
+    public static void main(String[] args) throws InterruptedException &#123;
+        Num mun = new Num();
+
+        Thread printOdd = new Thread(new PrintOddThread(mun),&quot;printOdd&quot;);
+        Thread printEven = new Thread(new PrintEvenThread(mun),&quot;printEven&quot;);
+        printOdd.start();
+        Thread.sleep(1000);
+        printEven.start();
+    &#125;
+&#125;
+// 定义线程共享的数据
+class Num &#123;
+    int count=1;
+    public synchronized void printOdd() throws InterruptedException &#123; // 加上对象Num锁
+        System.out.println(Thread.currentThread().getName() + &quot;---&gt;&quot; + (count++));
+        this.notifyAll(); // 唤醒打印偶数的线程
+        this.wait(); // 奇数线程等待
+    &#125;
+    public synchronized void printEven() throws InterruptedException &#123; // //加上对象Num锁
+        System.out.println(Thread.currentThread().getName() + &quot;---&gt;&quot; + (count++));
+        this.notifyAll(); // 唤醒打印奇数的线程
+        this.wait(); // 偶数线程等待
+    &#125;
+&#125;
+// 定义打印奇数线程
+class PrintOddThread implements Runnable &#123;
+    Num num;
+    public PrintOddThread(Num num) &#123;
+        this.num = num;
+    &#125;
+    public void run() &#123;
+        while (true) &#123;
+            try &#123;
+                num.printOdd();
+            &#125; catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+    &#125;
+&#125;
+// 定义打印偶数线程
+class PrintEvenThread implements Runnable &#123;
+    Num num;
+    public PrintEvenThread(Num num) &#123;
+        this.num = num;
+    &#125;
+    public void run() &#123;
+        while (true) &#123;
+            try &#123;
+                num.printEven();
+            &#125; catch (InterruptedException e) &#123;
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="使用Condition控制线程通信"><a href="#使用Condition控制线程通信" class="headerlink" title="使用Condition控制线程通信"></a>使用Condition控制线程通信</h3><blockquote>
+<p>如果程序不使用 synchronized关键字来保证同步，而是直接使用Lock对象来保证同步，则系统中不存在隐式的同步监视器，也就不能使用wait()、 notify()、 notifyAll()方法进行线程通信了。<br>当使用Lock对象来保证同步时，java提供了 C一个类来保持协调，使用 Condition可以让那些已经得到Lock对象却无法继续执行的线程释放Lock对象， Condition对象也可以唤醒其他处于等待的线程。<br>Condition将同步监视器方法（wait()、 notify()和 notifyAll()）分解成截然不同的对象，以便通过将这些对象与Lock对象组合使用，为每个对象提供多个等待集（wait-set）。在这种情况下，Lock替代了同步方法或同步代码块， Condition替代了同步监视器的功能。<br><strong>Condition实例被绑定在一个Lock对象上.要获得特定Lock实例的 Condition实例，调用Lock对象的 newCondition方法即可。 Condition提供了如下三个方法。</strong><br><img src="/images/javase/await.png"></p>
+</blockquote>
+<pre><code class="line-numbers language-java">import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
+public class Account
+&#123;
+    // 显式定义Lock对象
+    private final Lock lock = new ReentrantLock();
+    // 获得指定Lock对象对应的Condition
+    private final Condition cond  = lock.newCondition(); 
+    // 封装账户编号、账户余额两个Field
+    private String accountNo;
+    private double balance;
+    //标识账户中是否已有存款的旗标
+    private boolean flag = false;
+    public Account()&#123;&#125;
+    // 构造器
+    public Account(String accountNo , double balance)
+    &#123;
+        this.accountNo = accountNo;
+        this.balance = balance;
+    &#125;
+    // accountNo的setter和getter方法
+    public void setAccountNo(String accountNo)
+    &#123;
+        this.accountNo = accountNo;
+    &#125;
+    public String getAccountNo()
+    &#123;
+        return this.accountNo;
+    &#125;
+    // 因此账户余额不允许随便修改，所以只为balance提供getter方法，
+    public double getBalance()
+    &#123;
+        return this.balance;
+    &#125;
+    public void draw(double drawAmount)
+    &#123;
+        // 加锁
+        lock.lock();
+        try
+        &#123;
+            // 如果flag为假，表明账户中还没有人存钱进去，取钱方法阻塞
+            if (!flag)
+            &#123;
+                cond.wait();
+            &#125;
+            else
+            &#123;
+                // 执行取钱
+                System.out.println(Thread.currentThread().getName() 
+                    + &quot; 取钱:&quot; +  drawAmount);
+                balance -= drawAmount;
+                System.out.println(&quot;账户余额为：&quot; + balance);
+                // 将标识账户是否已有存款的旗标设为false。
+                flag = false;
+                // 唤醒其他线程
+                cond.signalAll();
+            &#125;
+        &#125;
+        catch (InterruptedException ex)
+        &#123;
+            ex.printStackTrace();
+        &#125;
+        // 使用finally块来释放锁
+        finally
+        &#123;
+            lock.unlock();
+        &#125;
+    &#125;
+    public void deposit(double depositAmount)
+    &#123;
+        lock.lock();
+        try
+        &#123;
+            // 如果flag为真，表明账户中已有人存钱进去，则存钱方法阻塞
+            if (flag)             //①
+            &#123;
+                cond.wait();
+            &#125;
+            else
+            &#123;
+                // 执行存款
+                System.out.println(Thread.currentThread().getName()
+                    + &quot; 存款:&quot; +  depositAmount);
+                balance += depositAmount;
+                System.out.println(&quot;账户余额为：&quot; + balance);
+                // 将表示账户是否已有存款的旗标设为true
+                flag = true;
+                // 唤醒其他线程
+                cond.signalAll();
+            &#125;
+        &#125;
+        catch (InterruptedException ex)
+        &#123;
+            ex.printStackTrace();
+        &#125;
+        // 使用finally块来释放锁
+        finally
+        &#123;
+            lock.unlock();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="使用阻塞队列-BlockingQueue-控制线程通信"><a href="#使用阻塞队列-BlockingQueue-控制线程通信" class="headerlink" title="使用阻塞队列(BlockingQueue)控制线程通信"></a>使用阻塞队列(BlockingQueue)控制线程通信</h3><blockquote>
+<p>java5提供了一个BlockingQueue接口，虽然BlockingQueue也是Queue的子接口，但它们主要用途并不是作为容器，而是作为线程同步的工具。BlockingQueue具有一个特征：当生产者线程试图向BlockingQueue中放入元素时，如果该队列已满，则该线程被阻塞；当消费者线程试图从BlockingQueue中取出元素时，如果该队列已空，则该线程被阻塞。<br>程序的两个线程通过交替向BlockingQueue中放入元素，取出元素，即可很好的控制线程的通信。<br>BlockingQueue提供如下两个支持阻塞的方法。<br><img src="/images/javase/BlockingQueue.png"></p>
+</blockquote>
+<pre><code class="line-numbers language-java">import java.util.concurrent.*;
+public class BlockingQueueTest
+&#123;
+    public static void main(String[] args)
+        throws Exception
+    &#123;
+        // 定义一个长度为2的阻塞队列
+        BlockingQueue&lt;String&gt; bq = new ArrayBlockingQueue&lt;&gt;(2);
+        bq.put(&quot;Java&quot;);//与bq.add(&quot;Java&quot;、bq.offer(&quot;Java&quot;)相同
+        bq.put(&quot;Java&quot;);//与bq.add(&quot;Java&quot;、bq.offer(&quot;Java&quot;)相同
+        bq.put(&quot;Java&quot;);//① 阻塞线程。
+    &#125;
+&#125;
+</code></pre>
+<p>示例使用；</p>
+<pre><code class="line-numbers language-java">import java.util.concurrent.*;
+class Producer extends Thread
+&#123;
+    private BlockingQueue&lt;String&gt; bq;
+    public Producer(BlockingQueue&lt;String&gt; bq)
+    &#123;
+        this.bq = bq;
+    &#125;
+    public void run()
+    &#123;
+        String[] strArr = new String[]
+        &#123;
+            &quot;Java&quot;,
+            &quot;Struts&quot;,
+            &quot;Spring&quot;
+        &#125;;
+        for (int i = 0 ; i &lt; 999999999 ; i++ )
+        &#123;
+            System.out.println(getName() + &quot;生产者准备生产集合元素！&quot;);
+            try
+            &#123;
+                Thread.sleep(200);
+                // 尝试放入元素，如果队列已满，线程被阻塞
+                bq.put(strArr[i % 3]);
+            &#125;
+            catch (Exception ex)&#123;ex.printStackTrace();&#125;
+            System.out.println(getName() + &quot;生产完成：&quot; + bq);
+        &#125;
+    &#125;
+&#125;
+class Consumer extends Thread
+&#123;
+    private BlockingQueue&lt;String&gt; bq;
+    public Consumer(BlockingQueue&lt;String&gt; bq)
+    &#123;
+        this.bq = bq;
+    &#125;
+    public void run()
+    &#123;
+        while(true)
+        &#123;
+            System.out.println(getName() + &quot;消费者准备消费集合元素！&quot;);
+            try
+            &#123;
+                Thread.sleep(200);
+                // 尝试取出元素，如果队列已空，线程被阻塞
+                bq.take();
+            &#125;
+            catch (Exception ex)&#123;ex.printStackTrace();&#125;
+            System.out.println(getName() + &quot;消费完成：&quot; + bq);
+        &#125;
+    &#125;
+&#125;
+public class BlockingQueueTest2
+&#123;
+    public static void main(String[] args)
+    &#123;
+        // 创建一个容量为1的BlockingQueue
+        BlockingQueue&lt;String&gt; bq = new ArrayBlockingQueue&lt;&gt;(1);
+        // 启动3条生产者线程
+        new Producer(bq).start();
+        new Producer(bq).start();
+        new Producer(bq).start();
+        // 启动一条消费者线程
+        new Consumer(bq).start();
+    &#125;
+&#125;
+// 输出结果:
+// Thread-0生产者准备生产集合元素！
+// Thread-2生产者准备生产集合元素！
+// Thread-1生产者准备生产集合元素！
+// Thread-3消费者准备消费集合元素！
+// Thread-0生产完成：[Java]
+// Thread-0生产者准备生产集合元素！
+// Thread-3消费完成：[]
+// Thread-3消费者准备消费集合元素！
+// Thread-2生产完成：[Java]
+// Thread-2生产者准备生产集合元素！
+// Thread-3消费完成：[]
+// Thread-3消费者准备消费集合元素！
+// Thread-2生产完成：[Struts]
+// Thread-2生产者准备生产集合元素！
+// Thread-3消费完成：[]
+// Thread-3消费者准备消费集合元素！
+// Thread-0生产完成：[Struts]
+// Thread-0生产者准备生产集合元素！
+// Thread-3消费完成：[]
+// Thread-3消费者准备消费集合元素！
+// Thread-1生产完成：[Java]
+// Thread-1生产者准备生产集合元素！
+// Thread-3消费完成：[]
+// Thread-3消费者准备消费集合元素！
+// Thread-2生产完成：[Spring]
+// Thread-2生产者准备生产集合元素！
+// Thread-3消费完成：[]
+// ...
+</code></pre>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><pre><code class="line-numbers language-java">public class DeadLock
+&#123;
+    public static void main(String[] args)&#123;
+
+        Object o1 = new Object();
+        Object o2 = new Object();
+
+        Thread t1 = new Thread(new T1(o1,o2));
+        Thread t2 = new Thread(new T2(o1,o2));
+
+        t1.start();
+        t2.start();
+
+    &#125;
+&#125;
+
+class T1 implements Runnable
+&#123;
+    Object o1;
+    Object o2;
+
+    T1(Object o1,Object o2)&#123;
+        this.o1 = o1;
+        this.o2 = o2;
+    &#125;
+    public void run()&#123;
+        synchronized(o1)&#123;   // t1线程等 o2对象锁，o2对象锁被t2线程拿了，t2在等o1对象锁，o1对象锁被t1线程拿了,导致死锁
+            try&#123;Thread.sleep(1000);&#125;catch(Exception e)&#123;&#125;
+            synchronized(o2)&#123;
+            
+            &#125;
+        &#125;
+    &#125;
+&#125;
+class T2 implements Runnable
+&#123;
+    Object o1;
+    Object o2;
+    T2(Object o1,Object o2)&#123;
+        this.o1 = o1;
+        this.o2 = o2;
+    &#125;
+    public void run()&#123;
+        synchronized(o2)&#123;
+            try&#123;Thread.sleep(1000);&#125;catch(Exception e)&#123;&#125;
+            synchronized(o1)&#123;
+            
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h2><ol>
+<li>其他所有的用户线程结束，则守护线程退出！</li>
+<li>守护线程一般都是无限执行的.<blockquote>
+<p>从线程分类上可以分为:用户线程（以上讲的都是用户线程），<strong>另一个是守护线程</strong>，守护线程是这样的，所有的用户线程结束生命周期，守护线程才会结束生命周期，只要有一个用户线程存在，那么守护线程就不会结束，例如java中著名的<strong>垃圾回收器</strong>就是一个守护线程只有应用程序中所有的线程结束，它才会结束</p>
+</blockquote>
+<pre><code class="line-numbers language-java">public class ThreadTest &#123;
+ public static void main(String[] args) throws InterruptedException &#123;
+     Processor p = new Processor();
+     Thread t = new Thread(p);
+     t.setName(&quot;t&quot;);
+     t.setDaemon(true); //将t线程设置为守护线程,即便t线程里面是死循环，也会等主线程main这个用户线程执行完 结束
+     t.start();
+     for (int i = 1; i &lt;= 10; i++) &#123;
+         System.out.println(Thread.currentThread().getName() + &quot;  &quot; + i);
+     &#125;
+ &#125;
+&#125;
+// 定义一个线程
+class Processor implements Runnable &#123;
+ @Override
+ public void run() &#123;
+     int i = 0;
+     while (true) &#123;
+         System.out.println(Thread.currentThread().getName() + &quot;  &quot; + i++);
+     &#125;
+ &#125;
+&#125;
+</code></pre>
+<h3 id="定时器-Timer"><a href="#定时器-Timer" class="headerlink" title="定时器 Timer"></a>定时器 Timer</h3><pre><code class="line-numbers language-java">public class ThreadTest &#123;
+ public static void main(String[] args) throws InterruptedException &#123;
+     Timer timer = new Timer(&quot;定时打开终端&quot;, true);//timer设置为守护线程，每隔 5s 打开当前目录
+     timer.schedule(new TermTimerTask(), new Date(), 5000);
+     while(true) &#123;
+     &#125;
+ &#125;
+&#125;
+class TermTimerTask extends TimerTask &#123;
+ @Override
+ public void run() &#123;
+     try &#123;
+         Runtime.getRuntime().exec(new String[] &#123;&quot;/bin/sh&quot;,&quot;-c&quot;,&quot;open ~&quot;&#125;); //Unix系统下
+     &#125; catch (IOException e) &#123;
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+     &#125;
+ &#125;
+&#125;
+</code></pre>
+</li>
+</ol>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><blockquote>
+<p>系统启动一个新线程的成本是比较高的，因为它涉及与操作系统交互。使用线程池可以很好地提高性能，尤其是当程序中需要创建大量生存期很短暂的线程时，更应该考虑使用线程池。除此之外，使用线程池可以有效地控制系统并发线程的数量，当系统中包含大量并发线程时，会导致系统性能剧烈下降，甚至导致JVM崩溃，而线程池的最大线程数参数可以控制系统中并发线程数不超过此数。</p>
+</blockquote>
+<h3 id="Java8改进的线程池"><a href="#Java8改进的线程池" class="headerlink" title="Java8改进的线程池"></a>Java8改进的线程池</h3><blockquote>
+<p>从Java5开始，Java内建支持线程池，新增了一个Executors工厂类来产生线程池，该工厂包含如下几个静态工厂方法来创建线程池。<br>**newCachedThreadPool():**创建一个具有缓存功能的线程池，系统根据需要创建线程。<br>**newFixedThreadPool(int nThreads):**创建一个可重用的，具有固定线程数的线程池。<br>**newSingleThreadExecutor():**创建一个只有单线程的线程池，它相当于调用newFixedThreadPool(int nThreads)方法，参数传入1.<br>**newScheduledThreadPool(int corePoolSize):**创建具有指定线程数的线程池，它可以在指定延迟后执行线程任务。corePoolSize指池中所保存的线程数。<br>**newSingleThreadScheduledExecutor():**创建单个线程的线程池，指定延迟后执行线程任务。<br>**ExecutorService newWorkStealingPool(int parallelism):**创建持有足够的线程的线程池来支持给定的并行级别，该方法还会使用多个队列来减少竞争。如果当前机器有4个CPU，则传入参数可以为4.</p>
+</blockquote>
+<h4 id="ExecutorService"><a href="#ExecutorService" class="headerlink" title="ExecutorService"></a>ExecutorService</h4><blockquote>
+<p>ExecutorService代表尽快执行线程的线程池(只要线程池中有空闲线程，就立即执行线程任务)，程序只要将一个Runnnable对象或Callable对象提交给该线程池，就会尽快执行该任务。ExecutorService提供了如下三个方法。</p>
+</blockquote>
+<pre><code class="line-numbers language-java">Future&lt;?&gt;	submit(Runnable task):其中Future对象代表Runnable任务的返回值，但run()方法没有返回值，所以Future对象将在run()执行后返回null。但可以调用Future的isDone()、isCancelled()方法获得Runnable对象的执行状态。
+&lt;T&gt; Future&lt;T&gt;	submit(Runnable task, T result):其中result显示指定线程执行结束后的返回值，所以Future对象将在run()方法执行结束后返回result。
+&lt;T&gt; Future&lt;T&gt;	submit(Callable&lt;T&gt; task):其中Future代表Callable对象里call()方法的返回值。
+</code></pre>
+<h4 id="ScheduledExecutorService"><a href="#ScheduledExecutorService" class="headerlink" title="ScheduledExecutorService"></a>ScheduledExecutorService</h4><blockquote>
+<p>ScheduledExecutorService代表可在指定延迟后或周期性地执行线程任务的线程池，它提供了如下4个方法。</p>
+</blockquote>
+<pre><code class="line-numbers language-java">&lt;V&gt; ScheduledFuture&lt;V&gt;	schedule(Callable&lt;V&gt; callable, long delay, TimeUnit unit)
+ScheduledFuture&lt;?&gt;	schedule(Runnable command, long delay, TimeUnit unit)
+ScheduledFuture&lt;?&gt;	scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit):依次在initialDelay+period、initialDelay+2*period...处重复执行，以此类推。
+ScheduledFuture&lt;?&gt;	scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit)
+</code></pre>
+<pre><code class="line-numbers language-java">import java.util.concurrent.*;
+class MyThread implements Runnable
+&#123;
+    public void run()
+    &#123;
+        for (int i = 0; i &lt; 100 ; i++ )
+        &#123;
+            System.out.println(Thread.currentThread().getName()
+                + &quot;的i值为:&quot; + i);
+        &#125;
+    &#125;
+&#125;
+public class ThreadPoolTest
+&#123;
+    public static void main(String[] args) 
+        throws Exception
+    &#123;
+        // 创建一个具有固定线程数（6）的线程池
+        ExecutorService pool = Executors.newFixedThreadPool(6);
+        // 向线程池中提交两个线程
+        pool.submit(new MyThread());
+        pool.submit(new MyThread());
+        // 关闭线程池,表示不再接受新任务，但会将以前所有已提交任务执行完成。
+        pool.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="java8增强的ForkJoinPool"><a href="#java8增强的ForkJoinPool" class="headerlink" title="java8增强的ForkJoinPool"></a>java8增强的ForkJoinPool</h3><blockquote>
+<p>Java7提供了ForkJoinPool来支持一个任务拆分成多个”小任务”并行计算，再把多个”小任务“的结果合并成总的计算结果。ForkJoinPool是ExecutorService的实现类，因此是一种特殊的线程池。<br>ForkJoinPool提供了如下两个常用的构造器。</p>
+</blockquote>
+<pre><code class="line-numbers language-java">ForkJoinPool():以Runtime.getRuntime().availableProcessors()返回值作为parallelism参数来创建ForkJoinPool
+ForkJoinPool(int parallelism):创建一个包含parallelism个并行线程的ForkJoinPool。
+</code></pre>
+<p><img src="/images/javase/java8%E6%89%A9%E5%B1%95ForkJoinPool.png"><br><strong>RecursiveAction无返回任务示例将打印0~300，拆分多个任务完成</strong></p>
+<pre><code class="line-numbers language-java">package com.example.demo;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.TimeUnit;
+// 继承RecursiveAction来实现&quot;可分解&quot;的任务
+class PrintTask extends RecursiveAction
+&#123;
+    // 每个“小任务”只最多只打印50个数
+    private static final int THRESHOLD = 50;
+    private int start;
+    private int end;
+    // 打印从start到end的任务
+    public PrintTask(int start, int end)
+    &#123;
+        this.start = start;
+        this.end = end;
+    &#125;
+    @Override
+    protected void compute() 
+    &#123;
+        // 当end与start之间的差小于THRESHOLD时，开始打印
+        if(end - start &lt; THRESHOLD)
+        &#123;
+            for (int i = start ; i &lt; end ; i++ )
+            &#123;
+                System.out.println(Thread.currentThread().getName()
+                    + &quot;的i值：&quot; + i);
+            &#125;
+        &#125;
+        else
+        &#123;
+            // 如果当end与start之间的差大于THRESHOLD时，即要打印的数超过50个
+            // 将大任务分解成两个小任务。
+            int middle = (start + end) /2;
+            PrintTask left = new PrintTask(start, middle);
+            PrintTask right = new PrintTask(middle, end);
+            // 并行执行两个“小任务”
+            left.fork();
+            right.fork();
+        &#125;
+    &#125;
+&#125;
+public class ForkJoinPoolTest
+&#123;
+    public static void main(String[] args) 
+        throws Exception
+    &#123;
+        ForkJoinPool pool = new ForkJoinPool();
+        // 提交可分解的PrintTask任务
+        pool.submit(new PrintTask(0 , 300));
+        pool.awaitTermination(2, TimeUnit.SECONDS);
+        // 关闭线程池
+        pool.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<p><strong>RecursiveTask有返回值示例并行拆分计算长度100的数组的总和</strong></p>
+<pre><code class="line-numbers language-java">package com.example.demo;
+import java.util.concurrent.*;
+import java.util.*;
+// 继承RecursiveTask来实现&quot;可分解&quot;的任务
+class CalTask extends RecursiveTask&lt;Integer&gt;
+&#123;
+    // 每个“小任务”只最多只累加20个数
+    private static final int THRESHOLD = 20;
+    private int arr[];
+    private int start;
+    private int end;
+    // 累加从start到end的数组元素
+    public CalTask(int[] arr , int start, int end)
+    &#123;
+        this.arr = arr;
+        this.start = start;
+        this.end = end;
+    &#125;
+    @Override
+    protected Integer compute()
+    &#123;
+        int sum = 0;
+        // 当end与start之间的差小于THRESHOLD时，开始进行实际累加
+        if(end - start &lt; THRESHOLD)
+        &#123;
+            for (int i = start ; i &lt; end ; i++ )
+            &#123;
+                sum += arr[i];
+            &#125;
+            return sum;
+        &#125;
+        else
+        &#123;
+            // 如果当end与start之间的差大于THRESHOLD时，即要打印的数超过20个
+            // 将大任务分解成两个小任务。
+            int middle = (start + end) /2;
+            CalTask left = new CalTask(arr , start, middle);
+            CalTask right = new CalTask(arr , middle, end);
+            // 并行执行两个“小任务”
+            left.fork();
+            right.fork();
+            // 把两个“小任务”累加的结果合并起来
+            return left.join() + right.join();
+        &#125;
+    &#125;
+&#125;
+public class Sum
+&#123;
+    public static void main(String[] args)
+        throws Exception
+    &#123;
+        int[] arr = new int[100];
+        Random rand = new Random();
+        int total = 0;
+        // 初始化100个数字元素
+        for (int i = 0 , len = arr.length; i &lt; len ; i++ )
+        &#123;
+            int tmp = rand.nextInt(20);
+            // 对数组元素赋值，并将数组元素的值添加到total总和中。
+            total += (arr[i] = tmp);
+        &#125;
+        System.out.println(total);
+
+        ForkJoinPool pool = new ForkJoinPool();
+        // 提交可分解的CalTask任务
+        Future&lt;Integer&gt; future = pool.submit(new CalTask(arr , 0 , arr.length));
+        System.out.println(future.get());
+        // 关闭线程池
+        pool.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="线程相关类"><a href="#线程相关类" class="headerlink" title="线程相关类"></a>线程相关类</h2><h3 id="ThreadLocal类"><a href="#ThreadLocal类" class="headerlink" title="ThreadLocal类"></a>ThreadLocal类</h3><blockquote>
+<p>通过使用ThreadLocal类可以简化多线程编程时的并发访问，使用这个工具类可以很简捷地隔离多线程程序的竞争资源。<br>ThreadLocal，是 Thread Local Variable（线程局部变量）的意思，也许将它命名为 ThreadLocalVar更加合适。线程局部变量（ThreadLocal）的功用其实非常简单，就是为每一个使用该变量的线程都提供一个变量值的副本，使每一个线程都可以独立地改变自己的副本，而不会和其他线程的副本冲突。从线程的角度看，就好像每一个线程都完全拥有该变量一样。<br><strong>ThreadLocal类的用法非常简单，它只提供了如下三个 public方法。</strong><br>**get:**返回此线程局部变量中当前线程副本中的值。<br>**void remove:**删除此线程局部变量中当前线程的值。<br>**void set（ value）:**设置此线程局部变量中当前线程副本中的值。<br>下面程序将向读者证明 ThreadLocal的作用。</p>
+</blockquote>
+<pre><code class="line-numbers language-java">package com.example.demo;
+class Account
+&#123;
+    /* 定义一个ThreadLocal类型的变量，该变量将是一个线程局部变量
+    每个线程都会保留该变量的一个副本 */
+    private ThreadLocal&lt;String&gt; name = new ThreadLocal&lt;&gt;();
+    // 定义一个初始化name属性的构造器
+    public Account(String str)
+    &#123;
+        this.name.set(str);
+        // 下面代码用于访问当前线程的name副本的值
+        System.out.println(&quot;---&quot; + this.name.get());
+    &#125;
+    // name的setter和getter方法
+    public String getName()
+    &#123;
+        return name.get();
+    &#125;
+    public void setName(String str)
+    &#123;
+        this.name.set(str);
+    &#125;
+&#125;
+class MyTest extends Thread
+&#123;
+    // 定义一个Account属性
+    private Account account;
+    public MyTest(Account account, String name)
+    &#123;
+        super(name);
+        this.account = account;
+    &#125;
+    public void run()
+    &#123;
+        // 循环10次
+        for (int i = 0 ; i &lt; 10 ; i++)
+        &#123;
+            // 当i == 6时输出将账户名替换成当前线程名
+            if (i == 6)
+            &#123;
+                account.setName(getName());
+            &#125;
+            // 输出同一个账户的账户名和循环变量
+            System.out.println(account.getName()
+                + &quot; 账户的i值：&quot; + i);
+        &#125;
+    &#125;
+&#125;
+public class ThreadLocalTest
+&#123;
+    public static void main(String[] args) 
+    &#123;
+        // 启动两条线程，两条线程共享同一个Account
+        Account at = new Account(&quot;初始名&quot;);
+        /*
+        虽然两条线程共享同一个账户，即只有一个账户名
+        但由于账户名是ThreadLocal类型的，所以每条线程
+        都完全拥有各自的账户名副本，所以从i == 6之后，将看到两条
+        线程访问同一个账户时看到不同的账户名。
+        */
+        new MyTest(at , &quot;线程甲&quot;).start();
+        new MyTest(at , &quot;线程乙&quot;).start ();
+    &#125;
+&#125;
+// 输出结果:
+// ---初始名
+// null 账户的i值：0
+// null 账户的i值：1
+// null 账户的i值：2
+// null 账户的i值：3
+// null 账户的i值：4
+// null 账户的i值：5
+// 线程甲 账户的i值：6
+// 线程甲 账户的i值：7
+// 线程甲 账户的i值：8
+// 线程甲 账户的i值：9
+// null 账户的i值：0
+// null 账户的i值：1
+// null 账户的i值：2
+// null 账户的i值：3
+// null 账户的i值：4
+// null 账户的i值：5
+// 线程乙 账户的i值：6
+// 线程乙 账户的i值：7
+// 线程乙 账户的i值：8
+// 线程乙 账户的i值：9
+</code></pre>
+</div><div class="article-licensing box"><div class="licensing-title"><p>多线程</p><p><a href="http://example.com/2013/09/10/javase/JAVASE-多线程-10/">http://example.com/2013/09/10/javase/JAVASE-多线程-10/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2013-09-10</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2020-06-11</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2013/09/11/javase/JAVASE-%E6%B3%9B%E5%9E%8B-11/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">JAVA中的泛型</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2013/09/09/javase/JAVASE-%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6-09/"><span class="level-item">JAVA异常机制</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">199</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">95</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">62</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#多线程的基本概念"><span class="level-left"><span class="level-item">1</span><span class="level-item">多线程的基本概念</span></span></a></li><li><a class="level is-mobile" href="#什么是进程"><span class="level-left"><span class="level-item">2</span><span class="level-item">什么是进程</span></span></a></li><li><a class="level is-mobile" href="#多进程有什么作用"><span class="level-left"><span class="level-item">3</span><span class="level-item">多进程有什么作用</span></span></a></li><li><a class="level is-mobile" href="#什么是线程"><span class="level-left"><span class="level-item">4</span><span class="level-item">什么是线程</span></span></a></li><li><a class="level is-mobile" href="#并发性-concurrency-和-并行性-parallel"><span class="level-left"><span class="level-item">5</span><span class="level-item">并发性(concurrency) 和 并行性(parallel)</span></span></a></li><li><a class="level is-mobile" href="#Java程序的运行原理"><span class="level-left"><span class="level-item">6</span><span class="level-item">Java程序的运行原理</span></span></a></li><li><a class="level is-mobile" href="#Java多线程实现的三种方式"><span class="level-left"><span class="level-item">7</span><span class="level-item">Java多线程实现的三种方式</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#继承java-lang-Thread"><span class="level-left"><span class="level-item">7.1</span><span class="level-item">继承java.lang.Thread</span></span></a></li><li><a class="level is-mobile" href="#实现-java-lang-Runnable-推荐方式"><span class="level-left"><span class="level-item">7.2</span><span class="level-item">实现 java.lang.Runnable(推荐方式)</span></span></a></li><li><a class="level is-mobile" href="#使用Callable和-Future创建线程"><span class="level-left"><span class="level-item">7.3</span><span class="level-item">使用Callable和 Future创建线程</span></span></a></li></ul></li><li><a class="level is-mobile" href="#线程的生命周期"><span class="level-left"><span class="level-item">8</span><span class="level-item">线程的生命周期</span></span></a></li><li><a class="level is-mobile" href="#线程的调度与控制"><span class="level-left"><span class="level-item">9</span><span class="level-item">线程的调度与控制</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#线程优先级"><span class="level-left"><span class="level-item">9.1</span><span class="level-item">线程优先级</span></span></a></li><li><a class="level is-mobile" href="#线程调度与控制–Thread-sleep方法详解-用的多"><span class="level-left"><span class="level-item">9.2</span><span class="level-item">线程调度与控制–Thread.sleep方法详解(用的多)</span></span></a></li><li><a class="level is-mobile" href="#如何正确的终止一个线程"><span class="level-left"><span class="level-item">9.3</span><span class="level-item">如何正确的终止一个线程</span></span></a></li><li><a class="level is-mobile" href="#线程调度与控制–Thread-yield方法详解"><span class="level-left"><span class="level-item">9.4</span><span class="level-item">线程调度与控制–Thread.yield方法详解</span></span></a></li><li><a class="level is-mobile" href="#线程调度与控制–join方法详解"><span class="level-left"><span class="level-item">9.5</span><span class="level-item">线程调度与控制–join方法详解</span></span></a></li></ul></li><li><a class="level is-mobile" href="#线程的同步-加锁"><span class="level-left"><span class="level-item">10</span><span class="level-item">线程的同步(加锁)</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#什么条件下要使用线程同步"><span class="level-left"><span class="level-item">10.1</span><span class="level-item">什么条件下要使用线程同步</span></span></a></li><li><a class="level is-mobile" href="#示例爸爸和孩子对同一个银行卡取款"><span class="level-left"><span class="level-item">10.2</span><span class="level-item">示例爸爸和孩子对同一个银行卡取款</span></span></a></li><li><a class="level is-mobile" href="#同步锁（Lock）"><span class="level-left"><span class="level-item">10.3</span><span class="level-item">同步锁（Lock）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#线程通信"><span class="level-left"><span class="level-item">11</span><span class="level-item">线程通信</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#两个线程交替输出–使用synchronized-wait-notifyAll实现交替输出"><span class="level-left"><span class="level-item">11.1</span><span class="level-item">两个线程交替输出–使用synchronized_wait_notifyAll实现交替输出</span></span></a></li><li><a class="level is-mobile" href="#使用Condition控制线程通信"><span class="level-left"><span class="level-item">11.2</span><span class="level-item">使用Condition控制线程通信</span></span></a></li><li><a class="level is-mobile" href="#使用阻塞队列-BlockingQueue-控制线程通信"><span class="level-left"><span class="level-item">11.3</span><span class="level-item">使用阻塞队列(BlockingQueue)控制线程通信</span></span></a></li></ul></li><li><a class="level is-mobile" href="#死锁"><span class="level-left"><span class="level-item">12</span><span class="level-item">死锁</span></span></a></li><li><a class="level is-mobile" href="#守护线程"><span class="level-left"><span class="level-item">13</span><span class="level-item">守护线程</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#定时器-Timer"><span class="level-left"><span class="level-item">13.1</span><span class="level-item">定时器 Timer</span></span></a></li></ul></li><li><a class="level is-mobile" href="#线程池"><span class="level-left"><span class="level-item">14</span><span class="level-item">线程池</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Java8改进的线程池"><span class="level-left"><span class="level-item">14.1</span><span class="level-item">Java8改进的线程池</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#ExecutorService"><span class="level-left"><span class="level-item">14.1.1</span><span class="level-item">ExecutorService</span></span></a></li><li><a class="level is-mobile" href="#ScheduledExecutorService"><span class="level-left"><span class="level-item">14.1.2</span><span class="level-item">ScheduledExecutorService</span></span></a></li></ul></li><li><a class="level is-mobile" href="#java8增强的ForkJoinPool"><span class="level-left"><span class="level-item">14.2</span><span class="level-item">java8增强的ForkJoinPool</span></span></a></li></ul></li><li><a class="level is-mobile" href="#线程相关类"><span class="level-left"><span class="level-item">15</span><span class="level-item">线程相关类</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#ThreadLocal类"><span class="level-left"><span class="level-item">15.1</span><span class="level-item">ThreadLocal类</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">10</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">14</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
