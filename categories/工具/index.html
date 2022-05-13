@@ -105,7 +105,198 @@
 <p><strong>导出切片</strong>，存储为web</p>
 <h4 id="辅助线和切片清除"><a href="#辅助线和切片清除" class="headerlink" title="辅助线和切片清除"></a>辅助线和切片清除</h4><p>视图菜单–清除辅助线&#x2F;清除切片</p>
 <h3 id="切图插件"><a href="#切图插件" class="headerlink" title="切图插件"></a>切图插件</h3><p>Cutterman是一款运行在photoshop中的插件，能够自动将你需要的图层进行输出， 以替代传统的手工 “导出web所用格式” 以及使用切片工具进行挨个切图的繁琐流程。 它支持各种各样的图片尺寸、格式、形态输出，方便你在pc、ios、Android等端上使用。 它不需要你记住一堆的语法、规则，纯点击操作，方便、快捷，易于上手。</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2016-11-02T16:04:00.000Z" title="2016/11/3 上午12:04:00">2016-11-03</time>发表</span><span class="level-item"><time dateTime="2022-05-13T18:04:08.707Z" title="2022/5/14 上午2:04:08">2022-05-14</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span> / </span><a class="link-muted" href="/categories/%E5%B7%A5%E5%85%B7/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7maven/">项目管理工具maven</a></span><span class="level-item">几秒读完 (大约12个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2016/11/03/%E5%B7%A5%E5%85%B7/maven%E5%B7%A5%E5%85%B7%E9%97%AE%E9%A2%98/">maven工具</a></h1><div class="content"><h2 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h2><p><img src="/images/database/mybatis/maven.png"></p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2016-11-02T16:04:00.000Z" title="2016/11/3 上午12:04:00">2016-11-03</time>发表</span><span class="level-item"><time dateTime="2022-05-13T19:10:43.288Z" title="2022/5/14 上午3:10:43">2022-05-14</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span> / </span><a class="link-muted" href="/categories/%E5%B7%A5%E5%85%B7/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7maven/">项目管理工具maven</a></span><span class="level-item">9 分钟读完 (大约1370个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2016/11/03/%E5%B7%A5%E5%85%B7/maven%E5%B7%A5%E5%85%B7%E9%97%AE%E9%A2%98/">maven工具</a></h1><div class="content"><h2 id="maven是什么"><a href="#maven是什么" class="headerlink" title="maven是什么"></a>maven是什么</h2><pre><code class="line-numbers language-text">Mven的本质是一个项目管理工具，将项目开发和管理过程抽象成一个项目对象模型(POM)
+POM(Project Object Model):项目对象模型
+</code></pre>
+<h2 id="仓库"><a href="#仓库" class="headerlink" title="仓库"></a>仓库</h2><ul>
+<li>仓库：用于存储资源，包含各种jar包</li>
+<li>仓库分类：</li>
+<li>本地仓库：自己电脑上存储资源的仓库，连接远程仓库获取资源</li>
+<li>远程仓库：非本机电脑上的仓库，为本地仓库提供资源</li>
+<li>中央仓库：Maven团队维护，存储所有资源的仓库</li>
+<li>私服：部门&#x2F;公司范围内存储资源的仓库，从中央仓库获取资源</li>
+<li>私服的作用：</li>
+<li>保存具有版权的资源，包含购买或自主研发的jar</li>
+<li>中央仓库中的jar都是开源的，不能存储具有版权的资源</li>
+<li>一定范围内共享资源，仅对内部开放，不对外共享</li>
+</ul>
+<h3 id="本地仓库配置"><a href="#本地仓库配置" class="headerlink" title="本地仓库配置"></a>本地仓库配置</h3><p>Maven启动后，会自动保存下载的资源到本地仓库默认位置</p>
+<pre><code class="line-numbers language-xml">&lt;localRepository&gt;$(user.home)/.m2/repository&lt;/localRepository&gt;
+</code></pre>
+<h3 id="远程仓库配置"><a href="#远程仓库配置" class="headerlink" title="远程仓库配置"></a>远程仓库配置</h3><p>Maven默认连接的仓库位置</p>
+<pre><code class="line-numbers language-xml">&lt;repositories&gt;
+  &lt;repository&gt;
+      &lt;id&gt;central&lt;/id&gt;
+      &lt;name&gt;Central Repository&lt;/name&gt;
+      &lt;url&gt;https://repo.maven.apache.org/maven2&lt;/url&gt;
+      &lt;layout&gt;default&lt;/layout&gt;
+      &lt;snapshots&gt;
+      &lt;enabled&gt;false&lt;/enabled&gt;
+      &lt;/snapshots&gt;
+  &lt;/repository&gt;
+&lt;/repositories&gt;
+</code></pre>
+<h3 id="镜像仓库配置"><a href="#镜像仓库配置" class="headerlink" title="镜像仓库配置"></a>镜像仓库配置</h3><p>在settting.xml文件中配置阿里云镜像仓库</p>
+<pre><code class="line-numbers language-xml">&lt;mirrors&gt;
+    &lt;!--配置具体的仓库的下载镜像
+    --&gt;
+    &lt;mirror&gt;
+    &lt;!--此镜像的唯一标识符，用来区分不同的mirror元素--&gt;
+    &lt;id&gt;nexus-aliyun&lt;/id&gt;
+    &lt;!--对哪种仓库进行镜像，简单说就是替代哪个仓库--&gt;
+    &lt;mirrorof&gt;central&lt;/mirrorof&gt;
+    &lt;!--镜像名称--&gt;
+    &lt;name&gt;Nexus aliyun&lt;/name&gt;
+    &lt;!--镜像URL--&gt;
+    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;
+    &lt;/mirror&gt;
+&lt;/mirrors&gt;
+</code></pre>
+<h2 id="Maven项目构建命令"><a href="#Maven项目构建命令" class="headerlink" title="Maven项目构建命令"></a>Maven项目构建命令</h2><p>Maven构建命令使用mvn开头，后面添加功能参数，可以一次执行多个命令，使用空格分隔</p>
+<pre><code class="line-numbers language-shell">mvn compile #编译
+mvn clean #清理
+mvn test #测试
+mvn package #打包
+mvn install #安装到本地仓库
+</code></pre>
+<h3 id="插件创建工程"><a href="#插件创建工程" class="headerlink" title="插件创建工程"></a>插件创建工程</h3><pre><code class="line-numbers language-shell">mvn archetype:generate -DgroupId=&#123;project-packaging&#125; -DartifactId=&#123;project-name&#125; -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+#创建java工程
+mvn archetype:generate -DgroupId=com.ecit -DartifactId=java-project DarchetypeArtifactId=maven-archetype-quickstart -Dversion=0.0.1-snapshot
+-DinteractiveMode=false
+# 创建web工程
+mvn archetype:generate -DgroupId=com.ecit -DartifactId=web-project DarchetypeArtifactId=maven-archetype-webapp -Dversion=0.0.1-snapshot
+-DinteractiveMode=false
+</code></pre>
+<h2 id="依赖传递冲突问题"><a href="#依赖传递冲突问题" class="headerlink" title="依赖传递冲突问题"></a>依赖传递冲突问题</h2><ul>
+<li><strong>路径优先：</strong>当依赖中出现相同的资源时，层级越深，优先级越低，层级越浅，优先级越高</li>
+<li><strong>声明优先：</strong>当资源在相同层级被依赖时，配置顺序靠前的覆盖配置顺序靠后的</li>
+</ul>
+<h2 id="排除依赖"><a href="#排除依赖" class="headerlink" title="排除依赖"></a>排除依赖</h2><ul>
+<li>排除依赖指主动断开依赖的资源，被排除的资源无需指定版本</li>
+</ul>
+<h2 id="依赖范围"><a href="#依赖范围" class="headerlink" title="依赖范围"></a>依赖范围</h2><ul>
+<li>依赖的jar默认情况可以在任何地方使用，可以通过scope标签设定其作用范围</li>
+<li>作用范围<br>主程序范围有效(main文件夹范围内)<br>测试程序范围有效(test文件夹范围内)<br>是否参与打包(package:指令范围内)</li>
+</ul>
+<p>|scope|  主代码 | 测试代码  |打包  |范例|<br>|compile(默认)| Y | Y | Y | 1og4j |<br>|test|  | Y |  |junit|<br>|provided| Y | Y | |servlet-api|<br>|runtime| | | Y | jdbc |</p>
+<h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><ul>
+<li>作用：聚合用于快速构建maven工程，一次性构建多个项目、模块。</li>
+</ul>
+<pre><code class="line-numbers language-text">制作方式：创建一个空模块，打包类型定义为pom
+&lt;packaging&gt;pom&lt;/packaging&gt;
+定义当前模块进行构建操作时关联的其他模块名称
+&lt;modules&gt;
+&lt;module&gt;../ssm-controller&lt;/module&gt;
+&lt;module&gt;../ssm-service&lt;/module&gt;
+&lt;module&gt;../ssm-dao&lt;/module&gt;
+&lt;module&gt;../ssm-pojo&lt;/module&gt;
+&lt;/modules&gt;
+注意事项：参与聚合操作的模块最终执行顺序与模块间的依赖关系有关，与配置顺序无关
+</code></pre>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><ul>
+<li>作用：通过继承可以实现在子工程中沿用父工程中的配置</li>
+</ul>
+<pre><code class="line-numbers language-text">制作方式：在子工程中声明其父工程坐标与对应的位置
+&lt;!--定义该工程的父工程--&gt;
+&lt;parent&gt;
+&lt;groupId&gt;com.ecit&lt;/groupId&gt;
+&lt;artifactId&gt;ssm&lt;/artifactId&gt;
+&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;!--填写父工程的pom文件--&gt;
+&lt;relativePath&gt;../ssm/pom.xml&lt;/relativePath&gt;
+&lt;/parent&gt;
+</code></pre>
+<h2 id="多环境配置"><a href="#多环境配置" class="headerlink" title="多环境配置"></a>多环境配置</h2><pre><code class="line-numbers language-xml">&lt;！--创建多环境--&gt;
+&lt;profiles&gt;
+    &lt;！--定义具体的环境：生产环境--&gt;
+    &lt;profile&gt;
+        &lt;!--定义环境对应的唯一名称--&gt;
+        &lt;id&gt;pro_env&lt;/id&gt;
+        &lt;!--定义环境中专用的属性值--&gt;
+        &lt;properties&gt;
+        &lt;jdbc.url&gt;jdbc:mysql://127.1.1.1:3306/ssm db&lt;/jdbc.url&gt;
+        &lt;/properties&gt;
+        &lt;!--设置默认启动--&gt;
+        &lt;activation&gt;
+        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+        &lt;/activation&gt;
+    &lt;/profile&gt;
+    &lt;!--定义具体的环境：开发环境--&gt;
+    &lt;profile&gt;
+        &lt;id&gt;dev env&lt;/id&gt;
+    &lt;/profile&gt;
+&lt;/profiles&gt;
+</code></pre>
+<h3 id="加载指定环境"><a href="#加载指定环境" class="headerlink" title="加载指定环境"></a>加载指定环境</h3><ul>
+<li>作用加载指定环境配置</li>
+<li>调用格式<br>mvn指令 -P 环境定义id<br>范例</li>
+</ul>
+<pre><code class="line-numbers language-shell">mvn install -P pro_env
+</code></pre>
+<ul>
+<li>跳过测试环节<pre><code class="line-numbers language-shell">mvn 指令 –D skipTests
+</code></pre>
+</li>
+</ul>
+<h2 id="私服"><a href="#私服" class="headerlink" title="私服"></a>私服</h2><ul>
+<li>Nexus是Sonatype公司的一款maven私服产品</li>
+<li>下载地址：<a target="_blank" rel="noopener" href="https://help.sonatype.com/repomanager3/download">https://help.sonatype.com/repomanager3/download</a></li>
+</ul>
+<h3 id="Nexus安装、启动与配置"><a href="#Nexus安装、启动与配置" class="headerlink" title="Nexus安装、启动与配置"></a>Nexus安装、启动与配置</h3><ul>
+<li>启动服务器（命令行启动）</li>
+</ul>
+<pre><code class="line-numbers language-shell"> nexus.exe /run nexus
+</code></pre>
+<ul>
+<li>访问服务器（默认端口：8081）<a target="_blank" rel="noopener" href="http://localhost:8081/">http://localhost:8081</a></li>
+<li>修改基础配置信息<br> 安装路径下etc目录中nexus-default.properties 文件保存有nexus:基础配置信息，例如默认访问端口<br> 修改服务器运行配置信息<br> 安装路径下bin目录中nexus.vmoptions 文件保存有nexus服务器启动对应的配置信息，例如默认占用内存空间</li>
+</ul>
+<h3 id="访问私服配置（本地仓库访问私服）"><a href="#访问私服配置（本地仓库访问私服）" class="headerlink" title="访问私服配置（本地仓库访问私服）"></a>访问私服配置（本地仓库访问私服）</h3><ul>
+<li>配置本地仓库访问私服的权限(setting.xml)</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;servers&gt;
+  &lt;server&gt;
+    &lt;id&gt;xb-release&lt;/id&gt;
+    &lt;username&gt;admin&lt;/username&gt;
+    &lt;password&gt;admin&lt;/password&gt;
+  &lt;/server&gt;
+  &lt;server&gt;
+    &lt;id&gt;xb-snapshots&lt;/id&gt;
+    &lt;username&gt;admin&lt;/username&gt;
+    &lt;password&gt;admin&lt;/password&gt;
+  &lt;/server&gt;
+&lt;/servers&gt;
+</code></pre>
+<ul>
+<li>配置本地仓库资源来源(setting.xml)</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;mirrors&gt;
+    &lt;mirror&gt;
+    &lt;id&gt;nexus-xb&lt;/id&gt;
+    &lt;mirrorOf&gt;*&lt;/mirrorof&gt;
+    &lt;url&gt;http://localhost:8081/repository/maven-public/&lt;/url&gt;
+    &lt;/mirror&gt;
+&lt;/mirrors&gt;
+</code></pre>
+<h3 id="访问私服配置（项目工程访问私服）"><a href="#访问私服配置（项目工程访问私服）" class="headerlink" title="访问私服配置（项目工程访问私服）"></a>访问私服配置（项目工程访问私服）</h3><ul>
+<li>配置当前项目访问私服上传资源的保存位置（pom.xml)</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;distributionManagement&gt;
+  &lt;repository&gt;
+    &lt;id&gt;xb-release&lt;/id&gt;
+    &lt;url&gt;http://localhost:8081/repository/xb-release/&lt;/url&gt;
+  &lt;/repository&gt;
+  &lt;snapshotRepository&gt;
+    &lt;id&gt;heima-snapshots&lt;/id&gt;
+    &lt;url&gt;http://localhost:8081/repository/xb-snapshots/&lt;/url&gt;
+  &lt;/snapshotRepository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+<ul>
+<li>发布资源到私服命令</li>
+</ul>
+<pre><code class="line-numbers language-shell">mvn deploy
+</code></pre>
 </div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2016-11-02T16:04:00.000Z" title="2016/11/3 上午12:04:00">2016-11-03</time>发表</span><span class="level-item"><time dateTime="2018-03-27T11:14:11.830Z" title="2018/3/27 下午7:14:11">2018-03-27</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></span><span class="level-item">1 分钟读完 (大约130个字)</span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2016/11/03/%E5%B7%A5%E5%85%B7/sublime/">sublime工具</a></h1><div class="content"><h2 id="html的快捷键-mac环境下"><a href="#html的快捷键-mac环境下" class="headerlink" title="html的快捷键 mac环境下"></a>html的快捷键 mac环境下</h2><ol>
 <li>html:xt+tab  自动生成HTML 4.0的整体结构文档</li>
 <li>!html + tab  自动生成HTML 5的整体结构文档</li>
