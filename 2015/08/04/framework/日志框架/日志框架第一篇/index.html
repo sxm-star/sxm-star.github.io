@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>java日志框架 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="日志文件引申的问题问题: 1.控制日志输出的内容和格式 2.控制日志输出的位置 3.日志优化:异步日志，日志文件的归档和压缩  4.日志系统的维护 5.面向接口开发 -- 日志的门面  为什么要用日志框架因为软件系统发展到今天已经很复杂了，特别是服务器端软件，涉及到的知识，内容，问题太多。在某 些方面使用别人成熟的框架，就相当于让别人帮你完成一些基础工作，你只需要集中精力完成系统的业 务逻辑设计。"><meta property="og:type" content="blog"><meta property="og:title" content="java日志框架"><meta property="og:url" content="http://example.com/2015/08/04/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%B8%80%E7%AF%87/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="日志文件引申的问题问题: 1.控制日志输出的内容和格式 2.控制日志输出的位置 3.日志优化:异步日志，日志文件的归档和压缩  4.日志系统的维护 5.面向接口开发 -- 日志的门面  为什么要用日志框架因为软件系统发展到今天已经很复杂了，特别是服务器端软件，涉及到的知识，内容，问题太多。在某 些方面使用别人成熟的框架，就相当于让别人帮你完成一些基础工作，你只需要集中精力完成系统的业 务逻辑设计。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/tools/jul%E6%9E%B6%E6%9E%84%E5%9B%BE.png"><meta property="og:image" content="http://example.com/images/tools/JUL%E6%B5%81%E7%A8%8B%E5%9B%BE.png"><meta property="article:published_time" content="2015-08-03T16:04:00.000Z"><meta property="article:modified_time" content="2022-05-13T15:29:53.347Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="日志框架"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/tools/jul%E6%9E%B6%E6%9E%84%E5%9B%BE.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2015/08/04/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%B8%80%E7%AF%87/"},"headline":"java日志框架","image":["http://example.com/images/tools/jul%E6%9E%B6%E6%9E%84%E5%9B%BE.png","http://example.com/images/tools/JUL%E6%B5%81%E7%A8%8B%E5%9B%BE.png"],"datePublished":"2015-08-03T16:04:00.000Z","dateModified":"2022-05-13T15:29:53.347Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"日志文件引申的问题问题: 1.控制日志输出的内容和格式 2.控制日志输出的位置 3.日志优化:异步日志，日志文件的归档和压缩  4.日志系统的维护 5.面向接口开发 -- 日志的门面  为什么要用日志框架因为软件系统发展到今天已经很复杂了，特别是服务器端软件，涉及到的知识，内容，问题太多。在某 些方面使用别人成熟的框架，就相当于让别人帮你完成一些基础工作，你只需要集中精力完成系统的业 务逻辑设计。"}</script><link rel="canonical" href="http://example.com/2015/08/04/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%B8%80%E7%AF%87/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>java日志框架 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="日志文件引申的问题问题: 1.控制日志输出的内容和格式 2.控制日志输出的位置 3.日志优化:异步日志，日志文件的归档和压缩  4.日志系统的维护 5.面向接口开发 -- 日志的门面  为什么要用日志框架因为软件系统发展到今天已经很复杂了，特别是服务器端软件，涉及到的知识，内容，问题太多。在某 些方面使用别人成熟的框架，就相当于让别人帮你完成一些基础工作，你只需要集中精力完成系统的业 务逻辑设计。"><meta property="og:type" content="blog"><meta property="og:title" content="java日志框架"><meta property="og:url" content="http://example.com/2015/08/04/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%B8%80%E7%AF%87/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="日志文件引申的问题问题: 1.控制日志输出的内容和格式 2.控制日志输出的位置 3.日志优化:异步日志，日志文件的归档和压缩  4.日志系统的维护 5.面向接口开发 -- 日志的门面  为什么要用日志框架因为软件系统发展到今天已经很复杂了，特别是服务器端软件，涉及到的知识，内容，问题太多。在某 些方面使用别人成熟的框架，就相当于让别人帮你完成一些基础工作，你只需要集中精力完成系统的业 务逻辑设计。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/tools/jul%E6%9E%B6%E6%9E%84%E5%9B%BE.png"><meta property="og:image" content="http://example.com/images/tools/JUL%E6%B5%81%E7%A8%8B%E5%9B%BE.png"><meta property="article:published_time" content="2015-08-03T16:04:00.000Z"><meta property="article:modified_time" content="2022-05-13T15:33:56.133Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="日志框架"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/tools/jul%E6%9E%B6%E6%9E%84%E5%9B%BE.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2015/08/04/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%B8%80%E7%AF%87/"},"headline":"java日志框架","image":["http://example.com/images/tools/jul%E6%9E%B6%E6%9E%84%E5%9B%BE.png","http://example.com/images/tools/JUL%E6%B5%81%E7%A8%8B%E5%9B%BE.png"],"datePublished":"2015-08-03T16:04:00.000Z","dateModified":"2022-05-13T15:33:56.133Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"日志文件引申的问题问题: 1.控制日志输出的内容和格式 2.控制日志输出的位置 3.日志优化:异步日志，日志文件的归档和压缩  4.日志系统的维护 5.面向接口开发 -- 日志的门面  为什么要用日志框架因为软件系统发展到今天已经很复杂了，特别是服务器端软件，涉及到的知识，内容，问题太多。在某 些方面使用别人成熟的框架，就相当于让别人帮你完成一些基础工作，你只需要集中精力完成系统的业 务逻辑设计。"}</script><link rel="canonical" href="http://example.com/2015/08/04/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%B8%80%E7%AF%87/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
   (function () {
       function switchTab() {
           if (!location.hash) {
@@ -27,7 +27,7 @@
       switchTab();
       window.addEventListener('hashchange', switchTab, false);
   })();
-  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2015-08-03T16:04:00.000Z" title="2015/8/4 上午12:04:00">2015-08-04</time>发表</span><span class="level-item"><time dateTime="2022-05-13T15:29:53.347Z" title="2022/5/13 下午11:29:53">2022-05-13</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/">日志框架</a></span><span class="level-item">30 分钟读完 (大约4549个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">java日志框架</h1><div class="content"><h2 id="日志文件引申的问题"><a href="#日志文件引申的问题" class="headerlink" title="日志文件引申的问题"></a>日志文件引申的问题</h2><pre><code class="line-numbers language-text">问题:
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2015-08-03T16:04:00.000Z" title="2015/8/4 上午12:04:00">2015-08-04</time>发表</span><span class="level-item"><time dateTime="2022-05-13T15:33:56.133Z" title="2022/5/13 下午11:33:56">2022-05-13</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/">日志框架</a></span><span class="level-item">30 分钟读完 (大约4549个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">java日志框架</h1><div class="content"><h2 id="日志文件引申的问题"><a href="#日志文件引申的问题" class="headerlink" title="日志文件引申的问题"></a>日志文件引申的问题</h2><pre><code class="line-numbers language-text">问题:
 1.控制日志输出的内容和格式
 2.控制日志输出的位置
 3.日志优化:异步日志，日志文件的归档和压缩 
@@ -372,14 +372,36 @@ Log4J中有一个特殊的logger叫做“root”，他是所有logger的根，�
 </tr>
 </tbody></table>
 <ul>
-<li><p>Appender的输出控制台，文件，数据库<br>   &#96;&#96;&#96;shell<br>#指定日志的输出级别与输出端<br>log4j.rootLogger&#x3D;INFO,Console<br>#控制台输出配置<br>log4j.appender.Console&#x3D;org.apache.log4j.ConsoleAppender<br>log4j.appender.Console.layout&#x3D;org.apache.log4j.PatternLayout<br>log4j.appender.Console.layout.ConversionPattern&#x3D;%d [%t] %-5p [%c] - %m%n</p>
-<p>#文件输出配置<br>log4j.appender.A &#x3D; org.apache.log4j.DailyRollingFileAppender<br>#指定日志的输出路径<br>log4j.appender.A.File &#x3D; D:&#x2F;log.txt<br>log4j.appender.A.Append &#x3D; true<br>#使用自定义日志格式化器<br>log4j.appender.A.layout &#x3D; org.apache.log4j.PatternLayout<br>#指定日志的输出格式<br>log4j.appender.A.layout.ConversionPattern &#x3D; %-d{yyyy-MM-dd HH:mm:ss} [%t:%r] - [%p] %m%n<br>#指定日志的文件编码<br>log4j.appender.A.encoding&#x3D;UTF-8</p>
-<p>#mysql<br>log4j.appender.logDB&#x3D;org.apache.log4j.jdbc.JDBCAppender<br>log4j.appender.logDB.layout&#x3D;org.apache.log4j.PatternLayout<br>log4j.appender.logDB.Driver&#x3D;com.mysql.jdbc.Driver<br>log4j.appender.logDB.URL&#x3D;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;test<br>log4j.appender.logDB.User&#x3D;root<br>log4j.appender.logDB.Password&#x3D;root<br>log4j.appender.logDB.Sql&#x3D;INSERT INTO<br>log(project_name,create_date,level,category,file_name,thread_name,line,all_category,message) values(‘itcast’,’%d{yyyy-MM-ddHH:mm:ss}’,’%p’,’%c’,’%F’,’%t’,’%L’,’%l’,’%m’)</p>
-</li>
+<li>Appender的输出控制台，文件，数据库</li>
 </ul>
-<pre><code>
-```sql
-CREATE TABLE `log` (
+<pre><code class="line-numbers language-shell"> #指定日志的输出级别与输出端 
+ log4j.rootLogger=INFO,Console
+ #控制台输出配置
+ log4j.appender.Console=org.apache.log4j.ConsoleAppender 
+ log4j.appender.Console.layout=org.apache.log4j.PatternLayout 
+ log4j.appender.Console.layout.ConversionPattern=%d [%t] %-5p [%c] - %m%n
+ #文件输出配置
+ log4j.appender.A = org.apache.log4j.DailyRollingFileAppender
+ #指定日志的输出路径
+ log4j.appender.A.File = D:/log.txt
+ log4j.appender.A.Append = true
+ #使用自定义日志格式化器
+ log4j.appender.A.layout = org.apache.log4j.PatternLayout
+ #指定日志的输出格式
+ log4j.appender.A.layout.ConversionPattern = %-d&#123;yyyy-MM-dd HH:mm:ss&#125; [%t:%r] - [%p] %m%n
+ #指定日志的文件编码
+ log4j.appender.A.encoding=UTF-8
+ #mysql
+ log4j.appender.logDB=org.apache.log4j.jdbc.JDBCAppender
+ log4j.appender.logDB.layout=org.apache.log4j.PatternLayout
+ log4j.appender.logDB.Driver=com.mysql.jdbc.Driver
+ log4j.appender.logDB.URL=jdbc:mysql://localhost:3306/test
+ log4j.appender.logDB.User=root
+ log4j.appender.logDB.Password=root
+ log4j.appender.logDB.Sql=INSERT INTO
+ log(project_name,create_date,level,category,file_name,thread_name,line,all_category,message) values(&#39;itcast&#39;,&#39;%d&#123;yyyy-MM-ddHH:mm:ss&#125;&#39;,&#39;%p&#39;,&#39;%c&#39;,&#39;%F&#39;,&#39;%t&#39;,&#39;%L&#39;,&#39;%l&#39;,&#39;%m&#39;)
+</code></pre>
+<pre><code class="line-numbers language-sql">CREATE TABLE `log` (
  `log_id` int(11) NOT NULL AUTO_INCREMENT,
  `project_name` varchar(255) DEFAULT NULL COMMENT &#39;目项名&#39;,
  `create_date` varchar(255) DEFAULT NULL COMMENT &#39;创建时间&#39;,
@@ -394,70 +416,76 @@ CREATE TABLE `log` (
  );
 </code></pre>
 <ul>
-<li>自定义Logger,log4j.properties配置信息示例<br>   &#96;&#96;&#96;shell<br># RootLogger配置,指定日志级别&#x3D;trace，使用的 apeender 为console<br>log4j.rootLogger &#x3D; trace,console<br># 自定义 logger 对象设置<br>log4j.logger.com.itheima &#x3D; info,console<br>log4j.logger.org.apache &#x3D; error<br># 指定控制台日志输出的 appender<br>log4j.appender.console &#x3D; org.apache.log4j.ConsoleAppender<br># 指定消息格式 layout<br>log4j.appender.console.layout &#x3D; org.apache.log4j.PatternLayout<br># 指定消息格式的内容<br>log4j.appender.console.layout.conversionPattern &#x3D; [%-10p]%r  %l %d{yyyy-MM-dd HH:mm:ss.SSS} %m%n</li>
+<li>自定义Logger,log4j.properties配置信息示例<pre><code class="line-numbers language-shell"> # RootLogger配置,指定日志级别=trace，使用的 apeender 为console
+ log4j.rootLogger = trace,console
+ # 自定义 logger 对象设置
+ log4j.logger.com.itheima = info,console
+ log4j.logger.org.apache = error
+ # 指定控制台日志输出的 appender
+ log4j.appender.console = org.apache.log4j.ConsoleAppender
+ # 指定消息格式 layout
+ log4j.appender.console.layout = org.apache.log4j.PatternLayout
+ # 指定消息格式的内容
+ log4j.appender.console.layout.conversionPattern = [%-10p]%r  %l %d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %m%n
+ # %m   输出代码中指定的日志信息
+ # %p   输出优先级，及 DEBUG、INFO 等
+ # %n   换行符（Windows平台的换行符为 &quot;\n&quot;，Unix 平台为 &quot;\n&quot;）
+ # %r   输出自应用启动到输出该 log 信息耗费的毫秒数
+ # %c   输出打印语句所属的类的全名
+ # %t   输出产生该日志的线程全名
+ # %d   输出服务器当前时间，默认为 ISO8601，也可以指定格式，如：%d&#123;yyyy年MM月dd日 HH:mm:ss&#125;
+ # %l   输出日志时间发生的位置，包括类名、线程、及在代码中的行数。如：Test.main(Test.java:10)
+ # %F   输出日志消息产生时所在的文件名称
+ # %L   输出代码中的行号
+ # %%   输出一个 &quot;%&quot; 字符
+ # 日志文件输出的 appender 对象
+ log4j.appender.file = org.apache.log4j.FileAppender
+ # 指定消息格式 layout
+ log4j.appender.file.layout = org.apache.log4j.PatternLayout
+ # 指定消息格式的内容
+ log4j.appender.file.layout.conversionPattern = [%-10p]%r  %l %d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %m%n
+ # 指定日志文件保存路径
+ log4j.appender.file.file = /logs/log4j.log
+ # 指定日志文件的字符集
+ log4j.appender.file.encoding = UTF-8
+ # 按照文件大小拆分的 appender 对象
+ # 日志文件输出的 appender 对象
+ log4j.appender.rollingFile = org.apache.log4j.RollingFileAppender
+ # 指定消息格式 layout
+ log4j.appender.rollingFile.layout = org.apache.log4j.PatternLayout
+ # 指定消息格式的内容
+ log4j.appender.rollingFile.layout.conversionPattern = [%-10p]%r  %l %d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %m%n
+ # 指定日志文件保存路径
+ log4j.appender.rollingFile.file = /logs/log4j.log
+ # 指定日志文件的字符集
+ log4j.appender.rollingFile.encoding = UTF-8
+ # 指定日志文件内容的大小
+ log4j.appender.rollingFile.maxFileSize = 1MB 
+ # 指定日志文件的数量
+ log4j.appender.rollingFile.maxBackupIndex = 10
+ # 按照时间规则拆分的 appender 对象
+ log4j.appender.dailyFile = org.apache.log4j.DailyRollingFileAppender
+ # 指定消息格式 layout
+ log4j.appender.dailyFile.layout = org.apache.log4j.PatternLayout
+ # 指定消息格式的内容
+ log4j.appender.dailyFile.layout.conversionPattern = [%-10p]%r  %l %d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %m%n
+ # 指定日志文件保存路径
+ log4j.appender.dailyFile.file = /logs/log4j.log
+ # 指定日志文件的字符集
+ log4j.appender.dailyFile.encoding = UTF-8
+ # 指定日期拆分规则
+ log4j.appender.dailyFile.datePattern = &#39;.&#39;yyyy-MM-dd-HH-mm-ss
+ #mysql
+ log4j.appender.logDB=org.apache.log4j.jdbc.JDBCAppender
+ log4j.appender.logDB.layout=org.apache.log4j.PatternLayout
+ log4j.appender.logDB.Driver=com.mysql.jdbc.Driver
+ log4j.appender.logDB.URL=jdbc:mysql://localhost:3306/test
+ log4j.appender.logDB.User=root
+ log4j.appender.logDB.Password=root
+ log4j.appender.logDB.Sql=INSERT INTO log(project_name,create_date,level,category,file_name,thread_name,line,all_category,message) values(&#39;itcast&#39;,&#39;%d&#123;yyyy-MM-dd HH:mm:ss&#125;&#39;,&#39;%p&#39;,&#39;%c&#39;,&#39;%F&#39;,&#39;%t&#39;,&#39;%L&#39;,&#39;%l&#39;,&#39;%m&#39;)
+</code></pre>
+</li>
 </ul>
-<pre><code># %m   输出代码中指定的日志信息
-# %p   输出优先级，及 DEBUG、INFO 等
-# %n   换行符（Windows平台的换行符为 &quot;\n&quot;，Unix 平台为 &quot;\n&quot;）
-# %r   输出自应用启动到输出该 log 信息耗费的毫秒数
-# %c   输出打印语句所属的类的全名
-# %t   输出产生该日志的线程全名
-# %d   输出服务器当前时间，默认为 ISO8601，也可以指定格式，如：%d&#123;yyyy年MM月dd日 HH:mm:ss&#125;
-# %l   输出日志时间发生的位置，包括类名、线程、及在代码中的行数。如：Test.main(Test.java:10)
-# %F   输出日志消息产生时所在的文件名称
-# %L   输出代码中的行号
-# %%   输出一个 &quot;%&quot; 字符
-# 日志文件输出的 appender 对象
-log4j.appender.file = org.apache.log4j.FileAppender
-# 指定消息格式 layout
-log4j.appender.file.layout = org.apache.log4j.PatternLayout
-# 指定消息格式的内容
-log4j.appender.file.layout.conversionPattern = [%-10p]%r  %l %d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %m%n
-# 指定日志文件保存路径
-log4j.appender.file.file = /logs/log4j.log
-# 指定日志文件的字符集
-log4j.appender.file.encoding = UTF-8
-
-# 按照文件大小拆分的 appender 对象
-# 日志文件输出的 appender 对象
-log4j.appender.rollingFile = org.apache.log4j.RollingFileAppender
-# 指定消息格式 layout
-log4j.appender.rollingFile.layout = org.apache.log4j.PatternLayout
-# 指定消息格式的内容
-log4j.appender.rollingFile.layout.conversionPattern = [%-10p]%r  %l %d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %m%n
-# 指定日志文件保存路径
-log4j.appender.rollingFile.file = /logs/log4j.log
-# 指定日志文件的字符集
-log4j.appender.rollingFile.encoding = UTF-8
-# 指定日志文件内容的大小
-log4j.appender.rollingFile.maxFileSize = 1MB 
-# 指定日志文件的数量
-log4j.appender.rollingFile.maxBackupIndex = 10
-
-# 按照时间规则拆分的 appender 对象
-log4j.appender.dailyFile = org.apache.log4j.DailyRollingFileAppender
-# 指定消息格式 layout
-log4j.appender.dailyFile.layout = org.apache.log4j.PatternLayout
-# 指定消息格式的内容
-log4j.appender.dailyFile.layout.conversionPattern = [%-10p]%r  %l %d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %m%n
-# 指定日志文件保存路径
-log4j.appender.dailyFile.file = /logs/log4j.log
-# 指定日志文件的字符集
-log4j.appender.dailyFile.encoding = UTF-8
-# 指定日期拆分规则
-log4j.appender.dailyFile.datePattern = &#39;.&#39;yyyy-MM-dd-HH-mm-ss
-
-#mysql
-log4j.appender.logDB=org.apache.log4j.jdbc.JDBCAppender
-log4j.appender.logDB.layout=org.apache.log4j.PatternLayout
-log4j.appender.logDB.Driver=com.mysql.jdbc.Driver
-log4j.appender.logDB.URL=jdbc:mysql://localhost:3306/test
-log4j.appender.logDB.User=root
-log4j.appender.logDB.Password=root
-log4j.appender.logDB.Sql=INSERT INTO log(project_name,create_date,level,category,file_name,thread_name,line,all_category,message) values(&#39;itcast&#39;,&#39;%d&#123;yyyy-MM-dd HH:mm:ss&#125;&#39;,&#39;%p&#39;,&#39;%c&#39;,&#39;%F&#39;,&#39;%t&#39;,&#39;%L&#39;,&#39;%l&#39;,&#39;%m&#39;)
-</code></pre>
-<pre><code>
-</code></pre>
 </div><div class="article-licensing box"><div class="licensing-title"><p>java日志框架</p><p><a href="http://example.com/2015/08/04/framework/日志框架/日志框架第一篇/">http://example.com/2015/08/04/framework/日志框架/日志框架第一篇/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2015-08-04</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-05-13</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/">日志框架</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2015/08/15/%E8%A7%84%E5%88%99%E5%BC%95%E6%93%8E/%E8%A7%84%E5%88%99%E5%BC%95%E6%93%8E-01/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">规则引擎Drools</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2015/08/03/%E5%B7%A5%E5%85%B7/eclipse/"><span class="level-item">Eclipse工具</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
             el: '#valine-thread',
             appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
