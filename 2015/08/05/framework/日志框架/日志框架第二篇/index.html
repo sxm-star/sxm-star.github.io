@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>java日志框架第二篇 - 藏经阁</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="藏经阁"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="藏经阁"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="日志门面当我们的系统变的更加复杂的时候，我们的日志就容易发生混乱。随着系统开发的进行，可能会更新不 同的日志框架，造成当前系统中存在不同的日志依赖，让我们难以统一的管理和控制。就算我们强制要 求所有的模块使用相同的日志框架，系统中也难以避免使用其他类似spring,mybatis等其他的第三方框 架，它们依赖于我们规定不同的日志框架，而且他们自身的日志系统就有着不一致性，依然会出来日志 体系的混乱"><meta property="og:type" content="blog"><meta property="og:title" content="java日志框架第二篇"><meta property="og:url" content="http://example.com/2015/08/05/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%BA%8C%E7%AF%87/"><meta property="og:site_name" content="藏经阁"><meta property="og:description" content="日志门面当我们的系统变的更加复杂的时候，我们的日志就容易发生混乱。随着系统开发的进行，可能会更新不 同的日志框架，造成当前系统中存在不同的日志依赖，让我们难以统一的管理和控制。就算我们强制要 求所有的模块使用相同的日志框架，系统中也难以避免使用其他类似spring,mybatis等其他的第三方框 架，它们依赖于我们规定不同的日志框架，而且他们自身的日志系统就有着不一致性，依然会出来日志 体系的混乱"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/images/tools/%E6%97%A5%E5%BF%97%E9%97%A8%E9%9D%A2%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB.png"><meta property="og:image" content="http://example.com/images/tools/slf4j_binding.png"><meta property="og:image" content="http://example.com/images/tools/brige_slf4j.png"><meta property="og:image" content="http://example.com/images/tools/log4j2%E5%90%8C%E6%AD%A5.png"><meta property="og:image" content="http://example.com/images/tools/Log4j%E5%BC%82%E6%AD%A5.png"><meta property="og:image" content="http://example.com/images/tools/log4j2%E6%80%A7%E8%83%BD.png"><meta property="og:image" content="http://example.com/images/tools/log4j2.5.png"><meta property="og:image" content="http://example.com/images/tools/log4j2.6.png"><meta property="og:image" content="http://example.com/images/tools/%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E5%9B%BE.png"><meta property="article:published_time" content="2015-08-04T16:04:00.000Z"><meta property="article:modified_time" content="2022-05-13T18:22:26.419Z"><meta property="article:author" content="sxm-star"><meta property="article:tag" content="日志框架"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/images/tools/%E6%97%A5%E5%BF%97%E9%97%A8%E9%9D%A2%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2015/08/05/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%BA%8C%E7%AF%87/"},"headline":"java日志框架第二篇","image":["http://example.com/images/tools/%E6%97%A5%E5%BF%97%E9%97%A8%E9%9D%A2%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB.png","http://example.com/images/tools/slf4j_binding.png","http://example.com/images/tools/brige_slf4j.png","http://example.com/images/tools/log4j2%E5%90%8C%E6%AD%A5.png","http://example.com/images/tools/Log4j%E5%BC%82%E6%AD%A5.png","http://example.com/images/tools/log4j2%E6%80%A7%E8%83%BD.png","http://example.com/images/tools/log4j2.5.png","http://example.com/images/tools/log4j2.6.png","http://example.com/images/tools/%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E5%9B%BE.png"],"datePublished":"2015-08-04T16:04:00.000Z","dateModified":"2022-05-13T18:22:26.419Z","author":{"@type":"Person","name":"sxm-star"},"publisher":{"@type":"Organization","name":"藏经阁","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"日志门面当我们的系统变的更加复杂的时候，我们的日志就容易发生混乱。随着系统开发的进行，可能会更新不 同的日志框架，造成当前系统中存在不同的日志依赖，让我们难以统一的管理和控制。就算我们强制要 求所有的模块使用相同的日志框架，系统中也难以避免使用其他类似spring,mybatis等其他的第三方框 架，它们依赖于我们规定不同的日志框架，而且他们自身的日志系统就有着不一致性，依然会出来日志 体系的混乱"}</script><link rel="canonical" href="http://example.com/2015/08/05/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%BA%8C%E7%AF%87/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2015-08-04T16:04:00.000Z" title="2015/8/5 上午12:04:00">2015-08-05</time>发表</span><span class="level-item"><time dateTime="2022-05-13T18:22:26.419Z" title="2022/5/14 上午2:22:26">2022-05-14</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a><span> / </span><a class="link-muted" href="/categories/%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/">日志框架</a></span><span class="level-item">34 分钟读完 (大约5032个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">java日志框架第二篇</h1><div class="content"><h2 id="日志门面"><a href="#日志门面" class="headerlink" title="日志门面"></a>日志门面</h2><pre><code class="line-numbers language-text">当我们的系统变的更加复杂的时候，我们的日志就容易发生混乱。随着系统开发的进行，可能会更新不 同的日志框架，造成当前系统中存在不同的日志依赖，让我们难以统一的管理和控制。就算我们强制要 求所有的模块使用相同的日志框架，系统中也难以避免使用其他类似spring,mybatis等其他的第三方框 架，它们依赖于我们规定不同的日志框架，而且他们自身的日志系统就有着不一致性，依然会出来日志 体系的混乱。
+所以我们需要借鉴JDBC的思想，为日志系统也提供一套门面，那么我们就可以面向这些接口规范来开 发，避免了直接依赖具体的日志框架。这样我们的系统在日志中，就存在了日志的门面和日志的实现。
+常见的日志门面 :
+JCL、slf4j
+常见的日志实现: JUL、log4j、logback、log4j2
+日志框架出现的历史顺序:
+log4j --&gt;JUL--&gt;JCL--&gt; slf4j --&gt; logback --&gt; log4j2
+</code></pre>
+<ul>
+<li>日志门面及其实现关系<br><img src="/images/tools/%E6%97%A5%E5%BF%97%E9%97%A8%E9%9D%A2%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB.png" alt="日志门面及其实现关系.png"></li>
+</ul>
+<span id="more"></span>
+
+<h3 id="SLF4J的使用"><a href="#SLF4J的使用" class="headerlink" title="SLF4J的使用"></a>SLF4J的使用</h3><pre><code class="line-numbers language-text">简单日志门面(Simple Logging Facade For Java) SLF4J主要是为了给Java日志访问提供一套标准、规范 的API框架，其主要意义在于提供接口，具体的实现可以交由其他日志框架，例如log4j和logback等。 当然slf4j自己也提供了功能较为简单的实现，但是一般很少用到。对于一般的Java项目而言，日志框架 会选择slf4j-api作为门面，配上具体的实现框架(log4j、logback等)，中间使用桥接器完成桥接。
+官方网站: https://www.slf4j.org/
+SLF4J是目前市面上最流行的日志门面。现在的项目中，基本上都是使用SLF4J作为我们的日志系统。
+
+SLF4J日志门面主要提供两大功能:
+1. 日志框架的绑定 
+2. 日志框架的桥接
+
+为什么要使用SLF4J作为日志门面?
+1.使用SLF4J框架，可以在部署时迁移到所需的日志记录框架。
+2.SLF4J提供了对所有流行的日志框架的绑定，例如log4j，JUL，Simple logging和NOP。因此可以在部署时切换到任何这些流行的框架。
+3.无论使用哪种绑定，SLF4J都支持参数化日志记录消息。由于SLF4J将应用程序和日志记录框架分离， 因此可以轻松编写独立于日志记录框架的应用程序。而无需担心用于编写应用程序的日志记录框架。
+4.SLF4J提供了一个简单的Java工具，称为迁移器。使用此工具，可以迁移现有项目，这些项目使用日志 框架(如Jakarta Commons Logging(JCL)或log4j或Java.util.logging(JUL))到SLF4J。
+</code></pre>
+<ul>
+<li>自带的pom简单实现<pre><code class="line-numbers language-xml">&lt;!--slf4j core 使用slf4j必須添加--&gt; 
+&lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+  &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!--slf4j 自带的简单日志实现 --&gt; 
+&lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-simple&lt;/artifactId&gt;
+  &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+</ul>
+<pre><code class="line-numbers language-java">public class Slf4jTest &#123;
+// 声明日志对象
+    public final static Logger LOGGER = LoggerFactory.getLogger(Slf4jTest.class);
+    @Test
+    public void testQuick() throws Exception &#123; //打印日志信息
+    LOGGER.error(&quot;error&quot;);
+    LOGGER.warn(&quot;warn&quot;);
+    LOGGER.info(&quot;info&quot;);
+    LOGGER.debug(&quot;debug&quot;);
+    LOGGER.trace(&quot;trace&quot;);
+    // 使用占位符输出日志信息
+    String name = &quot;jack&quot;;
+    Integer age = 18; 
+    LOGGER.info(&quot;用户:&#123;&#125;,&#123;&#125;&quot;, name, age);
+    // 将系统异常信息写入日志 
+    try &#123;
+        int i = 1 / 0;
+    &#125; catch (Exception e) &#123;
+        // e.printStackTrace();
+    LOGGER.info(&quot;出现异常:&quot;, e); 
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h4 id="绑定日志的实现"><a href="#绑定日志的实现" class="headerlink" title="绑定日志的实现"></a>绑定日志的实现</h4><pre><code class="line-numbers language-text">如前所述，SLF4J支持各种日志框架。SLF4J发行版附带了几个称为“SLF4J绑定”的jar文件，每个绑定对应
+一个受支持的框架。 使用slf4j的日志绑定流程:
+1. 添加slf4j-api的依赖
+2. 使用slf4j的API在项目中进行统一的日志记录 3. 绑定具体的日志实现框架
+1. 绑定已经实现了slf4j的日志框架,直接添加对应依赖
+2. 绑定没有实现slf4j的日志框架,先添加日志的适配器,再添加实现类的依赖
+4. slf4j有且仅有一个日志实现框架的绑定(如果出现多个默认使用第一个依赖日志实现)
+</code></pre>
+<pre><code class="line-numbers language-xml">&lt;!--slf4j core 使用slf4j必須添加--&gt; &lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+    &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- log4j--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+    &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;log4j&lt;/groupId&gt;
+    &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+    &lt;version&gt;1.2.17&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- jul --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-jdk14&lt;/artifactId&gt;
+    &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!--jcl --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-jcl&lt;/artifactId&gt;
+    &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- nop --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-nop&lt;/artifactId&gt;
+    &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="line-numbers language-text">要切换日志框架，只需替换类路径上的slf4j绑定。例如，要从java.util.logging切换到log4j，只需将 slf4j-jdk14-1.7.27.jar替换为slf4j-log4j12-1.7.27.jar即可。
+SLF4J不依赖于任何特殊的类装载。实际上，每个SLF4J绑定 都是硬连线的 以使用一个且只有 一个特定的日志记录框架。例如，slf4j-log4j12-1.7.27.jar绑定在编译时绑定以使用log4j。在您的代码 中，除了slf4j-api-1.7.27.jar ，您只需将您选择的一个且只有一个绑定放到相应的类路径位置。不要 在类路径上放置多个绑定。以下是一般概念的图解说明
+</code></pre>
+<p><img src="/images/tools/slf4j_binding.png" alt="slf4j_binding.png"></p>
+<h4 id="桥接旧的日志框架-Bridging"><a href="#桥接旧的日志框架-Bridging" class="headerlink" title="桥接旧的日志框架(Bridging)"></a>桥接旧的日志框架(Bridging)</h4><pre><code class="line-numbers language-text">通常，您依赖的某些组件依赖于SLF4J以外的日志记录API。您也可以假设这些组件在不久的将来不会切 换到SLF4J。为了解决这种情况，SLF4J附带了几个桥接模块，这些模块将对log4j，JCL和 java.util.logging API的调用重定向，就好像它们是对SLF4J API一样。
+桥接解决的是项目中日志的遗留问题，当系统中存在之前的日志API，可以通过桥接转换到slf4j的实现
+1. 先去除之前老的日志框架的依赖 
+2. 添加SLF4J提供的桥接组件
+3. 为项目添加SLF4J的具体实现
+</code></pre>
+<p><img src="/images/tools/brige_slf4j.png" alt="brige_slf4j.png"></p>
+<blockquote>
+<p>迁移的方式: 如果我们要使用SLF4J的桥接器，替换原有的日志框架，那么我们需要做的第一件事情，就是删除掉原有项目中的日志框架的依赖。然后替换成SLF4J提供的桥接器。</p>
+</blockquote>
+<p><strong>注意问题:</strong></p>
+<pre><code class="line-numbers language-text">1.jcl-over-slf4j.jar和 slf4j-jcl.jar不能同时部署。前一个jar文件将导致JCL将日志系统的选择委托给 SLF4J，后一个jar文件将导致SLF4J将日志系统的选择委托给JCL，从而导致无限循环。
+2.log4j-over-slf4j.jar和slf4j-log4j12.jar不能同时出现
+3.jul-to-slf4j.jar和slf4j-jdk14.jar不能同时出现
+4.所有的桥接都只对Logger日志记录器对象有效，如果程序中调用了内部的配置类或者是Appender,Filter等对象，将无法产生效果
+</code></pre>
+<pre><code class="line-numbers language-xml">&lt;!-- log4j--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;log4j-over-slf4j&lt;/artifactId&gt;
+    &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- jul --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;jul-to-slf4j&lt;/artifactId&gt;
+    &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!--jcl --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;jcl-over-slf4j&lt;/artifactId&gt;
+    &lt;version&gt;1.7.27&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h4 id="SLF4J原理解析"><a href="#SLF4J原理解析" class="headerlink" title="SLF4J原理解析"></a>SLF4J原理解析</h4><pre><code class="line-numbers language-text">1. SLF4J通过LoggerFactory加载日志具体的实现对象。
+2. LoggerFactory在初始化的过程中，会通过performInitialization()方法绑定具体的日志实现。
+3. 在绑定具体实现的时候，通过类加载器，加载org/slf4j/impl/StaticLoggerBinder.class
+4. 所以，只要是一个日志实现框架，在org.slf4j.impl包中提供一个自己的StaticLoggerBinder类，在其中提供具体日志实现的LoggerFactory就可以被SLF4J所加载
+</code></pre>
+<h2 id="Logback的使用"><a href="#Logback的使用" class="headerlink" title="Logback的使用"></a>Logback的使用</h2><pre><code class="line-numbers language-text">Logback是由log4j创始人设计的另一个开源日志组件，性能比log4j要好。
+官方网站:https://logback.qos.ch/index.html 
+Logback主要分为三个模块:
+logback-core:其它两个模块的基础模块 
+logback-classic:它是log4j的一个改良版本，同时它完整实现了slf4j API 
+logback-access:访问模块与Servlet容器集成提供通过Http来访问日志的功能
+后续的日志代码都是通过SLF4J日志门面搭建日志系统，所以在代码是没有区别，主要是通过修改配置 文件和pom.xml依赖
+官方提供的log4j.properties转换成logback.xml 
+https://logback.qos.ch/translator/
+</code></pre>
+<ul>
+<li><p>pom依赖</p>
+<pre><code class="line-numbers language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+  &lt;version&gt;1.7.25&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;
+  &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;
+  &lt;version&gt;1.2.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+<li><p>logback配置</p>
+</li>
+</ul>
+<pre><code class="line-numbers language-text">logback会依次读取以下类型配置文件:
+logback.groovy
+logback-test.xml
+logback.xml 
+如果均不存在会采用默认配置
+1.logback组件之间的关系
+1.Logger:日志的记录器，把它关联到应用的对应的context上后，主要用于存放日志对象，也可以定义日志类型、级别。
+2.Appender:用于指定日志输出的目的地，目的地可以是控制台、文件、数据库等等。
+3.Layout:负责把事件转换成字符串，格式化的日志信息的输出。在logback中Layout对象被封装在encoder中.
+</code></pre>
+<ul>
+<li>基本配置信息logback.xml</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+    &lt;!--
+        配置集中管理属性
+        我们可以直接改属性的 value 值
+        格式：$&#123;name&#125;
+    --&gt;
+    &lt;property name=&quot;pattern&quot; value=&quot;[%-5level] %d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %c %M %L [%thread] %m%n&quot;&gt;&lt;/property&gt;
+    &lt;!--
+    日志输出格式：
+        %-5level
+        %d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125;日期
+        %c类的完整名称
+        %M为method
+        %L为行号
+        %thread线程名称
+        %m或者%msg为信息
+        %n换行
+      --&gt;
+    &lt;!--定义日志文件保存路径属性--&gt;
+    &lt;property name=&quot;log_dir&quot; value=&quot;/logs&quot;&gt;&lt;/property&gt;
+    &lt;!--控制台日志输出的 appender--&gt;
+    &lt;appender name=&quot;console&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
+        &lt;!--控制输出流对象 默认 System.out 改为 System.err--&gt;
+        &lt;target&gt;System.err&lt;/target&gt;
+        &lt;!--日志消息格式配置--&gt;
+        &lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;
+            &lt;pattern&gt;$&#123;pattern&#125;&lt;/pattern&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+    &lt;!--日志文件输出的 appender--&gt;
+    &lt;appender name=&quot;file&quot; class=&quot;ch.qos.logback.core.FileAppender&quot;&gt;
+        &lt;!--日志文件保存路径--&gt;
+        &lt;file&gt;$&#123;log_dir&#125;/logback.log&lt;/file&gt;
+        &lt;!--日志消息格式配置--&gt;
+        &lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;
+            &lt;pattern&gt;$&#123;pattern&#125;&lt;/pattern&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+    &lt;!--html 格式日志文件输出 appender--&gt;
+    &lt;appender name=&quot;htmlFile&quot; class=&quot;ch.qos.logback.core.FileAppender&quot;&gt;
+        &lt;!--日志文件保存路径--&gt;
+        &lt;file&gt;$&#123;log_dir&#125;/logback.html&lt;/file&gt;
+        &lt;!--html 消息格式配置--&gt;
+        &lt;encoder class=&quot;ch.qos.logback.core.encoder.LayoutWrappingEncoder&quot;&gt;
+            &lt;layout class=&quot;ch.qos.logback.classic.html.HTMLLayout&quot;&gt;
+                &lt;pattern&gt;%-5level%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125;%c%M%L%thread%m&lt;/pattern&gt;
+            &lt;/layout&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+    &lt;!--日志拆分和归档压缩的 appender 对象--&gt;
+    &lt;appender name=&quot;rollFile&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;
+        &lt;!--日志文件保存路径--&gt;
+        &lt;file&gt;$&#123;log_dir&#125;/roll_logback.log&lt;/file&gt;
+        &lt;!--日志消息格式配置--&gt;
+        &lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;
+            &lt;pattern&gt;$&#123;pattern&#125;&lt;/pattern&gt;
+        &lt;/encoder&gt;
+        &lt;!--指定拆分规则--&gt;
+        &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy&quot;&gt;
+            &lt;!--按照时间和压缩格式声明拆分的文件名--&gt;
+            &lt;fileNamePattern&gt;$&#123;log_dir&#125;/rolling.%d&#123;yyyy-MM-dd&#125;.log%i.gz&lt;/fileNamePattern&gt;
+            &lt;!--按照文件大小拆分--&gt;
+            &lt;maxFileSize&gt;1MB&lt;/maxFileSize&gt;
+        &lt;/rollingPolicy&gt;
+        &lt;!--日志级别过滤器--&gt;
+        &lt;filter class=&quot;ch.qos.logback.classic.filter.LevelFilter&quot;&gt;
+            &lt;!--日志过滤规则--&gt;
+            &lt;level&gt;ERROR&lt;/level&gt;
+            &lt;onMatch&gt;ACCEPT&lt;/onMatch&gt;
+            &lt;onMismatch&gt;DENY&lt;/onMismatch&gt;
+        &lt;/filter&gt;
+    &lt;/appender&gt;
+    &lt;!--异步日志--&gt;
+    &lt;appender name=&quot;async&quot; class=&quot;ch.qos.logback.classic.AsyncAppender&quot;&gt;
+        &lt;!--指定某个具体的 appender--&gt;
+        &lt;appender-ref ref=&quot;rollFile&quot;/&gt;
+    &lt;/appender&gt;
+    &lt;!--root logger 配置--&gt;
+    &lt;root level=&quot;ALL&quot;&gt;
+        &lt;appender-ref ref=&quot;console&quot;/&gt;
+        &lt;appender-ref ref=&quot;async&quot;/&gt;
+    &lt;/root&gt;
+    &lt;!--自定义 looger 对象
+        additivity=&quot;false&quot; 自定义 logger 对象是否继承 rootLogger
+     --&gt;
+    &lt;logger name=&quot;com.ecit&quot; level=&quot;info&quot; additivity=&quot;false&quot;&gt;
+        &lt;appender-ref ref=&quot;console&quot;/&gt;
+    &lt;/logger&gt;
+&lt;/configuration&gt;
+</code></pre>
+<ul>
+<li>logback-access的使用</li>
+</ul>
+<pre><code class="line-numbers language-text">logback-access模块与Servlet容器(如Tomcat和Jetty)集成，以提供HTTP访问日志功能。我们可以使用logback-access模块来替换tomcat的访问日志。
+1. 将logback-access.jar与logback-core.jar复制到$TOMCAT_HOME/lib/目录下
+2. 修改$TOMCAT_HOME/conf/server.xml中的Host元素中添加
+&lt;Valve className=&quot;ch.qos.logback.access.tomcat.LogbackValve&quot; /&gt;
+官方配置: https://logback.qos.ch/access.html#configuration
+</code></pre>
+<p>logback默认会在$TOMCAT_HOME&#x2F;conf下查找文件<br>logback-access.xml</p>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+  &lt;!-- always a good activate OnConsoleStatusListener --&gt;
+  &lt;statusListener class=&quot;ch.qos.logback.core.status.OnConsoleStatusListener&quot;/&gt; 
+  &lt;property name=&quot;LOG_DIR&quot; value=&quot;$&#123;catalina.base&#125;/logs&quot;/&gt;
+  &lt;appender name=&quot;FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;
+    &lt;file&gt;$&#123;LOG_DIR&#125;/access.log&lt;/file&gt;
+    &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;
+      &lt;fileNamePattern&gt;access.%d&#123;yyyy-MM-dd&#125;.log.zip&lt;/fileNamePattern&gt;
+    &lt;/rollingPolicy&gt;
+    &lt;encoder&gt;
+      &lt;pattern&gt;combined&lt;/pattern&gt;
+    &lt;/encoder&gt;
+  &lt;/appender&gt;
+  &lt;appender-ref ref=&quot;FILE&quot;/&gt;
+&lt;/configuration&gt;
+</code></pre>
+<h2 id="log4j2的使用"><a href="#log4j2的使用" class="headerlink" title="log4j2的使用"></a>log4j2的使用</h2><pre><code class="line-numbers language-text">Apache Log4j 2是对Log4j的升级版，参考了logback的一些优秀的设计，并且修复了一些问题，因此带 来了一些重大的提升，主要有:
+异常处理，在logback中，Appender中的异常不会被应用感知到，但是在log4j2中，提供了一些异 常处理机制。
+性能提升， log4j2相较于log4j 和logback都具有很明显的性能提升，后面会有官方测试的数据。 自动重载配置，参考了logback的设计，当然会提供自动刷新参数配置，
+最实用的就是我们在生产上可以动态的修改日志的级别而不需要重启应用。 无垃圾机制，log4j2在大部分情况下，都可以使用其设计的一套无垃圾机制，避免频繁的日志收集导致的jvm gc。
+官网: https://logging.apache.org/log4j/2.x/
+目前市面上最主流的日志门面就是SLF4J，虽然Log4j2也是日志门面，因为它的日志实现功能非常强大，性能优越。所以大家一般还是将Log4j2看作是日志的实现，Slf4j + Log4j2应该是未来的大势所趋
+</code></pre>
+<ul>
+<li>log4j2门面pom依赖</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;!-- Log4j2 门面API--&gt; 
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;
+    &lt;artifactId&gt;log4j-api&lt;/artifactId&gt;
+    &lt;version&gt;2.11.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- Log4j2 日志实现 --&gt; 
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;
+    &lt;artifactId&gt;log4j-core&lt;/artifactId&gt;
+    &lt;version&gt;2.11.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<ul>
+<li>使用slf4j作为日志的门面,使用log4j2作为日志的实现</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;!--使用slf4j作为日志的门面,使用log4j2来记录日志 --&gt; 
+&lt;dependency&gt;
+    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+    &lt;version&gt;1.7.25&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!--为slf4j绑定日志实现 log4j2的适配器 --&gt; 
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;
+    &lt;artifactId&gt;log4j-slf4j-impl&lt;/artifactId&gt;
+    &lt;version&gt;2.10.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<ul>
+<li>Log4j2配置<blockquote>
+<p>log4j2默认加载classpath下的 log4j2.xml 文件中的配置</p>
+</blockquote>
+</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!--
+    status=&quot;warn&quot; 日志框架本身的输出日志级别
+    monitorInterval=&quot;5&quot; 自动加载配置文件的间隔时间，不低于 5 秒
+--&gt;
+&lt;Configuration status=&quot;debug&quot; monitorInterval=&quot;5&quot;&gt;
+    &lt;!--
+        集中配置属性进行管理
+        使用时通过:$&#123;name&#125;
+    --&gt;
+    &lt;properties&gt;
+        &lt;property name=&quot;LOG_HOME&quot;&gt;/logs&lt;/property&gt;
+    &lt;/properties&gt;
+    &lt;!--日志处理--&gt;
+    &lt;Appenders&gt;
+        &lt;!--控制台输出 appender--&gt;
+        &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_ERR&quot;&gt;
+            &lt;PatternLayout pattern=&quot;%d&#123;HH:mm:ss.SSS&#125; [%t] [%-5level] %c&#123;36&#125;:%L --- %m%n&quot; /&gt;
+        &lt;/Console&gt;
+        &lt;!--日志文件输出 appender--&gt;
+        &lt;File name=&quot;file&quot; fileName=&quot;$&#123;LOG_HOME&#125;/myfile.log&quot;&gt;
+            &lt;PatternLayout pattern=&quot;[%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125;] [%-5level] %l %c&#123;36&#125; - %m%n&quot; /&gt;
+        &lt;/File&gt;
+        &lt;!--&lt;Async name=&quot;Async&quot;&gt;--&gt;
+            &lt;!--&lt;AppenderRef ref=&quot;file&quot;/&gt;--&gt;
+        &lt;!--&lt;/Async&gt;--&gt;
+        &lt;!--使用随机读写流的日志文件输出 appender，性能提高--&gt;
+        &lt;RandomAccessFile name=&quot;accessFile&quot; fileName=&quot;$&#123;LOG_HOME&#125;/myAcclog.log&quot;&gt;
+            &lt;PatternLayout pattern=&quot;[%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125;] [%-5level] %l %c&#123;36&#125; - %m%n&quot; /&gt;
+        &lt;/RandomAccessFile&gt;
+        &lt;!--按照一定规则拆分的日志文件的 appender--&gt;
+        &lt;RollingFile name=&quot;rollingFile&quot; fileName=&quot;$&#123;LOG_HOME&#125;/myrollog.log&quot;
+                     filePattern=&quot;/logs/$$&#123;date:yyyy-MM-dd&#125;/myrollog-%d&#123;yyyy-MM-dd-HH-mm&#125;-%i.log&quot;&gt;
+            &lt;!--日志级别过滤器--&gt;
+            &lt;ThresholdFilter level=&quot;debug&quot; onMatch=&quot;ACCEPT&quot; onMismatch=&quot;DENY&quot; /&gt;
+            &lt;!--日志消息格式--&gt;
+            &lt;PatternLayout pattern=&quot;[%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125;] [%-5level] %l %c&#123;36&#125; - %msg%n&quot; /&gt;
+            &lt;Policies&gt;
+                &lt;!--在系统启动时，出发拆分规则，生产一个新的日志文件--&gt;
+                &lt;OnStartupTriggeringPolicy /&gt;
+                &lt;!--按照文件大小拆分，10MB --&gt;
+                &lt;SizeBasedTriggeringPolicy size=&quot;10 MB&quot; /&gt;
+                &lt;!--按照时间节点拆分，规则根据filePattern定义的--&gt;
+                &lt;TimeBasedTriggeringPolicy /&gt;
+            &lt;/Policies&gt;
+            &lt;!--在同一个目录下，文件的个数限定为 30 个，超过进行覆盖--&gt;
+            &lt;DefaultRolloverStrategy max=&quot;30&quot; /&gt;
+        &lt;/RollingFile&gt;
+    &lt;/Appenders&gt;
+    &lt;!--logger 定义--&gt;
+    &lt;Loggers&gt;
+        &lt;!--自定义异步 logger 对象
+            includeLocation=&quot;false&quot; 关闭日志记录的行号信息
+            additivity=&quot;false&quot; 不在继承 rootlogger 对象
+        --&gt;
+         &lt;AsyncLogger name=&quot;com.ecit&quot; level=&quot;trace&quot; includeLocation=&quot;true&quot; additivity=&quot;false&quot;&gt;&lt;!--如此配置: com.ecit 日志是异步的，root日志是同步的。 --&gt;
+            &lt;AppenderRef ref=&quot;file&quot;/&gt;
+        &lt;/AsyncLogger&gt;
+        &lt;!--使用 rootLogger 配置 日志级别 level=&quot;trace&quot;--&gt;
+        &lt;Root level=&quot;trace&quot;&gt;
+            &lt;!--指定日志使用的处理器--&gt;
+            &lt;AppenderRef ref=&quot;file&quot; /&gt;
+            &lt;!--使用异步 appender--&gt;
+            &lt;AppenderRef ref=&quot;Async&quot; /&gt;
+        &lt;/Root&gt;
+    &lt;/Loggers&gt;
+&lt;/Configuration&gt;
+</code></pre>
+<ul>
+<li>Log4j2异步日志<blockquote>
+<p>log4j2最大的特点就是异步日志，其性能的提升主要也是从异步日志中受益，我们来看看如何使用 log4j2的异步日志<br><strong>同步日志</strong><br><img src="/images/tools/log4j2%E5%90%8C%E6%AD%A5.png" alt="log4j2同步.png"><br><strong>异步日志</strong><br><img src="/images/tools/Log4j%E5%BC%82%E6%AD%A5.png" alt="Log4j异步.png"></p>
+</blockquote>
+</li>
+</ul>
+<p><strong>Log4j2提供了两种实现日志的方式，一个是通过AsyncAppender，一个是通过AsyncLogger，分别对应 前面我们说的Appender组件和Logger组件。</strong></p>
+<h3 id="配置异步日志需要添加额外依赖"><a href="#配置异步日志需要添加额外依赖" class="headerlink" title="配置异步日志需要添加额外依赖"></a>配置异步日志需要添加额外依赖</h3><pre><code class="line-numbers language-xml">&lt;!--异步日志依赖--&gt; 
+&lt;dependency&gt;
+    &lt;groupId&gt;com.lmax&lt;/groupId&gt;
+    &lt;artifactId&gt;disruptor&lt;/artifactId&gt;
+    &lt;version&gt;3.3.4&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<ul>
+<li>AsyncLogger方式<br><strong>全局异步</strong></li>
+</ul>
+<pre><code class="line-numbers language-text">AsyncLogger才是log4j2 的重头戏，也是官方推荐的异步方式。它可以使得调用Logger.log返回的更快。你可以有两种选择:全局异步和混合异步。 全局异步就是，所有的日志都异步的记录，在配置文件上不用做任何改动，只需要添加一个log4j2.component.properties 配置;
+Log4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+</code></pre>
+<p><strong>混合异步</strong><br>就是，你可以在应用中同时使用同步日志和异步日志，这使得日志的配置方式更加灵活。如配置: com.ecit 日志是异步的，root日志是同步的。<br>log4j2.xml</p>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;Configuration status=&quot;WARN&quot;&gt;
+  &lt;properties&gt;
+    &lt;property name=&quot;LOG_HOME&quot;&gt;D:/logs&lt;/property&gt;
+  &lt;/properties&gt;
+  &lt;Appenders&gt;
+    &lt;File name=&quot;file&quot; fileName=&quot;$&#123;LOG_HOME&#125;/myfile.log&quot;&gt;
+      &lt;PatternLayout&gt;
+        &lt;Pattern&gt;%d %p %c&#123;1.&#125; [%t] %m%n&lt;/Pattern&gt;
+      &lt;/PatternLayout&gt;
+    &lt;/File&gt;
+    &lt;Async name=&quot;Async&quot;&gt;
+      &lt;AppenderRef ref=&quot;file&quot;/&gt;
+    &lt;/Async&gt;
+  &lt;/Appenders&gt;
+  &lt;Loggers&gt;
+    &lt;AsyncLogger name=&quot;com.ecit&quot; level=&quot;trace&quot; includeLocation=&quot;true&quot; additivity=&quot;false&quot;&gt;
+      &lt;AppenderRef ref=&quot;file&quot;/&gt;
+    &lt;/AsyncLogger&gt;
+    &lt;Root level=&quot;info&quot; includeLocation=&quot;true&quot;&gt;
+      &lt;AppenderRef ref=&quot;file&quot;/&gt;
+    &lt;/Root&gt;
+  &lt;/Loggers&gt;
+&lt;/Configuration&gt;
+</code></pre>
+<ul>
+<li>补充AsyncAppender方式</li>
+</ul>
+<pre><code class="line-numbers language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;Configuration status=&quot;warn&quot;&gt;
+    &lt;properties&gt;
+        &lt;property name=&quot;LOG_HOME&quot;&gt;D:/logs&lt;/property&gt;
+    &lt;/properties&gt;
+    &lt;Appenders&gt;
+        &lt;File name=&quot;file&quot; fileName=&quot;$&#123;LOG_HOME&#125;/myfile.log&quot;&gt;
+            &lt;PatternLayout&gt;
+                &lt;Pattern&gt;%d %p %c&#123;1.&#125; [%t] %m%n&lt;/Pattern&gt;
+            &lt;/PatternLayout&gt;
+        &lt;/File&gt;
+        &lt;Async name=&quot;Async&quot;&gt;
+            &lt;AppenderRef ref=&quot;file&quot;/&gt;
+        &lt;/Async&gt;
+    &lt;/Appenders&gt;
+    &lt;Loggers&gt;
+        &lt;Root level=&quot;error&quot;&gt;
+         &lt;AppenderRef ref=&quot;Async&quot;/&gt;
+        &lt;/Root&gt;
+    &lt;/Loggers&gt;
+&lt;/Configuration&gt;        
+</code></pre>
+<h3 id="使用异步日志需要注意的问题"><a href="#使用异步日志需要注意的问题" class="headerlink" title="使用异步日志需要注意的问题"></a>使用异步日志需要注意的问题</h3><pre><code class="line-numbers language-text">1.如果使用异步日志，AsyncAppender、AsyncLogger和全局日志，不要同时出现。性能会和 AsyncAppender一致，降至最低。
+2.设置includeLocation=false ，打印位置信息会急剧降低异步日志的性能，比同步日志还要慢。
+</code></pre>
+<h3 id="Log4j2的性能"><a href="#Log4j2的性能" class="headerlink" title="Log4j2的性能"></a>Log4j2的性能</h3><pre><code class="line-numbers language-text">Log4j2最牛的地方在于异步输出日志时的性能表现，Log4j2在多线程的环境下吞吐量与Log4j和 Logback的比较如下图。下图比较中Log4j2有三种模式:
+1)全局使用异步模式;
+2)部分Logger采用异步模式;
+3)异步Appender。
+可以看出在前两种模式下，Log4j2的性能较之Log4j和Logback有很大的优势。
+</code></pre>
+<p><img src="/images/tools/log4j2%E6%80%A7%E8%83%BD.png" alt="log4j2性能.png"></p>
+<ul>
+<li>无垃圾记录</li>
+</ul>
+<pre><code class="line-numbers language-text">垃圾收集暂停是延迟峰值的常见原因，并且对于许多系统而言，花费大量精力来控制这些暂停。
+许多日志库(包括以前版本的Log4j)在稳态日志记录期间分配临时对象，如日志事件对象，字符串， 字符数组，字节数组等。这会对垃圾收集器造成压力并增加GC暂停发生的频率。
+从版本2.6开始，默认情况下Log4j以“无垃圾”模式运行，其中重用对象和缓冲区，并且尽可能不分配临 时对象。还有一个“低垃圾”模式，它不是完全无垃圾，但不使用ThreadLocal字段。
+Log4j 2.6中的无垃圾日志记录部分通过重用ThreadLocal字段中的对象来实现，部分通过在将文本转换 为字节时重用缓冲区来实现
+</code></pre>
+<p><strong>使用Log4j 2.5:内存分配速率809 MB &#x2F;秒，141个无效集合。</strong><br><img src="/images/tools/log4j2.5.png" alt="log4j2.5.png"></p>
+<p><strong>Log4j 2.6没有分配临时对象:0(零)垃圾回收</strong><br><img src="/images/tools/log4j2.6.png" alt="log4j2.6.png"></p>
+<pre><code class="line-numbers language-text">有两个单独的系统属性可用于手动控制Log4j用于避免创建临时对象的机制:
+log4j2.enableThreadlocals - 如果“true”(非Web应用程序的默认值)对象存储在 ThreadLocal字段中并重新使用，否则将为每个日志事件创建新对象。
+log4j2.enableDirectEncoders - 如果将“true”(默认)日志事件转换为文本，则将此文本转换 为字节而不创建临时对象。注意: 由于共享缓冲区上的同步，在此模式下多线程应用程序的 日志记录性能可能更差。如果您的应用程序是多线程的并且日志记录性能很重要，请考虑使用异步 记录器。
+</code></pre>
+<h2 id="SpringBoot中的日志使用"><a href="#SpringBoot中的日志使用" class="headerlink" title="SpringBoot中的日志使用"></a>SpringBoot中的日志使用</h2><pre><code class="line-numbers language-text">springboot框架在企业中的使用越来越普遍，springboot日志也是开发中常用的日志系统。springboot默认就是使用SLF4J作为日志门面，logback作为日志实现来记录日志。
+</code></pre>
+<h3 id="springboot默认logback"><a href="#springboot默认logback" class="headerlink" title="springboot默认logback"></a>springboot默认logback</h3><ul>
+<li><p>pom依赖</p>
+<pre><code class="line-numbers language-xml">&lt;dependency&gt;
+  &lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+<li><p>依赖关系图<br><img src="/images/tools/%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E5%9B%BE.png" alt="依赖关系图.png"></p>
+</li>
+</ul>
+<pre><code class="line-numbers language-text">总结:
+1. springboot 底层默认使用logback作为日志实现。
+2. 使用了SLF4J作为日志门面
+3. 将JUL也转换成slf4j
+4. 也可以使用log4j2作为日志门面，但是最终也是通过slf4j调用logback
+</code></pre>
+<ul>
+<li>修改默认日志配置</li>
+</ul>
+<pre><code class="line-numbers language-shell">logging.level.com.ecit=trace
+# 在控制台输出的日志的格式 同logback
+logging.pattern.console=%d&#123;yyyy-MM-dd&#125; [%thread] [%-5level] %logger&#123;50&#125; -%msg%n
+# 指定文件中日志输出的格式
+logging.file=/logs/springboot.log
+logging.pattern.file=%d&#123;yyyy-MM-dd&#125; [%thread] %-5level %logger&#123;50&#125; - %msg%n
+</code></pre>
+<ul>
+<li>指定配置<br>给类路径下放上每个日志框架自己的配置文件;SpringBoot就不使用默认配置的了</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">日志框架</th>
+<th align="center">配置文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Logback</td>
+<td align="center">logback-spring.xml , logback.xml</td>
+</tr>
+<tr>
+<td align="center">Log4j2</td>
+<td align="center">log4j2-spring.xml ， log4j2.xml</td>
+</tr>
+<tr>
+<td align="center">JUL</td>
+<td align="center">logging.properties</td>
+</tr>
+</tbody></table>
+<h3 id="springboot将日志切换为log4j2"><a href="#springboot将日志切换为log4j2" class="headerlink" title="springboot将日志切换为log4j2"></a>springboot将日志切换为log4j2</h3><pre><code class="line-numbers language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;exclusions&gt;
+&lt;!--排除logback--&gt; 
+    &lt;exclusion&gt;
+            &lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;/exclusion&gt;
+    &lt;/exclusions&gt;
+&lt;/dependency&gt;
+&lt;!-- 添加log4j2 --&gt; 
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+</div><div class="article-licensing box"><div class="licensing-title"><p>java日志框架第二篇</p><p><a href="http://example.com/2015/08/05/framework/日志框架/日志框架第二篇/">http://example.com/2015/08/05/framework/日志框架/日志框架第二篇/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>sxm-star</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2015-08-05</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2022-05-14</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/">日志框架</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2015/08/15/%E8%A7%84%E5%88%99%E5%BC%95%E6%93%8E/%E8%A7%84%E5%88%99%E5%BC%95%E6%93%8E-01/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">规则引擎Drools</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2015/08/04/framework/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E7%AC%AC%E4%B8%80%E7%AF%87/"><span class="level-item">java日志框架</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn.jsdelivr.net/npm/leancloud-storage@3/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread',
+            appId: "IfrP2z24klBnzSqFsYHnXGcR-gzGzoHsz",
+            appKey: "oc5OS3irrT5ytSoVIXaSFDxI",
+            placeholder: "请留言...",
+            avatar: "mm",
+            avatarForce: false,
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            visitor: false,
+            highlight: true,
+            recordIP: false,
+            
+            
+            
+            enableQQ: false,
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.png" alt="sxm-star"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">sxm-star</p><p class="is-size-6 is-block">见路非路,即见因果,见相非相,即见如来</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Asia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">203</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">98</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">65</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/ppoffice"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><link href="/music/APlayer.min.css"><div id="aplayer" style="margin: 0 auto;"></div><script src="/music/APlayer.min.js"></script><script src="/music/APlayer_Music.js"></script></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#日志门面"><span class="level-left"><span class="level-item">1</span><span class="level-item">日志门面</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#SLF4J的使用"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">SLF4J的使用</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#绑定日志的实现"><span class="level-left"><span class="level-item">1.1.1</span><span class="level-item">绑定日志的实现</span></span></a></li><li><a class="level is-mobile" href="#桥接旧的日志框架-Bridging"><span class="level-left"><span class="level-item">1.1.2</span><span class="level-item">桥接旧的日志框架(Bridging)</span></span></a></li><li><a class="level is-mobile" href="#SLF4J原理解析"><span class="level-left"><span class="level-item">1.1.3</span><span class="level-item">SLF4J原理解析</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#Logback的使用"><span class="level-left"><span class="level-item">2</span><span class="level-item">Logback的使用</span></span></a></li><li><a class="level is-mobile" href="#log4j2的使用"><span class="level-left"><span class="level-item">3</span><span class="level-item">log4j2的使用</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#配置异步日志需要添加额外依赖"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">配置异步日志需要添加额外依赖</span></span></a></li><li><a class="level is-mobile" href="#使用异步日志需要注意的问题"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">使用异步日志需要注意的问题</span></span></a></li><li><a class="level is-mobile" href="#Log4j2的性能"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">Log4j2的性能</span></span></a></li></ul></li><li><a class="level is-mobile" href="#SpringBoot中的日志使用"><span class="level-left"><span class="level-item">4</span><span class="level-item">SpringBoot中的日志使用</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#springboot默认logback"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">springboot默认logback</span></span></a></li><li><a class="level is-mobile" href="#springboot将日志切换为log4j2"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">springboot将日志切换为log4j2</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/C%E8%AF%AD%E8%A8%80/"><span class="level-start"><span class="level-item">C语言</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/Groovy/"><span class="level-start"><span class="level-item">Groovy</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVAEE/"><span class="level-start"><span class="level-item">JAVAEE</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/"><span class="level-start"><span class="level-item">JAVASE</span></span><span class="level-end"><span class="level-item tag">49</span></span></a><ul><li><a class="level is-mobile" href="/categories/JAVASE/IO%E6%B5%81/"><span class="level-start"><span class="level-item">IO流</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/JDBC/"><span class="level-start"><span class="level-item">JDBC</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="level-start"><span class="level-item">国际化应用</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2/"><span class="level-start"><span class="level-item">图形界面</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="level-start"><span class="level-item">基础语法</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><span class="level-start"><span class="level-item">多线程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/"><span class="level-start"><span class="level-item">常用类库</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6/"><span class="level-start"><span class="level-item">异常机制</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E6%96%B0%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">新特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="level-start"><span class="level-item">网络编程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%98%9F%E5%88%97%E4%B8%8E%E6%A0%88/"><span class="level-start"><span class="level-item">队列与栈</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9B%86%E5%90%88/"><span class="level-start"><span class="level-item">集合</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="level-start"><span class="level-item">面向对象</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/JAVASE/%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="level-start"><span class="level-item">高级特性</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/JVM/"><span class="level-start"><span class="level-item">JVM</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/"><span class="level-start"><span class="level-item">MAC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/MAC/Homebrew/"><span class="level-start"><span class="level-item">Homebrew</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/MAC/%E5%BD%A9%E8%9B%8B%E9%97%B2%E8%81%8A/"><span class="level-start"><span class="level-item">彩蛋闲聊</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/PHP/"><span class="level-start"><span class="level-item">PHP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/PHP/%E6%95%B4%E4%BD%93%E4%BA%86%E8%A7%A3/"><span class="level-start"><span class="level-item">整体了解</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/docker/"><span class="level-start"><span class="level-item">docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/node/"><span class="level-start"><span class="level-item">node</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react-native/"><span class="level-start"><span class="level-item">react native</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="level-start"><span class="level-item">业务领域</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="level-start"><span class="level-item">中间件</span></span><span class="level-end"><span class="level-item tag">13</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/NFS%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"><span class="level-start"><span class="level-item">NFS网络文件系统</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/"><span class="level-start"><span class="level-item">nginx</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/"><span class="level-start"><span class="level-item">nosql</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/"><span class="level-start"><span class="level-item">redis</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-RocketMQ/"><span class="level-start"><span class="level-item">消息中间件-RocketMQ</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BA%A7%E5%93%81%E5%BF%83%E5%BE%97/"><span class="level-start"><span class="level-item">产品心得</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/"><span class="level-start"><span class="level-item">前端</span></span><span class="level-end"><span class="level-item tag">17</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/CSS/"><span class="level-start"><span class="level-item">CSS</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/"><span class="level-start"><span class="level-item">HTML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/HTML/%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%9D%BF/"><span class="level-start"><span class="level-item">后台模板</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/Vue/"><span class="level-start"><span class="level-item">Vue</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/XML/"><span class="level-start"><span class="level-item">XML</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/bootstrap/"><span class="level-start"><span class="level-item">bootstrap</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">项目构建工具</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">前端项目</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%A1%88%E4%BE%8B/"><span class="level-start"><span class="level-item">在线教育平台案例</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%AE%89%E5%8D%93/"><span class="level-start"><span class="level-item">安卓</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="level-start"><span class="level-item">工具</span></span><span class="level-end"><span class="level-item tag">11</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/Photoshop/"><span class="level-start"><span class="level-item">Photoshop</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/gradle/"><span class="level-start"><span class="level-item">gradle</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%B7%A5%E5%85%B7/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7maven/"><span class="level-start"><span class="level-item">项目管理工具maven</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/"><span class="level-start"><span class="level-item">建模</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BB%BA%E6%A8%A1/UML/"><span class="level-start"><span class="level-item">UML</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/"><span class="level-start"><span class="level-item">微信开放平台</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="level-start"><span class="level-item">微信小程序</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/"><span class="level-start"><span class="level-item">微信支付</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="level-start"><span class="level-item">微服务</span></span><span class="level-end"><span class="level-item tag">15</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/SpringCloud/"><span class="level-start"><span class="level-item">SpringCloud</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springboot%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">springboot框架</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/"><span class="level-start"><span class="level-item">MySQL</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">嵌入式数据库</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/commons-dbutils%E5%B7%A5%E5%85%B7%E7%B1%BB/"><span class="level-start"><span class="level-item">commons-dbutils工具类</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/"><span class="level-start"><span class="level-item">数据库连接池</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="level-start"><span class="level-item">数据结构</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="level-start"><span class="level-item">概论和复杂度</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">框架</span></span><span class="level-end"><span class="level-item tag">16</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringBatch/"><span class="level-start"><span class="level-item">SpringBatch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/SpringMVC/"><span class="level-start"><span class="level-item">SpringMVC</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/spring/"><span class="level-start"><span class="level-item">spring</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"><span class="level-start"><span class="level-item">全文检索</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/lucene/"><span class="level-start"><span class="level-item">lucene</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/solr/"><span class="level-start"><span class="level-item">solr</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">安全框架</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/shiro/"><span class="level-start"><span class="level-item">shiro</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/spring-security/"><span class="level-start"><span class="level-item">spring-security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="level-start"><span class="level-item">数据持久层</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%B1%82/mybatis%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">mybatis框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%A1%86%E6%9E%B6/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/"><span class="level-start"><span class="level-item">日志框架</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E6%B5%8B%E8%AF%95%E4%B8%93%E6%A0%8F/"><span class="level-start"><span class="level-item">测试专栏</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/"><span class="level-start"><span class="level-item">网络爬虫</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="level-start"><span class="level-item">英语天地</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"><span class="level-start"><span class="level-item">计算机原理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/"><span class="level-start"><span class="level-item">汇编</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">设计模式</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">结构型模式</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/"><span class="level-start"><span class="level-item">行为型模式</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"><span class="level-start"><span class="level-item">软件设计</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/"><span class="level-start"><span class="level-item">随笔</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/"><span class="level-start"><span class="level-item">右脑开发</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/"><span class="level-start"><span class="level-item">项目</span></span><span class="level-end"><span class="level-item tag">4</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE/%E6%95%88%E7%8E%87/"><span class="level-start"><span class="level-item">效率</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/"><span class="level-start"><span class="level-item">项目构建管理</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E7%AE%A1%E7%90%86/JUnit/"><span class="level-start"><span class="level-item">JUnit</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-12-01T13:12:06.000Z">2020-12-01</time></p><p class="title"><a href="/2020/12/01/%E6%B1%87%E7%BC%96/%E6%B5%85%E8%B0%88%E8%BE%85%E5%8A%A9/">浅谈辅助</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-11-01T13:12:06.000Z">2020-11-01</time></p><p class="title"><a href="/2020/11/01/%E6%B1%87%E7%BC%96/review-%E6%B1%87%E7%BC%96/">重温汇编</a></p><p class="categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/">计算机原理</a> / <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/%E6%B1%87%E7%BC%96/">汇编</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-10-20T08:52:17.000Z">2020-10-20</time></p><p class="title"><a href="/2020/10/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%B8%80%E7%AF%87/">重温数据结构--概论和复杂度</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A6%82%E8%AE%BA%E5%92%8C%E5%A4%8D%E6%9D%82%E5%BA%A6/">概论和复杂度</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-07-06T06:00:00.000Z">2020-07-06</time></p><p class="title"><a href="/2020/07/06/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p><p class="categories"><a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a> / <a href="/categories/%E9%9A%8F%E7%AC%94/%E5%8F%B3%E8%84%91%E5%BC%80%E5%8F%91/">右脑开发</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-06-29T08:11:35.896Z">2020-06-29</time></p><p class="title"><a href="/2020/06/29/%E5%89%8D%E7%AB%AF/%E5%89%8D%E5%8F%B0%E6%B8%B2%E6%9F%93%E6%A8%A1%E6%9D%BF/thymeleaf/"> </a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/11/"><span class="level-start"><span class="level-item">十一月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/10/"><span class="level-start"><span class="level-item">十月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">六月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/12/"><span class="level-start"><span class="level-item">十二月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/11/"><span class="level-start"><span class="level-item">十一月 2018</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/10/"><span class="level-start"><span class="level-item">十月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/08/"><span class="level-start"><span class="level-item">八月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/06/"><span class="level-start"><span class="level-item">六月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2016/03/"><span class="level-start"><span class="level-item">三月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/11/"><span class="level-start"><span class="level-item">十一月 2015</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/10/"><span class="level-start"><span class="level-item">十月 2015</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/08/"><span class="level-start"><span class="level-item">八月 2015</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/07/"><span class="level-start"><span class="level-item">七月 2015</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/02/"><span class="level-start"><span class="level-item">二月 2015</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2015/01/"><span class="level-start"><span class="level-item">一月 2015</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/11/"><span class="level-start"><span class="level-item">十一月 2014</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/10/"><span class="level-start"><span class="level-item">十月 2014</span></span><span class="level-end"><span class="level-item tag">18</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/09/"><span class="level-start"><span class="level-item">九月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/07/"><span class="level-start"><span class="level-item">七月 2014</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/04/"><span class="level-start"><span class="level-item">四月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2014/03/"><span class="level-start"><span class="level-item">三月 2014</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/11/"><span class="level-start"><span class="level-item">十一月 2013</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/10/"><span class="level-start"><span class="level-item">十月 2013</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/09/"><span class="level-start"><span class="level-item">九月 2013</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/archives/2013/04/"><span class="level-start"><span class="level-item">四月 2013</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/12/"><span class="level-start"><span class="level-item">十二月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/10/"><span class="level-start"><span class="level-item">十月 2012</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2012/09/"><span class="level-start"><span class="level-item">九月 2012</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/CSS/"><span class="tag">CSS</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Groovy/"><span class="tag">Groovy</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Homebrew/"><span class="tag">Homebrew</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E8%AF%AD%E6%B3%95/"><span class="tag">JAVASE语法</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JAVASE%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"><span class="tag">JAVASE高级特性</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MAC/"><span class="tag">MAC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NFS/"><span class="tag">NFS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NOSQL/"><span class="tag">NOSQL</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/PHP/"><span class="tag">PHP</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Photoshop/"><span class="tag">Photoshop</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Properties/"><span class="tag">Properties</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RocketMQ/"><span class="tag">RocketMQ</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SpringMVC/"><span class="tag">SpringMVC</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/UML/"><span class="tag">UML</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WEB%E5%AE%B9%E5%99%A8/"><span class="tag">WEB容器</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML/"><span class="tag">XML</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XML%E8%A7%A3%E6%9E%90%E5%99%A8/"><span class="tag">XML解析器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/bootstrap/"><span class="tag">bootstrap</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/docker/"><span class="tag">docker</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gradle/"><span class="tag">gradle</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jmeter/"><span class="tag">jmeter</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/kafka/"><span class="tag">kafka</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lucene/"><span class="tag">lucene</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/maven/"><span class="tag">maven</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/node/"><span class="tag">node</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react/"><span class="tag">react</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/react-native/"><span class="tag">react native</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/solr/"><span class="tag">solr</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springboot/"><span class="tag">springboot</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/springcloud/"><span class="tag">springcloud</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/stream/"><span class="tag">stream</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vsftpd/"><span class="tag">vsftpd</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/vue/"><span class="tag">vue</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zookeeper/"><span class="tag">zookeeper</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><span class="tag">三方支付</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%9A%E5%8A%A1%E9%A2%86%E5%9F%9F/"><span class="tag">业务领域</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="tag">中间件</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%A7%E5%93%81/"><span class="tag">产品</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">代理设计模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%A9%E5%99%A8/"><span class="tag">利器</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="tag">前端</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E6%A1%88%E4%BE%8B/"><span class="tag">前端案例</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span class="tag">前端项目构建工具</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><span class="tag">单例模式</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"><span class="tag">单元测试</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84/"><span class="tag">反射</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><span class="tag">反射机制</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%9B%BD%E9%99%85%E5%8C%96%E5%BA%94%E7%94%A8/"><span class="tag">国际化应用</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"><span class="tag">小程序</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%B7%A5%E5%85%B7/"><span class="tag">工具</span><span class="tag">8</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8C%81%E4%B9%85%E5%B1%82/"><span class="tag">持久层</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93ID%E7%94%9F%E6%88%90%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库ID生成设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"><span class="tag">数据库设计</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6/"><span class="tag">日志框架</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/"><span class="tag">权限管理</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><span class="tag">正则表达式</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%9B%E5%9E%8B/"><span class="tag">泛型</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"><span class="tag">线程安全</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%88%E7%AB%AF%E5%91%BD%E4%BB%A4/"><span class="tag">终端命令</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span class="tag">网络编程</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%8B%B1%E8%AF%AD%E5%A4%A9%E5%9C%B0/"><span class="tag">英语天地</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="tag">设计模式</span><span class="tag">4</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="藏经阁" height="28"></a><p class="is-size-7"><span>&copy; 2022 sxm-star</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><canvas class="fireworks" width="100%" height="100%" style="position: fixed; left: 0; top: 0; z-index: 99999999; pointer-events: none;"></canvas><script src="/js/anime.min.js" defer></script><script src="/js/fireworks.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><script src="/js/prism/codeBlockFuction.js"></script><script src="/js/prism/prism.js"></script><script src="/js/night/night.js" defer></script><script src="/js/snow/snow.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
